@@ -398,6 +398,9 @@ function showmsg() {
 
 
 
+console.log(readTimeheaderVal+'\n\n\n\n'+readTimebodyVal+'\n\n\n\n'+signbodyVal+'\n\n\n\n'+tokenVal)
+
+
 function init() {
     isSurge = () => {
         return undefined === this.$httpClient ? false : true
