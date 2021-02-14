@@ -702,7 +702,7 @@ function showmsg() {
 
 #Secrets
 
-console.log('QQREAD_BODY:'+qqreadbodyVal+'\n\n\n\n'+'QQREAD_TIMEURL:'+qqreadtimeurlVal+'\n\n\n\n'+'QQREAD_TIMEHD:'+qqreadtimeheaderVal)
+console.log('QQREAD_BODY:'+'\n\n'+qqreadbodyVal+'\n\n'+'QQREAD_TIMEURL:'+'\n\n'+qqreadtimeurlVal+'\n\n'+'QQREAD_TIMEHD:'+'\n\n'+qqreadtimeheaderVal)
 
 
 // prettier-ignore

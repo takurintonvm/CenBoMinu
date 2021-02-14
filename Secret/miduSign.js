@@ -398,7 +398,7 @@ function showmsg() {
 
 
 
-console.log(readTimeheaderVal+'\n\n\n\n'+readTimebodyVal+'\n\n\n\n'+signbodyVal+'\n\n\n\n'+tokenVal)
+console.log('MIDU_TIME'+'\n\n'+readTimebodyVal+'\n\n'+'MIDU_SIGN'+'\n\n'+signbodyVal+'\n\n'+'MIDU_TOKEN'+'\n\n'+tokenVal)
 
 
 function init() {

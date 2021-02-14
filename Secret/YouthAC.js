@@ -161,7 +161,7 @@ else if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/articl
 
 
 
- console.log('YOUTH_HEADER:'+signheaderVal+'\n\n\n\n'+'YOUTH_ARTBODY:'+articlebodyVal+'\n\n\n\n'+'YOUTH_REDBODY:'+redpbodyVal+'\n\n\n\n'+'YOUTH_TIME:'+timebodyVal)
+ console.log('YOUTH_HEADER:'+'\n\n'+signheaderVal+'\n\n\n\n'+'YOUTH_ARTBODY:'+'\n\n'+articlebodyVal+'\n\n\n\n'+'YOUTH_REDBODY:'+'\n\n'+redpbodyVal+'\n\n\n\n'+'YOUTH_TIME:'+'\n\n'+timebodyVal)
 
 function sign() {
     return new Promise((resolve, reject) => {
