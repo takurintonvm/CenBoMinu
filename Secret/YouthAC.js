@@ -161,7 +161,7 @@ else if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/articl
 
 
 
- console.log('YOUTH_HEADER:'+'\n\n'+signheaderVal+'\n\n\n\n'+'YOUTH_ARTBODY:'+'\n\n'+articlebodyVal+'\n\n\n\n'+'YOUTH_REDBODY:'+'\n\n'+redpbodyVal+'\n\n\n\n'+'YOUTH_TIME:'+'\n\n'+timebodyVal)
+ console.log('\n\n'+'YOUTH_HEADER copy下面的值'+'\n\n'+signheaderVal+'\n\n\n\n'+'YOUTH_ARTBODY copy下面的值'+'\n\n'+articlebodyVal+'\n\n\n\n'+'YOUTH_REDBODY copy下面的值'+'\n\n'+redpbodyVal+'\n\n\n\n'+'YOUTH_TIME copy下面的值'+'\n\n'+timebodyVal+'\n\n')
 
 function sign() {
     return new Promise((resolve, reject) => {
