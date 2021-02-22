@@ -398,7 +398,7 @@ function showmsg() {
 
 
 
-console.log('\n\n'+'MIDU_TIME copy下面的值'+'\n\n'+readTimebodyVal+'\n\n'+'MIDU_SIGN copy下面的值'+'\n\n'+signbodyVal+'\n\n'+'MIDU_TOKEN copy下面的值'+'\n\n'+tokenVal)
+console.log('\n\n'+'MIDU_TIME copy下面的值'+'\n\n'+readTimebodyVal+'\n\n'+'MIDU_SIGN copy下面的值'+'\n\n'+signbodyVal+'\n\n'+'MIDU_TOKEN copy下面的值'+'\n\n'+tokenVal+'\n\n')
 
 
 function init() {
