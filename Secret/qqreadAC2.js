@@ -700,7 +700,7 @@ function showmsg() {
 
 
 
-console.log('QQREAD_BODY copy下面的值:'+'\n\n'+qqreadbodyVal+'\n\n'+'QQREAD_TIMEURL copy下面的值'+'\n\n'+qqreadtimeurlVal+'\n\n'+'QQREAD_TIMEHD copy下面的值'+'\n\n'+qqreadtimeheaderVal)
+console.log('\n\n'+'QQREAD_BODY copy下面的值:'+'\n\n'+qqreadbodyVal+'\n\n'+'QQREAD_TIMEURL copy下面的值'+'\n\n'+qqreadtimeurlVal+'\n\n'+'QQREAD_TIMEHD copy下面的值'+'\n\n'+qqreadtimeheaderVal+'\n\n')
 
 
 // prettier-ignore
