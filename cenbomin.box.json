@@ -8,7 +8,7 @@
 
 
 		{
-			"id": "sy_youth_read",
+			"id": "cbm_ch_read",
 			"name": "葱花自动阅读",
 			"keys": ["chgetbody_body","chgetbody_body1"],
 			"settings": [
