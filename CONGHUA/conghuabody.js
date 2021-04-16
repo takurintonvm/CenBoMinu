@@ -3,7 +3,7 @@ function Env(t,e){class s{constructor(t){this.env=t}send(t,e="GET"){t="string"==
 const $ = new Env('葱花获取body')
 
 
-if ($request && $request.url.match(/\/video\/complete/)) {
+if ($request.url.match(/\/video\/complete/)) {
     const articlebodyVal = $request.body
 let CONGHUABody=[];
      if (articlebodyVal) {
