@@ -17,10 +17,10 @@ let CONGHUABody=[];
 
         }
 
-      CONGHUABody = bodys.split('&');
+      CONGHUABody = bodys.split('#');
 
 
-     bodys=articlebodyVal+'&'+bodys;
+     bodys=articlebodyVal+'#'+bodys;
     }
     else{
         bodys=articlebodyVal;
