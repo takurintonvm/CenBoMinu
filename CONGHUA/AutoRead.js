@@ -1,4 +1,4 @@
-//葱花姐妹作 修改中青自动阅读
+//中青姐妹作:葱花视频，修改原中青阅读脚本，使用方法和阅读一样,抓body执行脚本 20201216
 
 
 //let s = 30000 //等待延迟30s
@@ -11,17 +11,8 @@ if (!(bodys && bodys != '')) {
   $.msg("", "", '请先观看视频获取body\nbody获取越多，脚本可获得金币越多')
   $.done()
 }
-CONGHUABody = bodys.split('&');
-//   if (process.env.YOUTH_READ && process.env.YOUTH_READ.indexOf('&') > -1) {
-//   CONGHUABody = process.env.YOUTH_READ.split('&');
-//   console.log(`您选择的是用"&"隔开\n`)
-//   }
-//   else if (process.env.YOUTH_READ && process.env.YOUTH_READ.indexOf('\n') > -1) {
-//   CONGHUABody = process.env.YOUTH_READ.split('\n');
-//   console.log(`您选择的是用换行隔开\n`)
-//   } else {
-//   CONGHUABody = process.env.YOUTH_READ.split()
-//   }
+CONGHUABody = bodys.split('#');
+
 Object.keys(CONGHUABody).forEach((item) => {
   if (CONGHUABody[item]) {
     ReadArr.push(CONGHUABody[item])
