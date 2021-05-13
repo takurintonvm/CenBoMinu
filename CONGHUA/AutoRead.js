@@ -48,7 +48,7 @@ function AutoRead() {
 
   return new Promise((resolve, reject) => {
     let url = {
-      url: `https://app.kxp.com/video/v1/video/complete.json`,
+      url: `https://app.kxp.com/video/v1/video/complete`,
       headers: {
         'User-Agent': 'KDApp/1.7.8 (iPhone; iOS 14.0; Scale/3.00)'
       },
