@@ -50,7 +50,7 @@ function AutoRead() {
     let url = {
       url: `https://app.kxp.com/video/v1/video/complete`,
       headers: {
-        'User-Agent': 'KDApp/1.7.8 (iPhone; iOS 14.0; Scale/3.00)'
+        'User-Agent': 'cong hua shi pin/1.4.4 (iPhone; iOS 14.1; Scale/2.00)'
       },
       body: articlebody
     };
