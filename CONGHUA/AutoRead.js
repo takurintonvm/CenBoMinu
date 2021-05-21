@@ -59,12 +59,12 @@ function AutoRead() {
       let res=$.begin%ReadArr.length
       $.setdata(res+"", 'chgetbody_body_index');
       let readres = JSON.parse(data);
-      if (readres.error_code == '0' && typeof readres.data.score === 'number') {
+      if (typeof readres.data.score === 'number') {
         console.log(`\n本次阅读获得${readres.data.read_score}个金币，请等待30s后执行下一次阅读\n`);
         readscore += readres.data.read_score;
         await $.wait(30000);
       }
-      else if (readres.error_code == '0' && typeof readres.data.score === 'number') {
+      else if (typeof readres.data.score === 'number') {
         console.log(`\n本次阅读获得${readres.data.score}个金币，即将开始下次阅读\n`)
         readscore += readres.data.score;
         await $.wait(30000);
