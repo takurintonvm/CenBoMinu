@@ -28,7 +28,7 @@ console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date
     return;
   }
 
-  $.msg('', '', `葱花body数：${ReadArr.length}个\n上次执行到第${$.begin}个\n预计执行${((ReadArr.length - $.begin) / 120).toFixed(2)}个小时`)
+  $.msg('', '', `葱花视频body数：${ReadArr.length}个\n上次执行到第${$.begin}个\n预计执行${((ReadArr.length - $.begin) / 120).toFixed(2)}个小时`)
   $.index = 0;
   for (let i = indexLast ? indexLast : 0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
@@ -38,7 +38,7 @@ console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date
     }
     await AutoRead();
   }
-  $.msg('', '', `视频看点共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
+  $.msg('', '', `葱花视频共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
