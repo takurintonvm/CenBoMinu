@@ -2,36 +2,6 @@
 
 //20201216:中青姐妹作:葱花视频，修改原中青自动阅读脚本，使用方法相同一样,抓body执行脚本
 
-/*
-# 葱花视频
-成功的话请打开App-我的，帮我填下邀请码助力下：261880
-
-## 1.重写引用：
-;到配置文件找到[rewrite_remote]贴代码：
-
-;视频body获取
-https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/GetBody.conf, tag=Getbody_CONGHUA, update-interval=86400, opt-parser=false, enabled=true
-
-## 2.定时任务：
-;到配置文件找到[task_local]贴代码：
-
-
-;自动阅读任务
-*/10 0-23 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/AutoRead.js, tag=葱花视频, enabled=true
-
-## 3.食用方法：
-
-1.到[重写]-[引用],启动Getbody_CONGHUA,获取视频body
-
-视频请求body:看视频到获取金币奖励,通知提示body1
-
-4.手动执行一次定时脚本-”葱花视频”,是不是运行正常
-
-5.获取更多的body,目前不知道有没有极限..等待测试一天看看
-
-
-*/
-
 
 //let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
