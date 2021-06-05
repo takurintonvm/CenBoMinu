@@ -3,7 +3,7 @@
 //20201216:中青姐妹作:葱花视频，修改原中青自动阅读脚本，使用方法相同一样,抓body执行脚本
 
 
-//let s = 30000 //等待延迟30s
+let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], CONGHUABody = "", readscore = 0;
