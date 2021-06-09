@@ -1,9 +1,7 @@
-//感谢iosrule公众号的文章，很多写脚本的各位大佬,让我这个小白学习到很多
-
-//20201216:中青姐妹作:葱花视频，修改原中青自动阅读脚本，使用方法相同一样,抓body执行脚本
+//中青姐妹作:葱花视频，修改原中青阅读脚本，使用方法和阅读一样,抓body执行脚本 20201216
 
 
-let s = 30000 //等待延迟30s
+//let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], CONGHUABody = "", readscore = 0;
@@ -30,7 +28,7 @@ console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date
     return;
   }
 
-  $.msg('', '', `葱花视频body数：${ReadArr.length}个\n上次执行到第${$.begin}个\n预计执行${((ReadArr.length - $.begin) / 120).toFixed(2)}个小时`)
+  $.msg('', '', `葱花body数：${ReadArr.length}个\n上次执行到第${$.begin}个\n预计执行${((ReadArr.length - $.begin) / 120).toFixed(2)}个小时`)
   $.index = 0;
   for (let i = indexLast ? indexLast : 0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
@@ -40,7 +38,7 @@ console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date
     }
     await AutoRead();
   }
-  $.msg('', '', `葱花视频共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
+  $.msg('', '', `视频看点共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
