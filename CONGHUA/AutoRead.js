@@ -42,7 +42,6 @@ console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
 
-
 function AutoRead() {
 
   return new Promise((resolve, reject) => {
