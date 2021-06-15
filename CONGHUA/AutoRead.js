@@ -34,7 +34,7 @@ https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/GetBody.conf,
 
 
 
-//let s = 30000 //等待延迟30s
+let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], CONGHUABody = "", readscore = 0;
