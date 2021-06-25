@@ -32,9 +32,6 @@ https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/GetBody.conf,
 
 
 
-
-
-
 let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
 //const notify = $.isNode() ? require('./sendNotify') : '';
@@ -58,7 +55,7 @@ console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().to
 console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
 !(async () => {
   if (!ReadArr[0]) {
-    console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以&隔开')
+    console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
   }
 
@@ -72,7 +69,7 @@ console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date
     }
     await AutoRead();
   }
-  $.msg('', '', `视频看点共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
+  $.msg('', '', `葱花视频共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -92,20 +89,20 @@ function AutoRead() {
       let res=$.begin%ReadArr.length
       $.setdata(res+"", 'chgetbody_body_index');
       let readres = JSON.parse(data);
-      if (typeof readres.data.score === 'number') {
+      if (readres.code == '100006' && typeof readres.data.score === 'number') {
         console.log(`\n本次阅读获得${readres.data.score}个金币，请等待30s后执行下一次阅读\n`);
         readscore += readres.data.score;
         await $.wait(30000);
       }
-      else if (typeof readres.data.score === 'number') {
+      else if (readres.code == '100006' && typeof readres.data.score === 'number') {
         console.log(`\n本次阅读获得${readres.data.score}个金币，即将开始下次阅读\n`)
         readscore += readres.data.score;
         await $.wait(30000);
       }
-      else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
-        console.log(readres.items.max_notice)
+      else if (readres.msg == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
+        console.log(readres.msg)
       }
-      else if (readres.success == false) {
+      else if (readres.data == null) {
         console.log(`第${$.index}次阅读请求失败`)
       }
 
