@@ -89,7 +89,7 @@ function AutoRead() {
       let res=$.begin%ReadArr.length
       $.setdata(res+"", 'chgetbody_body_index');
       let readres = JSON.parse(data);
-      if (readres.code == '100006' && typeof readres.data.score === 'number') {
+      if (typeof readres.data.score === 'number') {
         console.log(`\n本次阅读获得${readres.data.score}个金币，请等待30s后执行下一次阅读\n`);
         readscore += readres.data.score;
         await $.wait(30000);
@@ -99,11 +99,8 @@ function AutoRead() {
         readscore += readres.data.score;
         await $.wait(30000);
       }
-      else if (readres.msg == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
-        console.log(readres.msg)
-      }
-      else if (readres.data == null) {
-        console.log(`第${$.index}次阅读请求失败`)
+      else if (readres.msg == '\u5956\u52b1\u5df2\u5b8c\u6210') {
+        console.log(`第${$.index}次奖励已完成,阅读请求失败`)
       }
 
       resolve()
