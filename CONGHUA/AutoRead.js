@@ -98,7 +98,7 @@ function AutoRead() {
         readscore += readres.data.score;
         await $.wait(30000);
       }
-      else if (readres.msg == '\u5956\u52b1\u5df2\u5b8c\u6210') {
+      else if (readres.code == '100006') {
         console.log(`第${$.index}次奖励已完成,阅读请求失败`)
       }
 
