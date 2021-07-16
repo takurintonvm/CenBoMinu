@@ -94,13 +94,13 @@ function AutoRead() {
       let res=$.begin%ReadArr.length
       $.setdata(res+"", 'chgetbody_body_index');
       let readres = JSON.parse(data);
-      if (typeof readres.data.score === 'number') {
-        console.log(`\n本次阅读获得${readres.data.score}个金币，请等待30s后执行下一次阅读\n`);
-        readscore += readres.data.score;
-        await $.wait(30000);
+      if (readres.code == '100006') {
+        console.log(`第${$.index}次已完成,阅读请求失败`)
       }
-      else if (readres.code == '100006') {
-        console.log(`第${$.index}次奖励已完成,阅读请求失败`)
+      else if (typeof readres.data.score === 'number') {
+      console.log(`\n本次阅读获得${readres.data.score}个金币，请等待30s后执行下一次阅读\n`);
+      readscore += readres.data.score;
+      await $.wait(30000);
       }
 
       resolve()
