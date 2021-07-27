@@ -62,17 +62,17 @@ console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date
     return;
   }
 
-  $.msg('', '', `葱花body数：${ReadArr.length}个\n上次执行到第${$.begin}个\n预计执行${((ReadArr.length - $.begin) / 120).toFixed(2)}个小时`)
+  $.msg('', '', `🥦 葱花视频body数：${ReadArr.length}个\n上次执行到第${$.begin}个\n预计执行${((ReadArr.length - $.begin) / 120).toFixed(2)}个小时`)
   $.index = 0;
   for (let i = indexLast ? indexLast : 0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
       articlebody = ReadArr[i];
       $.index = $.index + 1;
-      console.log(`-------------------------\n\n开始葱花视频第${$.index}次阅读`)
+      console.log(`-------------------------\n\n开始 🚴‍♂️葱花视频第${$.index}次阅读🚴‍`)
     }
     await AutoRead();
   }
-  $.msg('', '', `葱花视频共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
+  $.msg('', '', `🥦 葱花视频共完成${$.index}次阅读\n共计获得${readscore}个金币，阅读请求全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -94,10 +94,10 @@ function AutoRead() {
       $.setdata(res+"", 'chgetbody_body_index');
       let readres = JSON.parse(data);
       if (readres.code == '100006') {
-        console.log(`第${$.index}次已完成,阅读请求失败`)
+        console.log(`第${$.index}次-获取金币已达上限🥺,明日在来！`)
       }
       else if (typeof readres.data.score === 'number') {
-      console.log(`\n本次阅读获得${readres.data.score}个金币，请等待30s后执行下一次阅读\n`);
+      console.log(`\n本次阅读获得${readres.data.score}个金币🏅，请等待30s后执行下一次阅读\n`);
       readscore += readres.data.score;
       await $.wait(30000);
       }
