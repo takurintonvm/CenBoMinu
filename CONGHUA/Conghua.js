@@ -1,3 +1,25 @@
+/*
+
+# 葱花视频 时段奖励 分享奖励
+==============================================
+成功的话请打开App-我的，帮我填下邀请码助力下：261880
+==============================================
+
+QX 1.0. 7+ :
+[task_local]
+0 9 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
+
+[rewrite_local]
+
+https:\/\/app\.kxp\.com\/user\/v1\/user\/(profile|center) url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/conghuabody.js
+~~~~~~~~~~~~~~~~
+[MITM]
+hostname = app.kxp.com
+~~~~~~~~~~~~~~~~
+*/
+
+
+
 let s = 200 //各数据接口延迟
 const $ = new Env("葱花视频")
 const CONGHUA_HOST = "https://app.kxp.com/";
