@@ -11,7 +11,7 @@ QX 1.0. 7+ :
 
 [rewrite_local]
 
-https:\/\/app\.kxp\.com\/user\/v1\/user\/(profile|center) url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/conghuabody.js
+https:\/\/app\.kxp\.com\/user\/v1\/user\/(profile|center) url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
 ~~~~~~~~~~~~~~~~
 [MITM]
 hostname = app.kxp.com
