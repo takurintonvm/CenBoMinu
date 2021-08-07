@@ -79,7 +79,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
 
 //GetCookie 函数
 function GetCookie() {
-     if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/user\/(profile|center)/)) {
+     if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/user\/profile/)) {
      const signheaderVal = JSON.stringify($request.headers)
       if (signheaderVal)        $.setdata(signheaderVal,'conghuaheader_zq')
       $.log(`${$.name} 获取Cookie: 成功,signheaderVal: ${signheaderVal}`)
