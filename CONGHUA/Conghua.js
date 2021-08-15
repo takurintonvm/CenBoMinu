@@ -24,6 +24,7 @@ let s = 200 //各数据接口延迟
 const $ = new Env("葱花视频")
 const CONGHUA_HOST = "https://app.kxp.com/";
 const notify = $.isNode() ? require('./sendNotify') : '';
+let logs = $.getdata('chlogs')||false, signresult;
 let cookiesArr = [], signheaderVal = '';
 let CookieConghua = [];
 
