@@ -24,7 +24,7 @@ let s = 200 //各数据接口延迟
 const $ = new Env("葱花视频")
 const CONGHUA_HOST = "https://app.kxp.com/";
 const notify = $.isNode() ? require('./sendNotify') : '';
-let logs = $.getdata('chlogs')||false, signresult;
+//let logs = $.getdata('chlogs')||false, signresult;
 let cookiesArr = [], signheaderVal = '';
 let CookieConghua = [];
 
@@ -83,7 +83,6 @@ function GetCookie() {
      if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/user\/profile/)) {
      const signheaderVal = JSON.stringify($request.headers)
       if (signheaderVal)        $.setdata(signheaderVal,'conghuaheader_zq')
-      $.log(`获取Cookie: 成功,signheaderVal: ${signheaderVal}`)
       $.msg(`获取Cookie: 成功🎉`, ``)
     }
    }
