@@ -26,9 +26,9 @@ const CONGHUA_HOST = "https://app.kxp.com/";
 const notify = $.isNode() ? require('./sendNotify') : '';
 //let logs = $.getdata('chlogs')||false, signresult;
 let cookiesArr = [], signheaderVal = '';
-let CookieConghua = [];
+//let CookieConghua = [];
 
-if ($.isNode()) {
+//if ($.isNode()) {
   if (process.env.CONGHUA_HEADER && process.env.CONGHUA_HEADER.indexOf('#') > -1) {
   CookieConghua = process.env.CONGHUA_HEADER.split('#');
   } else {
@@ -36,7 +36,7 @@ if ($.isNode()) {
   };
 }
 
-if ($.isNode()) {
+//if ($.isNode()) {
     Object.keys(CookieConghua).forEach((item) => {
         if (CookieConghua[item]) {
           cookiesArr.push(CookieConghua[item])
@@ -45,7 +45,7 @@ if ($.isNode()) {
       console.log(`============ 共${cookiesArr.length}个中青账号  =============\n`)
       console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
-    } else {
+//    } else {
     cookiesArr.push($.getdata('conghuaheader_zq'));
 }
 
