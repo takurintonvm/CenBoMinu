@@ -69,7 +69,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
  await signInfo();
  await everydaycoin();
  await videoshare();
- await showmsg();
+ //await showmsg();
  await notify.sendNotify(`【收益总计】${signinfo.data.score}金币  现金约${signinfo.data.money}元\n`)
 
 }
