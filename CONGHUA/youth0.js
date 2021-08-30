@@ -66,7 +66,7 @@ const $ = new Env("中青看点")
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
 const YOUTH_HOST = "https://kd.youth.cn/WebApi/";
 const notify = $.isNode() ? require('./sendNotify') : '';
-let logs = $.getdata('zqlogs')||false, signresult; 
+let logs = $.getdata('zqlogs')||false, signresult;
 let cookiesArr = [], signheaderVal = '',
     readArr = [], articlebodyVal ='',
     timeArr = [], timebodyVal = '',
