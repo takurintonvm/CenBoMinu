@@ -140,7 +140,7 @@ function videoshare() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             const url = {
-                url: `${CONGHUA_HOST}/task/v1/task_center/share_video_reward`,
+                url: `${CONGHUA_HOST}task/v1/task_center/share_video_reward`,
                 headers: JSON.parse(signheaderVal),
             }
             $.post(url, (error, response, data) => {
