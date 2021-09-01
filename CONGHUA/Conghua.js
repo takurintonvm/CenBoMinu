@@ -22,7 +22,7 @@ hostname = app.kxp.com
 
 let s = 200 //各数据接口延迟
 const $ = new Env("葱花视频")
-//const CONGHUA_HOST = "https://app.kxp.com/";
+const CONGHUA_HOST = "https://app.kxp.com/";
 const notify = $.isNode() ? require('./sendNotify') : '';
 //let logs = $.getdata('chlogs')||false, signresult;
 let cookiesArr = [], signheaderVal = '';
@@ -66,9 +66,9 @@ if (isGetCookie = typeof $request !== 'undefined') {
      $.index = i + 1;
      console.log(`-------------------------\n\n开始【葱花视频${$.index}】`)
    }
- await signInfo();
- await everydaycoin();
- await videoshare();
+  await signInfo();
+  //await everydaycoin();
+  //await videoshare();
  //await showmsg();
  //await notify.sendNotify(`【收益总计】${signinfo.data.score}金币  现金约${signinfo.data.money}元\n`)
 
@@ -80,7 +80,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
 
 //GetCookie 函数
 function GetCookie() {
-     if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/user\/profile/)) {
+     if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/user\/(profile|center)/)) {
      const signheaderVal = JSON.stringify($request.headers)
       if (signheaderVal)        $.setdata(signheaderVal,'conghuaheader_zq')
       $.msg(`获取Cookie: 成功🎉`, ``)
@@ -109,6 +109,8 @@ function signInfo() {
         })
     })
 }
+
+/*
 
 //每天领金币（30min一次） //开启时段宝箱
 function everydaycoin() {
@@ -158,7 +160,7 @@ function videoshare() {
     })
 }
 
-
+*/
 /*
 async function showmsg() {
       if (rotaryres.status == 1 && rotarytimes >= 97) {
