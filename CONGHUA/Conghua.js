@@ -96,7 +96,7 @@ function signInfo() {
         }
         $.post(infourl, (error, response, data) => {
             signinfo = JSON.parse(data);
-            if (signinfo.status == 1) {
+            if (signinfo.code == '200') {
               cash = signinfo.data.user.money
                 subTitle = `【收益总计】${signinfo.data.score}金币  现金约${signinfo.data.money}元`;
                 detail = `(今天+${signinfo.data.today_score}金币)`;
