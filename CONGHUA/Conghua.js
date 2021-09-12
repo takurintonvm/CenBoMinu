@@ -121,7 +121,7 @@ function signInfo() {
         $.post(infourl, (error, response, data) => {
             signinfo = JSON.parse(data);
             if (signinfo.code == '200') {
-                console.log(`\n【收益总计】${signinfo.data.score}金币  现金约${signinfo.data.money}元\n`+ `(今天获取${signinfo.data.today_score}金币)`);
+                console.log(`\n【收益总计】${signinfo.data.score}金币 现金约${signinfo.data.money}元\n\n(今天获取${signinfo.data.today_score}金币)\n`);
             }
             resolve()
         })
