@@ -120,6 +120,7 @@ function signInfo() {
         }
         $.post(infourl, (error, response, data) => {
             let signinfo = JSON.parse(data);
+                if (typeof signinfo.data.score === 'number') {
                 console.log(`\n【收益总计】${signinfo.data.score}金币 现金约${signinfo.data.money}元\n\n(今天获取${signinfo.data.today_score}金币)\n`);
                 }
             resolve()
