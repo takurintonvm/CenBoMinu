@@ -66,8 +66,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
      $.index = i + 1;
      console.log(`-------------------------\n\n开始【葱花视频${$.index}】`)
    }
-  await signInfo();
-  //await everydaycoin();
+  //await signInfo();
+  await everydaycoin();
   //await videoshare();
  //await showmsg();
  //await notify.sendNotify(`【收益总计】${signinfo.data.score}金币  现金约${signinfo.data.money}元\n`)
@@ -92,7 +92,7 @@ function GetCookie() {
 function signInfo() {
     return new Promise((resolve, reject) => {
         const infourl = {
-            url: 'https://app.kxp.com/user/v1/user/profile',
+            url: `https://app.kxp.com/user/v1/user/profile`,
             headers: JSON.parse(signheaderVal),
         }
         $.post(infourl, (error, response, data) => {
@@ -112,24 +112,6 @@ function signInfo() {
 }
 */
 
-function signInfo() {
-    return new Promise((resolve, reject) => {
-        let infourl = {
-            url: `https://app.kxp.com/user/v1/user/profile`,
-            headers: JSON.parse(signheaderVal),
-        }
-        $.post(infourl, (error, response, data) => {
-            let signinfo = JSON.parse(data);
-                if (typeof signinfo.data.score === 'number') {
-                console.log(`\n【收益总计】${signinfo.data.score}金币 现金约${signinfo.data.money}元\n\n(今天获取${signinfo.data.today_score}金币)\n`);
-                }
-            resolve()
-        })
-    })
-}
-
-
-/*
 
 //每天领金币（30min一次） //开启时段宝箱
 function everydaycoin() {
@@ -156,6 +138,8 @@ function everydaycoin() {
     })
 }
 
+
+/*
 //分享视频赚钱（每天三次）
 function videoshare() {
     return new Promise((resolve, reject) => {
