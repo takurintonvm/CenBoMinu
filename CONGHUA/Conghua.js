@@ -122,8 +122,8 @@ function everydaycoin() {
                 headers: JSON.parse(signheaderVal),
             }
             $.post(url, async(error, response, data) => {
-                everyres = JSON.parse(data)
-                if (everyres.code == 1) {
+                let everyres = JSON.parse(data)；
+                if (everyres.code == '200') {
                   boxretime = everyres.data.remain_time
                   $.setdata(boxretime, 'opbox')
                     detail += `【领金币】+${everyres.data.score}金币 下次奖励${everyres.data.remain_time / 30}分钟\n`
