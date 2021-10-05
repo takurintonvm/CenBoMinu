@@ -11,7 +11,7 @@ QX 1.0. 7+ :
 
 [rewrite_local]
 
-https:\/\/app\.kxp\.com\/user\/v1\/user\/(profile|center) url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
+https:\/\/app\.kxp\.com\/user\/v1\/user\/ url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
 ~~~~~~~~~~~~~~~~
 [MITM]
 hostname = app.kxp.com
@@ -24,9 +24,9 @@ let s = 200 //各数据接口延迟
 const $ = new Env("葱花视频")
 const notify = $.isNode() ? require("./sendNotify") : "";
 
-let tz = "";
-let kz = "";
-let task = "";
+var tz='';
+var kz='';
+var task='';
 
 const logs = 0;   //0为关闭日志，1为开启
 const notifyInterval=1
@@ -36,13 +36,20 @@ const dd=1//单次任务延迟,默认1秒
 
 
 let cookiesArr = [], signheaderVal = '';
-let CookieConghua = [];
+let bodyArr = [], signbodyVal = '';
+let CookieConghua = [], BodyConghua = [];
 
 if ($.isNode()) {
   if (process.env.CONGHUA_HEADER && process.env.CONGHUA_HEADER.indexOf('#') > -1) {
   CookieConghua = process.env.CONGHUA_HEADER.split('#');
   } else {
-      CookieConghua = process.env.YOUTH_HEADER.split()
+      CookieConghua = process.env.CONGHUA_HEADER.split()
+  };
+
+  if (process.env.BodyConghua && process.env.BodyConghua.indexOf('#') > -1) {
+  BodyConghua = process.env.BodyConghua.split('#');
+  } else {
+      BodyConghua = process.env.BodyConghua.split()
   };
 }
 
@@ -52,16 +59,24 @@ if ($.isNode()) {
           cookiesArr.push(CookieConghua[item])
         }
       })
+
+      Object.keys(BodyConghua).forEach((item) => {
+          if (BodyConghua[item]) {
+            bodyArr.push(BodyConghua[item])
+          }
+        })
+
       console.log(`============ 共${cookiesArr.length}个中青账号  =============\n`)
       console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
     } else {
     cookiesArr.push($.getdata('conghuaheader_zq'));
+    cookiesArr.push($.getdata('conghuaheader_bd'));
 }
 
 if (isGetCookie = typeof $request !== 'undefined') {
-   GetCookie();
-   $.done()
+  GetCookie();
+  $.done();
 }
 
 //cookies提示
@@ -73,21 +88,26 @@ if (isGetCookie = typeof $request !== 'undefined') {
 })()
 
 
-
-
 //GetCookie 函数
 function GetCookie() {
-     if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/user\/(profile|center)/)) {
+     if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/task_center\/data/)) {
      const signheaderVal = JSON.stringify($request.headers)
       if (signheaderVal)        $.setdata(signheaderVal,'conghuaheader_zq')
-      $.msg(`获取Cookie: 成功🎉`, ``)
+      $.msg(`获取head: 成功🎉`, ``)
     }
+
+    if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/task_center\/data/)) {
+    const signbodyVal = JSON.stringify($request.body)
+     if (signbodyVal)        $.setdata(signbodyVal,'conghuaheader_bd')
+     $.msg(`获取body: 成功🎉`, ``)
+   }
    }
 
 
 //Allfunction
 function all(){
          signheaderVal = cookiesArr[K];
+         signbodyVal = bodyArr[K];
       for(var i=0;i<4;i++)
     { (function(i) {
                setTimeout(function() {
@@ -100,8 +120,6 @@ function all(){
 
    else if (i==2&& task.data&&task.data.tasklist[6].status==0)
    sharevideo();//分享任务
-
-
 
    else if (i == 3 && K < cookiesArr.length - 1) {
    K += 1;
@@ -124,8 +142,10 @@ function all(){
 function conghuatask() {
    return new Promise((resolve, reject) => {
 
-     const taskurl ={url: 'https://app.kxp.com/task/v1/task_center/data',
-      headers: JSON.parse(signheaderVal),
+     const taskurl ={
+       url: 'https://app.kxp.com/task/v1/task_center/data',
+       headers: JSON.parse(signheaderVal),
+       body: JSON.parse(signheaderVal),
     timeout:60000};
       $.get(taskurl,(error, response, data) =>{
         if(logs) $.log(`${jsname}, 任务列表: ${data}`)
@@ -176,7 +196,7 @@ resolve()
    })
   }
 
-//每天领金币（30min一次） 
+//每天领金币（30min一次）
 function everdaycoin() {
     return new Promise((resolve, reject) => {
        const toQQreadboxinfourl ={url: 'https://app.kxp.com/task/v1/task_center/red',
