@@ -11,7 +11,9 @@ QX 1.0. 7+ :
 
 [rewrite_local]
 
-https:\/\/app\.kxp\.com\/user\/v1\/user\/ url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
+https:\/\/app\.kxp\.com\/task\/v1\/task_center\/data url script-request-header https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
+
+https:\/\/app\.kxp\.com\/task\/v1\/task_center\/data url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
 ~~~~~~~~~~~~~~~~
 [MITM]
 hostname = app.kxp.com
@@ -145,7 +147,7 @@ function conghuatask() {
      const taskurl ={
        url: 'https://app.kxp.com/task/v1/task_center/data',
        headers: JSON.parse(signheaderVal),
-       body: JSON.parse(signheaderVal),
+       body: JSON.parse(signbodyVal),
     timeout:60000};
       $.get(taskurl,(error, response, data) =>{
         if(logs) $.log(`${jsname}, 任务列表: ${data}`)
@@ -179,8 +181,10 @@ function conghuatask() {
 //分享视频赚钱（每天三次）
 function sharevideo() {
 return new Promise((resolve, reject) => {
-  const sharevideourl ={url: 'https://app.kxp.com/task/v1/task_center/share_video_reward',
+  const sharevideourl ={
+    url: 'https://app.kxp.com/task/v1/task_center/share_video_reward',
     headers: JSON.parse(signheaderVal),
+    body: JSON.parse(signbodyVal),
    timeout:60000};
    $.get(sharevideourl,(error, response, data) =>{
      if(logs) $.log(`${jsname}, 视频奖励: ${data}`)
@@ -199,8 +203,10 @@ resolve()
 //每天领金币（30min一次）
 function everdaycoin() {
     return new Promise((resolve, reject) => {
-       const toQQreadboxinfourl ={url: 'https://app.kxp.com/task/v1/task_center/red',
-       headers: JSON.parse(signheaderVal),
+       const toQQreadboxinfourl ={
+         url: 'https://app.kxp.com/task/v1/task_center/red',
+         headers: JSON.parse(signheaderVal),
+         body: JSON.parse(signbodyVal),
        timeout:60000};
          $.get(toQQreadboxinfourl,(error, response, data) =>{
             if(logs) $.log(`${jsname}, 宝箱奖励详情: ${data}`)
@@ -216,8 +222,10 @@ function everdaycoin() {
       }
 
     else if(CZ<=0) {
-       const toQQreadboxurl ={url: 'https://app.kxp.com/task/v1/task_center/red',
-       headers: JSON.parse(signheaderVal),
+       const toQQreadboxurl ={
+         url: 'https://app.kxp.com/task/v1/task_center/red',
+         headers: JSON.parse(signheaderVal),
+         body: JSON.parse(signbodyVal),
        timeout:60000};
         $.get(toQQreadboxurl,(error, response, data) =>{
             if(logs) $.log(`${jsname}, 宝箱奖励: ${data}`)
