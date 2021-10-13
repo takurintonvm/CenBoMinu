@@ -30,7 +30,7 @@ var tz='';
 var kz='';
 var task='';
 
-const logs = 0;   //0为关闭日志，1为开启
+const logs = 1;   //0为关闭日志，1为开启
 const notifyInterval=1
 //0为关闭通知，1为所有通知，2为宝箱领取成功通知，
 
