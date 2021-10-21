@@ -1,80 +1,10 @@
-/*
-
-# 葱花视频 时段奖励 分享奖励
-==============================================
-成功的话请打开App-我的，帮我填下邀请码助力下：261880
-==============================================
-
-QX 1.0. 7+ :
-[task_local]
-0 9 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
-
-[rewrite_local]
-
-https:\/\/app\.kxp\.com\/task\/v1\/task_center\/data url script-request-header https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
-
-https:\/\/app\.kxp\.com\/task\/v1\/task_center\/data url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
-~~~~~~~~~~~~~~~~
-[MITM]
-hostname = app.kxp.com
-~~~~~~~~~~~~~~~~
-*/
-
-
-
 let s = 200 //各数据接口延迟
 const $ = new Env("葱花视频")
-const notify = $.isNode() ? require("./sendNotify") : "";
-
-var tz='';
-var kz='';
-var task='';
-
 const logs = 1;   //0为关闭日志，1为开启
-const notifyInterval=1
-//0为关闭通知，1为所有通知，2为宝箱领取成功通知，
-
 const dd=1//单次任务延迟,默认1秒
-
 
 let cookiesArr = [], signheaderVal = '';
 let bodyArr = [], signbodyVal = '';
-let CookieConghua = [], BodyConghua = [];
-
-if ($.isNode()) {
-  if (process.env.CONGHUA_HEADER && process.env.CONGHUA_HEADER.indexOf('#') > -1) {
-  CookieConghua = process.env.CONGHUA_HEADER.split('#');
-  } else {
-      CookieConghua = process.env.CONGHUA_HEADER.split()
-  };
-
-  if (process.env.BodyConghua && process.env.BodyConghua.indexOf('#') > -1) {
-  BodyConghua = process.env.BodyConghua.split('#');
-  } else {
-      BodyConghua = process.env.BodyConghua.split()
-  };
-}
-
-if ($.isNode()) {
-    Object.keys(CookieConghua).forEach((item) => {
-        if (CookieConghua[item]) {
-          cookiesArr.push(CookieConghua[item])
-        }
-      })
-
-      Object.keys(BodyConghua).forEach((item) => {
-          if (BodyConghua[item]) {
-            bodyArr.push(BodyConghua[item])
-          }
-        })
-
-      console.log(`============ 共${cookiesArr.length}个葱花账号  =============\n`)
-      console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
-      console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
-    } else {
-    cookiesArr.push($.getdata('conghuaheader_zq'));
-    cookiesArr.push($.getdata('conghuaheader_bd'));
-}
 
 if (isGetCookie = typeof $request !== 'undefined') {
   GetCookie();
@@ -89,7 +19,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
  }
 })()
 
-
 //GetCookie 函数
 function GetCookie() {
      if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/task_center\/data/)) {
@@ -103,40 +32,35 @@ function GetCookie() {
      if (signbodyVal)        $.setdata(signbodyVal,'conghuaheader_bd')
      $.msg(`获取body: 成功🎉`, ``)
    }
-   }
+ }
 
 //Allfunction
 function all(){
-         signheaderVal = cookiesArr[K];
-         signbodyVal = bodyArr[K];
-      for(var i=0;i<4;i++)
-    { (function(i) {
-               setTimeout(function() {
+            signheaderVal = cookiesArr[K];
+            signbodyVal = bodyArr[K];
 
-        if (i==0)
-   conghuatask();//任务列表
+            for(var i=0;i<2;i++){
+               (function(i) {
+          setTimeout(function() {
 
-   else if (i==1&& task.data&&task.data.tasklist[0].status==2)
-   everdaycoin();//每天领金币
+           if (i==0)
+      conghuatask();//任务列表
 
-   else if (i==2&& task.data&&task.data.tasklist[6].status==0)
-   sharevideo();//分享任务
+      else if (i == 1 && K < cookiesArr.length - 1) {
+      K += 1;
+      all();
+    } else if (i == 1 && K == cookiesArr.length - 1) {
+      	 showmsg();//通知
+      	 console.log(tz)
+                  $.done();
+                }
+              },
 
-   else if (i == 3 && K < cookiesArr.length - 1) {
-   K += 1;
-   all();
-   } else if (i == 3 && K == cookiesArr.length - 1) {
-   	 showmsg();//通知
-   	 console.log(tz)
-               $.done();
-             }
-           },
-
-           (i + 1) * dd * 1000
-         );
-       })(i);
-     }
-   }
+              (i + 1) * dd * 1000
+            );
+          })(i);
+        }
+}
 
 //任务列表
 function conghuatask() {
@@ -171,77 +95,10 @@ function conghuatask() {
 
    resolve()
 
-       })
-      })
-     }
-
-//分享视频赚钱（每天三次）
-function sharevideo() {
-return new Promise((resolve, reject) => {
-  const sharevideourl ={
-    url: 'https://app.kxp.com/task/v1/task_center/share_video_reward',
-    headers: JSON.parse(signheaderVal),
-    body: JSON.parse(signbodyVal),
-   timeout:60000};
-   $.get(sharevideourl,(error, response, data) =>{
-     if(logs) $.log(`${jsname}, 视频奖励: ${data}`)
-     video =JSON.parse(data)
-if (video.code==200)
- {
-tz+=
-'【视频任务'+video.data.score+'】:获得100金币\n'
+    })
+  })
 }
 
-resolve()
-    })
-   })
-  }
-
-//每天领金币（30min一次）
-function everdaycoin() {
-    return new Promise((resolve, reject) => {
-       const toQQreadboxinfourl ={
-         url: 'https://app.kxp.com/task/v1/task_center/red',
-         headers: JSON.parse(signheaderVal),
-         body: JSON.parse(signbodyVal),
-       timeout:60000};
-         $.get(toQQreadboxinfourl,(error, response, data) =>{
-            if(logs) $.log(`${jsname}, 宝箱奖励详情: ${data}`)
-               boxinfo =JSON.parse(data)
-      var nowtime=Math.round(new Date() / 1000)
-      var cz=boxinfo.remain_time
-      var CZ=cz.toFixed(0)-nowtime.toFixed(0)
-   if (CZ>=1){
-       tz+=
-       '【每天领金币】:差'+CZ+'秒\n';
-	   kz+=
-       '【每天领金币】:差'+CZ+'秒\n';
-      }
-
-    else if(CZ<=0) {
-       const toQQreadboxurl ={
-         url: 'https://app.kxp.com/task/v1/task_center/red',
-         headers: JSON.parse(signheaderVal),
-         body: JSON.parse(signbodyVal),
-       timeout:60000};
-        $.get(toQQreadboxurl,(error, response, data) =>{
-            if(logs) $.log(`${jsname}, 宝箱奖励: ${data}`)
-               box =JSON.parse(data)
-   if (box.code==200){
-       tz+=
-       '获得'+box.data.score+'金币\n'
-	   kz+=
-       '获得'+box.data.score+'金币\n'
-      }
-
-                  })
-
-	        }
-          })
-    resolve()
-
-    })
- }
 
 function showmsg() {
  tz += `\n\n========= 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()} \n\n`;
