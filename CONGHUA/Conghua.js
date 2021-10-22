@@ -73,7 +73,7 @@ if ($.isNode()) {
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
     } else {
     cookiesArr.push($.getdata('conghuaheader_zq'));
-    cookiesArr.push($.getdata('conghuaheader_bd'));
+    bodyArr.push($.getdata('conghuaheader_bd'));
 }
 
 if (isGetCookie = typeof $request !== 'undefined') {
