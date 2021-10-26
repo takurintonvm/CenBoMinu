@@ -36,7 +36,6 @@ const notifyInterval=1
 
 const dd=1//单次任务延迟,默认1秒
 
-
 let cookiesArr = [], signheaderVal = '';
 let bodyArr = [], signbodyVal = '';
 let CookieConghua = [], BodyConghua = [];
@@ -89,7 +88,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
  }
 })()
 
-
 //GetCookie 函数
 function GetCookie() {
      if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/task_center\/data/)) {
@@ -109,29 +107,21 @@ function GetCookie() {
 function all(){
          signheaderVal = cookiesArr[K];
          signbodyVal = bodyArr[K];
-      for(var i=0;i<4;i++)
+      for(var i=0;i<2;i++)
     { (function(i) {
                setTimeout(function() {
 
         if (i==0)
    conghuatask();//任务列表
 
-   else if (i==1)
-   everdaycoin();//每天领金币
-
-   else if (i==2)
-   sharevideo();//分享任务
-
-   else if (i == 3 && K < cookiesArr.length - 1) {
-   K += 1;
-   all();
-   } else if (i == 3 && K == cookiesArr.length - 1) {
-   	 showmsg();//通知
-   	 console.log(tz)
-               $.done();
-             }
+   else if (i == 1 && K < qqreadbdArr.length - 1) {
+     K += 1;
+     all();
+   } else if (i == 1 && K == qqreadbdArr.length - 1) {
+     showmsg(); // 通知
+     $.done();
+   }
            },
-
            (i + 1) * dd * 1000
          );
        })(i);
