@@ -132,10 +132,7 @@ function all(){
 function conghuatask() {
    return new Promise((resolve, reject) => {
 
-     const taskurl ={
-       url: 'https://app.kxp.com/task/v1/task_center/data',
-       headers: JSON.parse(signheaderVal),
-       body: JSON.parse(signbodyVal),
+     const taskurl ={url: 'https://app.kxp.com/task/v1/task_center/data',headers: JSON.parse(signheaderVal),body: 'app_name=onion_video&app_version=1.4.6&carrier=%E4%B8%AD%E5%9B%BD%E7%A7%BB%E5%8A%A8&channel=80000000&device_brand=Apple&device_id=23312&device_model=iPhone%206s&device_type=iOS&fp=D2KGQBB0zPI%2B6ZZk0V2qiFTojKN1Y1wLLxt6UZzFTN47wXe4&language=zh-CN&memory=2G&network_type=4G&openudid=AACACC09-FDF0-4314-A4EE-D77275A45BCC&os_api=14.1&os_version=14.1&resolution=750%2A1334&sign=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJmcCI6IkQyS0dRQkIwelBJJTJCNlpaazBWMnFpRlRvaktOMVkxd0xMeHQ2VVp6RlRONDd3WGU0IiwidmVyc2lvbl9jb2RlIjoiMS40LjYiLCJsYW5ndWFnZSI6InpoLUNOIiwidG9rZW5faWQiOiJkN2I0ZDYwYjFhMDQ0MmRiMGU0Njc4NTdlYWU2Njc0ZSIsInN0b3JhZ2UiOiIxMjBHIiwiYXBwX25hbWUiOiJvbmlvbl92aWRlbyIsImFwcF92ZXJzaW9uIjoiMS40LjYiLCJuZXR3b3JrX3R5cGUiOiI0RyIsImRldmljZV9pZCI6IjIzMzEyIiwiY2hhbm5lbCI6IjgwMDAwMDAwIiwicmVzb2x1dGlvbiI6Ijc1MCUyQTEzMzQiLCJvcGVudWRpZCI6IkFBQ0FDQzA5LUZERjAtNDMxNC1BNEVFLUQ3NzI3NUE0NUJDQyIsInRva2VuIjoiTURBd01EQXdNREF3TUx5Nm85eUJvS2VzZ3AtQmIzNmdqS21LZG45dnlhdlJaYlBQcmQtd25IbVlzcXAxeklGbGdHaUNlYU9pam9tSXBJaG1pS2pJaUxlY3M1alBuSy1HamR1eXFubmJmNXgwcklCNXFISSIsInVpZCI6IjI2MTg4MCIsIm9zX2FwaSI6IjE0LjEiLCJjYXJyaWVyIjoiJUU0JUI4JUFEJUU1JTlCJUJEJUU3JUE3JUJCJUU1JThBJUE4Iiwib3NfdmVyc2lvbiI6IjE0LjEiLCJkZXZpY2VfbW9kZWwiOiJpUGhvbmUrNnMiLCJkZXZpY2VfdHlwZSI6ImlPUyIsImRldmljZV9icmFuZCI6IkFwcGxlIiwibWVtb3J5IjoiMkcifQ.XHXgA_cpmEfiSJaSBtwqgDBgi47Q8Bf8Maxuu_mhO3cn4D0hrBHHxACZTzX6brYVYhgHr6GbrTha5WeQ97wdZA&storage=120G&token=MDAwMDAwMDAwMLy6o9yBoKesgp-Bb36gjKmKdn9vyavRZbPPrd-wnHmYsqp1zIFlgGiCeaOijomIpIhmiKjIiLecs5jPnK-Gjduyqnnbf5x0rIB5qHI&token_id=d7b4d60b1a0442db0e467857eae6674e&uid=261880&version_code=1.4.6',
     timeout:60000};
       $.get(taskurl,(error, response, data) =>{
         if(logs) $.log(`${jsname}, 任务列表: ${data}`)
