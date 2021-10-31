@@ -104,6 +104,8 @@ function GetCookie() {
    }
 
 //Allfunction
+let K = 0;
+   all()
 function all(){
          signheaderVal = cookiesArr[K];
          signbodyVal = bodyArr[K];
