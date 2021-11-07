@@ -1,92 +1,74 @@
-/*
-
-# 葱花视频 时段奖励 分享奖励
-==============================================
-成功的话请打开App-我的，帮我填下邀请码助力下：261880
-==============================================
-
-QX 1.0. 7+ :
-[task_local]
-0 9 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
-
-[rewrite_local]
-
-https:\/\/app\.kxp\.com\/task\/v1\/task_center\/data url script-request-header https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
-
-https:\/\/app\.kxp\.com\/task\/v1\/task_center\/data url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/Conghua.js
-~~~~~~~~~~~~~~~~
-[MITM]
-hostname = app.kxp.com
-~~~~~~~~~~~~~~~~
-*/
-
-
-
-let s = 200 //各数据接口延迟
 const $ = new Env("葱花视频")
 const notify = $.isNode() ? require("./sendNotify") : "";
 
-var tz='';
-var kz='';
-var task='';
+const logs = 0; // 0为关闭日志，1为开启
+const notifyInterval = 1;// 0为关闭通知，1为所有通知
 
-const logs = 1;   //0为关闭日志，1为开启
-const notifyInterval=1
-//0为关闭通知，1为所有通知，2为宝箱领取成功通知，
+let COOKIES_SPLIT = "\n"; // 自定义多cookie之间连接的分隔符，默认为\n换行分割，不熟悉的不要改动和配置，为了兼容本地node执行
 
-const dd=1//单次任务延迟,默认1秒
+$.message = '';
 
-let cookiesArr = [], signheaderVal = '';
-let bodyArr = [], signbodyVal = '';
-let CookieConghua = [], BodyConghua = [];
+const cookiesArr = [];
+let signheaderVal = "";
+const bodyArr = [];
+let signbodyVal = "";
+
+let CONGHUA_HEADER = [];
+let BodyConghua = [];
 
 if ($.isNode()) {
-  if (process.env.CONGHUA_HEADER && process.env.CONGHUA_HEADER.indexOf('#') > -1) {
-  CookieConghua = process.env.CONGHUA_HEADER.split('#');
-  } else {
-      CookieConghua = process.env.CONGHUA_HEADER.split()
-  };
+  if (process.env.COOKIES_SPLIT) {
+    COOKIES_SPLIT = process.env.COOKIES_SPLIT;
+  }
+  console.log(
+    `============ cookies分隔符为：${JSON.stringify(
+      COOKIES_SPLIT
+    )} =============\n`
+  );
 
-  if (process.env.BodyConghua && process.env.BodyConghua.indexOf('#') > -1) {
-  BodyConghua = process.env.BodyConghua.split('#');
+    if (
+    process.env.CONGHUA_HEADER &&
+    process.env.CONGHUA_HEADER.indexOf(COOKIES_SPLIT) > -1
+  ) {
+    cookiesArr = process.env.CONGHUA_HEADER.split(COOKIES_SPLIT);
   } else {
-      BodyConghua = process.env.BodyConghua.split()
-  };
+    cookiesArr = process.env.CONGHUA_HEADER.split();
+  }
+  if (
+  process.env.BodyConghua &&
+  process.env.BodyConghua.indexOf(COOKIES_SPLIT) > -1
+) {
+  bodyArr = process.env.BodyConghua.split(COOKIES_SPLIT);
+} else {
+  bodyArr = process.env.BodyConghua.split();
+}
+
+
 }
 
 if ($.isNode()) {
     Object.keys(CookieConghua).forEach((item) => {
-        if (CookieConghua[item]) {
-          cookiesArr.push(CookieConghua[item])
-        }
-      })
-
-      Object.keys(BodyConghua).forEach((item) => {
-          if (BodyConghua[item]) {
-            bodyArr.push(BodyConghua[item])
+     if (CookieConghua[item]) {
+      cookiesArr.push(CookieConghua[item]);
+         }
+     });
+     Object.keys(BodyConghua).forEach((item) => {
+      if (BodyConghua[item]) {
+       bodyArr.push(BodyConghua[item]);
           }
-        })
-
-      console.log(`============ 共${cookiesArr.length}个葱花账号  =============\n`)
-      console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
-      console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
-    } else {
-    cookiesArr.push($.getdata('conghuaheader_zq'));
-    bodyArr.push($.getdata('conghuaheader_bd'));
+      });
+} else {
+  cookiesArr.push($.getdata('conghuaheader_zq'));
+  bodyArr.push($.getdata('conghuaheader_bd'));
+    }
+  }
 }
 
+//CK
 if (isGetCookie = typeof $request !== 'undefined') {
   GetCookie();
   $.done();
 }
-
-//cookies提示
-!(async () => {
- if (!cookiesArr[0]) {
-   $.msg($.name, '【提示】请先获取葱花视频一cookie')
-   return;
- }
-})()
 
 //GetCookie 函数
 function GetCookie() {

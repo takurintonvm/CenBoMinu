@@ -236,6 +236,9 @@ if ($.isNode()) {
     middlecointowalletBODY = process.env.QCZJ_cointowalletBODY.split();
   }
 }
+
+
+
 if ($.isNode()) {
   Object.keys(middleGetUserInfoURL).forEach((item) => {
     if (middleGetUserInfoURL[item]) {
