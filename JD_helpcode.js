@@ -7,10 +7,7 @@ $.ddUrl = 'http://api.turinglabs.net/api/v1/jd/ddfactory/create/nomode/'  // 东
 $.jxUrl = 'http://api.turinglabs.net/api/v1/jd/jxfactory/create/p06SkzUk9dJhlf9Eg6Scsw/'  // 惊喜
 $.jdzzUrl = 'https://code.chiang.fun/api/v1/jd/jdzz/create/AUWE5ma_ExDAOXmb4235CnQ/'  // 京东赚赚
 
-
 $.result = []
-
-
 
 !(async () => {
   await createZd()
