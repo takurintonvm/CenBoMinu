@@ -1,3 +1,5 @@
+//测试
+
 const jsname = "Ac企鹅读书开宝箱";
 const $ = Env(jsname);
 const notify = $.isNode() ? require("./sendNotify") : "";

@@ -1,3 +1,5 @@
+//方案2 根据第一个账号的开宝箱时间延时 执行先开一次 然后在延时 再开
+
 const jsname = "企鹅读书";
 const $ = Env(jsname);
 $.idx = ($.idx = ($.getval('qeSuffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
@@ -17,7 +19,7 @@ const logs = 0; // 0为关闭日志，1为开启
 const notifyInterval = 3;
 // 0为关闭通知，1为所有通知，2为宝箱领取成功通知，3为宝箱每15次通知一次
 
-const dd = 1; // 单次任务延迟,默认1秒
+const dd = 4; // 单次任务延迟,默认1秒
 const TIME = 30; // 单次时长上传限制，默认5分钟
 const maxtime = 12; // 每日上传时长限制，默认12小时
 const wktimess = 1200; // 周奖励领取标准，默认1200分钟
@@ -120,13 +122,12 @@ if ($.isNode()) {
 
 
 !(async () => {
-  await all();//抓取信息 不开宝箱
+  await all2();//开宝箱
   await qqreadtask();	//treasureBox需要前面先有函数
   console.log(`\n\n===== 执行等待时间 ${task.data.treasureBox.timeInterval} ms ===== `);
   await qqreadtask();//treasureBox需要前面先有函数
   await $.wait(task.data.treasureBox.timeInterval);
-  await $.wait(1000);
-  await all2();//最后执行
+  await all2();//开宝箱
 
 
 
@@ -163,7 +164,7 @@ function all() {
       );
     })(i);
   }
-}
+}//不开宝箱
 function all2() {
   qqreadbodyVal = qqreadbdArr[K];
   qqreadtimeurlVal = qqreadtimeurlArr[K];
@@ -213,7 +214,7 @@ task.data.user.amount >= 100000){
       );
     })(i);
   }
-}
+}//开宝箱
 
 //执行开宝箱
 
