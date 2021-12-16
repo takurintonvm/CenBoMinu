@@ -9,9 +9,9 @@ const logs = 0;   //0为关闭日志，1为开启
 
 
 //在``里面填写，多账号换行
-let qqreadbodyVal=`{"common":{"appid":1450024394,"areaid":5,"qq_ver":"8.4.17","os_ver":"iOS 14.1","mp_ver":"0.38.1","mpos_ver":"1.21.0","brand":"iPhone","model":"iPhone 6s<iPhone8,1>","screenWidth":375,"screenHeight":667,"windowWidth":375,"windowHeight":618,"openid":"1F9FA8BF063EA1F9BC84E11BBFC02F26","guid":3034477082,"session":"sex8ec6rnc5j39v7i3wwagpix6okgtsx","scene":1023,"source":-1,"hasRedDot":"false","missions":-1,"caseID":-1},"dataList":[{"click1":"bookDetail_bottomBar_read_C","click2":"bookShelf_abookMore_bookDetail_C","route":"pages/book-read/index","refer":"pages/book-detail/index","options":{"bid":"26878703","cid":"1"},"dis":1608876062960,"ext6":41,"eventID":"bookRead_show_I","type":"shown","ccid":1,"bid":"26878703","bookStatus":1,"bookPay":1,"chapterStatus":0,"ext1":{"font":18,"bg":0,"pageMode":1},"from":"bookShelf_abookMore_bookDetail_C_2_26878703"}]}`
+let qqreadbodyVal=``
 
-let qqreadtimeheaderVal=`{"ywsession":"sex8ec6rnc5j39v7i3wwagpix6okgtsx","Cookie":"ywguid=3034477082;ywkey=ywvoPo9LEKbS;platform=ios;channel=mqqmina;mpVersion=0.38.1;qq_ver=8.4.17;os_ver=iOS 14.1;mpos_ver=1.21.0;platform=ios;openid=1F9FA8BF063EA1F9BC84E11BBFC02F26","Connection":"keep-alive","Content-Type":"application/json","Accept":"*/*","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1197 Darwin/20.0.0","Referer":"https://appservice.qq.com/1110657249/0.38.1/page-frame.html","Accept-Language":"zh-cn","Accept-Encoding":"gzip, deflate, br","mpversion":"0.38.1"}`
+let qqreadtimeheaderVal=``
 
 let QQ_READ_COOKIES = {
 "qqreadbodyVal": qqreadbodyVal.split('\n'),
