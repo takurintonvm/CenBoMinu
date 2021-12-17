@@ -38,7 +38,7 @@ jobs:
         if: env.QQREAD_TIMEHD
         run: |
           cd ~/JavaScript
-          node Task/openbox.js
+          node Task/qqread.js
           // 看着自己js放的库改
         env:
 
