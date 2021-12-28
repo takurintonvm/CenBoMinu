@@ -9,20 +9,10 @@
 		{
 			"id": "txstock",
 			"name": "腾迅自选股",
-			"keys": ["txstock_body","txstock_body1"],
+			"keys": ["txstock_body"],
 			"settings": [
 				{
 					"id": "txstock_body",
-					"name": "任务请求body",
-					"val": "",
-					"type": "textarea",
-					"autoGrow": false,
-					"rows": 1,
-					"desc": "获取’小程序-腾讯自选股微信版’和’腾讯自选股app’的每日任务请求体,按内容指引做任务,即可获取金币并且提示获取到任务body"
-				}
-				,
-				{
-					"id": "txstock_body1",
 					"name": "任务请求body",
 					"val": "",
 					"type": "textarea",
@@ -40,16 +30,7 @@
 					"rows": 1,
 					"desc": "记录上次执行的位置，可以控制从第几个body开始执行"
 				}
-				,
-				{
-					"id": "txstock_body_index1",
-					"name": "上次执行位置",
-					"val": "",
-					"type": "textarea",
-					"autoGrow": false,
-					"rows": 1,
-					"desc": "记录上次执行的位置，可以控制从第几个body开始执行"
-				}
+				
 			],
 			"author": "@cenbomin",
 			"repo": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/txstock/txstock.js",
