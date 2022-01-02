@@ -1,33 +1,35 @@
-const $ = new Env('腾旭自选股获取body')
+const $ = new Env('腾旭自选股获取cookies')
 
 
-if ($request && $request.method != `OPTIONS`&& $request.body.indexOf("action=taskdone")>=0){
-    const articlebodyVal = $request.body
-let TxstockBody=[];
-     if (articlebodyVal) {
+if ($request && $request.body.indexOf("action=taskdone")>=0)){
+    const TxstockBodyVal = $request.body
+     let StockBodyArr =[];
+     if (TxstockBodyVal) {
      let bodys=$.getdata('txstock_body');
-     let taskid= $response.body;
+     //let taskid= $response.body;
 
      if(bodys){
 
-        if(bodys.indexOf(articlebodyVal)!=-1){
+        if(bodys.indexOf(TxstockBodyVal)!=-1){
             $.msg('body重复跳过');
             $.done();
 
         }
 
-      TxstockBody = bodys.split('#');
+      StockBodyArr = bodys.split('#');
 
 
-     bodys=articlebodyVal+'#'+bodys;
+     bodys = TxstockBodyVal+'#'+bodys;
     }
     else{
-        bodys=articlebodyVal;
+        bodys = TxstockBodyVal;
     }
      $.setdata(bodys,'txstock_body')
-     $.msg('','',`添加任务编号${taskid.id}body请求: 成功🎉,当前任务body总数${TxstockBody.length+1}`)
-     }
-   }
+     $.msg('','',`添加任务编号body请求: 成功🎉,当前任务body总数${StockBodyArr.length+1}`)
+  }
+}
+
+
 
 $.done();
 
