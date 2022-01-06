@@ -9,18 +9,8 @@
 		{
 			"id": "txstock",
 			"name": "腾迅自选股",
-			"keys": ["txstock_hd"],
+			"keys": ["txstock_hd","txstock_body"],
 			"settings": [
-				{
-					"id": "txstock_hd",
-					"name": "任务请求头",
-					"val": "",
-					"type": "textarea",
-					"autoGrow": false,
-					"rows": 1,
-					"desc": "获取’小程序-腾讯自选股微信版’和’腾讯自选股app’的每日任务请求头"
-				}
-				,
 				{
 					"id": "txstock_body",
 					"name": "任务请求body",
