@@ -43,7 +43,7 @@
 		{
 			"id": "cbm_ch_read",
 			"name": "葱花自动阅读",
-			"keys": ["chgetbody_body","chgetbody_body1"],
+			"keys": ["chgetbody_body","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
 			"settings": [
 				{
 					"id": "chgetbody_body",
@@ -55,16 +55,7 @@
 					"desc": "阅读文章和看视频，倒计时转一圈显示金币到账即可，多看几篇视频，获得更多包数据"
 				}
 				,
-				{
-					"id": "chgetbody_body1",
-					"name": "请求body",
-					"val": "",
-					"type": "textarea",
-					"autoGrow": false,
-					"rows": 1,
-					"desc": "阅读文章和看视频，倒计时转一圈显示金币到账即可，多看几篇视频，获得更多包数据"
-				}
-				,
+
 				{
 					"id": "chgetbody_body_index",
 					"name": "上次执行位置",
@@ -74,16 +65,7 @@
 					"rows": 1,
 					"desc": "记录上次执行的位置，可以控制从第几个body开始执行"
 				}
-				,
-				{
-					"id": "chgetbody_body_index1",
-					"name": "上次执行位置",
-					"val": "",
-					"type": "textarea",
-					"autoGrow": false,
-					"rows": 1,
-					"desc": "记录上次执行的位置，可以控制从第几个body开始执行"
-				}
+
 			],
 			"author": "@cenbomin",
 			"repo": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/AutoRead.js",

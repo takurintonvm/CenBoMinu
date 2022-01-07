@@ -35,38 +35,38 @@ https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/GetBody.conf,
 let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
 //const notify = $.isNode() ? require('./sendNotify') : '';
-let ReadArr = [], CONGHUABody = "", readscore = 0;
+let readbodyArr = [], readbodyVal = "", readscore = 0;
 let bodys = $.getdata("chgetbody_body");
 
 if (!(bodys && bodys != '')) {
   $.msg("", "", '请先观看视频获取body\nbody获取越多，脚本可获得金币越多')
   $.done()
 }
-CONGHUABody = bodys.split('#');
+readbodyVal = bodys.split('#');
 
-Object.keys(CONGHUABody).forEach((item) => {
-  if (CONGHUABody[item]) {
-    ReadArr.push(CONGHUABody[item])
+Object.keys(readbodyVal).forEach((item) => {
+  if (readbodyVal[item]) {
+    readbodyArr.push(readbodyVal[item])
   }
 })
 let indexLast = $.getdata('chgetbody_body_index');
 $.begin = indexLast ? parseInt(indexLast,10) : 1;
-console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
-console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
+console.log(`脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()} \n`)
+console.log(`脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  \n`)
 
 //函数框架
 
 !(async () => {
-  if (!ReadArr[0]) {
+  if (!readbodyArr[0]) {
     console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
   }
 
-  $.msg('', '', `🥦 葱花视频body数：${ReadArr.length}个\n上次执行到第${$.begin}个\n预计执行${((ReadArr.length - $.begin) / 120).toFixed(2)}个小时`)
+  $.msg('', '', `🥦 葱花视频body数：${readbodyArr.length}个\n上次执行到第${$.begin}个\n预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}个小时`)
   $.index = 0;
-  for (let i = indexLast ? indexLast : 0; i < ReadArr.length; i++) {
-    if (ReadArr[i]) {
-      articlebody = ReadArr[i];
+  for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
+    if (readbodyArr[i]) {
+      readbody = readbodyArr[i];
       $.index = $.index + 1;
       console.log(`-------------------------\n\n开始 🚴‍♂️葱花视频第${$.index}次阅读🚴‍`)
     }
@@ -86,11 +86,11 @@ function AutoRead() {
       headers: {
         'User-Agent': 'cong hua shi pin/1.4.4 (iPhone; iOS 14.1; Scale/2.00)'
       },
-      body: articlebody
+      body: readbody
     };
     $.post(url, async (error, response, data) => {
       $.begin=$.begin+1;
-      let res=$.begin%ReadArr.length
+      let res=$.begin%readbodyArr.length
       $.setdata(res+"", 'chgetbody_body_index');
       let readres = JSON.parse(data);
       if (readres.code == '100006') {
