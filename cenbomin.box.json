@@ -42,7 +42,7 @@
 
 		{
 			"id": "cbm_ch_read",
-			"name": "葱花自动阅读",
+			"name": "葱花视频",
 			"keys": ["chgetbody_body","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
 			"settings": [
 				{
@@ -52,7 +52,7 @@
 					"type": "textarea",
 					"autoGrow": false,
 					"rows": 1,
-					"desc": "阅读文章和看视频，倒计时转一圈显示金币到账即可，多看几篇视频，获得更多包数据"
+					"desc": "看视频，倒计时转一圈显示金币到账即可，建议看5篇视频,获取请求包即可"
 				}
 				,
 
@@ -63,7 +63,7 @@
 					"type": "textarea",
 					"autoGrow": false,
 					"rows": 1,
-					"desc": "记录上次执行的位置，可以控制从第几个body开始执行"
+					"desc": "记录上次执行的位置，可以控制从第几个请求视频开始执行"
 				}
 
 			],
