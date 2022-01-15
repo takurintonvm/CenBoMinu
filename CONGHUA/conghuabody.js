@@ -31,17 +31,13 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/com
 //获取分享body 3个
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/share/)) {
   const sharebodyVal = $request.body
-  let CONGHUABody = [];
   if (sharebodyVal) {
     let bodys = $.getdata('chgetbody_share');
+    let CONGHUABody = [];
     if (bodys) {
 
       if (bodys.indexOf(sharebodyVal) != -1) {
         $.msg('body重复跳过');
-        $.done();
-      }
-      if (bodys.length >= 4) {
-        $.msg('', '', `添加请求:失败❎,当前分享请求已满足3个`);
         $.done();
       }
 
@@ -50,9 +46,13 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/sha
 
     } else {
       bodys = sharebodyVal;
+
     }
     $.setdata(bodys, 'chgetbody_share')
     $.msg('', '', `添加请求: 成功🎉,当前分享请求${CONGHUABody.length+1}个`)
+    if (CONGHUABody.length >= 3){
+    $.msg('', '', `警告❎,当前分享请求已超出3个,请到BOXJS-当前会话,清除chgetbody_share,重新分享视频,避免黑号！`);
+    }
     $.done()
   }
 };
