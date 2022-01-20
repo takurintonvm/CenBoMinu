@@ -80,6 +80,13 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   $.msg('', '', `添加 🚗分享奖励 请求: 成功🎉`)
   $.done()
 };
+//headers
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/data/)) {
+  const taskcenterheaderVal = $request.headers
+  if (taskcenterheaderVal) $.setdata(taskcenterheaderVal, 'chgetheaders_taskcenter')
+  $.done()
+};
+
 
 
 
