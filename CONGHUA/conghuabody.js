@@ -82,8 +82,9 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
 };
 //headers
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/data/)) {
-  const taskcenterheaderVal = $request.headers
+  const taskcenterheaderVal = JSON.stringify($request.headers);
   if (taskcenterheaderVal) $.setdata(taskcenterheaderVal, 'chgetheaders_taskcenter')
+  $.msg('', '', `添加 🚗headers: 成功🎉`)
   $.done()
 };
 
