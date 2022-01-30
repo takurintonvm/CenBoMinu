@@ -81,10 +81,10 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   $.done()
 };
 //headers
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/data/)) {
-  const taskcenterheaderVal = JSON.stringify($request.headers);
+if ($request && $request.method != `OPTIONS`) {
+  const taskcenterheaderVal = $request.headers['User-Agent']
   if (taskcenterheaderVal) $.setdata(taskcenterheaderVal, 'chgetheaders_taskcenter')
-  $.msg('', '', `添加 🚗headers: 成功🎉`)
+  $.msg('', '', `添加 🚗 headers: 成功🎉`)
   $.done()
 };
 
