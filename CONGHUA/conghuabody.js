@@ -26,7 +26,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/com
     $.msg('', '', `添加请求: 成功🎉,当前阅读请求${CONGHUABody.length+1}个`)
     $.done()
   }
-};
+}
 
 //获取分享body 3个
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/share/)) {
@@ -55,7 +55,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/sha
     }
     $.done()
   }
-};
+}
 
 //任务中心body 1个
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/data/)) {
@@ -63,7 +63,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   if (taskcenterbodyVal) $.setdata(taskcenterbodyVal, 'chgetbody_taskcenter')
   $.msg('', '', `添加 🚗任务中心信息 请求: 成功🎉`)
   $.done()
-};
+}
 
 //时段奖励body 1个
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/red/)) {
@@ -71,7 +71,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   if (timeredbodyVal) $.setdata(timeredbodyVal, 'chgetbody_timered')
   $.msg('', '', `添加 🚗时段奖励 请求: 成功🎉`)
   $.done()
-};
+}
 
 //分享奖励body 1个
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/share_video_reward/)) {
@@ -79,14 +79,15 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   if (sharerewardbodyVal) $.setdata(sharerewardbodyVal, 'chgetbody_sharereward')
   $.msg('', '', `添加 🚗分享奖励 请求: 成功🎉`)
   $.done()
-};
+}
+
 //headers
 if ($request && $request.method != `OPTIONS`) {
-  const taskcenterheaderVal = $request.headers['User-Agent']
+  const taskcenterheaderVal = $request.headers
   if (taskcenterheaderVal) $.setdata(taskcenterheaderVal, 'chgetheaders_taskcenter')
   $.msg('', '', `添加 🚗 headers: 成功🎉`)
   $.done()
-};
+}
 
 
 
