@@ -3,27 +3,27 @@ const $ = new Env('葱花获取body')
 //获取视频body 5个
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/complete/)) {
   const articlebodyVal = $request.body
-  let CONGHUABody = [];
-  if (articlebodyVal) {
+  let readbodyArr = [];
+  if (readbodyVal) {
     let bodys = $.getdata('chgetbody_body');
 
     if (bodys) {
 
-      if (bodys.indexOf(articlebodyVal) != -1) {
+      if (bodys.indexOf(readbodyVal) != -1) {
         $.msg('body重复跳过');
         $.done();
 
       }
 
-      CONGHUABody = bodys.split('#');
+      readbodyArr = bodys.split('#');
 
 
-      bodys = articlebodyVal + '#' + bodys;
+      bodys = readbodyVal + '#' + bodys;
     } else {
-      bodys = articlebodyVal;
+      bodys = readbodyVal;
     }
     $.setdata(bodys, 'chgetbody_body')
-    $.msg('', '', `添加请求: 成功🎉,当前阅读请求${CONGHUABody.length+1}个`)
+    $.msg('', '', `添加🥦阅读请求: 成功🎉,当前共有${readbodyArr.length+1}个`)
     $.done()
   }
 }
@@ -33,7 +33,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/sha
   const sharebodyVal = $request.body
   if (sharebodyVal) {
     let bodys = $.getdata('chgetbody_share');
-    let CONGHUABody = [];
+    let sharebodyArr = [];
     if (bodys) {
 
       if (bodys.indexOf(sharebodyVal) != -1) {
@@ -41,7 +41,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/sha
         $.done();
       }
 
-      CONGHUABody = bodys.split('#');
+      sharebodyArr = bodys.split('#');
       bodys = sharebodyVal + '#' + bodys;
 
     } else {
@@ -49,8 +49,8 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/sha
 
     }
     $.setdata(bodys, 'chgetbody_share')
-    $.msg('', '', `添加请求: 成功🎉,当前分享请求${CONGHUABody.length+1}个`)
-    if (CONGHUABody.length >= 3){
+    $.msg('', '', `添加🥦分享请求: 成功🎉,当前共有${sharebodyArr.length+1}个`)
+    if (sharebodyArr.length >= 3){
     $.msg('', '', `警告❎,当前分享请求已超出3个,请到BOXJS-当前会话,清除chgetbody_share,重新分享视频,避免黑号！`);
     }
     $.done()
@@ -61,7 +61,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/sha
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/data/)) {
   const taskcenterbodyVal = $request.body
   if (taskcenterbodyVal) $.setdata(taskcenterbodyVal, 'chgetbody_taskcenter')
-  $.msg('', '', `添加 🚗任务中心信息 请求: 成功🎉`)
+  $.msg('', '', `添加 🥦任务中心信息 请求: 成功🎉`)
   $.done()
 }
 
@@ -69,7 +69,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/red/)) {
   const timeredbodyVal = $request.body
   if (timeredbodyVal) $.setdata(timeredbodyVal, 'chgetbody_timered')
-  $.msg('', '', `添加 🚗时段奖励 请求: 成功🎉`)
+  $.msg('', '', `添加 🥦时段奖励 请求: 成功🎉`)
   $.done()
 }
 
@@ -77,7 +77,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_center\/share_video_reward/)) {
   const sharerewardbodyVal = $request.body
   if (sharerewardbodyVal) $.setdata(sharerewardbodyVal, 'chgetbody_sharereward')
-  $.msg('', '', `添加 🚗分享奖励 请求: 成功🎉`)
+  $.msg('', '', `添加 🥦分享奖励 请求: 成功🎉`)
   $.done()
 }
 
@@ -85,7 +85,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
 if ($request && $request.method != `OPTIONS`) {
   const taskcenterheaderVal = $request.headers
   if (taskcenterheaderVal) $.setdata(taskcenterheaderVal, 'chgetheaders_taskcenter')
-  $.msg('', '', `添加 🚗 headers: 成功🎉`)
+  $.msg('', '', `添加 🥦 headers: 成功🎉`)
   $.done()
 }
 
