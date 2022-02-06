@@ -43,7 +43,7 @@
 		{
 			"id": "cbm_ch_read",
 			"name": "葱花视频",
-			"keys": ["chgetbody_body","chgetheaders_taskcenter","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
+			"keys": ["chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
 			"settings": [
 				{
 					"id": "chgetbody_body",
