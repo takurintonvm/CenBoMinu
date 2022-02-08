@@ -5,7 +5,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/com
   const articlebodyVal = $request.body
   let readbodyArr = [];
   if (readbodyVal) {
-    let bodys = $.getdata('chgetbody_body');
+    let bodys = $.getdata('chgetbody_video');
 
     if (bodys) {
 
@@ -22,7 +22,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/com
     } else {
       bodys = readbodyVal;
     }
-    $.setdata(bodys, 'chgetbody_body')
+    $.setdata(bodys, 'chgetbody_video')
     $.msg('', '', `添加🥦阅读请求: 成功🎉,当前共有${readbodyArr.length+1}个`)
     $.done()
   }
@@ -80,17 +80,6 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   $.msg('', '', `添加 🥦分享奖励 请求: 成功🎉`)
   $.done()
 }
-
-//headers
-if ($request && $request.method != `OPTIONS`) {
-  const taskcenterheaderVal = $request.headers
-  if (taskcenterheaderVal) $.setdata(taskcenterheaderVal, 'chgetheaders_taskcenter')
-  $.msg('', '', `添加 🥦 headers: 成功🎉`)
-  $.done()
-}
-
-
-
 
 
 function Env(t, e) {
