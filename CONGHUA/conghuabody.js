@@ -2,7 +2,7 @@ const $ = new Env('葱花获取body')
 
 //获取视频body 5个
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/complete/)) {
-  const articlebodyVal = $request.body
+  const readbodyVal = $request.body
   let readbodyArr = [];
   if (readbodyVal) {
     let bodys = $.getdata('chgetbody_video');
