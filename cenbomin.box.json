@@ -46,7 +46,7 @@
 			"keys": ["chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
 			"settings": [
 				{
-					"id": "chgetbody_body",
+					"id": "chgetbody_video",
 					"name": "请求body",
 					"val": "",
 					"type": "textarea",
@@ -57,7 +57,7 @@
 				,
 
 				{
-					"id": "chgetbody_body_index",
+					"id": "chgetbody_video_index",
 					"name": "上次执行位置",
 					"val": "",
 					"type": "textarea",
