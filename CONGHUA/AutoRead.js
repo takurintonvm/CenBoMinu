@@ -36,7 +36,7 @@ let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let readbodyArr = [], readbodyVal = "", readscore = 0;
-let bodys = $.getdata("chgetbody_body");
+let bodys = $.getdata("chgetbody_video");
 
 if (!(bodys && bodys != '')) {
   $.msg("", "", '请先观看视频获取body\nbody获取越多，脚本可获得金币越多')
@@ -49,7 +49,7 @@ Object.keys(readbodyVal).forEach((item) => {
     readbodyArr.push(readbodyVal[item])
   }
 })
-let indexLast = $.getdata('chgetbody_body_index');
+let indexLast = $.getdata('chgetbody_video_index');
 $.begin = indexLast ? parseInt(indexLast,10) : 1;
 console.log(`脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()} \n`)
 console.log(`脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  \n`)
@@ -61,7 +61,10 @@ console.log(`脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() 
     console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
   }
+  
+  $.msg("", "", '🥦 新脚本已经完成,增加时段奖励，分享奖励...请前往https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/chonghua.js查看')
 
+  $.log("", "", '🥦 新脚本已经完成,增加时段奖励，分享奖励...请前往https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/chonghua.js查看')
   $.msg('', '', `🥦 葱花视频body数：${readbodyArr.length}个\n上次执行到第${$.begin}个\n预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}个小时`)
   $.index = 0;
   for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
@@ -91,7 +94,7 @@ function AutoRead() {
     $.post(url, async (error, response, data) => {
       $.begin=$.begin+1;
       let res=$.begin%readbodyArr.length
-      $.setdata(res+"", 'chgetbody_body_index');
+      $.setdata(res+"", 'chgetbody_video_index');
       let readres = JSON.parse(data);
       if (readres.code == '100006') {
         console.log(`第${$.index}次-获取金币已达上限🥺,明日在来！`)

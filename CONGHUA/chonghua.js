@@ -323,7 +323,7 @@ function AutoRead() {
         $.log(`第${$.index}次-获取金币已达上限🥺,明日在来！`)
       } else if (typeof readres.data.score === 'number') {
 
-        await $.wait(10000);
+        await $.wait(60000);
         $.log(`本次阅读获得${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
 
