@@ -61,8 +61,8 @@ console.log(`脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() 
     console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
   }
-  
-  $.msg("", "", '🥦 新脚本已经完成,增加时段奖励，分享奖励...请前往https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/chonghua.js查看')
+
+  //$.msg("", "", '🥦 新脚本已经完成,详情请看log')
 
   $.log("", "", '🥦 新脚本已经完成,增加时段奖励，分享奖励...请前往https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/chonghua.js查看')
   $.msg('', '', `🥦 葱花视频body数：${readbodyArr.length}个\n上次执行到第${$.begin}个\n预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}个小时`)
