@@ -152,7 +152,7 @@ Object.keys(timeredbodyVal).forEach((item) => {
     await taskcenter(); //任务中心
     console.log(`-------------------------\n开始🚴‍♂️时段奖励任务🚴\n‍`)
     await timered(task); //时段奖励
-
+/*
     if (!sharebodyArr[0]) {
       console.log($.name, '【提示】请把分享视频的请求体填入Github 的 Secrets 中，请以#隔开')
       return;
@@ -170,7 +170,7 @@ Object.keys(timeredbodyVal).forEach((item) => {
       await sharereward(task); //分享奖励
     }
 
-
+*/
 
 
     if (!readbodyArr[0]) {
