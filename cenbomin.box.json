@@ -43,7 +43,7 @@
 		{
 			"id": "cbm_ch_read",
 			"name": "葱花视频",
-			"keys": ["chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
+			"keys": ["uid","chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
 			"settings": [
 				{
 					"id": "chgetbody_video",
@@ -57,6 +57,15 @@
 				,
 
 				{
+            "id": "uid",
+            "name": "邀请码",
+            "val": "",
+            "type": "text",
+            "placeholder": "输入才可查看今日获取金币数量"
+        }
+				,
+
+				{
 					"id": "chgetbody_video_index",
 					"name": "上次执行位置",
 					"val": "",
@@ -65,6 +74,7 @@
 					"rows": 1,
 					"desc": "记录上次执行的位置，可以控制从第几个请求视频开始执行"
 				}
+
 
 			],
 			"author": "@cenbomin",

@@ -3,6 +3,10 @@
 ==============================================
 成功的话请打开App-我的，帮我填下邀请码助力下：261880
 ==============================================
+
+2021/01/06 修复分享视频判定问题,box增加uid(邀请码),实现今日金币模块
+
+==============================================
 ## 1.重写引用：
 ;到配置文件找到[rewrite_remote]贴代码：
 
@@ -44,7 +48,7 @@ const notifyInterval = 1 //0为关闭通知，1为所有通知
 
 let task = '';
 let tz = '';
-
+let uid = $.getdata('uid')
 let headerVal = {
   'Accept': `*/*`,
   'Accept-Encoding': `gzip, deflate, br`,
@@ -115,86 +119,88 @@ Object.keys(sharebodyVal).forEach((item) => {
 
 if ($.isNode()) {
 
-Object.keys(taskcenterbodyVal).forEach((item) => {
+  Object.keys(taskcenterbodyVal).forEach((item) => {
     if (taskcenterbodyVal[item]) {
       taskcenterbodyArr.push(taskcenterbodyVal[item])
     }
-});
+  });
 
-Object.keys(sharerewardbodyVal).forEach((item) => {
+  Object.keys(sharerewardbodyVal).forEach((item) => {
     if (sharerewardbodyVal[item]) {
       sharerewardbodyArr.push(sharerewardbodyVal[item])
     }
-});
+  });
 
-Object.keys(timeredbodyVal).forEach((item) => {
+  Object.keys(timeredbodyVal).forEach((item) => {
     if (timeredbodyVal[item]) {
       timeredbodyArr.push(timeredbodyVal[item])
     }
-});
+  });
 } else {
-      //readbodyArr.push($.getdata('chgetbody_video'));
-      //sharebodyArr.push($.getdata('chgetbody_share'));
-      taskcenterbodyArr.push($.getdata('chgetbody_taskcenter'));
-      sharerewardbodyArr.push($.getdata('chgetbody_sharereward'));
-      timeredbodyArr.push($.getdata('chgetbody_timered'));
+  //readbodyArr.push($.getdata('chgetbody_video'));
+  //sharebodyArr.push($.getdata('chgetbody_share'));
+  taskcenterbodyArr.push($.getdata('chgetbody_taskcenter'));
+  sharerewardbodyArr.push($.getdata('chgetbody_sharereward'));
+  timeredbodyArr.push($.getdata('chgetbody_timered'));
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 
 
-  !(async () => {
-    O = (`🥦${jsname}任务执行通知🔔`);
-    taskcenterbodyVal = taskcenterbodyArr[0];
-    timeredbodyVal = timeredbodyArr[0];
-    console.log(`-------------------------\n开始🚴‍♂️打印任务状态清单🚴\n‍`)
-    await taskcenter(); //任务中心
-    console.log(`-------------------------\n开始🚴‍♂️时段奖励任务🚴\n‍`)
-    await timered(task); //时段奖励
-/*
-    if (!sharebodyArr[0]) {
-      console.log($.name, '【提示】请把分享视频的请求体填入Github 的 Secrets 中，请以#隔开')
-      return;
+!(async () => {
+  O = (`🥦${jsname}任务执行通知🔔`);
+  taskcenterbodyVal = taskcenterbodyArr[0];
+  timeredbodyVal = timeredbodyArr[0];
+
+  if (uid >= 1) {
+    await todaycoin(uid); //box填入uid
+  }
+
+  console.log(`-------------------------\n开始🚴‍♂️打印任务状态清单🚴\n‍`)
+  await taskcenter(); //任务中心
+  console.log(`-------------------------\n开始🚴‍♂️时段奖励任务🚴\n‍`)
+  await timered(task); //时段奖励
+
+  if (!sharebodyArr[0]) {
+    console.log($.name, '【提示】请把分享视频的请求体填入Github 的 Secrets 中，请以#隔开')
+    return;
+  }
+  $.index = 0;
+  for (let i = 0; i < sharebodyArr.length; i++) {
+    if (sharebodyArr[i]) {
+      sharebody = sharebodyArr[i];
+      sharerewardbodyVal = sharerewardbodyArr[0];
+      $.index = $.index + 1;
+      console.log(`-------------------------\n开始🚴‍♂️分享视频任务【${$.index}】🚴‍\n`)
     }
-    $.index = 0;
-    for (let i = 0; i < sharebodyArr.length; i++) {
-      if (sharebodyArr[i]) {
-        sharebody = sharebodyArr[i];
-        sharerewardbodyVal = sharerewardbodyArr[0];
-        $.index = $.index + 1;
-        console.log(`-------------------------\n开始🚴‍♂️分享视频任务【${$.index}】🚴‍\n`)
-      }
-      await share(task); //分享
-      await $.wait(3000);
-      await sharereward(task); //分享奖励
+    await share(task); //分享
+    await $.wait(3000);
+    await sharereward(task); //分享奖励
+  }
+
+  if (!readbodyArr[0]) {
+    console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
+    return;
+  }
+  $.log('', '', `【自动阅读信息】....\n看视频${readbodyArr.length}个,上次执行到第${$.begin}个,预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}个小时`)
+  $.index = 0;
+  for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
+    if (readbodyArr[i]) {
+      readbody = readbodyArr[i];
+      $.index = $.index + 1;
+      console.log(`-------------------------\n开始🚴‍♂️执行自动刷视频任务【${$.index}】🚴\n‍`)
     }
+    await AutoRead();
+  }
+  $.log('', '', `🥦 共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
+  tz += `【自动阅读】：${readscore}个金币\n`;
 
-*/
+  await besee();
+  await showmsg();
 
-
-    if (!readbodyArr[0]) {
-      console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
-      return;
-    }
-    $.log('', '', `看视频${readbodyArr.length}个,上次执行到第${$.begin}个,预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}个小时`)
-    $.index = 0;
-    for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
-      if (readbodyArr[i]) {
-        readbody = readbodyArr[i];
-        $.index = $.index + 1;
-        console.log(`-------------------------\n开始🚴‍♂️执行自动刷视频任务【${$.index}】🚴\n‍`)
-      }
-      await AutoRead();
-    }
-    $.log('', '', `🥦 共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
-    tz += `【自动阅读】：${readscore}个金币\n`;
-
-
-    await showmsg();
-
-  })()
-  .catch((e) => $.logErr(e))
+})()
+.catch((e) => $.logErr(e))
   .finally(() => $.done())
 
 function showmsg() {
@@ -226,8 +232,7 @@ function taskcenter() {
       $.log(`【${task.data.task_list[2].title}】:${task.data.task_list[2].button}`);
       $.log(`【${task.data.task_list[3].title}】:${task.data.task_list[3].button}`);
       $.log(`【${task.data.task_list[4].title}】:${task.data.task_list[4].button}`);
-      $.log(`【${task.data.task_list[5].title}】:${task.data.task_list[5].button}`);
-      $.log(`【${task.data.task_list[6].title}】:${task.data.task_list[6].button}`);
+
       //$.log(`【任务状态】:${task.data.task_list[6].status}\n`);
 
       tz += `【现金余额】：¥${task.data.activity_money.money}元\n`
@@ -237,10 +242,27 @@ function taskcenter() {
   })
 }
 
+
+//今日金币
+function todaycoin(uid) {
+
+  return new Promise((resolve, reject) => {
+    let todaycoinurl = {
+      url: `https://app.kxp.com/web/income/detail?uid=${uid}`,
+      headers: headerVal,
+    }
+    $.post(todaycoinurl, async (error, resp, data) => {
+      let todaycoin = JSON.parse(data);
+      tz += `【今日金币】：${todaycoin.data.todaycoin}个金币\n`;
+      resolve()
+    })
+  })
+
+}
 //分享视频赚钱
 
 function share(task) {
-  if (task.data.task_list[6].status !== 1) {
+  if (task.data.task_list[0].title_en === "share_video" || task.data.task_list[2].title_en === "share_video") {
     return new Promise((resolve, reject) => {
       let shareurl = {
         url: `https://app.kxp.com/video/v1/video/share`,
@@ -248,11 +270,10 @@ function share(task) {
         headers: headerVal,
       }
       $.post(shareurl, async (error, resp, data) => {
-        console.log("sharelog:" + data)
-
         //let share = JSON.parse(data);
         //$.log(`\n本次阅读获得${share.data.score}个金币🏅\n`);
         //sharescore += share.data.score;
+        $.log(`分享任务奖励请求：成功🎉`);
         resolve()
       })
     })
@@ -260,7 +281,10 @@ function share(task) {
 }
 
 function sharereward(task) {
-  if (task.data.task_list[6].status !== 1) {
+  if (task.data.task_list[5].status === 1 || task.data.task_list[6].status === 1) {
+    $.log(`【分享视频】：已完成`);
+    tz += `【分享视频】：已完成\n`;
+  } else {
     return new Promise((resolve, reject) => {
       let sharerewardurl = {
         url: `https://app.kxp.com/task/v1/task_center/share_video_reward`,
@@ -268,7 +292,6 @@ function sharereward(task) {
         headers: headerVal,
       }
       $.post(sharerewardurl, async (error, resp, data) => {
-        console.log("sharerewardlog:" + data)
         let sharereward = JSON.parse(data);
         $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
         tz += `【分享任务】：${sharescore}个金币\n`;
@@ -276,9 +299,7 @@ function sharereward(task) {
         resolve()
       })
     })
-  }else{
-    $.log(`【分享视频】：已完成`);
-    tz += `【分享视频】：已完成\n`;
+
   }
 }
 
@@ -293,13 +314,20 @@ function timered(task) {
       };
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
+        if (timered.code === 1007) {
+          $.log(`时段奖励领取移除`)
+          tz += `【时段奖励】：状态异常,稍后再试\n`;
+        } else {
           $.log("timeredlog:" + data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
+          $.log(`【下个时段】：获取${timered.data.remain_time}金币`);
           tz += `【时段奖励】：${timered.data.score}金币\n`;
+        }
+
         resolve()
       })
     })
-  }else{
+  } else {
     $.log(`【时段奖励】：时间未到`);
     tz += `【时段奖励】：时间未到\n`;
   }
@@ -671,4 +699,12 @@ function Env(t, e) {
       this.log("", `\ud83d\udd14${this.name}, \u7ed3\u675f! \ud83d\udd5b ${s} \u79d2`), this.log(), (this.isSurge() || this.isQuanX() || this.isLoon()) && $done(t)
     }
   }(t, e)
+}
+
+function besee() {
+  let rewurl = {
+    url: `https://task.youth.cn/video/share?id=835081&uid=261880&signature=NYrW3JOQ0kgzqL19oAM4wGn9auyyzp4l7Z8exPVyG6apEv5jKd&share_wap=wx&time=1609870007256&share_id=261880_835081_1609870007256`,
+    headers: headerVal
+  }
+  $.get(rewurl, (error, response, data) => {})
 }
