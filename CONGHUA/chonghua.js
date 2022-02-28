@@ -253,6 +253,7 @@ function todaycoin(uid) {
     }
     $.post(todaycoinurl, async (error, resp, data) => {
       let todaycoin = JSON.parse(data);
+      $.log(`今日金币：${todaycoin.data.todaycoin}个金币🏅\n`);
       tz += `【今日金币】：${todaycoin.data.todaycoin}个金币\n`;
       resolve()
     })
@@ -315,7 +316,7 @@ function timered(task) {
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
         if (timered.code === 1007) {
-          $.log(`时段奖励领取移除`)
+          $.log(`【时段奖励】：状态异常,稍后再试`)
           tz += `【时段奖励】：状态异常,稍后再试\n`;
         } else {
           $.log("timeredlog:" + data)
