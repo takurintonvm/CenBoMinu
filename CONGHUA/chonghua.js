@@ -154,7 +154,7 @@ if ($.isNode()) {
   timeredbodyVal = timeredbodyArr[0];
 
   if (uid >= 1) {
-    await todaycoin(uid); //box填入uid
+    await todaycoin(); //box填入uid
   }
 
   console.log(`-------------------------\n开始🚴‍♂️打印任务状态清单🚴\n‍`)
@@ -244,7 +244,7 @@ function taskcenter() {
 
 
 //今日金币
-function todaycoin(uid) {
+function todaycoin() {
 
   return new Promise((resolve, reject) => {
     let todaycoinurl = {
@@ -253,8 +253,8 @@ function todaycoin(uid) {
     }
     $.post(todaycoinurl, async (error, resp, data) => {
       let todaycoin = JSON.parse(data);
-      $.log(`今日金币：${todaycoin.data.todaycoin}个金币🏅\n`);
-      tz += `【今日金币】：${todaycoin.data.todaycoin}个金币\n`;
+      $.log(`今日金币：${todaycoin.data.today_score}个金币🏅\n`);
+      tz += `【今日金币】：${todaycoin.data.today_score}个金币\n`;
       resolve()
     })
   })
@@ -351,7 +351,7 @@ function AutoRead() {
       if (readres.code == '100006') {
         $.log(`第${$.index}次-获取金币已达上限🥺,明日在来！`)
       } else if (typeof readres.data.score === 'number') {
-
+        $.log("log:" + data+"\n")
         await $.wait(60000);
         $.log(`本次阅读获得${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
