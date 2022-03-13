@@ -175,7 +175,7 @@ if ($.isNode()) {
       console.log(`-------------------------\n开始🚴‍♂️分享视频任务【${$.index}】🚴‍\n`)
     }
     await share(task); //分享
-    await $.wait(5000);
+    await $.wait(3000);
     await sharereward(task); //分享奖励
   }
 
@@ -195,8 +195,6 @@ if ($.isNode()) {
   }
   $.log('', '', `🥦 共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
   tz += `【自动阅读】：${readscore}个金币\n`;
-
-  await besee();
   await showmsg();
 
 })()
@@ -253,9 +251,10 @@ function todaycoin() {
     }
     $.post(todaycoinurl, async (error, resp, data) => {
       let todaycoin = JSON.parse(data);
-      $.log(`查询账户明细....\n【今日金币】：${todaycoin.data.today_score}个金币🏅\n`);
-      $.log(`【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.}\n`);
-      tz += `【截止今日收益】：${todaycoin.data.total_score}个金币\n`;
+      $.log(`查询账户明细....\n【今日金币】：${todaycoin.data.today_score}个金币🏅`);
+      $.log(`【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.score}`);
+      $.log(`【获取金币总计】：${todaycoin.data.total_score}个金币🏅`);
+      tz += `【今日金币】：${todaycoin.data.today_score}个金币\n`;
       resolve()
     })
   })
