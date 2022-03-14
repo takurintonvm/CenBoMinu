@@ -252,7 +252,7 @@ function todaycoin() {
     $.post(todaycoinurl, async (error, resp, data) => {
       let todaycoin = JSON.parse(data);
       $.log(`查询账户明细....\n【今日金币】：${todaycoin.data.today_score}个金币🏅`);
-      $.log(`【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.score}`);
+      $.log(`【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.money}`);
       $.log(`【获取金币总计】：${todaycoin.data.total_score}个金币🏅`);
       tz += `【今日金币】：${todaycoin.data.today_score}个金币\n`;
       resolve()
