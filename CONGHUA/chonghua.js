@@ -152,14 +152,15 @@ if ($.isNode()) {
   O = (`🥦${jsname}任务执行通知🔔`);
   taskcenterbodyVal = taskcenterbodyArr[0];
   timeredbodyVal = timeredbodyArr[0];
-
+  console.log(`\n✅ 查询账户明细\n`)
   if (uid >= 1) {
     await todaycoin(); //box填入uid
   }
 
-  console.log(`-------------------------\n开始🚴‍♂️打印任务状态清单🚴\n‍`)
+  console.log(`\n✅ 打印任务状态清单`)
   await taskcenter(); //任务中心
-  console.log(`-------------------------\n开始🚴‍♂️时段奖励任务🚴\n‍`)
+
+  console.log(`\n✅ 执行时段奖励任务`)
   await timered(task); //时段奖励
 
   if (!sharebodyArr[0]) {
@@ -172,7 +173,7 @@ if ($.isNode()) {
       sharebody = sharebodyArr[i];
       sharerewardbodyVal = sharerewardbodyArr[0];
       $.index = $.index + 1;
-      console.log(`-------------------------\n开始🚴‍♂️分享视频任务【${$.index}】🚴‍\n`)
+      console.log(`\n✅ 执行分享视频任务【${$.index}】`)
     }
     await share(task); //分享
     await $.wait(3000);
@@ -183,17 +184,18 @@ if ($.isNode()) {
     console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
   }
-  $.log('', '', `【自动阅读信息】....\n看视频${readbodyArr.length}个,上次执行到第${$.begin}个,预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}个小时`)
+  $.log('\n✅ 查询刷视频任务\n', `视频总数${readbodyArr.length}个,上次执行到第${$.begin}个,预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}小时`)
   $.index = 0;
   for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
     if (readbodyArr[i]) {
       readbody = readbodyArr[i];
       $.index = $.index + 1;
-      console.log(`-------------------------\n开始🚴‍♂️执行自动刷视频任务【${$.index}】🚴\n‍`)
+      console.log(`\n✅ 执行自动刷视频任务【${$.index}】`)
+
     }
     await AutoRead();
   }
-  $.log('', '', `🥦 共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
+  $.log('', '', `🥦 本次共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
   tz += `【自动阅读】：${readscore}个金币\n`;
   await showmsg();
 
@@ -251,7 +253,7 @@ function todaycoin() {
     }
     $.post(todaycoinurl, async (error, resp, data) => {
       let todaycoin = JSON.parse(data);
-      $.log(`查询账户明细....\n【今日金币】：${todaycoin.data.today_score}个金币🏅`);
+      $.log(`【今日金币】：${todaycoin.data.today_score}个金币🏅`);
       $.log(`【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.money}`);
       $.log(`【获取金币总计】：${todaycoin.data.total_score}个金币🏅`);
       tz += `【今日金币】：${todaycoin.data.today_score}个金币\n`;
