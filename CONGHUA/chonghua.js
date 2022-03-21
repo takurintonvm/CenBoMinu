@@ -4,7 +4,7 @@
 成功的话请打开App-我的，帮我填下邀请码助力下：261880
 ==============================================
 
-2021/01/06 修复分享视频判定问题,box增加uid(邀请码),实现今日金币模块
+2021/01/06 修复分享视频判定问题,box增加uid(邀请码),实现今日金币模块，账号异常提醒
 
 ==============================================
 ## 1.重写引用：
@@ -155,6 +155,8 @@ if ($.isNode()) {
   console.log(`\n✅ 查询账户明细\n`)
   if (uid >= 1) {
     await todaycoin(); //box填入uid
+  }else{
+    console.log(`💖请到BoxJs填写邀请码,保存设置`,`点击跳转,复制链接,订阅我的BoxJs`,{ "open-url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json" })
   }
 
   console.log(`\n✅ 打印任务状态清单`)
@@ -318,8 +320,8 @@ function timered(task) {
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
         if (timered.code === 1007) {
-          $.log(`【时段奖励】：状态异常,稍后再试`)
-          tz += `【时段奖励】：状态异常,稍后再试\n`;
+          $.log(`【时段奖励】：❌账号异常,请评论,点赞,上传视频...并禁用脚本观察`)
+          tz += `【时段奖励】：❌账号异常\n`;
         } else {
           $.log("timeredlog:" + data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
@@ -351,11 +353,14 @@ function AutoRead() {
       $.setdata(res + "", 'chgetbody_body_index');
       let readres = JSON.parse(data);
       if (readres.code == '100006') {
-        $.log(`第${$.index}次-获取金币已达上限🥺,明日在来！`)
+        $.log(`⛔️第${$.index}次-获取金币已达上限🥺,明日在来！`)
+      } else if (readres.code == '1007') {
+        $.log(`❌【本次阅读】：账号异常,请评论,点赞,上传视频...并禁用脚本观察`)
+        tz += `❌【本次阅读】：账号异常\n`;
       } else if (typeof readres.data.score === 'number') {
         $.log("log:" + data+"\n")
         await $.wait(60000);
-        $.log(`本次阅读获得${readres.data.score}个金币🏅`);
+        $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
 
       }
@@ -702,12 +707,4 @@ function Env(t, e) {
       this.log("", `\ud83d\udd14${this.name}, \u7ed3\u675f! \ud83d\udd5b ${s} \u79d2`), this.log(), (this.isSurge() || this.isQuanX() || this.isLoon()) && $done(t)
     }
   }(t, e)
-}
-
-function besee() {
-  let rewurl = {
-    url: `https://task.youth.cn/video/share?id=835081&uid=261880&signature=NYrW3JOQ0kgzqL19oAM4wGn9auyyzp4l7Z8exPVyG6apEv5jKd&share_wap=wx&time=1609870007256&share_id=261880_835081_1609870007256`,
-    headers: headerVal
-  }
-  $.get(rewurl, (error, response, data) => {})
 }
