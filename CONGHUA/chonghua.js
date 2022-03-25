@@ -156,7 +156,7 @@ if ($.isNode()) {
   if (uid >= 1) {
     await todaycoin(); //box填入uid
   }else{
-    $.msg(`💖请到BoxJs填写邀请码,保存设置`,`点击跳转,复制链接,订阅我的BoxJs`,{ "open-url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json" })
+    $.msg(`💖请到BoxJs填写自己的邀请码,保存设置`,`点击跳转,复制链接,订阅我的BoxJs`,{ "open-url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json" })
   }
 
   console.log(`\n✅ 打印任务状态清单`)
