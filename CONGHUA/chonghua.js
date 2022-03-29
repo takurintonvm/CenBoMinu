@@ -156,7 +156,12 @@ if ($.isNode()) {
   if (uid >= 1) {
     await todaycoin(); //box填入uid
   }else{
-    $.msg(`💖请到BoxJs填写自己的邀请码,保存设置`,`点击跳转,复制链接,订阅我的BoxJs`,{ "open-url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json" })
+    $.msg(
+      jsname,
+      "💖请到BoxJs填写自己的邀请码,保存设置\n",
+      "点击跳转,复制链接,订阅我的BoxJs",
+      { "open-url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json" }
+    );
   }
 
   console.log(`\n✅ 打印任务状态清单`)
@@ -287,8 +292,8 @@ function share(task) {
 
 function sharereward(task) {
   if (task.data.task_list[5].status === 1 || task.data.task_list[6].status === 1) {
-    $.log(`【分享视频】：已完成`);
-    tz += `【分享视频】：已完成\n`;
+    $.log(`【分享视频】：已完成🎉`);
+    tz += `【分享视频】：已完成🎉\n`;
   } else {
     return new Promise((resolve, reject) => {
       let sharerewardurl = {
@@ -320,8 +325,8 @@ function timered(task) {
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
         if (timered.code === 1007) {
-          $.log(`【时段奖励】：❌账号异常,请评论,点赞,上传视频...并禁用脚本观察`)
-          tz += `【时段奖励】：❌账号异常\n`;
+          $.log(`【时段奖励】：账号异常❌,请评论,点赞,上传视频...并禁用脚本观察`)
+          tz += `【时段奖励】：账号异常❌\n`;
         } else {
           $.log("timeredlog:" + data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
@@ -355,8 +360,8 @@ function AutoRead() {
       if (readres.code == '100006') {
         $.log(`⛔️第${$.index}次-获取金币已达上限🥺,明日在来！`)
       } else if (readres.code == '1007') {
-        $.log(`❌【本次阅读】：账号异常,请评论,点赞,上传视频...并禁用脚本观察`)
-        tz += `❌【本次阅读】：账号异常\n`;
+        $.log(`【本次阅读${$.index}】：账号异常❌,请评论,点赞,上传视频...并禁用脚本观察`)
+        tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
         $.log("log:" + data+"\n")
         await $.wait(60000);
