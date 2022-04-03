@@ -50,6 +50,7 @@ let task = '';
 let tz = '';
 let uid = $.getdata('uid')
 let headerVal = {
+  'User-Agent' : `cong hua shi pin/1.4.6 (iPhone; iOS 14.1; Scale/2.00)`,
   'Accept': `*/*`,
   'Accept-Encoding': `gzip, deflate, br`,
   'Connection': `keep-alive`,
@@ -57,6 +58,7 @@ let headerVal = {
   'Host': `app.kxp.com`,
   'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
 };
+
 
 const taskcenterbodyArr = [];
 let taskcenterbodyVal = "";
