@@ -1,8 +1,3 @@
-
-
-
-
-
 const jsname = "企鹅通知提现";
 const $ = Env(jsname);
 $.idx = ($.idx = ($.getval("qeSuffix") || "1") - 1) > 0 ? `${$.idx + 1}` : ""; // 账号扩展字符
@@ -86,6 +81,39 @@ console.log(
 
 console.log(
   `共 ${qqreadbdArr.length} 个${jsname}账号,提现标准为：${CASH} \n`);
+
+  function GetCookie() {
+    if ($request && $request.url.indexOf("addReadTimeWithBid?") >= 0) {
+      const qqreadtimeurlVal = $request.url;
+      if (qqreadtimeurlVal) $.setdata(qqreadtimeurlVal, `qqreadtimeurl${$.idx}`);
+      $.log(
+        `[${jsname + $.idx
+        }] 获取时长url: 成功,qqreadtimeurlVal: ${qqreadtimeurlVal}`
+      );
+      $.msg(jsname + $.idx, `获取时长url: 成功🎉`, ``);
+      const qqreadtimeheaderVal = JSON.stringify($request.headers);
+      if (qqreadtimeheaderVal)
+        $.setdata(qqreadtimeheaderVal, `qqreadtimehd${$.idx}`);
+      $.log(
+        `[${jsname + $.idx
+        }] 获取时长header: 成功,qqreadtimeheaderVal: ${qqreadtimeheaderVal}`
+      );
+      $.msg(jsname + $.idx, `获取时长header: 成功🎉`, ``);
+    } else if (
+      $request &&
+      $request.body.indexOf("bookDetail_bottomBar_read_C") >= 0 &&
+      $request.body.indexOf("bookRead_show_I") >= 0 &&
+      $request.body.indexOf("topBar_left_back_C") < 0 &&
+      $request.body.indexOf("bookRead_dropOut_shelfYes_C") < 0
+    ) {
+      const qqreadbodyVal = $request.body;
+      if (qqreadbodyVal) $.setdata(qqreadbodyVal, `qqreadbd${$.idx}`);
+      $.log(
+        `[${jsname + $.idx}] 获取更新body: 成功,qqreadbodyVal: ${qqreadbodyVal}`
+      );
+      $.msg(jsname + $.idx, `获取更新body: 成功🎉`, ``);
+    }
+}
 
 all();
 function all() {
