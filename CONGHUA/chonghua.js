@@ -274,7 +274,7 @@ function todaycoin() {
 //分享视频赚钱
 
 function share(task) {
-  if (task.data.task_list[0].title_en === "share_video" || task.data.task_list[2].title_en === "share_video") {
+  if (task.data.task_list[0].title_en === "share_video" || task.data.task_list[2].title_en === "share_video" || task.data.task_list[3].title_en === "share_video") {
     return new Promise((resolve, reject) => {
       let shareurl = {
         url: `https://app.kxp.com/video/v1/video/share`,
