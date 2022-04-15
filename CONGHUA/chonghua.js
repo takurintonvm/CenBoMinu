@@ -293,7 +293,7 @@ function share(task) {
 }
 
 function sharereward(task) {
-  if (task.data.task_list[5].status === 1 || task.data.task_list[6].status === 1) {
+  if (task.data.task_list[0].title_en === "share_video") {
     $.log(`【分享视频】：已完成🎉`);
     tz += `【分享视频】：已完成🎉\n`;
   } else {
