@@ -294,9 +294,6 @@ function share(task) {
 
 function sharereward(task) {
   if (task.data.task_list[0].title_en === "share_video") {
-    $.log(`【分享视频】：已完成🎉`);
-    tz += `【分享视频】：已完成🎉\n`;
-  } else {
     return new Promise((resolve, reject) => {
       let sharerewardurl = {
         url: `https://app.kxp.com/task/v1/task_center/share_video_reward`,
@@ -312,10 +309,13 @@ function sharereward(task) {
           $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
           tz += `【分享任务】：${sharescore}个金币\n`;
           sharescore += sharereward.data.score;
-        }      
+        }
         resolve()
       })
     })
+  } else {
+    $.log(`【分享视频】：已完成🎉`);
+    tz += `【分享视频】：已完成🎉\n`;
 
   }
 }
