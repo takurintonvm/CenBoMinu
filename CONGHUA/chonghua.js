@@ -50,7 +50,7 @@ let task = '';
 let tz = '';
 let uid = $.getdata('uid')
 let headerVal = {
-  'User-Agent' : `cong hua shi pin/1.4.6 (iPhone; iOS 14.1; Scale/2.00)`,
+  'User-Agent': `cong hua shi pin/1.4.6 (iPhone; iOS 14.1; Scale/2.00)`,
   'Accept': `*/*`,
   'Accept-Encoding': `gzip, deflate, br`,
   'Connection': `keep-alive`,
@@ -157,12 +157,13 @@ if ($.isNode()) {
   console.log(`\n✅ 查询账户明细\n`)
   if (uid >= 1) {
     await todaycoin(); //box填入uid
-  }else{
+  } else {
     $.msg(
       jsname,
       "💖请到BoxJs填写自己的邀请码,保存设置\n",
-      "点击跳转,复制链接,订阅我的BoxJs",
-      { "open-url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json" }
+      "点击跳转,复制链接,订阅我的BoxJs", {
+        "open-url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json"
+      }
     );
   }
 
@@ -271,8 +272,8 @@ function todaycoin() {
   })
 
 }
-//分享视频赚钱
 
+//分享视频赚钱
 function share(task) {
   if (task.data.task_list[0].title_en === "share_video" || task.data.task_list[2].title_en === "share_video" || task.data.task_list[3].title_en === "share_video") {
     return new Promise((resolve, reject) => {
@@ -305,7 +306,7 @@ function sharereward(task) {
         if (timered.code === 1007) {
           $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【时段奖励】：账号异常❌\n`;
-        }else{
+        } else {
           $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
           tz += `【分享任务】：${sharescore}个金币\n`;
           sharescore += sharereward.data.score;
@@ -316,7 +317,6 @@ function sharereward(task) {
   } else {
     $.log(`【分享视频】：已完成🎉`);
     tz += `【分享视频】：已完成🎉\n`;
-
   }
 }
 
@@ -370,7 +370,7 @@ function AutoRead() {
         $.log(`【本次阅读${$.index}】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
-        $.log("log:" + data+"\n")
+        $.log("log:" + data + "\n")
         await $.wait(60000);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
