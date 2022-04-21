@@ -303,7 +303,7 @@ function sharereward(task) {
       }
       $.post(sharerewardurl, async (error, resp, data) => {
         let sharereward = JSON.parse(data);
-        if (timered.code === 1007) {
+        if (sharereward.code === 1007) {
           $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【时段奖励】：账号异常❌\n`;
         } else {
