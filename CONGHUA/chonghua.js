@@ -293,6 +293,7 @@ function share(task) {
   };
 }
 
+
 function sharereward(task) {
   if (task.data.task_list[0].title_en === "share_video") {
     return new Promise((resolve, reject) => {
