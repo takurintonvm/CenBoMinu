@@ -305,8 +305,8 @@ function sharereward(task) {
       $.post(sharerewardurl, async (error, resp, data) => {
         let sharereward = JSON.parse(data);
         if (sharereward.code === 1007) {
-          $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
-          tz += `【时段奖励】：账号异常❌\n`;
+          $.log(`【分享奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
+          tz += `【分享奖励】：账号异常❌\n`;
         } else {
           $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
           tz += `【分享任务】：${sharescore}个金币\n`;
