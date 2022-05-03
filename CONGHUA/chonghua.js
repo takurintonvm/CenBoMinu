@@ -234,7 +234,7 @@ function taskcenter() {
       headers: headerVal,
     }
     $.post(taskurl, async (error, resp, data) => {
-      //$.log("tasklog:" + data+"\n")
+      if (logs)$.log("taskcenterlog:" + data+"\n")；
       task = JSON.parse(data)
       //$.log(`【金币换算】:${(task.data.score/10000).toFixed(2)}\n`);
       $.log(`【${task.data.task_list[0].title}】:${task.data.task_list[0].button}`);
@@ -286,6 +286,7 @@ function share(task) {
         //let share = JSON.parse(data);
         //$.log(`\n本次阅读获得${share.data.score}个金币🏅\n`);
         //sharescore += share.data.score;
+        if (logs)$.log("sharelog:" + data+"\n")；
         $.log(`分享任务奖励请求：成功🎉`);
         resolve()
       })
@@ -305,9 +306,11 @@ function sharereward(task) {
       $.post(sharerewardurl, async (error, resp, data) => {
         let sharereward = JSON.parse(data);
         if (sharereward.code === 1007) {
+          if (logs)$.log("err:" + data+"\n")；
           $.log(`【分享奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【分享奖励】：账号异常❌\n`;
         } else {
+          if (logs)$.log("shareredlog:" + data+"\n")；
           $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
           tz += `【分享任务】：${sharescore}个金币\n`;
           sharescore += sharereward.data.score;
@@ -336,7 +339,7 @@ function timered(task) {
           $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【时段奖励】：账号异常❌\n`;
         } else {
-          $.log("timeredlog:" + data)
+          if (logs)$.log("timeredlog:" + data+"\n")；
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
           $.log(`【下个时段】：获取${timered.data.remain_time}金币`);
           tz += `【时段奖励】：${timered.data.score}金币\n`;
@@ -371,7 +374,7 @@ function AutoRead() {
         $.log(`【本次阅读${$.index}】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
-        $.log("log:" + data + "\n")
+        if (logs)$.log("autoreadlog:" + data+"\n")；
         await $.wait(60000);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
