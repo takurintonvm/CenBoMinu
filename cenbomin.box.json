@@ -43,6 +43,11 @@
 		{
 			"id": "cbm_ch_read",
 			"name": "葱花视频",
+			"descs_html": [
+        "说明：",
+	      "1.chgetbody_body 是老版本自动阅读用的,建议换新版本重抓阅读body",
+				"2.chgetbody_video 是新版本自动阅读用的,抓阅读body这里会有值",
+      ],
 			"keys": ["uid","chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
 			"settings": [
 				{
@@ -58,7 +63,7 @@
 
 				{
             "id": "uid",
-            "name": "邀请码",
+            "name": "自己的邀请码",
             "val": "",
             "type": "text",
             "placeholder": "输入才可查看今日获取金币数量"
