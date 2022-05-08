@@ -48,7 +48,7 @@
 	      "1.chgetbody_body 是老版本自动阅读用的,建议换新版本重抓阅读body",
 				"2.chgetbody_video 是新版本自动阅读用的,抓阅读body这里会有值",
       ],
-			"keys": ["uid","chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward"],
+			"keys": ["uid","chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward","logs","notify"],
 			"settings": [
 				{
 					"id": "chgetbody_video",
@@ -79,6 +79,24 @@
 					"rows": 1,
 					"desc": "记录上次执行的位置，可以控制从第几个请求视频开始执行"
 				}
+				,
+
+				{
+            "id": "logs",
+            "name": "",
+            "val": "日志开关",
+            "type": "text",
+            "placeholder": "0为关闭日志，1为开启"
+        }
+				,
+
+				{
+            "id": "notify",
+            "name": "通知开关",
+            "val": "",
+            "type": "text",
+            "placeholder": "0为关闭通知，1为所有通知"
+        }
 
 
 			],
