@@ -1,12 +1,15 @@
 /*
-# 葱花视频
-==============================================
+┎━━┰┒┎┰━━┰━━┰━━┰┒┎┰┒┎┰━━┒
+│┎━┦┕┚│┎┒│┎┒│┎┰┦┕┚││││┎┒│
+│┕━┦┎┒│┕┚││││┕┚│┎┒│┕┚│┎┒│
+┕━━┹┚┕┹━━┹┚┕┹━━┹┚┕┹━━┹┚┕┚
+============================================
 成功的话请打开App-我的，帮我填下邀请码347770助力
-==============================================
+============================================
 
 2021/01/06 修复分享视频判定问题,box增加uid(邀请码),实现今日金币模块，账号异常提醒
 
-==============================================
+============================================
 ## 1.重写引用：
 ;到配置文件找到[rewrite_remote]贴代码：
 
@@ -45,7 +48,7 @@ cron设置30min循环
 
 const jsname = '葱花视频'
 const $ = Env(jsname)
-const logs = 0; //0为关闭日志，1为开启
+const logs = 1; //0为关闭日志，1为开启
 const notifyInterval = 1 //0为关闭通知，1为所有通知
 
 let task = '';
@@ -236,7 +239,7 @@ function taskcenter() {
       headers: headerVal,
     }
     $.post(taskurl, async (error, resp, data) => {
-      if (logs)$.log("taskcenterlog:" + data+"\n")；
+      //$.log("tasklog:" + data+"\n")
       task = JSON.parse(data)
       //$.log(`【金币换算】:${(task.data.score/10000).toFixed(2)}\n`);
       $.log(`【${task.data.task_list[0].title}】:${task.data.task_list[0].button}`);
@@ -285,10 +288,10 @@ function share(task) {
         headers: headerVal,
       }
       $.post(shareurl, async (error, resp, data) => {
-        //let share = JSON.parse(data);
+        let share = JSON.parse(data);
         //$.log(`\n本次阅读获得${share.data.score}个金币🏅\n`);
         //sharescore += share.data.score;
-        if (logs)$.log("sharelog:" + data+"\n")；
+        if(logs) $.log(data)
         $.log(`分享任务奖励请求：成功🎉`);
         resolve()
       })
@@ -308,11 +311,11 @@ function sharereward(task) {
       $.post(sharerewardurl, async (error, resp, data) => {
         let sharereward = JSON.parse(data);
         if (sharereward.code === 1007) {
-          if (logs)$.log("err:" + data+"\n")；
+          if(logs) $.log(data)
           $.log(`【分享奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【分享奖励】：账号异常❌\n`;
         } else {
-          if (logs)$.log("shareredlog:" + data+"\n")；
+          if(logs) $.log(data)
           $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
           tz += `【分享任务】：${sharescore}个金币\n`;
           sharescore += sharereward.data.score;
@@ -338,10 +341,11 @@ function timered(task) {
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
         if (timered.code === 1007) {
+          if(logs) $.log(data)
           $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【时段奖励】：账号异常❌\n`;
         } else {
-          if (logs)$.log("timeredlog:" + data+"\n")；
+          if(logs) $.log(data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
           $.log(`【下个时段】：获取${timered.data.remain_time}金币`);
           tz += `【时段奖励】：${timered.data.score}金币\n`;
@@ -376,7 +380,7 @@ function AutoRead() {
         $.log(`【本次阅读${$.index}】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
-        if (logs)$.log("autoreadlog:" + data+"\n")；
+        if(logs) $.log(data)
         await $.wait(60000);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
