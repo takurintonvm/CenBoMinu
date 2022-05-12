@@ -48,7 +48,7 @@ cron设置30min循环
 
 const jsname = '葱花视频'
 const $ = Env(jsname)
-const logs = 1; //0为关闭日志，1为开启
+const logs = 0; //0为关闭日志，1为开启
 const notifyInterval = 1 //0为关闭通知，1为所有通知
 
 let task = '';
