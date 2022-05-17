@@ -156,6 +156,7 @@ if ($.isNode()) {
 
 
 !(async () => {
+     await Jsname()
   O = (`🥦${jsname}任务执行通知🔔`);
   taskcenterbodyVal = taskcenterbodyArr[0];
   timeredbodyVal = timeredbodyArr[0];
@@ -392,6 +393,15 @@ function AutoRead() {
 }
 
 // prettier-ignore
+function Jsname(){
+
+$.log(`┎━━┰┒┎┰━━┰━━┰━━┰┒┎┰┒┎┰━━┒`)
+$.log(`│┎━┦┕┚│┎┒│┎┒│┎┰┦┕┚││││┎┒│`)
+$.log(`│┕━┦┎┒│┕┚││││┕┚│┎┒│┕┚│┎┒│`)
+$.log(`┕━━┹┚┕┹━━┹┚┕┹━━┹┚┕┹━━┹┚┕┚`)
+
+}
+
 function Env(t, e) {
   class s {
     constructor(t) {
