@@ -83,8 +83,8 @@
 
 				{
             "id": "logs",
-            "name": "",
-            "val": "日志开关测试",
+            "name": "日志开关测试",
+            "val": "0",
             "type": "text",
             "placeholder": "0为关闭日志，1为开启"
         }
@@ -93,7 +93,7 @@
 				{
             "id": "notify",
             "name": "通知开关测试",
-            "val": "",
+            "val": "1",
             "type": "text",
             "placeholder": "0为关闭通知，1为所有通知"
         }
