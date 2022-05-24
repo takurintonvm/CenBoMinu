@@ -10,7 +10,7 @@
 			"id": "txstock",
 			"name": "腾迅自选股",
 			"keys": ["txstock_hd","txstock_body"],
-			"settings": [
+			"apps": [
 				{
 					"id": "txstock_body",
 					"name": "任务请求body",
@@ -46,10 +46,10 @@
 			"descs_html": [
         "说明：",
 	      "1.chgetbody_body 是老版本自动阅读用的,建议换新版本重抓阅读body",
-				"2.chgetbody_video 是新版本自动阅读用的,抓阅读body这里会有值",
+				"2.chgetbody_video 是新版本自动阅读用的,抓新版本阅读body这里会有值",
       ],
 			"keys": ["uid","chgetbody_body","chgetbody_video","chgetbody_share","chgetbody_timered","chgetbody_taskcenter","chgetbody_sharereward","logs","notify"],
-			"settings": [
+			"apps": [
 				{
 					"id": "chgetbody_video",
 					"name": "请求body",
