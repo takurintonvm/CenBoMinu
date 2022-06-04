@@ -8,7 +8,7 @@
     "id": "chonghauapp",
     "name": "葱花视频",
     "keys": [
-      "uid", "chgetbody_body", "chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logs", "notify"
+      "uid", "chgetbody_body", "chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logsbutton", "notifybutton"
     ],
     "settings": [{
         "id": "chgetbody_body",
@@ -45,14 +45,14 @@
         "desc": "记录上次执行的位置，可以控制从第几个请求视频开始执行"
       },
 			{
-				"id": "logs",
+				"id": "logsbutton",
         "name": "日志开关",
         "val": "0",
         "type": "number",
         "desc": "0为关闭日志，1为开启,有问题开启执行,截图"
       },
 			{
-				"id": "notify",
+				"id": "notifybutton",
         "name": "安静开关",
         "val": "1",
         "type": "number",
