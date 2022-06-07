@@ -47,7 +47,7 @@
 			{
 				"id": "logsbutton",
         "name": "日志开关",
-        "val": "0",
+        "val": "",
         "type": "number",
         "desc": "0为关闭日志，1为开启,有问题开启执行,截图"
       },
