@@ -40,25 +40,7 @@
           "autoGrow": false,
           "rows": 1,
           "desc": "记录上次执行的位置，可以控制从第几个请求视频开始执行"
-        },
-
-        {
-          "id": "logs",
-          "name": "日志开关测试",
-          "val": "0",
-          "type": "text",
-          "placeholder": "0为关闭日志，1为开启"
-        },
-
-        {
-          "id": "notify",
-          "name": "通知开关测试",
-          "val": "1",
-          "type": "text",
-          "placeholder": "0为关闭通知，1为所有通知"
         }
-
-
       ],
       "author": "@cenbomin",
       "repo": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/AutoRead.js",
