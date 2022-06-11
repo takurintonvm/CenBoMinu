@@ -54,7 +54,7 @@
 			{
 				"id": "notifybutton",
         "name": "安静开关",
-        "val": "1",
+        "val": "",
         "type": "number",
         "desc": "0为关闭通知，1为所有通知"
       },
