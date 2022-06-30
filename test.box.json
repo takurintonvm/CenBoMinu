@@ -8,13 +8,7 @@
     "id": "chonghauapp",
     "name": "葱花视频",
     "keys": [
-      "uid",
       "chgetbody_body",
-      "chgetbody_video",
-      "chgetbody_share",
-      "chgetbody_timered",
-      "chgetbody_taskcenter",
-      "chgetbody_sharereward",
     ],
     "settings": [{
         "id": "chgetbody_body",
