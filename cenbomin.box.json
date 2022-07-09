@@ -16,15 +16,6 @@
       "chgetbody_taskcenter",
       "chgetbody_sharereward",
     ],
-    "settings": [{
-        "id": "chgetbody_body",
-        "name": "老版本请求body",
-        "val": "",
-        "type": "textarea",
-        "rows": 1,
-        "desc": "看视频，倒计时转一圈显示金币到账。。建议看5篇视频,获取请求包"
-      }
-    ],
     "author": "@cenbomin",
     "repo": ["https://github.com/CenBoMin/GithubSync/blob/main/CONGHUA/conghuabody.js"],
     "script": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/conghuabody.js",
