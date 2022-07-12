@@ -20,5 +20,17 @@
     "repo": ["https://github.com/CenBoMin/GithubSync/blob/main/CONGHUA/conghuabody.js"],
     "script": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/conghuabody.js",
     "icons": ["hhttps://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/AutoRead.png"]
-  }]
+  },
+  {
+    "id": "test",
+    "name": "test",
+    "keys": [
+      "test",
+    ],
+    "author": "@cenbomin",
+    "repo": [""],
+    "script": "",
+    "icons": [""]
+  }
+]
 }
