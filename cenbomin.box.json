@@ -7,7 +7,7 @@
 	"apps": [{
 		"id": "chonghauapp",
 		"name": "葱花视频",
-		"keys": ["uid", "chgetbody_body", "chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward"],
+		"keys": ["uid", "chgetbody_body", "chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton"],
 		"settings": [{
 				"id": "chgetbody_body",
 				"name": "老版本请求body",
@@ -34,13 +34,11 @@
 				"desc": "输入才可查看账户金币明细"
 			},
 			{
-				"id": "chgetbody_video_index",
-				"name": "上次执行位置",
+				"id": "logbutton",
+				"name": "",
 				"val": "",
-				"type": "textarea",
-				"autoGrow": false,
-				"rows": 1,
-				"desc": "记录上次执行的位置，可以控制从第几个请求视频开始执行"
+				"type": "number",
+				"desc": "0为关闭日志，1为开启"
 			}
 		],
 		"author": "@cenbomin",
