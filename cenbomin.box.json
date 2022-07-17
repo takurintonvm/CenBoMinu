@@ -35,10 +35,18 @@
 			},
 			{
 				"id": "logbutton",
-				"name": "",
+				"name": "日志开关",
 				"val": "",
 				"type": "number",
 				"desc": "0为关闭日志，1为开启"
+			}
+      ,
+			{
+				"id": "tzbutton",
+				"name": "安静开关",
+				"val": "",
+				"type": "number",
+				"desc": "0为关闭通知，1为所有通知"
 			}
 		],
 		"author": "@cenbomin",
