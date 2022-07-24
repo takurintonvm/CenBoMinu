@@ -292,7 +292,7 @@ function share(task) {
         let share = JSON.parse(data);
         //$.log(`\n本次阅读获得${share.data.score}个金币🏅\n`);
         //sharescore += share.data.score;
-        if(logs) $.log(data)
+        if(logs==1) $.log(data)
         $.log(`分享任务奖励请求：成功🎉`);
         resolve()
       })
@@ -316,7 +316,7 @@ function sharereward(task) {
           $.log(`【分享奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【分享奖励】：账号异常❌\n`;
         } else {
-          if(logs) $.log(data)
+          if(logs==1) $.log(data)
           $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
           tz += `【分享任务】：${sharescore}个金币\n`;
           sharescore += sharereward.data.score;
@@ -342,11 +342,11 @@ function timered(task) {
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
         if (timered.code === 1007) {
-          if(logs) $.log(data)
+          if(logs==1) $.log(data)
           $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【时段奖励】：账号异常❌\n`;
         } else {
-          if(logs) $.log(data)
+          if(logs==1) $.log(data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
           $.log(`【下个时段】：获取${timered.data.remain_time}金币`);
           tz += `【时段奖励】：${timered.data.score}金币\n`;
@@ -376,12 +376,14 @@ function AutoRead() {
       $.setdata(res + "", 'chgetbody_body_index');
       let readres = JSON.parse(data);
       if (readres.code == '100006') {
+        if(logs==1) $.log(data)
         $.log(`⛔️第${$.index}次-获取金币已达上限🥺,明日在来！`)
       } else if (readres.code == '1007') {
+        if(logs==1) $.log(data)
         $.log(`【本次阅读${$.index}】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
-        if(logs) $.log(data)
+        if(logs==1) $.log(data)
         await $.wait(60000);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
