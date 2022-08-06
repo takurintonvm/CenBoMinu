@@ -1,25 +1,28 @@
-function GetCookie() {
-  if ($request && $request.url.indexOf("action=signdone") >= 0) {
-    const signheader = $request.url.split(`&`)[5]
-    if (signheader) $.setdata(signheader, 'signheader')
-    $.log(`[${jsname}] 获取signtask请求🎉: 成功,signheader: ${signheader}`)
-    $.msg(`获取signheader: 成功🎉`, ``)
-    const signkey = JSON.stringify($request.headers)
-    if (signkey) $.setdata(signkey, 'signkey')
-    $.log(`[${jsname}] 获取signtask请求: 成功🎉,signkey: ${signkey}`)
-    $.msg(`获取signkey: 成功🎉`, ``)
-  }
-  if ($request && $request.url.indexOf("action=taskticket") >= 0) {
-    const taskheader = $request.url.split(`_`)[3]
-    if (taskheader) $.setdata(taskheader, 'taskheader')
-    $.log(`[${jsname}] 获取task请求🎉: 成功,taskheader: ${taskheader}`)
-    $.msg(`获取taskheader: 成功🎉`, ``)
-    const taskkey = JSON.stringify($request.headers)
-    if (taskkey) $.setdata(taskkey, 'taskkey')
-    $.log(`[${jsname}] 获取task请求: 成功🎉,taskkey: ${taskkey}`)
-    $.msg(`获取taskkey: 成功🎉`, ``)
-  }
+const jsname = '腾讯自选股'
+const $ = Env(jsname)
+
+if ($request && $request.url.indexOf("action=signdone") >= 0) {
+  const signheader = $request.url.split(`&`)[5]
+  if (signheader) $.setdata(signheader, 'signheader')
+  $.log(`[${jsname}] 获取signtask请求🎉: 成功,signheader: ${signheader}`)
+  $.msg(`获取signheader: 成功🎉`, ``)
+  const signkey = JSON.stringify($request.headers)
+  if (signkey) $.setdata(signkey, 'signkey')
+  $.log(`[${jsname}] 获取signtask请求: 成功🎉,signkey: ${signkey}`)
+  $.msg(`获取signkey: 成功🎉`, ``)
 }
+
+if ($request && $request.url.indexOf("action=taskticket") >= 0) {
+  const taskheader = $request.url.split(`_`)[3]
+  if (taskheader) $.setdata(taskheader, 'taskheader')
+  $.log(`[${jsname}] 获取task请求🎉: 成功,taskheader: ${taskheader}`)
+  $.msg(`获取taskheader: 成功🎉`, ``)
+  const taskkey = JSON.stringify($request.headers)
+  if (taskkey) $.setdata(taskkey, 'taskkey')
+  $.log(`[${jsname}] 获取task请求: 成功🎉,taskkey: ${taskkey}`)
+  $.msg(`获取taskkey: 成功🎉`, ``)
+}
+
 
 function Env(t, e) {
   class s {
