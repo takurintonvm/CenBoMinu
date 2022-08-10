@@ -13,7 +13,7 @@ if($request&&$request.url.indexOf("action=signdone")>=0) {
      $.msg(`获取signkey: 成功🎉`, ``)
 }
 
-if($request&&$request.url.indexOf("action=signdone")>=0) {
+if($request&&$request.url.indexOf("action=taskticket")>=0) {
    const taskheader = $request.url.split('https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskticket&channel=1&actid=1101')[1];
      if (taskheader) $.setdata(taskheader,'taskheader')
      $.log(`[${jsname}] 获取taskheader请求🎉: 成功,taskheader: ${taskheader}`)
