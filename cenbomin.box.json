@@ -55,5 +55,31 @@
 		"icons": ["hhttps://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/AutoRead.png",
 			"https://raw.githubusercontent.com/58xinian/icon/master/chsp.png"
 		]
+	},{
+		"id": "txstockapp",
+		"name": "腾旭自选股",
+		"keys": ["signheader", "signkey", "taskheader", "taskkey", "logbutton", "tzbutton"],
+		"settings": [
+			{
+				"id": "logbutton",
+				"name": "日志开关",
+				"val": "",
+				"type": "number",
+				"desc": "0为关闭日志，1为开启，默认为关闭日志"
+			}
+      ,
+			{
+				"id": "tzbutton",
+				"name": "安静开关",
+				"val": "",
+				"type": "number",
+				"desc": "0为关闭通知，1为所有通知，默认为关闭通知"
+			}
+		],
+		"author": "@cenbomin",
+		"repo": ["https://raw.githubusercontent.com/CenBoMin/GithubSync"],
+		"script": "",
+		"icons": [""
+		]
 	}]
 }

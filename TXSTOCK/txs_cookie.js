@@ -13,15 +13,15 @@ if($request&&$request.url.indexOf("action=signdone")>=0) {
      $.msg(`获取signkey: 成功🎉`, ``)
 }
 
-if($request&&$request.url.indexOf("action=taskticket")>=0) {
-   const taskheader = $request.url.split('https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskticket&channel=1&actid=1101')[1];
+if($request&&$request.url.indexOf("ad_type=curtain")>=0) {
+   const taskheader = $request.url.split('&_appName=ios')[1];
      if (taskheader) $.setdata(taskheader,'taskheader')
      $.log(`[${jsname}] 获取taskheader请求🎉: 成功,taskheader: ${taskheader}`)
-     $.msg(`获取signheader: 成功🎉`, ``)
+     $.msg(`获取taskheader: 成功🎉`, ``)
      const taskkey = JSON.stringify($request.headers)
      if (taskkey) $.setdata(taskkey, 'taskkey')
      $.log(`[${jsname}] 获取taskkey请求: 成功🎉,taskkey: ${taskkey}`)
-     $.msg(`获取signkey: 成功🎉`, ``)
+     $.msg(`获取taskkey: 成功🎉`, ``)
 }
 
 
