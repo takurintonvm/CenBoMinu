@@ -1,42 +1,10 @@
-//中青姐妹作:葱花视频，修改原中青阅读脚本，使用方法和阅读一样,抓body执行脚本 20201216
-
-/*
-# 葱花视频
-==============================================
-成功的话请打开App-我的，帮我填下邀请码助力下：261880
-==============================================
-## 1.重写引用：
-;到配置文件找到[rewrite_remote]贴代码：
-
-;视频body获取
-https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/GetBody.conf, tag=Getbody_CONGHUA, update-interval=86400, opt-parser=false, enabled=true
-
-## 2.定时任务：
-;到配置文件找到[task_local]贴代码：
-
-
-;自动阅读任务 corn自己看body数自己设置
-10 0-23 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/AutoRead.js, tag=葱花视频, enabled=true
-
-## 3.食用方法：
-
-1.到[重写]-[引用],启动Getbody_CONGHUA,获取视频body
-
-视频请求body:看视频到获取金币奖励,通知提示body1
-
-4.手动执行一次定时脚本-”葱花视频”,是不是运行正常
-
-5.获取更多的body,目前不知道body有没有极限..等待测试一天看看
-
-*/
-
-
-
 let s = 30000 //等待延迟30s
 const $ = new Env("葱花视频")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let readbodyArr = [], readbodyVal = "", readscore = 0;
-let bodys = $.getdata("chgetbody_video");
+let bodys = $.getdata("videobody");
+const videoheaderArr = []
+let videoheader = $.getdata('videoheader')
 
 if (!(bodys && bodys != '')) {
   $.msg("", "", '请先观看视频获取body\nbody获取越多，脚本可获得金币越多')
@@ -49,7 +17,7 @@ Object.keys(readbodyVal).forEach((item) => {
     readbodyArr.push(readbodyVal[item])
   }
 })
-let indexLast = $.getdata('chgetbody_video_index');
+let indexLast = $.getdata('videobody_index');
 $.begin = indexLast ? parseInt(indexLast,10) : 1;
 console.log(`脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()} \n`)
 console.log(`脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  \n`)
@@ -64,7 +32,7 @@ console.log(`脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() 
 
   //$.msg("", "", '🥦 新脚本已经完成,详情请看log')
 
-  $.log("", "", '🥦 新脚本已经完成,增加时段奖励，分享奖励...请前往https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/chonghua.js查看')
+  //$.log("", "", '🥦 新脚本已经完成,增加时段奖励，分享奖励...请前往https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/chonghua.js查看')
   $.msg('', '', `🥦 葱花视频body数：${readbodyArr.length}个\n上次执行到第${$.begin}个\n预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}个小时`)
   $.index = 0;
   for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
@@ -85,23 +53,21 @@ function AutoRead() {
 
   return new Promise((resolve, reject) => {
     let url = {
-      url: `https://app.kxp.com/video/v1/video/complete`,
-      headers: {
-        'User-Agent': 'cong hua shi pin/1.4.4 (iPhone; iOS 14.1; Scale/2.00)'
-      },
+      url: `https://veishop.iboxpay.com/nf_gateway/nf_customer_activity/day_cash/v1/give_gold_coin_by_video.json`,
+      headers: JSON.parse(videoheader),
       body: readbody
     };
     $.post(url, async (error, response, data) => {
       $.begin=$.begin+1;
       let res=$.begin%readbodyArr.length
-      $.setdata(res+"", 'chgetbody_video_index');
+      $.setdata(res+"", 'videobody_index');
       let readres = JSON.parse(data);
-      if (readres.code == '100006') {
-        console.log(`第${$.index}次-获取金币已达上限🥺,明日在来！`)
+      if (readres.resultCode == 1) {
+        $.log(`【本次阅读】：${readres.data.goldCoinNumber}个金币🏅`);
       }
-      else if (typeof readres.data.score === 'number') {
-      console.log(`\n本次阅读获得${readres.data.score}个金币🏅，请等待30s后执行下一次阅读\n`);
-      readscore += readres.data.score;
+      else {
+      message += '⚠️异常' + readres.errorDesc + '\n'
+      readscore += readres.data.goldCoinNumber;
       await $.wait(60000);
       }
 
