@@ -17,17 +17,10 @@
 # 模拟炒股周赛奖励 688 星期天登录模拟炒股(微信/app)
 # 签到惊喜奖励
 
-**** 重写引用 ****
-https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/GetBody.conf
-
-**** 定时任务 ****
-30 * * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/chonghua.js
-
-**** 食用方法 ****
-1.到[重写]-[引用],启动重写抓取cookie
-taskheader：打开app- 立即获取
-taskkey：点击左上头像-我的福利-点击获取
-
+//!!!:
+#说明请手动运行一次脚本,在log...
+#脚本一天只运行一次,本脚本还未加任何防呆机制,运行二次以上必然黑号...
+#且用且珍惜,更新无限期。
 
 */
 const jsname = '腾讯自选股'
@@ -580,7 +573,16 @@ function formatDateTime(inputTime) {
 };
 
 function show(){
-  console.log(`服务器访问数据为空，请检查自身设备网络情况`);
+  console.log(`
+  **** 重写引用 ****\n
+  https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf\n
+  **** 定时任务 ****\n
+  0 8 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js\n
+  **** 食用方法 ****\n
+  1.到[重写]-[引用],启动重写抓取cookie\n
+  taskheader：打开app- 立即获取\n
+  taskkey：点击左上头像-我的福利-点击获取\n
+  `);
 
 }
 
