@@ -12,13 +12,29 @@
 # 自动提现，票据与提现链接
 # 签到模块
 # 微信小程序模块
+# 金币查询
 
 // ？？？:
 # 模拟炒股周赛奖励 688 星期天登录模拟炒股(微信/app)
 # 签到惊喜奖励
 
 //!!!:
-#说明请手动运行一次脚本,在log...
+#运行脚本前请先下载app,登录。。。手动完成成长任务,有钱
+#8.8打卡任务也手动做,建议只打卡4个成功即可,第5个基本拿不到
+#微信小程序-腾讯自选股和app的日常任务是分开的,毛比较少,手动做吧！
+复制以下链接,贴上微信点击帮我助力(应该可以)
+https://zqact.tenpay.com/mp/v2/index.html#/account/center?isfrom=invite&act_id=13&act_tid=26&act_actid=1100&stat_data=osz92p00qb187&actid=1100&invite_code=vxPmuxa5b4&__share_flag__=1
+
+**** 重写引用 ****
+https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf
+**** 定时任务 ****
+0 8 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js
+**** 食用方法 ****
+到[重写]-[引用],启动重写抓取cookie
+taskheader：打开app- 立即获取
+taskkey：点击左上头像-我的福利-点击获取
+务必关闭重写引用执行脚本
+
 #脚本一天只运行一次,本脚本还未加任何防呆机制,运行二次以上必然黑号...
 #且用且珍惜,更新无限期。
 
@@ -97,7 +113,6 @@ if ($.isNode()) {
   //await signtask();
   if (!taskheaderArr[0]) {
     console.log($.name, '【提示】请先前往获取任务cookie')
-    await show();
     return;
   }
   console.log(`\n✅ 执行【App】日常任务\n`)
@@ -571,20 +586,6 @@ function formatDateTime(inputTime) {
   second = second < 10 ? ('0' + second) : second;
   return y + m + d;
 };
-
-function show(){
-  console.log(`
-  **** 重写引用 ****\n
-  https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf\n
-  **** 定时任务 ****\n
-  0 8 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js\n
-  **** 食用方法 ****\n
-  1.到[重写]-[引用],启动重写抓取cookie\n
-  taskheader：打开app- 立即获取\n
-  taskkey：点击左上头像-我的福利-点击获取\n
-  `);
-
-}
 
 function Env(t, e) {
   class s {
