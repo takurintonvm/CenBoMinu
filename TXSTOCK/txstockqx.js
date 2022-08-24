@@ -124,7 +124,7 @@ if ($.isNode()) {
   await task6();
   //await task7();//猜涨跌任务前置条件测试
   await task8();
-  await task9();
+  //await task9();//模拟炒股出错
   //await wxtask();
   await showmsg();
 })()
