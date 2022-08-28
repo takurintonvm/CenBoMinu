@@ -19,6 +19,8 @@
 # 签到惊喜奖励
 
 //!!!:
+【BOXJS】：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json
+
 #运行脚本前请先下载app,登录。。。手动完成成长任务,有钱
 #8.8打卡任务也手动做,建议只打卡4个成功即可,第5个基本拿不到
 #微信小程序-腾讯自选股和app的日常任务是分开的,毛比较少,手动做吧！
