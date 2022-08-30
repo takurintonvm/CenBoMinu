@@ -126,7 +126,7 @@ if ($.isNode()) {
   await task6();
   //await task7();//猜涨跌任务前置条件测试
   await task8();
-  //await task9();//模拟炒股出错
+  await task9();//模拟炒股出错
   //await wxtask();
   await showmsg();
 })()
@@ -493,7 +493,7 @@ function taskid4(ticket) {
 function taskid6(ticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
-      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?channel=1&gameid=190&type=3&scenes=8&qluin=oA0GbjkyYDAZfHok5p9Pv4Pcyuzo&qlskey=v0aaf63c2225fedd8236119c325aef09&action=taskdone&actid=1101&tid=13&id=6&task_ticket=${ticket}&_appName=ios${taskheaderVal}`,
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1101&tid=13&id=6&task_ticket=${ticket}&_appName=ios${taskheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${taskkeyVal}`,
