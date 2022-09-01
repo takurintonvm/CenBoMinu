@@ -534,7 +534,7 @@ function taskticket() {
       },
     }
     $.get(testurl, async (error, resp, data) => {
-      $.log("test3log:" + data + "\n")
+      if (logs == 1) $.log(data)
       let test2 = JSON.parse(data)
       $.log(`本次验证时间🕐：` + time(rndtime));
       $.log(`本次验证票据🎫：${test2.task_ticket}\n`);
