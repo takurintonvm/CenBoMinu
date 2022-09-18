@@ -7,12 +7,13 @@
  ╰╯ ╰╯╰╯╰┉┉╯ ╰╯ ╰┉┉╯╰┉┉╯╰╯╰╯
 
 // TODO:
-# 猜涨跌任务的前置条件
-# 测试猜涨跌分享奖励
-# 自动提现，票据与提现链接
-# 签到模块
-# 微信小程序模块
-# 金币查询
+# 任务状态确认测试 1/13
+# 猜涨跌任务的前置条件 1/14
+# 测试猜涨跌分享奖励 1/14
+# 自动提现，票据与提现链接 1月底前
+# 签到模块 1/14
+# 微信小程序模块 ？？？
+# 金币查询 1/15-16
 
 // ？？？:
 # 模拟炒股周赛奖励 688 星期天登录模拟炒股(微信/app)
@@ -37,7 +38,7 @@ taskheader：打开app- 立即获取
 taskkey：点击左上头像-我的福利-点击获取
 务必关闭重写引用执行脚本
 
-#脚本一天只运行一次,本脚本还未加任何防呆机制,运行二次以上必然黑号...
+#脚本一天只运行一次,本脚本还未加任何防呆机制,避免运行二次以上...
 #且用且珍惜,更新无限期。
 
 */
@@ -118,7 +119,7 @@ if ($.isNode()) {
     return;
   }
   console.log(`\n✅ 执行【App】日常任务\n`)
-  await task1();
+  await task1(statuid2);
   await task2();
   await task3();
   await task4();
@@ -126,7 +127,7 @@ if ($.isNode()) {
   await task6();
   //await task7();//猜涨跌任务前置条件测试
   await task8();
-  await task9();//模拟炒股出错
+  await task9(); //模拟炒股
   //await wxtask();
   await showmsg();
 })()
@@ -177,65 +178,69 @@ async function signtask() {
   });
 }
 
-
-async function task1() {
+async function task1(statuid2) {
+  console.log(`\n✅检查任务状态-防呆机制测试,任务无法执行请手动做\n`)
+  if (statuid2.done === 0) {
     console.log(`\n✅开始申请票据\n`)
     await taskticket(); //申请票据
     console.log(`\n✅ 执行【股票添加到自选】任务\n`)
     await taskid2(ticket);
+  } else {
+    console.log(`\n✅ 【股票添加到自选】:已完成\n`)
   }
+}
 async function task2() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【阅读资讯】任务\n`)
-    await taskid1(ticket);
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【阅读资讯】任务\n`)
+  await taskid1(ticket);
+}
 async function task3() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【分享股票行情】任务\n`)
-    await taskid12(ticket);
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【分享股票行情】任务\n`)
+  await taskid12(ticket);
+}
 async function task4() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【分享福利中心】任务\n`)
-    await taskid11(ticket);
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【分享福利中心】任务\n`)
+  await taskid11(ticket);
+}
 async function task5() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【分享一篇资讯】任务\n`)
-    await taskid14(ticket);
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【分享一篇资讯】任务\n`)
+  await taskid14(ticket);
+}
 async function task6() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【分享一篇社区帖子】任务\n`)
-    await taskid15(ticket);
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【分享一篇社区帖子】任务\n`)
+  await taskid15(ticket);
+}
 async function task7() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【完成猜涨跌】任务\n`)
-    await taskid3(ticket);
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【猜涨跌分享】任务\n`)
-    await taskshare(ticket)
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【完成猜涨跌】任务\n`)
+  await taskid3(ticket);
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【猜涨跌分享】任务\n`)
+  await taskshare(ticket)
+}
 async function task8() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【点赞一条社区评论】任务\n`)
-    await taskid4(ticket);
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【点赞一条社区评论】任务\n`)
+  await taskid4(ticket);
+}
 async function task9() {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【模拟炒股交易一笔】任务\n`)
-    await taskid6(ticket);
-  }
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【模拟炒股交易一笔】任务\n`)
+  await taskid6(ticket);
+}
 
 
 async function wxtask() {}
@@ -269,8 +274,6 @@ function taskshare(ticket) {
   })
 }
 //添加股票到自选
-function wxtaskid2() {}
-
 function taskid2(ticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -297,7 +300,29 @@ function taskid2(ticket) {
     })
   })
 }
-
+function statuid2() {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://zqact.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&actid=1101&id=2&tid=2&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      let statuid2 = JSON.parse(data)
+      resolve()
+    })
+  })
+}
 //阅读一篇资讯
 function taskid1(ticket) {
   return new Promise((resolve, reject) => {
@@ -379,8 +404,6 @@ function taskid11(ticket) {
     })
   })
 }
-
-
 //分享一篇资讯
 function taskid14(ticket) {
   return new Promise((resolve, reject) => {
