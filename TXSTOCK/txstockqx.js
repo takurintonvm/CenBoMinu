@@ -119,7 +119,7 @@ if ($.isNode()) {
     return;
   }
   console.log(`\n✅ 执行【App】日常任务\n`)
-  await task1(statuid2);
+  await task1(statuid2);//测试任务状态
   await task2();
   await task3();
   await task4();
