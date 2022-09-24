@@ -26,7 +26,7 @@
 #8.8打卡任务也手动做,建议只打卡4个成功即可,第5个基本拿不到
 #微信小程序-腾讯自选股和app的日常任务是分开的,毛比较少,手动做吧！
 复制以下链接,贴上微信点击帮我助力(应该可以)
-https://zqact.tenpay.com/mp/v2/index.html#/account/center?isfrom=invite&act_id=13&act_tid=26&act_actid=1100&stat_data=osz92p00qb187&actid=1100&invite_code=vxPmuxa5b4&__share_flag__=1
+https://zqact01.tenpay.com/activity/page/200814appInvite/#/new?stat_data=Ovy34p00pn019&invite_code=i02Fvx18dc&nick_name=%E9%99%88%E6%9F%8F%E9%8A%98&head_url=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FQ0j4TwGTfTLWqFtqq3JGenAvqEnZhiazoeCicjicAZhEiaCib1LqSCHtC8sPLbG52YiajLZh8VRkY8bWu0uu24AKjgfA%2F132
 
 **** 重写引用 ****
 https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf
