@@ -7,13 +7,13 @@
  ╰╯ ╰╯╰╯╰┉┉╯ ╰╯ ╰┉┉╯╰┉┉╯╰╯╰╯
 
 // TODO:
-# 任务状态确认测试 1/13
-# 猜涨跌任务的前置条件 1/14
-# 测试猜涨跌分享奖励 1/14
-# 自动提现，票据与提现链接 1月底前
-# 签到模块 1/14
+# 任务状态确认测试 check！
+# 猜涨跌任务的前置条件
+# 测试猜涨跌分享奖励
+# 自动提现，票据与提现链接
+# 签到模块
 # 微信小程序模块 ？？？
-# 金币查询 1/15-16
+# 金币查询
 
 // ？？？:
 # 模拟炒股周赛奖励 688 星期天登录模拟炒股(微信/app)
@@ -180,6 +180,7 @@ async function signtask() {
 
 async function task1(statuid2) {
   console.log(`\n✅检查任务状态-防呆机制测试,任务无法执行请手动做\n`)
+    await statuid2()
   if (statuid2.done === 0) {
     console.log(`\n✅开始申请票据\n`)
     await taskticket(); //申请票据
@@ -319,6 +320,11 @@ function statuid2() {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let statuid2 = JSON.parse(data)
+      if(statuid2.done===1){
+        $.log(`验证状态失败`);
+      }else{
+        $.log(`验证状态成功`);
+      }
       resolve()
     })
   })
