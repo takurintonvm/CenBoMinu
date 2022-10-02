@@ -5,42 +5,7 @@
  ┋┋ ╭╯╰╮╰┉╮┋ ┋┋ ┋┋┋┋┋┋  ┋ ╰╮
  ┋┋ ┋╭╮┋╭┉╯┋ ┋┋ ┋╰╯┋┋╰┉╮┋╭╮┋
  ╰╯ ╰╯╰╯╰┉┉╯ ╰╯ ╰┉┉╯╰┉┉╯╰╯╰╯
-
-// TODO:
-# 任务状态确认测试 check！
-# 猜涨跌任务的前置条件
-# 测试猜涨跌分享奖励
-# 自动提现，票据与提现链接
-# 签到模块
-# 微信小程序模块 ？？？
-# 金币查询
-
-// ？？？:
-# 模拟炒股周赛奖励 688 星期天登录模拟炒股(微信/app)
-# 签到惊喜奖励
-
-//!!!:
-【BOXJS】：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json
-
-#运行脚本前请先下载app,登录。。。手动完成成长任务,有钱
-#8.8打卡任务也手动做,建议只打卡4个成功即可,第5个基本拿不到
-#微信小程序-腾讯自选股和app的日常任务是分开的,毛比较少,手动做吧！
-复制以下链接,贴上微信点击帮我助力(应该可以)
-https://zqact01.tenpay.com/activity/page/200814appInvite/#/new?stat_data=Ovy34p00pn019&invite_code=i02Fvx18dc&nick_name=%E9%99%88%E6%9F%8F%E9%8A%98&head_url=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FQ0j4TwGTfTLWqFtqq3JGenAvqEnZhiazoeCicjicAZhEiaCib1LqSCHtC8sPLbG52YiajLZh8VRkY8bWu0uu24AKjgfA%2F132
-
-**** 重写引用 ****
-https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf
-**** 定时任务 ****
-0 8 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js
-**** 食用方法 ****
-到[重写]-[引用],启动重写抓取cookie
-taskheader：打开app- 立即获取
-taskkey：点击左上头像-我的福利-点击获取
-务必关闭重写引用执行脚本
-
-#脚本一天只运行一次,本脚本还未加任何防呆机制,避免运行二次以上...
-#且用且珍惜,更新无限期。
-
+see you later...
 */
 const jsname = '腾讯自选股'
 const $ = Env(jsname)
