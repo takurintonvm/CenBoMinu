@@ -6,7 +6,7 @@
  ┋┋ ┋╭╮┋╭┉╯┋ ┋┋ ┋╰╯┋┋╰┉╮┋╭╮┋
  ╰╯ ╰╯╰╯╰┉┉╯ ╰╯ ╰┉┉╯╰┉┉╯╰╯╰╯
 // TODO:
-# 任务状态确认测试 1/13
+# 任务状态确认测试 1/13 股票添加到自选任务暂时手动做
 # 猜涨跌任务的前置条件 1/14
 # 测试猜涨跌分享奖励 1/14
 # 自动提现，票据与提现链接 1月底前
@@ -24,7 +24,7 @@
 #运行脚本前请先下载app,登录。。。手动完成成长任务,有钱
 #8.8打卡任务也手动做,建议只打卡4个成功即可,第5个基本拿不到
 #微信小程序-腾讯自选股和app的日常任务是分开的,毛比较少,手动做吧！
-复制以下链接,贴上微信点击帮我助力(应该可以)
+点以下链接,到微信帮我助力(应该可以)
 https://zqact01.tenpay.com/activity/page/200814appInvite/#/new?stat_data=Ovy34p00pn019&invite_code=i02Fvx18dc&nick_name=%E9%99%88%E6%9F%8F%E9%8A%98&head_url=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FQ0j4TwGTfTLWqFtqq3JGenAvqEnZhiazoeCicjicAZhEiaCib1LqSCHtC8sPLbG52YiajLZh8VRkY8bWu0uu24AKjgfA%2F132
 
 **** 重写引用 ****
