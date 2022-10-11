@@ -43,7 +43,7 @@ taskkey：点击左上头像-我的福利-点击获取
 */
 const jsname = '腾讯自选股'
 const $ = Env(jsname)
-const logs = $.getdata('logbutton'); //0为关闭日志，1为开启,默认为0
+const logs = 0; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
 
 let rndtime = Math.round(new Date().getTime())
@@ -118,7 +118,7 @@ if ($.isNode()) {
     return;
   }
   console.log(`\n✅ 执行【App】日常任务\n`)
-  //await task1(statuid2);//测试任务状态
+  await task1();
   await task2();
   await task3();
   await task4();
@@ -177,17 +177,11 @@ async function signtask() {
   });
 }
 
-async function task1(statuid2) {
-  console.log(`\n✅检查任务状态-防呆机制测试,任务无法执行请手动做\n`)
-    await statuid2()
-  if (statuid2.done === 0) {
-    console.log(`\n✅开始申请票据\n`)
-    await taskticket(); //申请票据
-    console.log(`\n✅ 执行【股票添加到自选】任务\n`)
-    await taskid2(ticket);
-  } else {
-    console.log(`\n✅ 【股票添加到自选】:已完成\n`)
-  }
+async function task1() {
+  console.log(`\n✅开始申请票据\n`)
+  await taskticket(); //申请票据
+  console.log(`\n✅ 执行【股票添加到自选】任务\n`)
+  await taskid2(ticket);
 }
 async function task2() {
   console.log(`\n✅开始申请票据\n`)
