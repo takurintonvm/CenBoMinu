@@ -232,7 +232,7 @@ async function wxtask() {}
 function taskshare(ticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
-      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1101&tid=18&id=1&task_ticket=${ticket}&_appName=ios${taskheader}`,
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1101&tid=18&id=1&task_ticket=${ticket}&_appName=ios${taskheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${taskkey}`,
@@ -546,7 +546,7 @@ function taskticket() {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let test2 = JSON.parse(data)
-      $.log(`本次验证时间🕐：` + time(rndtime));
+      $.log(`本次验证时间🕐：`+time(rndtime));
       $.log(`本次验证票据🎫：${test2.task_ticket}\n`);
       ticket = test2.task_ticket
       //tz += `【现金余额】：¥ ${task.data.activity_money.money}元\n`
