@@ -13,6 +13,18 @@ if($request&&$request.url.indexOf("action=signdone")>=0) {
      $.msg(`获取signkey: 成功🎉`, ``)
 }
 
+//金币查询
+if($request&&$request.url.indexOf("type=app_new_user")>=0) {
+   const userheader = $request.url.split('&openid')[1];
+     if (userheader) $.setdata(userheader,'userheader')
+     $.log(`[${jsname}] 获取usertask请求🎉: 成功,userheader: ${userheader}`)
+     $.msg(`获取userheader: 成功🎉`, ``)
+     const userkey = $request.headers['Cookie']
+     if (userkey) $.setdata(userkey, 'userkey')
+     $.log(`[${jsname}] 获取userkey请求: 成功🎉,userkey: ${userkey}`)
+     $.msg(`获取userkey: 成功🎉`, ``)
+}
+
 //App任务
 if($request&&$request.url.indexOf("app_daily_task_config_utf8.json")>=0) {
    const taskheader = $request.url.split('&_appName=ios')[1];
