@@ -14,8 +14,8 @@ if($request&&$request.url.indexOf("action=signdone")>=0) {
 }
 
 //金币查询
-if($request&&$request.url.indexOf("type=app_new_user")>=0) {
-   const userheader = $request.url.split('&openid')[1];
+if($request&&$request.url.indexOf("activity_usercenter")>=0) {
+   const userheader = $request.url.split('g_openid=')[1];
      if (userheader) $.setdata(userheader,'userheader')
      $.log(`[${jsname}] 获取usertask请求🎉: 成功,userheader: ${userheader}`)
      $.msg(`获取userheader: 成功🎉`, ``)
