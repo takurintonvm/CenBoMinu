@@ -235,7 +235,7 @@ function taskshare(ticket) {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1101&tid=18&id=1&task_ticket=${ticket}&_appName=ios${taskheaderVal}`,
       body: ``,
       headers: {
-        'Cookie': `${taskkey}`,
+        'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
         'Connection': `keep-alive`,
         'Referer': `http://zixuanguapp.finance.qq.com`,
@@ -285,7 +285,7 @@ function taskid2(ticket) {
 function statuid2() {
   return new Promise((resolve, reject) => {
     let testurl = {
-      url: `https://zqact.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&actid=1101&id=2&tid=2&_appName=ios${taskheaderVal}`,
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&actid=1101&id=2&tid=2&_appName=ios${taskheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${taskkeyVal}`,
