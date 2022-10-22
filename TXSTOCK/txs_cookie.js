@@ -1,13 +1,13 @@
 const jsname='腾旭自选股'
 const $ = Env(jsname)
 
-//签到
-if($request&&$request.url.indexOf("action=signdone")>=0) {
+//签到，猜涨跌
+if($request&&$request.url.indexOf("markets=1")>=0) {
    const signheader = $request.url.split('openid=')[1];
      if (signheader) $.setdata(signheader,'signheader')
      $.log(`[${jsname}] 获取signtask请求🎉: 成功,signheader: ${signheader}`)
      $.msg(`获取signheader: 成功🎉`, ``)
-     const signkey = JSON.stringify($request.headers)
+const signkey = $request.headers['Cookie']
      if (signkey) $.setdata(signkey, 'signkey')
      $.log(`[${jsname}] 获取signkey请求: 成功🎉,signkey: ${signkey}`)
      $.msg(`获取signkey: 成功🎉`, ``)
@@ -25,6 +25,8 @@ if($request&&$request.url.indexOf("activity_usercenter")>=0) {
      $.msg(`获取userkey: 成功🎉`, ``)
 }
 
+
+
 //App任务
 if($request&&$request.url.indexOf("app_daily_task_config_utf8.json")>=0) {
    const taskheader = $request.url.split('&_appName=ios')[1];
@@ -38,6 +40,16 @@ if($request&&$request.url.indexOf("welwareCenter")>=0) {
      if (taskkey) $.setdata(taskkey, 'taskkey')
      $.log(`[${jsname}] 获取taskkey请求: 成功🎉,taskkey: ${taskkey}`)
      $.msg(`获取taskkey: 成功🎉`, ``)
+}
+
+
+//微信任务
+
+if($request&&$request.url.indexOf("action=hs_plate")>=0) {
+     const taskkey = $request.headers['Cookie']
+     if (taskkey) $.setdata(taskkey, 'taskkey')
+     $.log(`[${jsname}] 获取wxtaskkey请求: 成功🎉,wxtaskkey: ${wxtaskkey}`)
+     $.msg(`获取wxtaskkey: 成功🎉`, ``)
 }
 
 
