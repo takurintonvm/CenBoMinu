@@ -58,7 +58,7 @@
 	},{
 		"id": "txstockapp",
 		"name": "腾旭自选股",
-		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "logbutton"],
+		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "wxtaskkey","logbutton"],
 		"settings": [
 			{
 				"id": "logbutton",
