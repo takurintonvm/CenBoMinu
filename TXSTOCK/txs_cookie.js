@@ -45,9 +45,9 @@ if($request&&$request.url.indexOf("welwareCenter")>=0) {
 
 //微信任务
 
-if($request&&$request.url.indexOf("action=hs_plate")>=0) {
-     const taskkey = $request.headers['Cookie']
-     if (taskkey) $.setdata(taskkey, 'taskkey')
+if($request&&$request.url.indexOf("redpoint.fcgi")>=0) {
+     const wxtaskkey = $request.headers['Cookie']
+     if (wxtaskkey) $.setdata(wxtaskkey, 'wxtaskkey')
      $.log(`[${jsname}] 获取wxtaskkey请求: 成功🎉,wxtaskkey: ${wxtaskkey}`)
      $.msg(`获取wxtaskkey: 成功🎉`, ``)
 }
