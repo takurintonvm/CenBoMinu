@@ -618,16 +618,16 @@ async function task9() {
 
 }
 async function wxtask9() {
-  console.log(`开始验证【模拟炒股交易一笔】任务状态`)
+  console.log(`开始验证【WX模拟炒股交易一笔】任务状态`)
   await wxstatuid6()
   if (wxstatuid6.done == 0) {
     console.log(`开始申请票据...`)
     await wxtaskticket(); //申请票据
-    console.log(`执行【模拟炒股交易一笔】任务`)
+    console.log(`执行【WX模拟炒股交易一笔】任务`)
     await wxtaskid6(wxticket);
   } else {
     console.log(`准备执行下一个任务...`)
-    tz += `【模拟炒股】:已执行\n`
+    tz += `【WX模拟炒股】:已执行\n`
   }
 
 }
