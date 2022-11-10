@@ -421,7 +421,7 @@ async function task2() {
 async function wxtask2() {
   console.log(`开始验证【WX阅读资讯】任务状态`)
   await wxstatuid1()
-  if (wxstatuid6.done == 0) {
+  if (wxstatuid1.done == 0) {
     console.log(`开始申请票据...`)
     await wxtaskticket(); //申请票据
     console.log(`执行【WX阅读资讯】任务`)
