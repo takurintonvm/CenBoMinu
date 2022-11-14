@@ -47,7 +47,7 @@ wxtaskkey:进入微信小程序,做一个任务就可以获取,不行就在做�
 # 周一抢牛活动：周一登录抢牛活动页面（app）
 
 // TODO:
-# 猜涨跌任务的前置条件  2为跌
+# 猜涨跌任务的前置条件 2为跌
 # 自动提现测试 item_id
 
 */
@@ -306,8 +306,13 @@ function guessop() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`【猜涨跌每日礼包】:获得 ${data.reward_desc}`);
-            tz += `【猜涨跌每日礼包】:获得 ${data.reward_desc}\n`
+            if(retcode==0){
+              $.log(`【自动猜涨跌】:成功🎉\n`);
+              tz += `【自动猜涨跌】:成功🎉\n`
+            }else{
+              console.log(`任务完成失败，错误信息：${JSON.stringify(data)}\n`)
+              tz += `【自动猜涨跌】:${data.retmsg}\n`
+            }
           }
         }
       } catch (e) {
@@ -345,12 +350,12 @@ function guessred() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if(retcode==51091004){
-              $.log(`【猜涨跌每日礼包】:${data.retmsg}`);
-              tz += `【猜涨跌每日礼包】:${data.retmsg}\n`
+            if(retcode==0){
+              $.log(`【猜涨跌每日礼包】:获得 ${data.reward_desc}`);
+              tz += `【猜涨跌每日礼包】:获得 ${data.reward_desc}\n`
             }else{
-              $.log(`【猜涨跌每日礼包】:获得 ${data.reward_value}`);
-              tz += `【猜涨跌每日礼包】:获得 ${data.reward_value}\n`
+              console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
+              tz += `【猜涨跌每日礼包】:${data.retmsg}\n`
             }
           }
         }
