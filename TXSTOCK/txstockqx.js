@@ -306,7 +306,7 @@ function guessop() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if(retcode==0){
+            if(data.retcode==0){
               $.log(`【自动猜涨跌】:成功🎉\n`);
               tz += `【自动猜涨跌】:成功🎉\n`
             }else{
@@ -350,7 +350,7 @@ function guessred() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if(retcode==0){
+            if(data.retcode==0){
               $.log(`【猜涨跌每日礼包】:获得 ${data.reward_desc}`);
               tz += `【猜涨跌每日礼包】:获得 ${data.reward_desc}\n`
             }else{
@@ -551,6 +551,8 @@ async function task7() {
   if (statuid3.done == 0) {
     console.log(`开始自动猜涨跌...`)
     await guessop()
+    console.log(`开始申请票据...`)
+    await taskticket(); //申请票据
     console.log(`执行【猜涨跌分享】任务`)
     await taskshare(ticket)
     console.log(`执行【猜涨跌每日礼包】任务`)
@@ -559,8 +561,6 @@ async function task7() {
     await taskticket(); //申请票据
     console.log(`执行【完成猜涨跌】任务`)
     await taskid3(ticket);
-    console.log(`开始申请票据...`)
-    await taskticket(); //申请票据
   } else {
     console.log(`准备执行下一个任务...\n`)
     tz += `【猜涨跌活动】:已执行\n`
