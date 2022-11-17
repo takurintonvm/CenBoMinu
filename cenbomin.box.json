@@ -58,14 +58,29 @@
 	},{
 		"id": "txstockapp",
 		"name": "腾旭自选股",
-		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "wxtaskkey","logbutton"],
+		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "wxtaskkey","cash","opencashid","item_id"],
 		"settings": [
 			{
-				"id": "logbutton",
-				"name": "日志开关",
+				"id": "cash",
+				"name": "提现开关:0为不自动提现,1为自动提现",
 				"val": "",
 				"type": "number",
-				"desc": "0为关闭日志，1为开启，默认为关闭日志"
+				"desc": "默认为0"
+			}
+			,
+			{
+				"id": "item_id",
+				"name": "item_id:利用查询功能,执行脚本查询1元或者5元的提现ID",
+				"val": "",
+				"type": "text",
+				"desc": "输入才可自动提现!!没有请关闭"
+			}
+			,
+			{
+				"id": "opencashid",
+				"name": "慎用此查询提现id功能:开启填1,默认为0关闭！查询之后请立即关闭！危险！",
+				"val": "",
+				"type": "number",
 			}
 		],
 		"author": "@cenbomin",
