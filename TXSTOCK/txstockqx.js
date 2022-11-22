@@ -35,7 +35,7 @@ signkey：禁用获取cookie重写,重新打开app,点击左上头像-进入,等
 ！！！！！微信和app重写有冲突,不能两个同时开
 ！！！！！必须先关闭app重写,在加入微信小程序重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,启用之后就可以去微信小程序做任务获取cookie
 
-wxtaskkey:进入微信小程序,做一个任务就可以获取,不行就在做下一个,社区或者分享型任务先试试
+wxtaskkey:进入微信小程序,点资讯页面就能获取到
 
 ！！！！！获取完cookie,务必关闭重写引用
 
@@ -154,8 +154,8 @@ if ($.isNode()) {
   wxtaskkeyVal = wxtaskkeyArr[0];
   console.log(`\n✅ 查询目前账户金币\n`)
   await userhome(); //金币查询
-  console.log(`\n✅ 执行【签到】任务\n`)
-  await signtask();
+  //console.log(`\n✅ 执行【签到】任务\n`)
+  //await signtask();
   if (!taskheaderArr[0]) {
     console.log($.name, '【提示】请先前往获取任务cookie')
     return;
