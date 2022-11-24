@@ -35,7 +35,7 @@ signkey：禁用获取cookie重写,重新打开app,点击左上头像-进入,等
 ！！！！！微信和app重写有冲突,不能两个同时开
 ！！！！！必须先关闭app重写,在加入微信小程序重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,启用之后就可以去微信小程序做任务获取cookie
 
-wxtaskkey:进入微信小程序,点资讯页面就能获取到
+wxtaskkey:进入微信小程序,做一个任务就可以获取,不行就在做下一个,社区或者分享型任务先试试
 
 ！！！！！获取完cookie,务必关闭重写引用
 
@@ -46,20 +46,18 @@ wxtaskkey:进入微信小程序,点资讯页面就能获取到
 # 模拟炒股周赛奖励：星期天登录模拟炒股(微信/app)
 # 周一抢牛活动：周一登录抢牛活动页面（app）
 
-// TODO:
-# 猜涨跌任务的前置条件 2为跌
-# 自动提现测试 item_id
-
 */
 const jsname = '腾讯自选股'
 const $ = Env(jsname)
-const logs = 0; //0为关闭日志，1为开启,默认为0
+const logs = 1; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
 
 let rndtime = Math.round(new Date().getTime()) //毫秒
 let signday = formatDateTime(new Date());
 let tz = '';
-var cash = 2 //0为不自动提现,2为提现1元
+let cash = $.getval('cash') || 0; //0为不自动提现,1为自动提现
+let opencashid = $.getval('opencashid') || 0; //查询提现id！慎用!!
+let item_id = $.getdata('item_id')
 
 const userheaderArr = [];
 let userheaderVal = "";
@@ -154,8 +152,8 @@ if ($.isNode()) {
   wxtaskkeyVal = wxtaskkeyArr[0];
   console.log(`\n✅ 查询目前账户金币\n`)
   await userhome(); //金币查询
-  //console.log(`\n✅ 执行【签到】任务\n`)
-  //await signtask();
+  console.log(`\n✅ 执行【签到】任务\n`)
+  await signtask();
   if (!taskheaderArr[0]) {
     console.log($.name, '【提示】请先前往获取任务cookie')
     return;
@@ -182,8 +180,9 @@ if ($.isNode()) {
   await wxtask9();
   await wxtask10();
   await wxtask11();
-  //await cashorder(cash, money);//自动提现测试
-  await showmsg();
+  await cashorder(cash, money);
+  await getcashid();
+
 })()
 .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -199,7 +198,40 @@ function showmsg() {
   }
 }
 ///////////////////////////////////////////////////////////////////
-
+//查询个人提现id
+function cashid() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=home&type=2&channel=1&_=${rndtime}&openid=${signheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${signkeyVal}`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Referer': `https://zqact.tenpay.com/activity/page/guessRiseFall/`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `zqact.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+        'Accept-Language': `zh-cn`
+      },
+    };
+    $.get(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          $.log(data)
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 //提现票据
 function cashticket() {
   return new Promise((resolve) => {
@@ -244,7 +276,7 @@ function cashticket() {
 function getcash(cashticket) {
   return new Promise((resolve) => {
     let url = {
-      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=${cash}&channel=1&ticket=${cashticket}&item_id=202003102146152a9e8885&_=${rndtime}${taskheaderVal}`,
+      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=${cash}&channel=1&ticket=${cashticket}&item_id=${item_id}&_=${rndtime}${taskheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${signkeyVal}`,
@@ -267,8 +299,8 @@ function getcash(cashticket) {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`【提现结果】:${data.retmsg}`);
-            tz += `【提现结果】:${data.retmsg}\n`
+            $.log(`【提现结果】:${data.retmsg}🎉`);
+            tz += `【提现结果】:${data.retmsg}🎉\n`
           }
         }
       } catch (e) {
@@ -306,10 +338,10 @@ function guessop() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if(data.retcode==0){
+            if (data.retcode == 0) {
               $.log(`【自动猜涨跌】:成功🎉\n`);
               tz += `【自动猜涨跌】:成功🎉\n`
-            }else{
+            } else {
               console.log(`任务完成失败，错误信息：${JSON.stringify(data)}\n`)
               tz += `【自动猜涨跌】:${data.retmsg}\n`
             }
@@ -350,10 +382,10 @@ function guessred() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if(data.retcode==0){
+            if (data.retcode == 0) {
               $.log(`【猜涨跌每日礼包】:获得 ${data.reward_desc}`);
               tz += `【猜涨跌每日礼包】:获得 ${data.reward_desc}\n`
-            }else{
+            } else {
               console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
               tz += `【猜涨跌每日礼包】:${data.retmsg}\n`
             }
@@ -369,15 +401,29 @@ function guessred() {
 }
 
 //////////////////////////////////////////////////////////////////
+async function getcashid() {
+  console.log(`开始【查询提现ID】任务`)
+  if (opencashid == 1 ) {
+    console.log(`开始查询提现活动ID...`)
+    await cashid();
+  } else {
+    console.log(`跳过！准备执行下一个任务...`)
+  }
+}
 
 async function cashorder(cash, money) {
   console.log(`开始【自动提现】任务`)
-  if (cash == 2 && money.icon_amount > 10000) {
+  if (cash == 1 && money.icon_amount > 10000) {
     console.log(`开始申请票据...`)
     await cashticket(); //申请票据
-    console.log(`开始申请提现...`)
+    console.log(`开始申请提现1元...`)
     await getcash(cashticket);
-  } else {
+  } else if (cash == 1 && money.icon_amount > 48000){
+    console.log(`开始申请票据...`)
+    await cashticket(); //申请票据
+    console.log(`开始申请提现5元...`)
+    await getcash(cashticket);
+  } else {
     console.log(`准备执行下一个任务...`)
     tz += `【自动提现】:已执行or账户余额不足\n`
   }
@@ -805,6 +851,7 @@ function taskid2(ticket) {
     })
   })
 }
+
 function statuid2() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -833,22 +880,23 @@ function statuid2() {
     })
   })
 }
+
 function wxtaskid2(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=2&id=2&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -863,7 +911,7 @@ function wxtaskid2(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX添加自选股】:获得${data.reward_desc}`);
             tz += `【WX添加自选股】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -875,22 +923,23 @@ function wxtaskid2(wxticket) {
     });
   });
 }
+
 function wxstatuid2() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=2&tid=2&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -932,6 +981,7 @@ function taskid1(ticket) {
     })
   })
 }
+
 function statuid1() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -960,22 +1010,23 @@ function statuid1() {
     })
   })
 }
+
 function wxtaskid1(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=5&id=1&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -990,7 +1041,7 @@ function wxtaskid1(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX阅读资讯】:获得${data.reward_desc}`);
             tz += `【WX阅读资讯】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1002,22 +1053,23 @@ function wxtaskid1(wxticket) {
     });
   });
 }
+
 function wxstatuid1() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=1&tid=5&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1059,6 +1111,7 @@ function taskid12(ticket) {
     })
   })
 }
+
 function statuid12() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1087,22 +1140,23 @@ function statuid12() {
     })
   })
 }
+
 function wxtaskid12(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=22&id=12&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1117,7 +1171,7 @@ function wxtaskid12(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX分享行情】:获得${data.reward_desc}`);
             tz += `【WX分享行情】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1129,22 +1183,23 @@ function wxtaskid12(wxticket) {
     });
   });
 }
+
 function wxstatuid12() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=12&tid=22&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1186,6 +1241,7 @@ function taskid11(ticket) {
     })
   })
 }
+
 function statuid11() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1214,22 +1270,23 @@ function statuid11() {
     })
   })
 }
+
 function wxtaskid11(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=7&id=11&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1244,7 +1301,7 @@ function wxtaskid11(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX分享福利中心】:获得${data.reward_desc}`);
             tz += `【WX分享福利中心】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1256,22 +1313,23 @@ function wxtaskid11(wxticket) {
     });
   });
 }
+
 function wxstatuid11() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=11&tid=7&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1313,6 +1371,7 @@ function taskid14(ticket) {
     })
   })
 }
+
 function statuid14() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1341,22 +1400,23 @@ function statuid14() {
     })
   })
 }
+
 function wxtaskid14(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=28&id=14&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1371,7 +1431,7 @@ function wxtaskid14(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX分享资讯】:获得${data.reward_desc}`);
             tz += `【WX分享资讯】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1383,22 +1443,23 @@ function wxtaskid14(wxticket) {
     });
   });
 }
+
 function wxstatuid14() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=14&tid=28&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1440,6 +1501,7 @@ function taskid15(ticket) {
     })
   })
 }
+
 function statuid15() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1468,22 +1530,23 @@ function statuid15() {
     })
   })
 }
+
 function wxtaskid15(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=29&id=15&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1498,7 +1561,7 @@ function wxtaskid15(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX分享社区帖子】:获得${data.reward_desc}`);
             tz += `【WX分享社区帖子】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1510,22 +1573,23 @@ function wxtaskid15(wxticket) {
     });
   });
 }
+
 function wxstatuid15() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=15&tid=29&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1567,6 +1631,7 @@ function taskid3(ticket) {
     })
   })
 }
+
 function statuid3() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1595,22 +1660,23 @@ function statuid3() {
     })
   })
 }
+
 function wxtaskid3(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=9&id=3&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1625,7 +1691,7 @@ function wxtaskid3(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX猜涨跌】:获得${data.reward_desc}`);
             tz += `【WX猜涨跌】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1637,22 +1703,23 @@ function wxtaskid3(wxticket) {
     });
   });
 }
+
 function wxstatuid3() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=3&tid=9&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1694,6 +1761,7 @@ function taskid4(ticket) {
     })
   })
 }
+
 function statuid4() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1722,22 +1790,23 @@ function statuid4() {
     })
   })
 }
+
 function wxtaskid4(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=4&id=4&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1752,7 +1821,7 @@ function wxtaskid4(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX点赞评论】:获得${data.reward_desc}`);
             tz += `【WX点赞评论】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1764,22 +1833,23 @@ function wxtaskid4(wxticket) {
     });
   });
 }
+
 function wxstatuid4() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=4&tid=4&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1821,6 +1891,7 @@ function taskid6(ticket) {
     })
   })
 }
+
 function statuid6() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1849,22 +1920,23 @@ function statuid6() {
     })
   })
 }
+
 function wxtaskid6(wxticket) {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=13&id=6&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1879,7 +1951,7 @@ function wxtaskid6(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX模拟炒股】:获得${data.reward_desc}`);
             tz += `【WX模拟炒股】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1891,22 +1963,23 @@ function wxtaskid6(wxticket) {
     });
   });
 }
+
 function wxstatuid6() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=6&tid=13&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -1928,16 +2001,16 @@ function wxtaskid16(wxticket) {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=31&id=16&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -1952,7 +2025,7 @@ function wxtaskid16(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX浏览社区帖子】:获得${data.reward_desc}`);
             tz += `【WX浏览社区帖子】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -1964,22 +2037,23 @@ function wxtaskid16(wxticket) {
     });
   });
 }
+
 function wxstatuid16() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=16&tid=31&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -2001,16 +2075,16 @@ function wxtaskid10(wxticket) {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&tid=25&id=10&task_ticket=${wxticket}&action=taskdone`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -2025,7 +2099,7 @@ function wxtaskid10(wxticket) {
             data = JSON.parse(data);
             $.log(`【WX专属红包🧧】:获得${data.reward_desc}`);
             tz += `【WX专属红包🧧】:获得${data.reward_desc}\n`
-          }else{
+          } else {
             console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
@@ -2037,22 +2111,23 @@ function wxtaskid10(wxticket) {
     });
   });
 }
+
 function wxstatuid10() {
   return new Promise((resolve, reject) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&id=10&tid=25&action=taskstatus`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     }
     $.post(url, async (error, resp, data) => {
@@ -2096,22 +2171,23 @@ function taskticket() {
     })
   })
 }
+
 function wxtaskticket() {
   return new Promise((resolve) => {
     let url = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,
       body: `_h5ver=2.0.1&actid=1100&action=taskticket`,
       headers: {
-      'Accept' : `application/json, text/plain, */*`,
-      'Origin' : `https://wzq.tenpay.com`,
-      'Accept-Encoding' : `gzip, deflate, br`,
-      'Cookie' : `${wxtaskkeyVal}`,
-      'Content-Type' : `application/x-www-form-urlencoded`,
-      'Host' : `wzq.tenpay.com`,
-      'Connection' : `keep-alive`,
-      'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
-      'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
-      'Accept-Language' : `zh-cn`
+        'Accept': `application/json, text/plain, */*`,
+        'Origin': `https://wzq.tenpay.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Host': `wzq.tenpay.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x1700142b) NetType/4G Language/zh_CN`,
+        'Referer': `https://wzq.tenpay.com/mp/v2/index.html`,
+        'Accept-Language': `zh-cn`
       },
     };
     $.post(url, async (err, resp, data) => {
@@ -2124,7 +2200,7 @@ function wxtaskticket() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`本次验证时间🕐：`+time(rndtime));
+            $.log(`本次验证时间🕐：` + time(rndtime));
             $.log(`本次验证票据🎫：${data.task_ticket}`);
             wxticket = data.task_ticket
           }
