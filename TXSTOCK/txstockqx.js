@@ -49,15 +49,13 @@ wxtaskkey:进入微信小程序,做一个任务就可以获取,不行就在做�
 */
 const jsname = '腾讯自选股'
 const $ = Env(jsname)
-const logs = 1; //0为关闭日志，1为开启,默认为0
+const logs = 0; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
 
 let rndtime = Math.round(new Date().getTime()) //毫秒
 let signday = formatDateTime(new Date());
 let tz = '';
-let cash = $.getval('cash') || 0; //0为不自动提现,1为自动提现
-let opencashid = $.getval('opencashid') || 0; //查询提现id！慎用!!
-let item_id = $.getdata('item_id')
+let cash = $.getval('cash') || 0; //0为不自动提现,1为自动提现1元,5为自动提现1元,
 
 const userheaderArr = [];
 let userheaderVal = "";
@@ -181,7 +179,6 @@ if ($.isNode()) {
   await wxtask10();
   await wxtask11();
   await cashorder(cash, money);
-  await getcashid();
 
 })()
 .catch((e) => $.logErr(e))
@@ -198,40 +195,6 @@ function showmsg() {
   }
 }
 ///////////////////////////////////////////////////////////////////
-//查询个人提现id
-function cashid() {
-  return new Promise((resolve) => {
-    let url = {
-      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=home&type=2&channel=1&_=${rndtime}&openid=${signheaderVal}`,
-      body: ``,
-      headers: {
-        'Cookie': `${signkeyVal}`,
-        'Accept': `application/json, text/plain, */*`,
-        'Connection': `keep-alive`,
-        'Referer': `https://zqact.tenpay.com/activity/page/guessRiseFall/`,
-        'Accept-Encoding': `gzip, deflate, br`,
-        'Host': `zqact.tenpay.com`,
-        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
-        'Accept-Language': `zh-cn`
-      },
-    };
-    $.get(url, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          $.log(data)
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
 //提现票据
 function cashticket() {
   return new Promise((resolve) => {
@@ -273,10 +236,10 @@ function cashticket() {
   });
 }
 //提现请求
-function getcash(cashticket) {
+function getcash1(cashticket) {
   return new Promise((resolve) => {
     let url = {
-      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=${cash}&channel=1&ticket=${cashticket}&item_id=${item_id}&_=${rndtime}${taskheaderVal}`,
+      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=${cash}&channel=1&ticket=${cashticket}&item_id=202003102146152a9e8885&_=${rndtime}${taskheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${signkeyVal}`,
@@ -299,8 +262,46 @@ function getcash(cashticket) {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`【提现结果】:${data.retmsg}🎉`);
-            tz += `【提现结果】:${data.retmsg}🎉\n`
+            $.log(`【提现1元结果】:${data.retmsg}🎉`);
+            tz += `【提现1元结果】:${data.retmsg}🎉\n`
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+function getcash5(cashticket) {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=${cash}&channel=1&ticket=${cashticket}&item_id=202003102147152ecaa605&_=${rndtime}${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${signkeyVal}`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Referer': `https://zqact.tenpay.com/activity/page/guessRiseFall/`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `zqact.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+        'Accept-Language': `zh-cn`
+      },
+    };
+    $.get(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            $.log(`【提现5元结果】:${data.retmsg}🎉`);
+            tz += `【提现5元结果】:${data.retmsg}🎉\n`
           }
         }
       } catch (e) {
@@ -401,15 +402,6 @@ function guessred() {
 }
 
 //////////////////////////////////////////////////////////////////
-async function getcashid() {
-  console.log(`开始【查询提现ID】任务`)
-  if (opencashid == 1 ) {
-    console.log(`开始查询提现活动ID...`)
-    await cashid();
-  } else {
-    console.log(`跳过！准备执行下一个任务...`)
-  }
-}
 
 async function cashorder(cash, money) {
   console.log(`开始【自动提现】任务`)
@@ -417,12 +409,12 @@ async function cashorder(cash, money) {
     console.log(`开始申请票据...`)
     await cashticket(); //申请票据
     console.log(`开始申请提现1元...`)
-    await getcash(cashticket);
-  } else if (cash == 1 && money.icon_amount > 48000){
+    await getcash1(cashticket);
+  } else if (cash == 5 && money.icon_amount > 48000){
     console.log(`开始申请票据...`)
     await cashticket(); //申请票据
     console.log(`开始申请提现5元...`)
-    await getcash(cashticket);
+    await getcash5(cashticket);
   } else {
     console.log(`准备执行下一个任务...`)
     tz += `【自动提现】:已执行or账户余额不足\n`
