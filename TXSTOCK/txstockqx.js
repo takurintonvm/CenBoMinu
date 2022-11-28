@@ -179,6 +179,7 @@ if ($.isNode()) {
   await wxtask10();
   await wxtask11();
   await cashorder(cash, money);
+  await showmsg();
 
 })()
 .catch((e) => $.logErr(e))
