@@ -178,7 +178,7 @@ if ($.isNode()) {
   await wxtask9();
   await wxtask10();
   await wxtask11();
-  await cashorder(cash, money);
+  //await cashorder(cash, money);
   await showmsg();
 
 })()
