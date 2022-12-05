@@ -196,6 +196,53 @@ function showmsg() {
   }
 }
 ///////////////////////////////////////////////////////////////////
+
+//签到
+async function signtask() {
+  return new Promise((resolve) => {
+    let signurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_sign_task.fcgi?actid=2002&action=signdone&channel=1&date=${signday}&_=${rndtime}${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Referer': `https://wzq.tenpay.com/activity/page/welwareCenter/`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+        'Accept-Language': `zh-cn`
+      },
+    };
+    $.get(signurl, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            if (data.retcode == 0) {
+              $.log(`【签到】:获得 ${data.reward_desc}`);
+              $.log(`【签到时间】:` + time(rndtime));
+              tz += `【签到】:获得 ${data.reward_desc}\n`
+              await $.wait(5000); //等待5秒
+            } else {
+              console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
+              tz += `【签到】:${data.retmsg}\n`
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 //提现票据
 function cashticket() {
   return new Promise((resolve) => {
@@ -265,6 +312,8 @@ function getcash1(cashticket) {
             data = JSON.parse(data);
             $.log(`【提现1元结果】:${data.retmsg}🎉`);
             tz += `【提现1元结果】:${data.retmsg}🎉\n`
+          }else {
+            console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
       } catch (e) {
@@ -303,6 +352,8 @@ function getcash5(cashticket) {
             data = JSON.parse(data);
             $.log(`【提现5元结果】:${data.retmsg}🎉`);
             tz += `【提现5元结果】:${data.retmsg}🎉\n`
+          }else {
+            console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
           }
         }
       } catch (e) {
@@ -705,52 +756,7 @@ async function wxtask11() {
 
 
 //////////////////////////////////////////////////////////////////
-//签到
-async function signtask() {
-  return new Promise((resolve) => {
-    let signurl = {
-      url: `https://wzq.tenpay.com/cgi-bin/activity_sign_task.fcgi?actid=2002&action=signdone&channel=1&date=${signday}&_=${rndtime}${taskheaderVal}`,
-      body: ``,
-      headers: {
-        'Cookie': `${taskkeyVal}`,
-        'Accept': `application/json, text/plain, */*`,
-        'Connection': `keep-alive`,
-        'Referer': `https://wzq.tenpay.com/activity/page/welwareCenter/`,
-        'Accept-Encoding': `gzip, deflate, br`,
-        'Host': `wzq.tenpay.com`,
-        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
-        'Accept-Language': `zh-cn`
-      },
-    };
-    $.get(signurl, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == 1) $.log(data)
-            data = JSON.parse(data);
-            if (data.retcode == 51091020) {
-              $.log(`【签到】:${data.retmsg}\n`);
-              tz += `【签到】:${data.retmsg}\n`
-            } else {
-              $.log(`【签到】:获得 ${data.reward_desc}`);
-              $.log(`【签到时间】:` + time(rndtime));
-              tz += `【签到】:获得 ${data.reward_desc}\n`
-              await $.wait(5000); //等待5秒
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
+
 //猜涨跌分享奖励
 function taskshare(ticket) {
   return new Promise((resolve, reject) => {
