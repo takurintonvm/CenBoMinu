@@ -7,19 +7,11 @@
 	"apps": [{
 		"id": "chonghauapp",
 		"name": "葱花视频",
-		"keys": ["uid", "chgetbody_body", "chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton"],
-		"settings": [{
-				"id": "chgetbody_body",
-				"name": "老版本请求body",
-				"val": "",
-				"type": "textarea",
-				"autoGrow": false,
-				"rows": 1,
-				"desc": "看视频，倒计时转一圈显示金币到账。。建议看5篇视频,获取请求包"
-			},
+		"keys": ["uid","chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton"],
+		"settings": [
 			{
 				"id": "chgetbody_video",
-				"name": "新版本请求body",
+				"name": "请求body",
 				"val": "",
 				"type": "textarea",
 				"autoGrow": false,
