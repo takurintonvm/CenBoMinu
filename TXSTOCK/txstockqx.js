@@ -738,9 +738,9 @@ async function signtask() {
               $.log(`【签到】:${data.retmsg}\n`);
               tz += `【签到】:${data.retmsg}\n`
             } else {
-              $.log(`【签到】:获得 ${data.reward_desc}`);
+              $.log(`【签到】:获得${data.amount}金币`);
               $.log(`【签到时间】:` + time(rndtime));
-              tz += `【签到】:获得 ${data.reward_desc}\n`
+              tz += `【签到】:获得${data.amount}金币\n`
               await $.wait(5000); //等待5秒
             }
           }
@@ -772,10 +772,15 @@ function taskshare(ticket) {
     }
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
-      let task = JSON.parse(data)
-      $.log(`【猜涨跌分享】:获得 ${task.reward_desc}\n`);
-      tz += `【猜涨跌分享】:获得 ${task.reward_desc}\n`
-      await $.wait(10000); //等待10秒
+      let data = JSON.parse(data)
+      if (data.retcode == 0) {
+        $.log(`【猜涨跌分享】:获得 ${data.reward_desc}\n`);
+        tz += `【猜涨跌分享】:获得 ${data.reward_desc}\n`
+        await $.wait(10000); //等待10秒
+      } else {
+        console.log(`任务完成失败，错误信息：${JSON.stringify(data)}\n`)
+        tz += `【猜涨跌分享】:${data.retmsg}\n`
+      }
       resolve()
     })
   })
