@@ -772,7 +772,7 @@ function taskshare(ticket) {
     }
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
-      let data = JSON.parse(data)
+        data = JSON.parse(data)
       if (data.retcode == 0) {
         $.log(`【猜涨跌分享】:获得 ${data.reward_desc}\n`);
         tz += `【猜涨跌分享】:获得 ${data.reward_desc}\n`
