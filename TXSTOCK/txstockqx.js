@@ -314,7 +314,6 @@ function getcash5(cashticket) {
   });
 }
 //猜涨跌
-
 function guessop() {
   return new Promise((resolve) => {
     let url = {
