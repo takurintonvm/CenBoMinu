@@ -416,9 +416,12 @@ async function cashorder(cash, money) {
     await cashticket(); //申请票据
     console.log(`开始申请提现5元...`)
     await getcash5(cashticket);
+  } else if (cash == 0 ){
+    console.log(`请到BOXJS设置,目前设置为0,不自动提现...`)
+    tz += `请到BOXJS设置,目前设置为0,不自动提现...\n`
   } else {
     console.log(`准备执行下一个任务...`)
-    tz += `【自动提现】:已执行or账户余额不足\n`
+    tz += `【自动提现】:已执行or账户提现余额不足\n`
   }
 }
 
