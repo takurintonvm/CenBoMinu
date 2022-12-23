@@ -591,8 +591,8 @@ async function task7() {
   console.log(`开始验证【猜涨跌活动】任务状态`)
   await statuid3()
   if (statuid3.done == 0) {
-    console.log(`开始自动猜涨跌...`)
-    await guessop()
+    //console.log(`开始自动猜涨跌...`)
+    //await guessop()
     console.log(`开始申请票据...`)
     await taskticket(); //申请票据
     console.log(`执行【猜涨跌分享】任务`)
