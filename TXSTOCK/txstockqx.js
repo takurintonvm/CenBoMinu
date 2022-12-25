@@ -196,6 +196,49 @@ function showmsg() {
   }
 }
 ///////////////////////////////////////////////////////////////////
+//猜涨跌时间
+function guesstime() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://zqact.tenpay.com/cgi-bin/guess_home.fcgi?channel=1&source=2&new_version=2&_=${rndtime}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${signkeyVal}`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Referer': `https://zqact.tenpay.com/activity/page/guessRiseFall/`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `zqact.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+        'Accept-Language': `zh-cn`
+      },
+    };
+    $.get(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            guessnum = (data.T_info[0].T_endts)*1000
+            nextguessnum = (data.T_info[0].next_T)*1000
+            $.log(`本次猜涨跌日期：`+ formatDateTime(guessnum));
+            $.log(`下次猜涨跌日期：`+ formatDateTime(nextguessnum));
+            guessdate = formatDateTime(guessnum);
+
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 //提现票据
 function cashticket() {
   return new Promise((resolve) => {
@@ -314,10 +357,10 @@ function getcash5(cashticket) {
   });
 }
 //猜涨跌
-function guessop() {
+function guessop(guessdate) {
   return new Promise((resolve) => {
     let url = {
-      url: `https://zqact.tenpay.com/cgi-bin/guess_op.fcgi?action=2&act_id=3&user_answer=1&date=${signday}&channel=1&_=${rndtime}&_appName=ios${taskheaderVal}`,
+      url: `https://zqact.tenpay.com/cgi-bin/guess_op.fcgi?action=2&act_id=3&user_answer=1&date=${guessdate}&channel=1&_=${rndtime}&_appName=ios${taskheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${signkeyVal}`,
@@ -591,8 +634,10 @@ async function task7() {
   console.log(`开始验证【猜涨跌活动】任务状态`)
   await statuid3()
   if (statuid3.done == 0) {
-    //console.log(`开始自动猜涨跌...`)
-    //await guessop()
+    console.log(`查询猜涨跌活动时间...`)
+    await guesstime()
+    console.log(`开始自动猜涨跌...`)
+    await guessop(guessdate)
     console.log(`开始申请票据...`)
     await taskticket(); //申请票据
     console.log(`执行【猜涨跌分享】任务`)
