@@ -1216,13 +1216,14 @@ function wxtaskid12(wxticket) {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if (data.retcode == 0){
+            if(data.retcode == 0){
               $.log(`【WX分享行情】:获得${data.reward_desc}`);
               tz += `【WX分享行情】:获得${data.reward_desc}\n`
               await $.wait(5000); //等待5秒
-            }else {
-            console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
-            tz += `【WX分享行情】:${data.retmsg}\n`
+            }else{
+              console.log(`任务完成失败，错误信息：${JSON.stringify(data)}\n`)
+              tz += `【WX分享行情】:${data.retmsg}\n`
+            }
           }
         }
       } catch (e) {
@@ -1233,9 +1234,6 @@ function wxtaskid12(wxticket) {
     });
   });
 }
-
-
-
 
 function wxstatuid12() {
   return new Promise((resolve, reject) => {
@@ -1352,13 +1350,14 @@ function wxtaskid11(wxticket) {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if (data.retcode == 0){
+            if(data.retcode == 0){
               $.log(`【WX分享福利中心】:获得${data.reward_desc}`);
               tz += `【WX分享福利中心】:获得${data.reward_desc}\n`
               await $.wait(5000); //等待5秒
-            }else {
-            console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
-            tz += `【WX分享福利中心】:${data.retmsg}\n`
+            }else{
+              console.log(`任务完成失败，错误信息：${JSON.stringify(data)}\n`)
+              tz += `【WX福利中心】:${data.retmsg}\n`
+            }
           }
         }
       } catch (e) {
@@ -1485,13 +1484,14 @@ function wxtaskid14(wxticket) {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if (data.retcode == 0){
+            if(data.retcode == 0){
               $.log(`【WX分享资讯】:获得${data.reward_desc}`);
               tz += `【WX分享资讯】:获得${data.reward_desc}\n`
               await $.wait(5000); //等待5秒
-            }else {
-            console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
-            tz += `【WX分享资讯】:${data.retmsg}\n`
+            }else{
+              console.log(`任务完成失败，错误信息：${JSON.stringify(data)}\n`)
+              tz += `【WX分享资讯】:${data.retmsg}\n`
+            }
           }
         }
       } catch (e) {
@@ -1618,13 +1618,14 @@ function wxtaskid15(wxticket) {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if (data.retcode == 0){
+            if(data.retcode == 0){
               $.log(`【WX分享社区帖子】:获得${data.reward_desc}`);
               tz += `【WX分享社区帖子】:获得${data.reward_desc}\n`
               await $.wait(5000); //等待5秒
-            }else {
-            console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
-            tz += `【WX分享社区帖子】:${data.retmsg}\n`
+            }else{
+              console.log(`任务完成失败，错误信息：${JSON.stringify(data)}\n`)
+              tz += `【WX分享社区帖子】:${data.retmsg}\n`
+            }
           }
         }
       } catch (e) {
