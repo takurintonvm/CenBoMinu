@@ -318,6 +318,7 @@ function getcash1(cashticket) {
     });
   });
 }
+//https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=2&ticket=12101241237081531476836137280001&item_id=202003102147152ecaa605&_=1611463028412&openid=oA0Gbjp38QJbTVjfedBi9hee9Iew&fskey=v0aaf63c2205fff0dc705229071a5c30&channel=1&access_token=41_7EMuOYuEk0GlS6DymJb1ezgnkqOmd8GG0t56v5BnANw7vIDKqHF1XKw2Zfdt4boYFfVj5tQtxbJA8gZjwalTx95BqLBuPzGhjABiJNSXhgw&_appName=ios&_appver=8.7.1&_osVer=12.4.9&_devId=1b734c10045f484cfd7d679162f0061bf18addcf
 function getcash5(cashticket) {
   return new Promise((resolve) => {
     let url = {
@@ -464,7 +465,7 @@ async function cashorder(cash, money) {
     tz += `请到BOXJS设置,目前设置为0,不自动提现...\n`
   } else {
     console.log(`准备执行下一个任务...`)
-    tz += `【自动提现】:已执行or账户提现余额不足\n`
+    tz += `【自动提现】:账户提现余额不足🤦‍♀️\n`
   }
 }
 
