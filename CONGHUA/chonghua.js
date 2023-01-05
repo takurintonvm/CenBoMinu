@@ -341,6 +341,7 @@ function timered(task) {
       };
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
+        nexttime = (timered.data.remain_time)*1000
         if (timered.code === 1007) {
           if(logs==1) $.log(data)
           $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
@@ -348,7 +349,7 @@ function timered(task) {
         } else {
           if(logs==1) $.log(data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
-          $.log(`【下个时段】：获取${timered.data.remain_time}金币`);
+          $.log(`【下个时段】：`+ time(nexttime));
           tz += `【时段奖励】：${timered.data.score}金币\n`;
         }
 
@@ -402,6 +403,12 @@ $.log(`│┎━┦┕┚│┎┒│┎┒│┎┰┦┕┚││││┎┒�
 $.log(`│┕━┦┎┒│┕┚││││┕┚│┎┒│┕┚│┎┒│`)
 $.log(`┕━━┹┚┕┹━━┹┚┕┹━━┹┚┕┹━━┹┚┕┚`)
 
+}
+
+
+function time(time) {
+  var date = new Date(time + 8 * 3600 * 1000);
+  return date.toJSON().substr(0, 19).replace('T', ' ').replace(/-/g, '.');
 }
 
 function Env(t, e) {
