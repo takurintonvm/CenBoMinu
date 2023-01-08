@@ -332,7 +332,7 @@ function sharereward(task) {
 
 //每天领金币（30min一次）
 function timered(task) {
-  if (task.data.task_list[0].status === 2) {
+  if (task.data.task_list[0].status === 2 && task.data.task_list[0].title_en === "get_coin") {
     return new Promise((resolve, reject) => {
       const timeredurl = {
         url: `https://app.kxp.com/task/v1/task_center/red`,
