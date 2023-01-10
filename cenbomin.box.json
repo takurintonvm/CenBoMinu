@@ -7,7 +7,7 @@
 	"apps": [{
 		"id": "chonghauapp",
 		"name": "葱花视频",
-		"keys": ["uid","chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton"],
+		"keys": ["uid","chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton","chgetbody_video_index"],
 		"settings": [
 			{
 				"id": "chgetbody_video",
@@ -25,6 +25,15 @@
 				"type": "text",
 				"desc": "输入才可查看账户金币明细"
 			},
+			{
+					"id": "chgetbody_video_index",
+					"name": "上次执行位置",
+					"val": "",
+					"type": "textarea",
+					"autoGrow": false,
+					"rows": 1,
+					"desc": "记录上次执行的位置，可以控制从第几个body开始执行"
+				},
 			{
 				"id": "logbutton",
 				"name": "日志开关",
