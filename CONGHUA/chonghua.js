@@ -385,7 +385,7 @@ function AutoRead() {
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
         if(logs==1) $.log(data)
-        await $.wait(60000);
+        await $.wait(30000);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
 
