@@ -50,6 +50,7 @@ const jsname = '葱花视频'
 const $ = Env(jsname)
 const logs = $.getdata('logbutton'); //0为关闭日志，1为开启,默认为0
 const notifyInterval = $.getdata('tzbutton'); //0为关闭通知，1为所有通知,默认为0
+now = new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000);
 
 let task = '';
 let tz = '';
@@ -97,7 +98,7 @@ $.begin = indexLast ? parseInt(indexLast, 10) : 1;
 
 
 if (!(bodys && bodys != '')) {
-  $.msg("", "", '请先-观看视频-获取请求体,建议5个即可...')
+  $.msg("", "", '请先-观看视频-获取请求体,body容易失效建议50个...')
   $.done()
 }
 
@@ -178,41 +179,10 @@ if ($.isNode()) {
 
   console.log(`\n✅ 执行时段奖励任务`)
   await timered(task); //时段奖励
-
-  if (!sharebodyArr[0]) {
-    console.log($.name, '【提示】请把分享视频的请求体填入Github 的 Secrets 中，请以#隔开')
-    return;
+  if (now.getHours() == 18){
+    await videoread();//自动刷视频
+    await sharevideo();//分享任务
   }
-  $.index = 0;
-  for (let i = 0; i < sharebodyArr.length; i++) {
-    if (sharebodyArr[i]) {
-      sharebody = sharebodyArr[i];
-      sharerewardbodyVal = sharerewardbodyArr[0];
-      $.index = $.index + 1;
-      console.log(`\n✅ 执行分享视频任务【${$.index}】`)
-    }
-    await share(task); //分享
-    await $.wait(3000);
-    await sharereward(task); //分享奖励
-  }
-
-  if (!readbodyArr[0]) {
-    console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
-    return;
-  }
-  $.log('\n✅ 查询刷视频任务\n', `视频总数${readbodyArr.length}个,上次执行到第${$.begin}个,预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}小时`)
-  $.index = 0;
-  for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
-    if (readbodyArr[i]) {
-      readbody = readbodyArr[i];
-      $.index = $.index + 1;
-      console.log(`\n✅ 执行自动刷视频任务【${$.index}】`)
-
-    }
-    await AutoRead();
-  }
-  $.log('', '', `🥦 本次共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
-  tz += `【自动阅读】：${readscore}个金币\n`;
   await showmsg();
 
 })()
@@ -230,6 +200,45 @@ function showmsg() {
 }
 
 ////////////////////////////////////////////////////////////////////////
+async function videoread(){
+  if (!readbodyArr[0]) {
+    console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
+    return;
+  }
+  $.log('\n✅ 查询刷视频任务\n', `视频总数${readbodyArr.length}个,上次执行到第${$.begin}个,预计执行${((readbodyArr.length - $.begin) / 120).toFixed(2)}小时`)
+  $.index = 0;
+  for (let i = indexLast ? indexLast : 0; i < readbodyArr.length; i++) {
+    if (readbodyArr[i]) {
+      readbody = readbodyArr[i];
+      $.index = $.index + 1;
+      console.log(`\n✅ 执行自动刷视频任务【${$.index}】`)
+    }
+    await AutoRead();
+  }
+  $.log('', '', `🥦 本次共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
+  tz += `【自动阅读】：${readscore}个金币\n`;
+}
+async function sharevideo(){
+  if (!sharebodyArr[0]) {
+    console.log($.name, '【提示】请把分享视频的请求体填入Github 的 Secrets 中，请以#隔开')
+    return;
+  }
+  $.index = 0;
+  for (let i = 0; i < sharebodyArr.length; i++) {
+    if (sharebodyArr[i]) {
+      sharebody = sharebodyArr[i];
+      sharerewardbodyVal = sharerewardbodyArr[0];
+      $.index = $.index + 1;
+      console.log(`\n✅ 执行分享视频任务【${$.index}】`)
+    }
+    await share(task); //分享
+    await $.wait(3000);
+    await sharereward(task); //分享奖励
+  }
+
+}
+
+
 
 //任务中心
 function taskcenter() {
