@@ -1,5 +1,12 @@
 const jsname='腾旭自选股'
 const $ = Env(jsname)
+//cow活动
+if($request&&$request.url.indexOf("raisebull")>=0) {
+const cowkey = $request.headers['Cookie']
+     if (cowkey) $.setdata(cowkey, 'cowkey')
+     $.log(`[${jsname}] 获取cowkey请求: 成功🎉,cowkey: ${cowkey}`)
+     $.msg(`获取cowkey: 成功🎉`, ``)
+}
 
 //签到，猜涨跌
 if($request&&$request.url.indexOf("markets=1")>=0) {
