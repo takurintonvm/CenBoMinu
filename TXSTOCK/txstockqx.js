@@ -179,6 +179,7 @@ if ($.isNode()) {
   await wxtask10();
   await wxtask11();
   console.log(`\n✅ 执行【长牛来啦🐂】日常任务\n`)
+  await cowtask0();
   await cowtask1();
   await cowtask2();
   await cowtask3();
@@ -203,6 +204,7 @@ function showmsg() {
   }
 }
 ///////////////////////////////////////////////////////////////////
+
 //猜涨跌时间
 function guesstime() {
   return new Promise((resolve) => {
@@ -454,6 +456,19 @@ function guessred() {
 }
 
 //////////////////////////////////////////////////////////////////
+async function cowtask0() {
+  console.log(`开始验证【COW每天长牛签到】任务状态`)
+  await cowstatuid6()
+  if (cowstatuid6.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW每天长牛签到】任务`)
+    await cowtaskid6(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【COW每天长牛签到】:已执行\n`
+  }
+}
 async function cowtask1() {
   console.log(`开始验证【COW阅读一篇资讯】任务状态`)
   await cowstatuid1()
@@ -855,6 +870,61 @@ function cowtaskticket() {
     })
   })
 }
+//每天长牛签到+200牛气
+function cowtaskid6(cowticket) {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=39&id=6&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      let task = JSON.parse(data)
+      $.log(`【COW每天长牛签到】:获得 ${task.reward_desc}\n`);
+      tz += `【COW每天长牛签到】:获得 ${task.reward_desc}\n`
+      await $.wait(10000); //等待10秒
+      resolve()
+    })
+  })
+}
+function cowstatuid6() {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=6&tid=39&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      cowstatuid6 = JSON.parse(data)
+      if (cowstatuid6.done == 1) {
+        $.log(`验证状态失败,任务已执行🚫`);
+      } else {
+        $.log(`验证状态成功,可执行任务🎉`);
+      }
+      resolve()
+    })
+  })
+}
 //阅读一篇资讯+200牛气
 function cowtaskid1(cowticket) {
   return new Promise((resolve, reject) => {
@@ -1160,6 +1230,8 @@ async function signtask() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
+            //问题
+            $.log(data)
             data = JSON.parse(data);
             if (data.retcode == 51091020) {
               $.log(`【签到】:${data.retmsg}\n`);
