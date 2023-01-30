@@ -35,7 +35,8 @@ signkey：禁用获取cookie重写,重新打开app,点击左上头像-进入,等
 ！！！！！微信和app重写有冲突,不能两个同时开
 ！！！！！必须先关闭app重写,在加入微信小程序重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,启用之后就可以去微信小程序做任务获取cookie
 
-wxtaskkey:进入微信小程序,做一个任务就可以获取,不行就在做下一个,社区或者分享型任务先试试
+wxtaskkey:进入微信小程序,点击资讯页面或者股票页面获取
+
 cowkey:更新并启动微信重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,打开App,点击左上头像-进入，点击活动页面即可获取
 
 ！！！！！获取完cookie,务必关闭重写引用
