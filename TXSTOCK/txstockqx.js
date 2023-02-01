@@ -304,7 +304,7 @@ async function cowfood(bullish){
         console.log(`开始喂牛牛🐮....\n`)
     while(bullish.bullish_info.bullish_value >= 500){
         await cowlevel();
-        await $.wait(10000);//等待10秒
+        await $.wait(5000);//等待10秒
         bullish.bullish_info.bullish_value = bullish.bullish_info.bullish_value - 500
     }
   }else{
@@ -339,10 +339,10 @@ async function cowlevel() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             if(data.level_up_status == 0){
-              $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}\n`);
+              $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
             }else if(data.level_up_status == 1){
-              $.log(`【牛牛新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}\n`);
-              $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}\n`);
+              $.log(`【牛牛新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}`);
+              $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
               tz += `【牛牛新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}\n`
             }
           }
