@@ -306,8 +306,8 @@ async function cowopenbox() {
             if(data.forbidden_code >= 0 ){
               $.log(`【点长牛开💰】:${data.forbidden_reason}`);
             }else{
-              $.log(`【点长牛开💰】:${data.reward_info.reward_desc}`);
-              tz += `【点长牛开💰】:${data.reward_info.reward_desc}\n`
+              $.log(`【点长牛开💰】:${data.feed_reward_info.reward_desc}`);
+              tz += `【点长牛开💰】:${data.feed_reward_info.reward_desc}\n`
             }
           }
         }
