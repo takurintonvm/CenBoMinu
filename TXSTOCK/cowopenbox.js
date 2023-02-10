@@ -320,9 +320,9 @@ async function cowopenbox() {
   });
 }
 async function cowbox() {
-  for(i=0;i<20;i++){
+  for(i=0;i<50;i++){
     await cowopenbox();
-    await $.wait(8000); //等待5秒
+    await $.wait(6000); 
   }
 }
 
