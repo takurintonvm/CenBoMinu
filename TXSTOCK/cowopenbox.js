@@ -304,10 +304,10 @@ async function cowopenbox() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             if(data.forbidden_code >= 0 ){
-              $.log(`【点长牛开💰】:${data.forbidden_reason}`);
+              $.log(`【点长牛开💰】:${data.forbidden_reason}💭`);
             }else{
-              $.log(`【点长牛开💰】:${data.feed_reward_info.reward_desc}`);
-              tz += `【点长牛开💰】:${data.feed_reward_info.reward_desc}\n`
+              $.log(`【点长牛开💰】:${data.reward_info.reward_vaule}牛气`);
+              tz += `【点长牛开💰】:${data.reward_info.reward_vaule}牛气\n`
             }
           }
         }
@@ -322,7 +322,7 @@ async function cowopenbox() {
 async function cowbox() {
   for(i=0;i<50;i++){
     await cowopenbox();
-    await $.wait(6000); 
+    await $.wait(6000);
   }
 }
 
