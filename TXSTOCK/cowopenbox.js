@@ -114,7 +114,7 @@ if ($.isNode()) {
     console.log($.name, '【提示】请先前往获取任务cookie')
     return;
   }
-  console.log(`\n✅ 执行【点长牛开💰】任务\n`)
+  console.log(`\n✅ 执行【点长牛开💰✖️🔟】任务\n`)
   await cowbox()
   console.log(`\n✅ 执行【自动喂牛牛🐮】任务\n`)
   await cowhome1();
@@ -263,9 +263,9 @@ async function cowlevel() {
             if(data.level_up_status == 0){
               $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
             }else if(data.level_up_status == 1){
-              $.log(`【牛牛新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}`);
+              $.log(`【🐮新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}`);
               $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
-              tz += `【牛牛新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}\n`
+              tz += `【🐮新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}\n`
             }
           }
         }
@@ -320,7 +320,7 @@ async function cowopenbox() {
   });
 }
 async function cowbox() {
-  for(i=0;i<50;i++){
+  for(i=0;i<10;i++){
     await cowopenbox();
     await $.wait(10000);
   }

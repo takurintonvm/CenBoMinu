@@ -341,9 +341,9 @@ async function cowlevel() {
             if(data.level_up_status == 0){
               $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
             }else if(data.level_up_status == 1){
-              $.log(`【牛牛新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}`);
+              $.log(`【🐮新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}`);
               $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
-              tz += `【牛牛新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}\n`
+              tz += `【🐮新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}\n`
             }
           }
         }
