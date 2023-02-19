@@ -49,8 +49,8 @@ cron设置30min循环
 const jsname = '葱花视频'
 const $ = Env(jsname)
 const logs = $.getdata('logbutton'); //0为关闭日志，1为开启,默认为0
+const notify = $.isNode() ?require('./sendNotify') : '';
 const notifyInterval = $.getdata('tzbutton'); //0为关闭通知，1为所有通知,默认为0
-now = new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000);
 
 let task = '';
 let tz = '';
@@ -65,6 +65,35 @@ let headerVal = {
   'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
 };
 
+//time
+var hour='';
+var minute='';
+if ($.isNode()) {
+   hour = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getHours();
+   minute = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getMinutes();
+}else{
+   hour = (new Date()).getHours();
+   minute = (new Date()).getMinutes();
+}
+
+//time+msg
+async function showmsg(){
+if(notifyInterval == 1){
+    $.log(message)
+    if ($.isNode()){
+    if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
+       await notify.sendNotify($.name,tz)
+     }
+   }else{
+     $.log(message)
+    if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
+       $.msg(msgstyle, '', tz);
+}
+}
+   }else{
+       console.log(msgstyle + '' + tz);
+    }
+ }
 
 const taskcenterbodyArr = [];
 let taskcenterbodyVal = "";
@@ -158,7 +187,7 @@ if ($.isNode()) {
 
 !(async () => {
      await Jsname()
-  O = (`🥦${jsname}任务执行通知🔔`);
+  msgstyle = (`🥦${jsname}任务执行通知🔔`);
   taskcenterbodyVal = taskcenterbodyArr[0];
   timeredbodyVal = timeredbodyArr[0];
   console.log(`\n✅ 查询账户明细\n`)
@@ -174,9 +203,9 @@ if ($.isNode()) {
     );
   }
 
-  if (now.getHours() == 18){
+  if (hour == 18){
     await videoread();//自动刷视频
-  }else if (now.getHours() == 20){
+  }else if (hour == 20){
     await videoread();//自动刷视频
   }else{
     console.log(`\n✅ 打印任务状态清单`)
@@ -191,15 +220,7 @@ if ($.isNode()) {
 .catch((e) => $.logErr(e))
   .finally(() => $.done())
 
-function showmsg() {
-  if (notifyInterval != 1) {
-    console.log(O + '' + tz);
-  }
 
-  if (notifyInterval == 1) {
-    $.msg(O, '', tz);
-  }
-}
 
 ////////////////////////////////////////////////////////////////////////
 async function videoread(){
