@@ -79,13 +79,13 @@ if ($.isNode()) {
 //time+msg
 async function showmsg(){
 if(notifyInterval == 1){
-    $.log(message)
+    console.log(msgstyle + '' + tz);
     if ($.isNode()){
     if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
        await notify.sendNotify($.name,tz)
      }
    }else{
-     $.log(message)
+     console.log(msgstyle + '' + tz);
     if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
        $.msg(msgstyle, '', tz);
 }
