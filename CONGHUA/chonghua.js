@@ -49,7 +49,7 @@ cron设置30min循环
 const jsname = '葱花视频'
 const $ = Env(jsname)
 const logs = $.getdata('logbutton'); //0为关闭日志，1为开启,默认为0
-const notify = $.isNode() ?require('./sendNotify') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
 const notifyInterval = $.getdata('tzbutton'); //0为关闭通知，1为所有通知,默认为0
 
 let task = '';
@@ -66,34 +66,34 @@ let headerVal = {
 };
 
 //time
-var hour='';
-var minute='';
+var hour = '';
+var minute = '';
 if ($.isNode()) {
-   hour = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getHours();
-   minute = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getMinutes();
-}else{
-   hour = (new Date()).getHours();
-   minute = (new Date()).getMinutes();
+  hour = new Date(new Date().getTime() + 8 * 60 * 60 * 1000).getHours();
+  minute = new Date(new Date().getTime() + 8 * 60 * 60 * 1000).getMinutes();
+} else {
+  hour = (new Date()).getHours();
+  minute = (new Date()).getMinutes();
 }
 
 //time+msg
-async function showmsg(){
-if(notifyInterval == 1){
-    console.log(msgstyle + '' + tz);
-    if ($.isNode()){
-    if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
-       await notify.sendNotify($.name,tz)
-     }
-   }else{
-     console.log(msgstyle + '' + tz);
-    if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
-       $.msg(msgstyle, '', tz);
-}
-}
-   }else{
-       console.log(msgstyle + '' + tz);
+async function showmsg() {
+  if (notifyInterval == 1) {
+    if ($.isNode()) {
+      console.log(msgstyle + '' + tz);
+      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
+        await notify.sendNotify($.name, tz)
+      }
+    } else {
+      console.log(msgstyle + '' + tz);
+      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
+        $.msg(msgstyle, '', tz);
+      }
     }
- }
+  } else if (notifyInterval == 0) {
+    console.log(msgstyle + '' + tz);
+  }
+}
 
 const taskcenterbodyArr = [];
 let taskcenterbodyVal = "";
@@ -186,8 +186,8 @@ if ($.isNode()) {
 
 
 !(async () => {
-     await Jsname()
-  msgstyle = (`🥦${jsname}任务执行通知🔔`);
+  await Jsname()
+  msgstyle = (`\n🥦${jsname}任务执行通知🔔`);
   taskcenterbodyVal = taskcenterbodyArr[0];
   timeredbodyVal = timeredbodyArr[0];
   console.log(`\n✅ 查询账户明细\n`)
@@ -203,16 +203,16 @@ if ($.isNode()) {
     );
   }
 
-  if (hour == 18){
-    await videoread();//自动刷视频
-  }else if (hour == 20){
-    await videoread();//自动刷视频
-  }else{
+  if (hour == 18) {
+    await videoread(); //自动刷视频
+  } else if (hour == 20) {
+    await videoread(); //自动刷视频
+  } else {
     console.log(`\n✅ 打印任务状态清单`)
     await taskcenter(); //任务中心
     console.log(`\n✅ 执行时段奖励任务`)
     await timered(task); //时段奖励
-    await sharevideo();//分享任务
+    await sharevideo(); //分享任务
   }
   await showmsg();
 
@@ -223,7 +223,7 @@ if ($.isNode()) {
 
 
 ////////////////////////////////////////////////////////////////////////
-async function videoread(){
+async function videoread() {
   if (!readbodyArr[0]) {
     console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
@@ -241,7 +241,7 @@ async function videoread(){
   $.log('', '', `🥦 本次共完成${$.index}次阅读，获得${readscore}个金币，阅读请求结束`);
   tz += `【自动阅读】：${readscore}个金币\n`;
 }
-async function sharevideo(){
+async function sharevideo() {
   if (!sharebodyArr[0]) {
     console.log($.name, '【提示】请把分享视频的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
@@ -324,7 +324,7 @@ function share(task) {
         let share = JSON.parse(data);
         //$.log(`\n本次阅读获得${share.data.score}个金币🏅\n`);
         //sharescore += share.data.score;
-        if(logs==1) $.log(data)
+        if (logs == 1) $.log(data)
         $.log(`分享任务奖励请求：成功🎉`);
         resolve()
       })
@@ -344,11 +344,11 @@ function sharereward(task) {
       $.post(sharerewardurl, async (error, resp, data) => {
         let sharereward = JSON.parse(data);
         if (sharereward.code === 1007) {
-          if(logs==1) $.log(data)
+          if (logs == 1) $.log(data)
           $.log(`【分享奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【分享奖励】：账号异常❌\n`;
         } else {
-          if(logs==1) $.log(data)
+          if (logs == 1) $.log(data)
           $.log(`本次任务获得${sharereward.data.score}个金币🏅`);
           tz += `【分享任务】：${sharescore}个金币\n`;
           sharescore += sharereward.data.score;
@@ -373,15 +373,15 @@ function timered(task) {
       };
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
-        nexttime = (timered.data.remain_time)*1000
+        nexttime = (timered.data.remain_time) * 1000
         if (timered.code === 1007) {
-          if(logs==1) $.log(data)
+          if (logs == 1) $.log(data)
           $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
           tz += `【时段奖励】：账号异常❌\n`;
         } else {
-          if(logs==1) $.log(data)
+          if (logs == 1) $.log(data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
-          $.log(`【下个时段】：`+ time(nexttime));
+          $.log(`【下个时段】：` + time(nexttime));
           tz += `【时段奖励】：${timered.data.score}金币\n`;
         }
 
@@ -409,14 +409,14 @@ function AutoRead() {
       $.setdata(res + "", 'chgetbody_body_index');
       let readres = JSON.parse(data);
       if (readres.code == '100006') {
-        if(logs==1) $.log(data)
+        if (logs == 1) $.log(data)
         $.log(`⛔️第${$.index}次-获取金币已达上限🥺,明日在来！`)
       } else if (readres.code == '1007') {
-        if(logs==1) $.log(data)
+        if (logs == 1) $.log(data)
         $.log(`【本次阅读${$.index}】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
-        if(logs==1) $.log(data)
+        if (logs == 1) $.log(data)
         await $.wait(30000);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
@@ -428,12 +428,12 @@ function AutoRead() {
 }
 
 // prettier-ignore
-function Jsname(){
+function Jsname() {
 
-$.log(`┎━━┰┒┎┰━━┰━━┰━━┰┒┎┰┒┎┰━━┒`)
-$.log(`│┎━┦┕┚│┎┒│┎┒│┎┰┦┕┚││││┎┒│`)
-$.log(`│┕━┦┎┒│┕┚││││┕┚│┎┒│┕┚│┎┒│`)
-$.log(`┕━━┹┚┕┹━━┹┚┕┹━━┹┚┕┹━━┹┚┕┚`)
+  $.log(`┎━━┰┒┎┰━━┰━━┰━━┰┒┎┰┒┎┰━━┒`)
+  $.log(`│┎━┦┕┚│┎┒│┎┒│┎┰┦┕┚││││┎┒│`)
+  $.log(`│┕━┦┎┒│┕┚││││┕┚│┎┒│┕┚│┎┒│`)
+  $.log(`┕━━┹┚┕┹━━┹┚┕┹━━┹┚┕┹━━┹┚┕┚`)
 
 }
 
