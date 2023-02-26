@@ -80,14 +80,12 @@ if ($.isNode()) {
 async function showmsg() {
   if (notifyInterval == 1) {
     if ($.isNode()) {
-      console.log(msgstyle + '' + tz);
-      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
+      if ((hour == 13 && minute <= 30) || (hour == 23 && minute >= 40)) {
         await notify.sendNotify($.name, tz)
       }
     } else {
-      console.log(msgstyle + '' + tz);
-      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
-        $.msg(msgstyle, '', tz);
+      if ((hour == 13 && minute <= 30) || (hour == 23 && minute >= 40)) {
+        $.msg(msgstyle,'',tz);
       }
     }
   } else if (notifyInterval == 0) {
@@ -187,7 +185,7 @@ if ($.isNode()) {
 
 !(async () => {
   await Jsname()
-  msgstyle = (`\n🥦${jsname}任务执行通知🔔`);
+  msgstyle = (`🥦${jsname}任务执行通知🔔`);
   taskcenterbodyVal = taskcenterbodyArr[0];
   timeredbodyVal = timeredbodyArr[0];
   console.log(`\n✅ 查询账户明细\n`)
