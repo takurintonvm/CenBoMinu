@@ -80,11 +80,11 @@ if ($.isNode()) {
 async function showmsg() {
   if (notifyInterval == 1) {
     if ($.isNode()) {
-      if ((hour == 13 && minute <= 30) || (hour == 23 && minute >= 40)) {
+      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
         await notify.sendNotify($.name, tz)
       }
     } else {
-      if ((hour == 13 && minute <= 30) || (hour == 23 && minute >= 40)) {
+      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
         $.msg(msgstyle,'',tz);
       }
     }

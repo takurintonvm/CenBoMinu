@@ -167,10 +167,34 @@ if ($.isNode()) {
   taskkeyVal = taskkeyArr[0];
   wxtaskkeyVal = wxtaskkeyArr[0];
   cowkeyVal = cowkeyArr[0];
+  if((hour == 15 && minute >= 15) || (hour == 16) || (hour == 17) || (hour == 18) || (hour == 19) || (hour == 20) || (hour == 21) || (hour == 22) || (hour == 23)){
+    await txstock();
+  }else{
+    $.log(`💖请将定时时间设置到"下午3点15分"之后,脚本才会执行`);
+    tz += `💖请将定时时间设置到"下午3点15分"之后,脚本才会执行\n`
+  }
+  await showmsg();
+
+})()
+.catch((e) => $.logErr(e))
+  .finally(() => $.done())
+
+//通知
+function showmsg() {
+  if (notifyInterval != 1) {
+    console.log(O + '\n' + tz);
+  }
+
+  if (notifyInterval == 1) {
+    $.msg(O, '\n', tz);
+  }
+}
+
+async function txstock(){
   console.log(`\n✅ 查询目前账户金币\n`)
   await userhome(); //金币查询
   console.log(`\n✅ 执行【签到】任务\n`)
-  await signtask();
+  //await signtask();
   if (!taskheaderArr[0]) {
     console.log($.name, '【提示】请先前往获取任务cookie')
     return;
@@ -210,21 +234,6 @@ if ($.isNode()) {
   await cowhome2();
   console.log(`\n✅ 执行【自动提现】任务\n`)
   await cashorder(cash, money);
-  await showmsg();
-
-})()
-.catch((e) => $.logErr(e))
-  .finally(() => $.done())
-
-//通知
-function showmsg() {
-  if (notifyInterval != 1) {
-    console.log(O + '\n' + tz);
-  }
-
-  if (notifyInterval == 1) {
-    $.msg(O, '\n', tz);
-  }
 }
 
 //*********测试区*********//================================》
