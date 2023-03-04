@@ -322,7 +322,7 @@ async function cowopenbox() {
 async function cowbox() {
   for(i=0;i<10;i++){
     await cowopenbox();
-    await $.wait(10000);
+    await $.wait(15000);
   }
 }
 
