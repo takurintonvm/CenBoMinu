@@ -413,7 +413,9 @@ function AutoRead() {
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
         if (logs == 1) $.log(data)
-        await $.wait(30000);
+        let randomtime = Randomtime(21000,34000) / 1000
+        await $.wait(Randomtime(21000,34000));
+        console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
 

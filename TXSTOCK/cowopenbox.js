@@ -226,7 +226,9 @@ async function cowfood(bullish){
         console.log(`开始喂牛牛🐮....\n`)
     while(bullish.bullish_info.bullish_value >= 500){
         await cowlevel();
-        await $.wait(5000);//等待10秒
+        let randomtime = Randomtime(5000,10000) / 1000
+        await $.wait(Randomtime(5000,10000));
+        console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
         bullish.bullish_info.bullish_value = bullish.bullish_info.bullish_value - 500
     }
   }else{
@@ -320,9 +322,11 @@ async function cowopenbox() {
   });
 }
 async function cowbox() {
-  for(i=0;i<10;i++){
+  for(let i=0;i<10;i++){
     await cowopenbox();
-    await $.wait(15000);
+    let randomtime = Randomtime(10000,60000) / 1000
+    await $.wait(Randomtime(10000,60000));
+    console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
   }
 }
 
@@ -334,6 +338,10 @@ function Jsname() {
   $.log(` ┋┋ ╭╯╰╮╰┉╮┋ ┋┋ ┋┋┋┋┋┋  ┋ ╰╮`)
   $.log(` ┋┋ ┋╭╮┋╭┉╯┋ ┋┋ ┋╰╯┋┋╰┉╮┋╭╮┋`)
   $.log(` ╰╯ ╰╯╰╯╰┉┉╯ ╰╯ ╰┉┉╯╰┉┉╯╰╯╰╯`)
+}
+
+function Randomtime(mintime, maxtime) {
+    return Math.round(Math.random() * (maxtime - mintime)) + mintime;
 }
 
 function time(time) {
