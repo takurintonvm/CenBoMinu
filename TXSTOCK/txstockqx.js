@@ -194,7 +194,7 @@ async function txstock(){
   console.log(`\n✅ 查询目前账户金币\n`)
   await userhome(); //金币查询
   console.log(`\n✅ 执行【签到】任务\n`)
-  //await signtask();
+  await signtask();
   if (!taskheaderArr[0]) {
     console.log($.name, '【提示】请先前往获取任务cookie')
     return;
@@ -325,7 +325,7 @@ async function cowfood(bullish){
         console.log(`开始喂牛牛🐮....\n`)
     while(bullish.bullish_info.bullish_value >= 500){
         await cowlevel();
-        await $.wait(5000);//等待10秒
+        await $.wait(5000);//等待5秒
         bullish.bullish_info.bullish_value = bullish.bullish_info.bullish_value - 500
     }
   }else{
@@ -644,6 +644,7 @@ async function task7() {
   console.log(`开始验证【猜涨跌活动】任务状态`)
   await statuid3()
   if (statuid3.done == 0) {
+    console.log(`检查本次猜涨跌日期...`)
     await guesstime()
     console.log(`开始自动猜涨跌...`)
     await guessop(guessdate)
@@ -1358,8 +1359,8 @@ function guessred() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             if (data.retcode == 0) {
-              $.log(`【猜涨跌每日礼包】:获得 ${data.reward_desc}`);
-              tz += `【猜涨跌每日礼包】:获得 ${data.reward_desc}\n`
+              $.log(`【猜涨跌每日礼包】:获得 ${data.reward_value}金币`);
+              tz += `【猜涨跌每日礼包】:获得 ${data.reward_value}金币\n`
             } else {
               console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
               tz += `【猜涨跌每日礼包】:${data.retmsg}\n`
