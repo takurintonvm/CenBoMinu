@@ -203,12 +203,15 @@ if ($.isNode()) {
 
   if (hour == 18 || hour == 20) {
     await videoread(); //自动刷视频
-  } else {
+  }else if(hour <= 15) {
     console.log(`\n✅ 打印任务状态清单`)
     await taskcenter(); //任务中心
     console.log(`\n✅ 执行时段奖励任务`)
     await timered(task); //时段奖励
     await sharevideo(); //分享任务
+  }else{
+    console.log(`\n✅时段奖励与分享奖励已达上限,\n等待晚上6点与8点执行自动阅读任务`)
+    tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上6点与8点执行自动阅读任务`;  
   }
   await showmsg();
 
@@ -369,11 +372,11 @@ function timered(task) {
       };
       $.post(timeredurl, async (error, response, data) => {
         let timered = JSON.parse(data)
-        
+
         if (timered.code === 1007) {
           if (logs == 1) $.log(data)
-          $.log(`【时段奖励】：账号异常❌\n请评论,点赞,上传视频...并禁用脚本观察`)
-          tz += `【时段奖励】：账号异常❌\n`;
+          $.log(`【时段奖励】：领取失败,已达上限❌`)
+          tz += `【时段奖励】：领取失败,已达上限❌\n`;
         } else {
           if (logs == 1) $.log(data)
           $.log(`【时段奖励】：获取${timered.data.score}金币`);
