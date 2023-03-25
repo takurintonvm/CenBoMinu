@@ -203,7 +203,7 @@ if ($.isNode()) {
 
   if (hour == 18 || hour == 20) {
     await videoread(); //自动刷视频
-  }else if(hour <= 15) {
+  }else if(hour <= 16) {
     console.log(`\n✅ 打印任务状态清单`)
     await taskcenter(); //任务中心
     console.log(`\n✅ 执行时段奖励任务`)
@@ -211,7 +211,7 @@ if ($.isNode()) {
     await sharevideo(); //分享任务
   }else{
     console.log(`\n✅时段奖励与分享奖励已达上限,\n等待晚上6点与8点执行自动阅读任务`)
-    tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上6点与8点执行自动阅读任务`;  
+    tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上6点与8点执行自动阅读任务`;
   }
   await showmsg();
 
@@ -371,7 +371,7 @@ function timered(task) {
         headers: headerVal,
       };
       $.post(timeredurl, async (error, response, data) => {
-        let timered = JSON.parse(data)
+          timered = JSON.parse(data)
 
         if (timered.code === 1007) {
           if (logs == 1) $.log(data)
