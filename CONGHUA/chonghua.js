@@ -436,7 +436,9 @@ function Jsname() {
   $.log(`┕━━┹┚┕┹━━┹┚┕┹━━┹┚┕┹━━┹┚┕┚`)
 
 }
-
+function Randomtime(mintime, maxtime) {
+    return Math.round(Math.random() * (maxtime - mintime)) + mintime;
+}
 
 function time(time) {
   var date = new Date(time + 8 * 3600 * 1000);
