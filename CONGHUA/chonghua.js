@@ -80,11 +80,11 @@ if ($.isNode()) {
 async function showmsg() {
   if (notifyInterval == 1) {
     if ($.isNode()) {
-      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40) || (hour == 18) || (hour == 20)) {
+      if ((hour == 8 && minute <= 20) || (hour == 12 && minute <= 20) || (hour == 23 && minute <= 20)) {
         await notify.sendNotify($.name, tz)
       }
     } else {
-      if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40) || (hour == 18) || (hour == 20)) {
+      if ((hour == 8 && minute <= 20) || (hour == 12 && minute <= 20) || (hour == 23 && minute <= 20)) {
         $.msg(msgstyle,'',tz);
       }
     }
@@ -201,7 +201,7 @@ if ($.isNode()) {
     );
   }
 
-  if (hour == 18 || hour == 20) {
+  if (hour == 8 || hour == 12 || hour == 23) {
     await videoread(); //自动刷视频
   }else if(hour <= 16) {
     console.log(`\n✅ 打印任务状态清单`)
@@ -210,8 +210,8 @@ if ($.isNode()) {
     await timered(task); //时段奖励
     await sharevideo(); //分享任务
   }else{
-    console.log(`\n✅时段奖励与分享奖励已达上限,\n等待晚上6点与8点执行自动阅读任务`)
-    tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上6点与8点执行自动阅读任务`;
+    console.log(`\n✅时段奖励与分享奖励已达上限,\n等待晚上11点执行自动阅读任务`)
+    tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上11点执行自动阅读任务`;
   }
   await showmsg();
 
@@ -304,6 +304,8 @@ function todaycoin() {
       $.log(`【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.money}`);
       $.log(`【获取金币总计】：${todaycoin.data.total_score}个金币🏅`);
       tz += `【今日金币】：${todaycoin.data.today_score}个金币\n`;
+      tz += `【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.money}`;
+      tz += `【获取金币总计】：${todaycoin.data.total_score}个金币🏅`;
       resolve()
     })
   })
