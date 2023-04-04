@@ -203,7 +203,7 @@ if ($.isNode()) {
 
   if (hour == 8 || hour == 12 || hour == 23) {
     await videoread(); //自动刷视频
-  }else if(hour <= 16) {
+  }else if(hour <= 17) {
     console.log(`\n✅ 打印任务状态清单`)
     await taskcenter(); //任务中心
     console.log(`\n✅ 执行时段奖励任务`)
