@@ -300,12 +300,12 @@ function todaycoin() {
     }
     $.post(todaycoinurl, async (error, resp, data) => {
       let todaycoin = JSON.parse(data);
-      $.log(`【今日金币】：${todaycoin.data.today_score}个金币🏅`);
-      $.log(`【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.money}`);
-      $.log(`【获取金币总计】：${todaycoin.data.total_score}个金币🏅`);
-      tz += `【今日金币】：${todaycoin.data.today_score}个金币\n`;
-      tz += `【账户金币】：${todaycoin.data.score}个金币🏅,折算${todaycoin.data.money}`;
-      tz += `【获取金币总计】：${todaycoin.data.total_score}个金币🏅`;
+      $.log(`【今日金币】：${todaycoin.data.today_score}金币`);
+      $.log(`【账户金币】：${todaycoin.data.score}金币,${todaycoin.data.money}`);
+      $.log(`【获取总计】：${todaycoin.data.total_score}金币`);
+      tz += `【今日金币】：${todaycoin.data.today_score}金币\n`;
+      tz += `【账户金币】：${todaycoin.data.score}金币,${todaycoin.data.money}\n`;
+      tz += `【获取总计】：${todaycoin.data.total_score}金币\n`;
       resolve()
     })
   })
