@@ -1,6 +1,6 @@
 const jsname = '腾讯自选股'
 const $ = Env(jsname)
-const logs = 0; //0为关闭日志，1为开启,默认为0
+const logs = 1; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
 
 let rndtime = Math.round(new Date().getTime()) //毫秒
@@ -305,11 +305,9 @@ async function cowopenbox() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if(data.forbidden_code >= 0 ){
-              $.log(`【点长牛开💰】:${data.forbidden_reason}💭`);
-            }else{
-              $.log(`【点长牛开💰】:${data.reward_info.reward_vaule}牛气`);
-              tz += `【点长牛开💰】:${data.reward_info.reward_vaule}牛气\n`
+            if(data.ret_code == 0 ){
+              //$.log(`【点长牛开💰】:${data.reward_info[0].reward_vaule}牛气`);
+              tz += `【点长牛开💰】:${data.reward_info[0].reward_vaule}牛气\n`
             }
           }
         }
