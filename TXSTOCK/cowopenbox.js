@@ -303,7 +303,7 @@ async function cowopenbox() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            $.log(data)
             data = JSON.parse(data);
             if(data.ret_code == 0 ){
               //$.log(`【点长牛开💰】:${data.reward_info[0].reward_vaule}牛气`);
