@@ -320,7 +320,7 @@ async function cowopenbox() {
   });
 }
 async function cowbox() {
-  for(let i=0;i<3;i++){
+  for(let i=0;i<10;i++){
     await cowopenbox();
     let randomtime = Randomtime(10000,60000) / 1000
     await $.wait(Randomtime(10000,60000));
