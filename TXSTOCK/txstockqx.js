@@ -49,7 +49,7 @@ cowkey:更新并启动微信重写https://raw.githubusercontent.com/CenBoMin/Git
 # 周一抢牛活动：周一登录抢牛活动页面（app）
 
 */
-const jsname = '腾讯自选股'
+const jsname = '📈腾讯自选股'
 const $ = Env(jsname)
 const logs = 0; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
@@ -158,7 +158,7 @@ if ($.isNode()) {
 
 !(async () => {
   await Jsname()
-  O = (`🥦${jsname}任务执行通知🔔`);
+  O = (`${jsname}执行通知🔔`);
   userheaderVal = userheaderArr[0];
   userkeyVal = userkeyArr[0];
   signheaderVal = signheaderArr[0];

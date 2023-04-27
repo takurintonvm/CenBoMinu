@@ -1,4 +1,4 @@
-const jsname = '腾讯自选股'
+const jsname = '🐮自选股养牛牛'
 const $ = Env(jsname)
 const logs = 0; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
@@ -101,7 +101,7 @@ if ($.isNode()) {
 
 !(async () => {
   await Jsname()
-  O = (`🥦${jsname}任务执行通知🔔`);
+  O = (`${jsname}执行通知🔔`);
   userheaderVal = userheaderArr[0];
   userkeyVal = userkeyArr[0];
   signheaderVal = signheaderArr[0];
@@ -114,8 +114,10 @@ if ($.isNode()) {
     console.log($.name, '【提示】请先前往获取任务cookie')
     return;
   }
-  console.log(`\n✅ 执行【点长牛开💰✖️🔟】任务\n`)
-  await cowbox()
+  console.log(`\n✅ 执行【戳牛拿奖🧧】任务\n`)
+  await cowred();
+  console.log(`\n✅ 执行【点长牛开💰】任务\n`)
+  await cowbox();
   console.log(`\n✅ 执行【自动喂牛牛🐮】任务\n`)
   await cowhome1();
   await cowfood(bullish);
@@ -221,17 +223,17 @@ async function cowhome2() {
     });
   });
 }
-async function cowfood(bullish){
+async function cowfood(bullish) {
   if (bullish.bullish_info.bullish_value >= 500) {
-        console.log(`开始喂牛牛🐮....\n`)
-    while(bullish.bullish_info.bullish_value >= 500){
-        await cowlevel();
-        let randomtime = Randomtime(5000,10000) / 1000
-        await $.wait(Randomtime(5000,10000));
-        console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
-        bullish.bullish_info.bullish_value = bullish.bullish_info.bullish_value - 500
+    console.log(`开始喂牛牛🐮....\n`)
+    while (bullish.bullish_info.bullish_value >= 500) {
+      await cowlevel();
+      let randomtime = Randomtime(5000, 10000) / 1000
+      await $.wait(Randomtime(5000, 10000));
+      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
+      bullish.bullish_info.bullish_value = bullish.bullish_info.bullish_value - 500
     }
-  }else{
+  } else {
     console.log(`当前牛气不足,不喂食牛牛🐮...\n`)
     await cowhome2();
   }
@@ -262,9 +264,9 @@ async function cowlevel() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            if(data.level_up_status == 0){
+            if (data.level_up_status == 0) {
               $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
-            }else if(data.level_up_status == 1){
+            } else if (data.level_up_status == 1) {
               $.log(`【🐮新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}`);
               $.log(`【喂牛气奖励】:${data.feed_reward_info.reward_desc}`);
               tz += `【🐮新等级】:第${data.update_new_level}级，获得${data.level_reward_info.reward_desc}\n`
@@ -305,9 +307,8 @@ async function cowopenbox() {
           if (safeGet(data)) {
             $.log(data)
             data = JSON.parse(data);
-            if(data.ret_code == 0 ){
-              //$.log(`【点长牛开💰】:${data.reward_info[0].reward_vaule}牛气`);
-              tz += `【点长牛开💰】:${data.reward_info[0].reward_vaule}牛气\n`
+            if (data.ret_code == 0) {
+              tz += `【🐮钱袋奖励】:获得${data.reward_info[0].reward_desc}\n`
             }
           }
         }
@@ -319,12 +320,145 @@ async function cowopenbox() {
     });
   });
 }
+async function cowopenboxck() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=open_box&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${cowkeyVal}`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Referer': ``,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `zqact03.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+        'Accept-Language': `zh-cn`
+      },
+    };
+    $.get(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            checkbox = data.forbidden_code
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 async function cowbox() {
-  for(let i=0;i<10;i++){
-    await cowopenbox();
-    let randomtime = Randomtime(10000,60000) / 1000
-    await $.wait(Randomtime(10000,60000));
-    console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
+  await cowopenboxck();
+  if (checkbox == 51091036) {
+    console.log(`【🐮钱袋奖励】:今日奖励已经领完,明天再来\n`)
+    tz += `【🐮钱袋奖励】:哎呀，这次是空的💭,在试试\n`
+    console.log(`执行下一个任务...\n`)
+  } else {
+    for (let i = 0; i < 30; i++) {
+      await cowopenbox();
+      let randomtime = Randomtime(10000, 60000) / 1000
+      await $.wait(Randomtime(10000, 60000));
+      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
+    }
+  }
+}
+async function cowgetred() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=rock_bullish&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${cowkeyVal}`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Referer': ``,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `zqact03.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+        'Accept-Language': `zh-cn`
+      },
+    };
+    $.get(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            $.log(data)
+            data = JSON.parse(data);
+            if (data.ret_code == 0) {
+              tz += `【🐮戳戳牛】:获得${data.reward_info[0].reward_desc}\n`
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function cowgetredck() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=rock_bullish&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${cowkeyVal}`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Referer': ``,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `zqact03.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+        'Accept-Language': `zh-cn`
+      },
+    };
+    $.get(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("腾讯自选股: API查询请求失败 ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            data = JSON.parse(data);
+            checkdata = data.forbidden_code
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function cowred() {
+  await cowgetredck();
+  if (checkdata == 190721002) {
+    console.log(`【🐮戳戳牛】:今日奖励已经领完,明天再来\n`)
+    tz += `【🐮戳戳牛】:今日奖励已经领完\n`
+    console.log(`执行下一个任务...\n`)
+  } else {
+    for (let i = 0; i < 15; i++) {
+      await cowgetred();
+      let randomtime = Randomtime(10000, 60000) / 1000
+      await $.wait(Randomtime(10000, 60000));
+      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
+    }
   }
 }
 
@@ -339,7 +473,7 @@ function Jsname() {
 }
 
 function Randomtime(mintime, maxtime) {
-    return Math.round(Math.random() * (maxtime - mintime)) + mintime;
+  return Math.round(Math.random() * (maxtime - mintime)) + mintime;
 }
 
 function time(time) {
