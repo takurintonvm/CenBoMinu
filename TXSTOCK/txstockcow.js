@@ -118,6 +118,13 @@ if ($.isNode()) {
   await cowred();
   console.log(`\n✅ 执行【点长牛开💰】任务\n`)
   await cowbox();
+  console.log(`\n✅ 执行【长牛来啦🐂】悬赏任务\n`)
+  await cowtask0();
+  await cowtask1();
+  await cowtask2();
+  await cowtask3();
+  await cowtask4();
+  await cowtask5();
   console.log(`\n✅ 执行【自动喂牛牛🐮】任务\n`)
   await cowhome1();
   await cowfood(bullish);
@@ -138,8 +145,86 @@ function showmsg() {
     $.msg(O, '\n', tz);
   }
 }
-
-
+//////////////////////////////////////////////////////////////////
+async function cowtask0() {
+  console.log(`开始验证【COW每天长牛签到】任务状态`)
+  await cowstatuid6()
+  if (cowstatuid6.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW每天长牛签到】任务`)
+    await cowtaskid6(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【COW每天长牛签到】:已执行\n`
+  }
+}
+async function cowtask1() {
+  console.log(`开始验证【COW阅读一篇资讯】任务状态`)
+  await cowstatuid1()
+  if (cowstatuid1.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW阅读一篇资讯】任务`)
+    await cowtaskid1(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【COW阅读一篇资讯】:已执行\n`
+  }
+}
+async function cowtask2() {
+  console.log(`开始验证【COW查看大盘行情】任务状态`)
+  await cowstatuid2()
+  if (cowstatuid2.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW查看大盘行情】任务`)
+    await cowtaskid2(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【COW查看大盘行情】:已执行\n`
+  }
+}
+async function cowtask3() {
+  console.log(`开始验证【COW分享一篇资讯】任务状态`)
+  await cowstatuid3()
+  if (cowstatuid3.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW分享一篇资讯】任务`)
+    await cowtaskid3(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【COW分享一篇资讯】:已执行\n`
+  }
+}
+async function cowtask4() {
+  console.log(`开始验证【COW分享股票行情】任务状态`)
+  await cowstatuid4()
+  if (cowstatuid4.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW分享股票行情】任务`)
+    await cowtaskid4(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【COW分享股票行情】:已执行\n`
+  }
+}
+async function cowtask5() {
+  console.log(`开始验证【COW添加股票到自选】任务状态`)
+  await cowstatuid5()
+  if (cowstatuid5.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW添加股票到自选】任务`)
+    await cowtaskid5(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【COW添加股票到自选】:已执行\n`
+  }
+}
+////////////////////////////////////////////////////////////////////
 async function cowhome1() {
   return new Promise((resolve) => {
     let url = {
