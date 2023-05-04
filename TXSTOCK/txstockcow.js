@@ -118,7 +118,7 @@ if ($.isNode()) {
   await cowred();
   console.log(`\n✅ 执行【点长牛开💰】任务\n`)
   await cowbox();
-  console.log(`\n✅ 执行【长牛来啦🐂】悬赏任务\n`)
+  console.log(`\n✅ 执行【每日悬赏💎】任务\n`)
   await cowtask0();
   await cowtask1();
   await cowtask2();
@@ -156,7 +156,7 @@ async function cowtask0() {
     await cowtaskid6(cowticket);
   } else {
     console.log(`准备执行下一个任务...\n`)
-    tz += `【COW每天长牛签到】:已执行\n`
+    tz += `【🐮每天长牛签到】:已执行\n`
   }
 }
 async function cowtask1() {
@@ -169,7 +169,7 @@ async function cowtask1() {
     await cowtaskid1(cowticket);
   } else {
     console.log(`准备执行下一个任务...\n`)
-    tz += `【COW阅读一篇资讯】:已执行\n`
+    tz += `【🐮阅读一篇资讯】:已执行\n`
   }
 }
 async function cowtask2() {
@@ -182,7 +182,7 @@ async function cowtask2() {
     await cowtaskid2(cowticket);
   } else {
     console.log(`准备执行下一个任务...\n`)
-    tz += `【COW查看大盘行情】:已执行\n`
+    tz += `【🐮查看大盘行情】:已执行\n`
   }
 }
 async function cowtask3() {
@@ -195,7 +195,7 @@ async function cowtask3() {
     await cowtaskid3(cowticket);
   } else {
     console.log(`准备执行下一个任务...\n`)
-    tz += `【COW分享一篇资讯】:已执行\n`
+    tz += `【🐮分享一篇资讯】:已执行\n`
   }
 }
 async function cowtask4() {
@@ -208,7 +208,7 @@ async function cowtask4() {
     await cowtaskid4(cowticket);
   } else {
     console.log(`准备执行下一个任务...\n`)
-    tz += `【COW分享股票行情】:已执行\n`
+    tz += `【🐮分享股票行情】:已执行\n`
   }
 }
 async function cowtask5() {
@@ -221,7 +221,7 @@ async function cowtask5() {
     await cowtaskid5(cowticket);
   } else {
     console.log(`准备执行下一个任务...\n`)
-    tz += `【COW添加股票到自选】:已执行\n`
+    tz += `【🐮添加股票到自选】:已执行\n`
   }
 }
 ////////////////////////////////////////////////////////////////////
@@ -597,8 +597,8 @@ function cowtaskid6(cowticket) {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let task = JSON.parse(data)
-      $.log(`【COW每天长牛签到】:获得 ${task.reward_desc}\n`);
-      tz += `【COW每天长牛签到】:获得 ${task.reward_desc}\n`
+      $.log(`【🐮每天长牛签到】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮每天长牛签到】:获得 ${task.reward_desc}\n`
       await $.wait(10000); //等待10秒
       resolve()
     })
@@ -652,7 +652,7 @@ function cowtaskid1(cowticket) {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let task = JSON.parse(data)
-      $.log(`【COW阅读资讯】:获得 ${task.reward_desc}\n`);
+      $.log(`【🐮阅读资讯】:获得 ${task.reward_desc}\n`);
       tz += `【🐮阅读资讯】:获得 ${task.reward_desc}\n`
       await $.wait(10000); //等待10秒
       resolve()
@@ -707,8 +707,8 @@ function cowtaskid2(cowticket) {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let task = JSON.parse(data)
-      $.log(`【COW查看大盘行情】:获得 ${task.reward_desc}\n`);
-      tz += `【COW查看大盘行情】:获得 ${task.reward_desc}\n`
+      $.log(`【🐮查看大盘行情】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮查看大盘行情】:获得 ${task.reward_desc}\n`
       await $.wait(10000); //等待10秒
       resolve()
     })
@@ -762,8 +762,8 @@ function cowtaskid3(cowticket) {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let task = JSON.parse(data)
-      $.log(`【COW分享一篇资讯】:获得 ${task.reward_desc}\n`);
-      tz += `【COW分享一篇资讯】:获得 ${task.reward_desc}\n`
+      $.log(`【🐮分享一篇资讯】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮分享一篇资讯】:获得 ${task.reward_desc}\n`
       await $.wait(10000); //等待10秒
       resolve()
     })
@@ -872,8 +872,8 @@ function cowtaskid5(cowticket) {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let task = JSON.parse(data)
-      $.log(`【COW股票到自选】:获得 ${task.reward_desc}\n`);
-      tz += `【COW股票到自选】:获得 ${task.reward_desc}\n`
+      $.log(`【🐮股票到自选】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮股票到自选】:获得 ${task.reward_desc}\n`
       await $.wait(10000); //等待10秒
       resolve()
     })
