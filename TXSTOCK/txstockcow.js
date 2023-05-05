@@ -320,7 +320,6 @@ async function cowfood(bullish) {
     }
   } else {
     console.log(`当前牛气不足,不喂食牛牛🐮...\n`)
-    await cowhome2();
   }
 }
 async function cowlevel() {
@@ -652,8 +651,8 @@ function cowtaskid1(cowticket) {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let task = JSON.parse(data)
-      $.log(`【🐮阅读资讯】:获得 ${task.reward_desc}\n`);
-      tz += `【🐮阅读资讯】:获得 ${task.reward_desc}\n`
+      $.log(`【🐮阅读一篇资讯】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮阅读一篇资讯】:获得 ${task.reward_desc}\n`
       await $.wait(10000); //等待10秒
       resolve()
     })

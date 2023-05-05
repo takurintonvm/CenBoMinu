@@ -330,7 +330,6 @@ async function cowfood(bullish){
     }
   }else{
     console.log(`当前牛气不足,不喂食牛牛🐮...\n`)
-    await cowhome2();
   }
 }
 async function cowlevel() {
