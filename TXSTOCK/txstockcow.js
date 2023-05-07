@@ -443,7 +443,7 @@ async function cowopenboxck() {
 async function cowbox() {
   await cowopenboxck();
   if (checkbox == 51091036) {
-    console.log(`【🐮钱袋奖励】:今日奖励已经领完,明天再来\n`)
+    console.log(`【🐮钱袋奖励】:今日奖励已经领完,明天再来`)
     tz += `【🐮钱袋奖励】:哎呀，这次是空的💭,在试试\n`
     console.log(`执行下一个任务...\n`)
   } else {
@@ -533,7 +533,7 @@ async function cowgetredck() {
 async function cowred() {
   await cowgetredck();
   if (checkdata == 190721002) {
-    console.log(`【🐮戳戳牛】:今日奖励已经领完,明天再来\n`)
+    console.log(`【🐮戳戳牛】:今日奖励已经领完,明天再来`)
     tz += `【🐮戳戳牛】:今日奖励已经领完\n`
     console.log(`执行下一个任务...\n`)
   } else {

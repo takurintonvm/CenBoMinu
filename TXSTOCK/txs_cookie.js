@@ -8,16 +8,24 @@ const cowkey = $request.headers['Cookie']
      $.msg(`获取cowkey: 成功🎉`, ``)
 }
 
-//签到，猜涨跌
+//提现，猜涨跌
 if($request&&$request.url.indexOf("markets=1")>=0) {
-   const signheader = $request.url.split('openid=')[1];
-     if (signheader) $.setdata(signheader,'signheader')
-     $.log(`[${jsname}] 获取signtask请求🎉: 成功,signheader: ${signheader}`)
-     $.msg(`获取signheader: 成功🎉`, ``)
+   const cashheader = $request.url.split('openid=')[1];
+     if (cashheader) $.setdata(cashheader,'cashheader')
+     $.log(`[${jsname}] 获取cashtask请求🎉: 成功,cashheader: ${cashheader}`)
+     $.msg(`获取cashheader: 成功🎉`, ``)
 const signkey = $request.headers['Cookie']
      if (signkey) $.setdata(signkey, 'signkey')
      $.log(`[${jsname}] 获取signkey请求: 成功🎉,signkey: ${signkey}`)
      $.msg(`获取signkey: 成功🎉`, ``)
+}
+
+//签到
+if($request&&$request.url.indexOf("action=coupon")>=0) {
+   const signheader = $request.url.split('openid=')[1];
+     if (signheader) $.setdata(signheader,'signheader')
+     $.log(`[${jsname}] 获取signheader请求🎉: 成功,signheader: ${signheader}`)
+     $.msg(`获取signheader: 成功🎉`, ``)
 }
 
 //金币查询

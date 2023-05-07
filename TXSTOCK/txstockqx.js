@@ -12,39 +12,45 @@
 #运行脚本前请先下载app,登录。。。手动完成成长任务,有钱
 #8.8打卡任务也手动做,建议只打卡4个成功即可,第5个基本拿不到
 #微信小程序-腾讯自选股和app的日常任务是分开的,毛比较少,手动做吧！
-#点以下链接,到微信帮我助力(应该可以)
+#复制以下链接,贴到到微信点击,帮我助力
 https://zqact01.tenpay.com/activity/page/200814appInvite/#/new?stat_data=Ovy34p00pn019&invite_code=i02Fvx18dc&nick_name=%E9%99%88%E6%9F%8F%E9%8A%98&head_url=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FQ0j4TwGTfTLWqFtqq3JGenAvqEnZhiazoeCicjicAZhEiaCib1LqSCHtC8sPLbG52YiajLZh8VRkY8bWu0uu24AKjgfA%2F132
 
 
 特别感谢烧烤哥,loon用户可以用这个专门的conf：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txsloon_cookie.conf
 
-**** 重写引用 ****
-app：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf
-微信小程序：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf
 **** 定时任务 ****
 0 8 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js
 **** 食用方法 ****
-到[重写]-[引用],启动重写抓取cookie
-taskheader：打开app- 立即获取
+到[重写]-[引用],加入重写引用,根据以下提示获取cookie
+**** 重写引用 ****
+IOS APP：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf
+微信小程序：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf
+**** IOS APP ****
+taskheader：打开app-立即获取
 taskkey：点击左上头像-我的福利-点击获取
+
 userheader：点击左上头像-进入即获取
 userkey：点击左上头像-进入即获取
-signheader：禁用获取cookie重写,重新打开app,点击左上头像-进入,等待我的福利下面活动加载成功,启用获取cookie重写,然后再点击第一个猜涨跌活动的页面就能够获取到了。。。
-signkey：禁用获取cookie重写,重新打开app,点击左上头像-进入,等待我的福利下面活动加载成功,启用获取cookie重写,然后再点击第一个猜涨跌活动的页面就能够获取到了。。。
 
+提现cookie(cashheader):禁用获取cookie重写,重新打开app,点击左上头像-进入,等待我的福利下面活动加载成功,启用获取cookie重写,然后再点击第一个猜涨跌活动的页面就能够获取到了。。。
+
+签到cookie(signheader)：禁用获取cookie重写,重新打开app,点击左上头像-进入,等待右上角的金币数加载成功（进入提现页面）,启用获取cookie重写,点击进入提现的页面,会卡住加载几秒...过一会就能够获取到了
+
+signkey：禁用获取cookie重写,重新打开app,点击左上头像-进入,等待我的福利下面活动加载成功,启用获取cookie重写,然后再点击第一个猜涨跌活动的页面就能够获取到了。。。
+**** 微信小程序 ****
 ！！！！！微信和app重写有冲突,不能两个同时开
 ！！！！！必须先关闭app重写,在加入微信小程序重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,启用之后就可以去微信小程序做任务获取cookie
 
-wxtaskkey:进入微信小程序,点击资讯页面或者股票页面获取
+微信任务cookie(wxtaskkey):进入微信小程序,点击资讯页面或者股票页面获取
 
-cowkey:更新并启动微信重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,打开App,点击左上头像-进入，点击活动页面即可获取
+**** 活动 ****
+活动长了来啦cookie(cowkey):更新并启动微信重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,打开App,点击左上头像-进入，点击活动页面即可获取
 
 ！！！！！获取完cookie,务必关闭重写引用
-
-#脚本一天只运行一次,本脚本虽然加了防呆机制,但是还是尽量避免运行多次
+#脚本一天尽量运行1-3次,本脚本虽然加了防呆机制,但是还是尽量避免运行多次哦...
 #且用且珍惜,更新无限期。
 
-// 手动做:
+// 手动做部分:
 # 模拟炒股周赛奖励：星期天登录模拟炒股(微信/app)
 # 周一抢牛活动：周一登录抢牛活动页面（app）
 
@@ -79,6 +85,10 @@ const userkeyArr = [];
 let userkeyVal = "";
 let USERKEY = [];
 
+const cashheaderArr = [];
+let cashheaderVal = "";
+let CASHHEADER = [];
+
 const signheaderArr = [];
 let signheaderVal = "";
 let SINGHEADER = [];
@@ -108,12 +118,17 @@ let COWKEY = [];
 if ($.isNode()) {
   Object.keys(userheaderVal).forEach((item) => {
     if (userheaderVal[item]) {
-      userheaderArr.push(signheaderVal[item])
+      userheaderArr.push(cashheaderVal[item])
     }
   });
   Object.keys(userkeyVal).forEach((item) => {
     if (userkeyVal[item]) {
       userkeyArr.push(userkeyVal[item])
+    }
+  });
+  Object.keys(cashheaderVal).forEach((item) => {
+    if (cashheaderVal[item]) {
+      cashheaderArr.push(cashheaderVal[item])
     }
   });
   Object.keys(signheaderVal).forEach((item) => {
@@ -146,6 +161,7 @@ if ($.isNode()) {
 } else {
   userheaderArr.push($.getdata('userheader'));
   userkeyArr.push($.getdata('userkey'));
+  cashheaderArr.push($.getdata('cashheader'));
   signheaderArr.push($.getdata('signheader'));
   signkeyArr.push($.getdata('signkey'));
   taskheaderArr.push($.getdata('taskheader'));
@@ -161,6 +177,7 @@ if ($.isNode()) {
   O = (`${jsname}执行通知🔔`);
   userheaderVal = userheaderArr[0];
   userkeyVal = userkeyArr[0];
+  cashheaderVal = cashheaderArr[0];
   signheaderVal = signheaderArr[0];
   signkeyVal = signkeyArr[0];
   taskheaderVal = taskheaderArr[0];
@@ -1173,7 +1190,7 @@ function guesstime() {
 function cashticket() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order_ticket&channel=1&type=2&_=${rndtime}&openid=${signheaderVal}`,
+      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order_ticket&channel=1&type=2&_=${rndtime}&openid=${cashheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${signkeyVal}`,
@@ -1213,7 +1230,7 @@ function cashticket() {
 function getcash1(cashticket) {
   return new Promise((resolve) => {
     let url = {
-      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=2&channel=1&ticket=${cashticket}&item_id=202003102146152a9e8885&_=${rndtime}&openid=${signheaderVal}`,
+      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=2&channel=1&ticket=${cashticket}&item_id=202003102146152a9e8885&_=${rndtime}&openid=${cashheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${signkeyVal}`,
@@ -1251,7 +1268,7 @@ function getcash1(cashticket) {
 function getcash5(cashticket) {
   return new Promise((resolve) => {
     let url = {
-      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=2&channel=1&ticket=${cashticket}&item_id=202003102147152ecaa605&_=${rndtime}&openid=${signheaderVal}`,
+      url: `https://zqact.tenpay.com/cgi-bin/shop.fcgi?action=order&type=2&channel=1&ticket=${cashticket}&item_id=202003102147152ecaa605&_=${rndtime}&openid=${cashheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${signkeyVal}`,
@@ -1375,10 +1392,11 @@ function guessred() {
   });
 }
 //签到
+
 async function signtask() {
   return new Promise((resolve) => {
     let signurl = {
-      url: `https://wzq.tenpay.com/cgi-bin/activity_sign_task.fcgi?actid=2002&action=signdone&channel=1&date=${signday}&_=${rndtime}&_appName=ios${taskheaderVal}`,
+      url: `https://wzq.tenpay.com/cgi-bin/activity_sign_task.fcgi?actid=2002&action=signdone&date=${signday}&_=${rndtime}&openid=${signheaderVal}`,
       body: ``,
       headers: {
         'Cookie': `${taskkeyVal}`,
