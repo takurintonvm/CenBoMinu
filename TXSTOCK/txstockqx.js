@@ -19,7 +19,7 @@ https://zqact01.tenpay.com/activity/page/200814appInvite/#/new?stat_data=Ovy34p0
 特别感谢烧烤哥,loon用户可以用这个专门的conf：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txsloon_cookie.conf
 
 **** 定时任务 ****
-0 8 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js
+16 30 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js
 **** 食用方法 ****
 到[重写]-[引用],加入重写引用,根据以下提示获取cookie
 **** 重写引用 ****
