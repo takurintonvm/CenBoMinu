@@ -391,7 +391,7 @@ async function cowopenbox() {
           if (safeGet(data)) {
             $.log(data)
             data = JSON.parse(data);
-            if (data.ret_code == 0) {
+            if (data.retcode == 0) {
               tz += `【🐮钱袋奖励】:获得${data.reward_info[0].reward_desc}\n`
             }
           }
@@ -442,16 +442,17 @@ async function cowopenboxck() {
 }
 async function cowbox() {
   await cowopenboxck();
+  await $.wait(8000);
   if (checkbox == 51091036) {
     console.log(`【🐮钱袋奖励】:今日奖励已经领完,明天再来`)
     tz += `【🐮钱袋奖励】:哎呀，这次是空的💭,在试试\n`
     console.log(`执行下一个任务...\n`)
   } else {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 10; i++) {
       await cowopenbox();
       let randomtime = Randomtime(10000, 60000) / 1000
       await $.wait(Randomtime(10000, 60000));
-      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
+      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...\n`);
     }
   }
 }
@@ -481,7 +482,7 @@ async function cowgetred() {
           if (safeGet(data)) {
             $.log(data)
             data = JSON.parse(data);
-            if (data.ret_code == 0) {
+            if (data.retcode == 0){
               tz += `【🐮戳戳牛】:获得${data.reward_info[0].reward_desc}\n`
             }
           }
@@ -532,16 +533,17 @@ async function cowgetredck() {
 }
 async function cowred() {
   await cowgetredck();
+  await $.wait(8000);
   if (checkdata == 190721002) {
     console.log(`【🐮戳戳牛】:今日奖励已经领完,明天再来`)
     tz += `【🐮戳戳牛】:今日奖励已经领完\n`
     console.log(`执行下一个任务...\n`)
   } else {
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 5; i++) {
       await cowgetred();
       let randomtime = Randomtime(10000, 60000) / 1000
       await $.wait(Randomtime(10000, 60000));
-      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
+      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...\n`);
     }
   }
 }
