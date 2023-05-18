@@ -533,17 +533,15 @@ async function cowgetredck() {
 }
 async function cowred() {
   await cowgetredck();
-  await $.wait(8000);
+  await $.wait(3500);
   if (checkdata == 190721002) {
     console.log(`【🐮戳戳牛】:今日奖励已经领完,明天再来`)
     tz += `【🐮戳戳牛】:今日奖励已经领完\n`
     console.log(`执行下一个任务...\n`)
   } else {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       await cowgetred();
-      let randomtime = Randomtime(10000, 60000) / 1000
-      await $.wait(Randomtime(10000, 60000));
-      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...\n`);
+      await $.wait(Randomtime(3500, 4100));
     }
   }
 }
@@ -818,8 +816,8 @@ function cowtaskid4(cowticket) {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let task = JSON.parse(data)
-      $.log(`【COW分享股票行情】:获得 ${task.reward_desc}\n`);
-      tz += `【COW分享股票行情】:获得 ${task.reward_desc}\n`
+      $.log(`【🐮分享股票行情】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮分享股票行情】:获得 ${task.reward_desc}\n`
       await $.wait(10000); //等待10秒
       resolve()
     })
