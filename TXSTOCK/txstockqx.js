@@ -44,9 +44,6 @@ signkey：禁用获取cookie重写,重新打开app,点击左上头像-进入,等
 
 微信任务cookie(wxtaskkey):进入微信小程序,点击资讯页面或者股票页面获取
 
-**** 活动 ****
-活动长了来啦cookie(cowkey):更新并启动微信重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,打开App,点击左上头像-进入，点击活动页面即可获取
-
 ！！！！！获取完cookie,务必关闭重写引用
 #脚本一天尽量运行1-3次,本脚本虽然加了防呆机制,但是还是尽量避免运行多次哦...
 #且用且珍惜,更新无限期。
@@ -110,9 +107,6 @@ const wxtaskkeyArr = [];
 let wxtaskkeyVal = "";
 let WXTASKKEY = [];
 
-const cowkeyArr = [];
-let cowkeyVal = "";
-let COWKEY = [];
 ////////////////////////////////////////////////////////////////////
 
 
@@ -184,7 +178,6 @@ if ($.isNode()) {
   taskheaderVal = taskheaderArr[0];
   taskkeyVal = taskkeyArr[0];
   wxtaskkeyVal = wxtaskkeyArr[0];
-  cowkeyVal = cowkeyArr[0];
   if((hour == 15 && minute >= 15) || (hour == 16) || (hour == 17) || (hour == 18) || (hour == 19) || (hour == 20) || (hour == 21) || (hour == 22) || (hour == 23)){
     await txstock();
   }else{
