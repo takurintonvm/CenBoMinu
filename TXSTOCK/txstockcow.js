@@ -1,3 +1,10 @@
+/*
+**** 活动 ****
+活动长牛来啦cookie(cowkey):更新并启动微信重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,打开App,点击左上头像-进入，点击活动页面即可获取
+
+！！！！！获取完cookie,务必关闭重写引用
+*/
+
 const jsname = '🐮自选股养牛牛'
 const $ = Env(jsname)
 const logs = 0; //0为关闭日志，1为开启,默认为0
