@@ -74,5 +74,23 @@
 		"script": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js",
 		"icons": ["https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txzxg.png","https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txzxg.png"
 		]
+	},{
+		"id": "wlapp",
+		"name": "文旅看点",
+		"keys": ["getdomainbody", "getdomainkey", "userloginbody", "userloginkey"],
+		"settings": [
+			{
+				"id": "cash",
+				"name": "提现开关:0,不自动提现;1，提现1元；5，提现5元",
+				"val": "",
+				"type": "number",
+				"desc": "默认为0,不自动提现"
+			}
+		],
+		"author": "@cenbomin",
+		"repo": ["https://raw.githubusercontent.com/CenBoMin/GithubSync"],
+		"script": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js",
+		"icons": ["https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/wlapp.png","https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/wlapp.png"
+		]
 	}]
 }
