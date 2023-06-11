@@ -62,6 +62,18 @@ if($request&&$request.url.indexOf("readAccount.action")>=0) {
     $.msg(`获取readaccountkey: 成功🎉`, ``)
 
 }
+//infome
+if($request&&$request.url.indexOf("infoMe.action")>=0) {
+  const infomebody = $request.body
+    if (infomebody) $.setdata(infomebody,'infomebody')
+    $.log(`[${jsname}] 获取infomebody请求🎉: 成功,infomebody: ${infomebody}`)
+    $.msg(`获取infomebody: 成功🎉`, ``)
+  const infomekey = JSON.stringify($request.headers)
+    if (infomekey) $.setdata(infomekey,'infomekey')
+    $.log(`[${jsname}] 获取infomekey请求🎉: 成功,infomekey: ${infomekey}`)
+    $.msg(`获取infomekey: 成功🎉`, ``)
+
+}
 
 
 //getallkey
