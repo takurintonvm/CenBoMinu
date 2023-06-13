@@ -75,6 +75,32 @@ if($request&&$request.url.indexOf("infoMe.action")>=0) {
 
 }
 
+//videoartlist
+if($request&&$request.url.indexOf("artlist.action")>=0 && $request.body.indexOf("%22articlevideo%22%20%3A%20%221%22")>=0) {
+  const videoartlistbody = $request.body
+    if (videoartlistbody) $.setdata(videoartlistbody,'videoartlistbody')
+    $.log(`[${jsname}] 获取videoartlistbody请求🎉: 成功,videoartlistbody: ${videoartlistbody}`)
+    $.msg(`获取videoartlistbody: 成功🎉`, ``)
+  const videoartlistkey = JSON.stringify($request.headers)
+    if (videoartlistkey) $.setdata(videoartlistkey,'videoartlistkey')
+    $.log(`[${jsname}] 获取videoartlistkey请求🎉: 成功,videoartlistkey: ${videoartlistkey}`)
+    $.msg(`获取videoartlistkey: 成功🎉`, ``)
+
+}
+
+//videoreadaccount
+if($request&&$request.url.indexOf("readAccount.action")>=0 && $request.body.indexOf("%22paytype%22%20%3A%202")>=0) {
+  const videoreadaccountbody = $request.body
+    if (videoreadaccountbody) $.setdata(videoreadaccountbody,'videoreadaccountbody')
+    $.log(`[${jsname}] 获取videoreadaccountbody请求🎉: 成功,videoreadaccountbody: ${videoreadaccountbody}`)
+    $.msg(`获取videoreadaccountbody: 成功🎉`, ``)
+  const videoreadaccountkey = JSON.stringify($request.headers)
+    if (videoreadaccountkey) $.setdata(videoreadaccountkey,'videoreadaccountkey')
+    $.log(`[${jsname}] 获取videoreadaccountkey请求🎉: 成功,videoreadaccountkey: ${videoreadaccountkey}`)
+    $.msg(`获取videoreadaccountkey: 成功🎉`, ``)
+
+}
+
 
 //getallkey
 if (typeof $request !== 'undefined') {
