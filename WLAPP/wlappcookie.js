@@ -26,7 +26,7 @@ if($request&&$request.url.indexOf("userlogin.action")>=0) {
 
 }
 //artlist
-if($request&&$request.url.indexOf("artlist.action")>=0) {
+if($request&&$request.url.indexOf("artlist.action")>=0 && $request.body.indexOf("%22articlevideo%22%20%3A%20%220%22")>=0) {
   const artlistbody = $request.body
     if (artlistbody) $.setdata(artlistbody,'artlistbody')
     $.log(`[${jsname}] 获取artlistbody请求🎉: 成功,artlistbody: ${artlistbody}`)
@@ -51,7 +51,7 @@ if($request&&$request.url.indexOf("stationarticle.action")>=0) {
 
 }
 //readaccount
-if($request&&$request.url.indexOf("readAccount.action")>=0) {
+if($request&&$request.url.indexOf("readAccount.action")>=0 && $request.body.indexOf("%22paytype%22%20%3A%201")>=0) {
   const readaccountbody = $request.body
     if (readaccountbody) $.setdata(readaccountbody,'readaccountbody')
     $.log(`[${jsname}] 获取readaccountbody请求🎉: 成功,readaccountbody: ${readaccountbody}`)
