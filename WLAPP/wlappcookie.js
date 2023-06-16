@@ -101,6 +101,18 @@ if($request&&$request.url.indexOf("readAccount.action")>=0 && $request.body.inde
 
 }
 
+//artdetail
+if($request&&$request.url.indexOf("artDetail.action")>=0) {
+  const artdetailbody = $request.body
+    if (artdetailbody) $.setdata(artdetailbody,'artdetailbody')
+    $.log(`[${jsname}] 获取artdetailbody请求🎉: 成功,artdetailbody: ${artdetailbody}`)
+    $.msg(`获取artdetailbody: 成功🎉`, ``)
+  const artdetailkey = JSON.stringify($request.headers)
+    if (artdetailkey) $.setdata(artdetailkey,'artdetailkey')
+    $.log(`[${jsname}] 获取artdetailkey请求🎉: 成功,artdetailkey: ${artdetailkey}`)
+    $.msg(`获取artdetailkey: 成功🎉`, ``)
+
+}
 
 //getallkey
 if (typeof $request !== 'undefined') {
