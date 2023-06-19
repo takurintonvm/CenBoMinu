@@ -77,7 +77,7 @@
 	},{
 		"id": "wlapp",
 		"name": "文旅看点",
-		"keys": ["getdomainbody", "getdomainkey", "userloginbody", "userloginkey"],
+		"keys": ["getdomainbody", "getdomainkey", "userloginbody", "userloginkey", "artlistbody", "artlistkey", "artstationurl", "artstationkey", "readaccountbody", "readaccountkey", "infomebody", "infomekey", "videoartlistbody", "videoartlistkey", "videoreadaccountbody", "videoreadaccountkey", "artdetailbody", "artdetailkey"],
 		"settings": [
 			{
 				"id": "cash",
@@ -89,8 +89,8 @@
 		],
 		"author": "@cenbomin",
 		"repo": ["https://raw.githubusercontent.com/CenBoMin/GithubSync"],
-		"script": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js",
-		"icons": ["https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/wlapp.png","https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/wlapp.png"
+		"script": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/WLAPP/wlapp.js",
+		"icons": ["https://raw.githubusercontent.com/CenBoMin/GithubSync/main/WLAPP/wlapp.png","https://raw.githubusercontent.com/CenBoMin/GithubSync/main/WLAPP/wlapp.png"
 		]
 	}]
 }

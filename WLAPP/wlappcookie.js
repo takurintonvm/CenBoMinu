@@ -6,11 +6,9 @@ if($request&&$request.url.indexOf("getDomain.action")>=0) {
   const getdomainbody = $request.body
     if (getdomainbody) $.setdata(getdomainbody,'getdomainbody')
     $.log(`[${jsname}] 获取getdomainbody请求🎉: 成功,getdomainbody: ${getdomainbody}`)
-    $.msg(`获取getdomainbody: 成功🎉`, ``)
   const getdomainkey = JSON.stringify($request.headers)
     if (getdomainkey) $.setdata(getdomainkey,'getdomainkey')
     $.log(`[${jsname}] 获取getdomainkey请求🎉: 成功,getdomainkey: ${getdomainkey}`)
-    $.msg(`获取getdomainkey: 成功🎉`, ``)
 }
 //userlogin
 
@@ -18,11 +16,10 @@ if($request&&$request.url.indexOf("userlogin.action")>=0) {
   const userloginbody = $request.body
     if (userloginbody) $.setdata(userloginbody,'userloginbody')
     $.log(`[${jsname}] 获取userloginbody请求🎉: 成功,userloginbody: ${userloginbody}`)
-    $.msg(`获取userloginbody: 成功🎉`, ``)
   const userloginkey = JSON.stringify($request.headers)
     if (userloginkey) $.setdata(userloginkey,'userloginkey')
     $.log(`[${jsname}] 获取userloginkey请求🎉: 成功,userloginkey: ${userloginkey}`)
-    $.msg(`获取userloginkey: 成功🎉`, ``)
+    $.msg(`获取登录cookie: 成功🎉`, ``)
 
 }
 //artlist
@@ -30,11 +27,9 @@ if($request&&$request.url.indexOf("artlist.action")>=0 && $request.body.indexOf(
   const artlistbody = $request.body
     if (artlistbody) $.setdata(artlistbody,'artlistbody')
     $.log(`[${jsname}] 获取artlistbody请求🎉: 成功,artlistbody: ${artlistbody}`)
-    $.msg(`获取artlistbody: 成功🎉`, ``)
   const artlistkey = JSON.stringify($request.headers)
     if (artlistkey) $.setdata(artlistkey,'artlistkey')
     $.log(`[${jsname}] 获取artlistkey请求🎉: 成功,artlistkey: ${artlistkey}`)
-    $.msg(`获取artlistkey: 成功🎉`, ``)
 
 }
 //artstation
@@ -42,12 +37,10 @@ if($request&&$request.url.indexOf("stationarticle.action")>=0) {
   const artstationurl = $request.url;
     if (artstationurl) $.setdata(artstationurl,'artstationurl')
     $.log(`[${jsname}] 获取ArtstationURL请求🎉: 成功,artstationurl: ${artstationurl}`)
-    $.msg(`获取ArtstationURL: 成功🎉`, ``)
 
   const artstationkey = JSON.stringify($request.headers)
     if (artstationkey) $.setdata(artstationkey,'artstationkey')
     $.log(`[${jsname}] 获取artstationkey请求🎉: 成功,artstationkey: ${artstationkey}`)
-    $.msg(`获取artstationkey: 成功🎉`, ``)
 
 }
 //readaccount
@@ -55,11 +48,11 @@ if($request&&$request.url.indexOf("readAccount.action")>=0 && $request.body.inde
   const readaccountbody = $request.body
     if (readaccountbody) $.setdata(readaccountbody,'readaccountbody')
     $.log(`[${jsname}] 获取readaccountbody请求🎉: 成功,readaccountbody: ${readaccountbody}`)
-    $.msg(`获取readaccountbody: 成功🎉`, ``)
+
   const readaccountkey = JSON.stringify($request.headers)
     if (readaccountkey) $.setdata(readaccountkey,'readaccountkey')
     $.log(`[${jsname}] 获取readaccountkey请求🎉: 成功,readaccountkey: ${readaccountkey}`)
-    $.msg(`获取readaccountkey: 成功🎉`, ``)
+    $.msg(`获取文章奖励cookie: 成功🎉`, ``)
 
 }
 //infome
@@ -67,11 +60,11 @@ if($request&&$request.url.indexOf("infoMe.action")>=0) {
   const infomebody = $request.body
     if (infomebody) $.setdata(infomebody,'infomebody')
     $.log(`[${jsname}] 获取infomebody请求🎉: 成功,infomebody: ${infomebody}`)
-    $.msg(`获取infomebody: 成功🎉`, ``)
+
   const infomekey = JSON.stringify($request.headers)
     if (infomekey) $.setdata(infomekey,'infomekey')
     $.log(`[${jsname}] 获取infomekey请求🎉: 成功,infomekey: ${infomekey}`)
-    $.msg(`获取infomekey: 成功🎉`, ``)
+    $.msg(`获取用户账户cookie: 成功🎉`, ``)
 
 }
 
@@ -80,11 +73,11 @@ if($request&&$request.url.indexOf("artlist.action")>=0 && $request.body.indexOf(
   const videoartlistbody = $request.body
     if (videoartlistbody) $.setdata(videoartlistbody,'videoartlistbody')
     $.log(`[${jsname}] 获取videoartlistbody请求🎉: 成功,videoartlistbody: ${videoartlistbody}`)
-    $.msg(`获取videoartlistbody: 成功🎉`, ``)
+
   const videoartlistkey = JSON.stringify($request.headers)
     if (videoartlistkey) $.setdata(videoartlistkey,'videoartlistkey')
     $.log(`[${jsname}] 获取videoartlistkey请求🎉: 成功,videoartlistkey: ${videoartlistkey}`)
-    $.msg(`获取videoartlistkey: 成功🎉`, ``)
+
 
 }
 
@@ -93,11 +86,11 @@ if($request&&$request.url.indexOf("readAccount.action")>=0 && $request.body.inde
   const videoreadaccountbody = $request.body
     if (videoreadaccountbody) $.setdata(videoreadaccountbody,'videoreadaccountbody')
     $.log(`[${jsname}] 获取videoreadaccountbody请求🎉: 成功,videoreadaccountbody: ${videoreadaccountbody}`)
-    $.msg(`获取videoreadaccountbody: 成功🎉`, ``)
+
   const videoreadaccountkey = JSON.stringify($request.headers)
     if (videoreadaccountkey) $.setdata(videoreadaccountkey,'videoreadaccountkey')
     $.log(`[${jsname}] 获取videoreadaccountkey请求🎉: 成功,videoreadaccountkey: ${videoreadaccountkey}`)
-    $.msg(`获取videoreadaccountkey: 成功🎉`, ``)
+    $.msg(`获取视频奖励cookie: 成功🎉`, ``)
 
 }
 
@@ -106,11 +99,11 @@ if($request&&$request.url.indexOf("artDetail.action")>=0) {
   const artdetailbody = $request.body
     if (artdetailbody) $.setdata(artdetailbody,'artdetailbody')
     $.log(`[${jsname}] 获取artdetailbody请求🎉: 成功,artdetailbody: ${artdetailbody}`)
-    $.msg(`获取artdetailbody: 成功🎉`, ``)
+
   const artdetailkey = JSON.stringify($request.headers)
     if (artdetailkey) $.setdata(artdetailkey,'artdetailkey')
     $.log(`[${jsname}] 获取artdetailkey请求🎉: 成功,artdetailkey: ${artdetailkey}`)
-    $.msg(`获取artdetailkey: 成功🎉`, ``)
+
 
 }
 
