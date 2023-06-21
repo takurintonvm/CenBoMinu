@@ -250,7 +250,10 @@ if ($.isNode()) {
 !(async () => {
   await Jsname()
   cc = (`🥦${jsname}任务执行通知🔔`);
-
+  if (!getdomainbodyArr[0]) {
+    console.log($.name, '【提示】请先前往获取cookie📲')
+    return;
+  }
   getdomainbodyVal = getdomainbodyArr[0];
   getdomainkeyVal = getdomainkeyArr[0];
   userloginbodyVal = userloginbodyArr[0];
@@ -276,8 +279,6 @@ if ($.isNode()) {
     await showmsg1();
   } else if (msgstyle = "time") {
     await showmsg2();
-  }
-  if((hour == 8 && minute <= 5) || (hour == 12 && minute <= 5)||(hour == 23 && minute <= 5)){
   }
 
 })()
@@ -312,10 +313,6 @@ async function showmsg2() {
 }
 //////////////////////////////////////////////////////////////////
 async function wlapp() {
-  if (!getdomainbodyArr[0]) {
-    console.log($.name, '【提示】请先前往获取cookie📲')
-    return;
-  }
   console.log(`\n✅ 执行【模拟用户登录】任务\n`)
   await getdomin();
   await userlogin(jsessionid);
@@ -331,7 +328,7 @@ async function wlapp() {
   await videoartlist(jsessionid)
   console.log(`🙇开始随机看一篇视频🎬...`)
   console.log(`\n🆔【视频验证】:\n🎬${jsessionid}\n`)
-  await artdetail(jsessionid,videoid,videolistid)
+  await artdetail(jsessionid, videoid, videolistid)
   await $.wait(12000)
   await videoAccount(jsessionid, videoid)
 
@@ -648,7 +645,7 @@ function artstation(rdid, listid, appversion, openid, listid2) {
 }
 
 //artdetail
-async function artdetail(jsessionid,videoid,videolistid) {
+async function artdetail(jsessionid, videoid, videolistid) {
   let artdetailtime = artdetailbodyVal.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${todaytimes}`)
   let artdetailbodyrp = artdetailtime.replace(/%22artid%22%20%3A%20%22\d+/, `%22artid%22%20%3A%20%22${videoid}`)
   let artdetailbody = artdetailbodyrp.replace(/%22request_id%22%20%3A%20%22\d+/, `%22request_id%22%20%3A%20%22${videolistid}`)
@@ -795,20 +792,20 @@ async function videoAccount(jsessionid, videoid) {
 }
 //
 function invite() {
-    return new Promise((resolve, reject) =>{
-        let inviteurl = {
-            url: ``,
-            headers: {
-                Cookie: cookieval
-            }
-        }
-        $.get(inviteurl, (error, resp, data) =>{
-            if (error) {
-                //$.log("响应错误")
-            }
-            resolve()
-        })
+  return new Promise((resolve, reject) => {
+    let inviteurl = {
+      url: ``,
+      headers: {
+        Cookie: cookieval
+      }
+    }
+    $.get(inviteurl, (error, resp, data) => {
+      if (error) {
+        //$.log("响应错误")
+      }
+      resolve()
     })
+  })
 }
 
 
