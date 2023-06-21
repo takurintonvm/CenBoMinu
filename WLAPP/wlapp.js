@@ -37,7 +37,6 @@ const logs = 0;
 //0为关闭通知，1为所有通知,默认为0
 const notifyInterval = 1;
 //通知风格
-let msgstyle = "time";
 let tz = '';
 //let cash = $.getval('cash') || 0; //0为不自动提现,1为自动提现1元,5为自动提现1元
 //////////////////////////////////////////////////////////////////
@@ -275,11 +274,8 @@ if ($.isNode()) {
 
   console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
   await wlapp();
-  if (msgstyle = "normal") {
-    await showmsg1();
-  } else if (msgstyle = "time") {
-    await showmsg2();
-  }
+  await showmsg2();
+
 
 })()
 .catch((e) => $.logErr(e))
