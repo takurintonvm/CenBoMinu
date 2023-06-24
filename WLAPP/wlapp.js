@@ -299,7 +299,7 @@ async function showmsg2() {
         await notify.sendNotify($.name, tz)
       }
     } else {
-      if ((hour == 8 && minute <= 5) || (hour == 12 && minute <= 5) || (hour == 23 && minute <= 5)) {
+      if ((hour == 8 && minute <= 3) || (hour == 12 && minute <= 3) || (hour == 23 && minute <= 3)) {
         $.msg(cc, '', tz);
       }
     }
