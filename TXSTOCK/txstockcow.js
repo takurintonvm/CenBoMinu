@@ -132,6 +132,10 @@ if ($.isNode()) {
   await cowtask3();
   await cowtask4();
   await cowtask5();
+  await cowtask6();
+  await cowtask7();
+  await cowtask8();
+  await cowtask9();
   console.log(`\n✅ 执行【自动喂牛牛🐮】任务\n`)
   await cowhome1();
   await cowfood(bullish);
@@ -229,6 +233,58 @@ async function cowtask5() {
   } else {
     console.log(`准备执行下一个任务...\n`)
     tz += `【🐮添加股票到自选】:已执行\n`
+  }
+}
+async function cowtask6() {
+  console.log(`开始验证【未上架-分享帖子】任务状态`)
+  await cowstatuid7()
+  if (cowstatuid7.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【未上架-分享帖子】任务`)
+    await cowtaskid7(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【🐮未上架-分享帖子】:已执行\n`
+  }
+}
+async function cowtask7() {
+  console.log(`开始验证【未上架-点赞】任务状态`)
+  await cowstatuid8()
+  if (cowstatuid8.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【未上架-点赞】任务`)
+    await cowtaskid8(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【🐮未上架-点赞】:已执行\n`
+  }
+}
+async function cowtask8() {
+  console.log(`开始验证【COW查看选股卡页】任务状态`)
+  await cowstatuid9()
+  if (cowstatuid9.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW查看选股卡页】任务`)
+    await cowtaskid9(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【🐮查看选股卡页】:已执行\n`
+  }
+}
+async function cowtask9() {
+  console.log(`开始验证【COW模拟炒股】任务状态`)
+  await cowstatuid10()
+  if (cowstatuid10.done == 0) {
+    console.log(`开始申请票据...`)
+    await cowtaskticket(); //申请票据
+    console.log(`执行【COW模拟炒股】任务`)
+    await cowtaskid10(cowticket);
+  } else {
+    console.log(`准备执行下一个任务...\n`)
+    tz += `【🐮模拟炒股】:已执行\n`
   }
 }
 ////////////////////////////////////////////////////////////////////
@@ -905,6 +961,230 @@ function cowstatuid5() {
       if (logs == 1) $.log(data)
       cowstatuid5 = JSON.parse(data)
       if (cowstatuid5.done == 1) {
+        $.log(`验证状态失败,任务已执行🚫`);
+      } else {
+        $.log(`验证状态成功,可执行任务🎉`);
+      }
+      resolve()
+    })
+  })
+}
+
+//id7 分享帖子300牛气
+function cowtaskid7(cowticket) {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=29&id=7&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      let task = JSON.parse(data)
+      $.log(`【🐮未上架-分享帖子】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮未上架-分享帖子】:获得 ${task.reward_desc}\n`
+      await $.wait(10000); //等待10秒
+      resolve()
+    })
+  })
+}
+function cowstatuid7() {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=7&tid=29&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      cowstatuid7 = JSON.parse(data)
+      if (cowstatuid7.done == 1) {
+        $.log(`验证状态失败,任务已执行🚫`);
+      } else {
+        $.log(`验证状态成功,可执行任务🎉`);
+      }
+      resolve()
+    })
+  })
+}
+
+//id8 点👍200牛气
+function cowtaskid8(cowticket) {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=4&id=8&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      let task = JSON.parse(data)
+      $.log(`【🐮未上架-点赞】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮未上架-点赞】:获得 ${task.reward_desc}\n`
+      await $.wait(10000); //等待10秒
+      resolve()
+    })
+  })
+}
+function cowstatuid8() {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=8&tid=4&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      cowstatuid8 = JSON.parse(data)
+      if (cowstatuid8.done == 1) {
+        $.log(`验证状态失败,任务已执行🚫`);
+      } else {
+        $.log(`验证状态成功,可执行任务🎉`);
+      }
+      resolve()
+    })
+  })
+}
+
+//id9 查看选股卡页 200牛气
+function cowtaskid9(cowticket) {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=14&id=9&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      let task = JSON.parse(data)
+      $.log(`【🐮查看选股卡页】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮查看选股卡页】:获得 ${task.reward_desc}\n`
+      await $.wait(10000); //等待10秒
+      resolve()
+    })
+  })
+}
+function cowstatuid9() {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=9&tid=14&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      cowstatuid9 = JSON.parse(data)
+      if (cowstatuid9.done == 1) {
+        $.log(`验证状态失败,任务已执行🚫`);
+      } else {
+        $.log(`验证状态成功,可执行任务🎉`);
+      }
+      resolve()
+    })
+  })
+}
+
+//id10 模拟炒股 500牛气
+function cowtaskid10(cowticket) {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=13&id=10&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      let task = JSON.parse(data)
+      $.log(`【🐮模拟炒股】:获得 ${task.reward_desc}\n`);
+      tz += `【🐮模拟炒股】:获得 ${task.reward_desc}\n`
+      await $.wait(10000); //等待10秒
+      resolve()
+    })
+  })
+}
+function cowstatuid10() {
+  return new Promise((resolve, reject) => {
+    let testurl = {
+      url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=10&tid=13&_appName=ios${taskheaderVal}`,
+      body: ``,
+      headers: {
+        'Cookie': `${taskkeyVal}`,
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Referer': `http://zixuanguapp.finance.qq.com`,
+        'Accept-Encoding': `gzip,deflate`,
+        'Host': `wzq.tenpay.com`,
+        'User-Agent': `QQStock/8.7.0 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
+      },
+    }
+    $.get(testurl, async (error, resp, data) => {
+      if (logs == 1) $.log(data)
+      cowstatuid10 = JSON.parse(data)
+      if (cowstatuid10.done == 1) {
         $.log(`验证状态失败,任务已执行🚫`);
       } else {
         $.log(`验证状态成功,可执行任务🎉`);
