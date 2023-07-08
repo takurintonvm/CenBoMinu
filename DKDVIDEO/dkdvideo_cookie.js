@@ -44,7 +44,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/android_vi
     $.msg('', '', `添加视频key请求: 成功🎉,当前共有${getawardkeyArr.length+1}个`)
     $.done()
   }
-}
+
 
 
 //getallkey
