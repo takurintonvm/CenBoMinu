@@ -1,16 +1,17 @@
 const jsname = '⛱多看点'
 const $ = Env(jsname)
-
 //dkdtoken
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/red_getaward/)) {
-  const dkdtoken = $request.body
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/red_countdown/)) {
+  const dkdtokenbody = $request.body
   if (dkdtokenbody) $.setdata(dkdtokenbody, 'dkdtokenbody')
-  $.log(`[${jsname}] 获取dkdtoken请求🎉: 成功,rdkdtokenbody: ${dkdtokenbody}`)
+  $.log(`[${jsname}] 获取dkdtokenbody请求🎉: 成功,dkdtokenbody: ${dkdtokenbody}`)
+
   const dkdtokenkey = JSON.stringify($request.headers)
   if (dkdtokenkey) $.setdata(dkdtokenkey, 'dkdtokenkey')
   $.log(`[${jsname}] 获取dkdtokenkey请求🎉: 成功,dkdtokenkey: ${dkdtokenkey}`)
-  $.msg(`获取视频token: 成功🎉`, ``)
+  $.done()
 }
+
 
 //getaward
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/android_video\/getaward/)) {
@@ -18,8 +19,18 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/android_vi
   let getawardbodyArr = [];
   if (getawardbodyVal) {
     let bodys = $.getdata('getawardbody');
+
     if (bodys) {
+
+      if (bodys.indexOf(getawardbodyVal) != -1) {
+        $.msg('body重复跳过');
+        $.done();
+
+      }
+
       getawardbodyArr = bodys.split('#');
+
+
       bodys = getawardbodyVal + '#' + bodys;
     } else {
       bodys = getawardbodyVal;
@@ -29,22 +40,6 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/android_vi
     $.done()
   }
 }
-
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/android_video\/getaward/)) {
-  const getawardkeyVal = JSON.stringify($request.headers)
-  let getawardkeyArr = [];
-  if (getawardkeyVal) {
-    let keys = $.getdata('getawardkey');
-      getawardkeyArr = bodys.split('#');
-      keys = getawardkeyVal + '#' + keys;
-    } else {
-      keys = getawardkeyVal;
-    }
-    $.setdata(keys, 'getawardkey')
-    $.msg('', '', `添加视频key请求: 成功🎉,当前共有${getawardkeyArr.length+1}个`)
-    $.done()
-  }
-
 
 
 //getallkey
