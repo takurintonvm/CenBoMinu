@@ -131,35 +131,41 @@ async function showmsg2() {
 }
 //////////////////////////////////////////////////////////////////
 
-async function dkdvideoapp(dkdstatus) {
+async function dkdvideoapp() {
   console.log(`\n✅ 确认【视频状态】任务\n`)
+  await $.wait(2000)
   await redcountdown();
-  await dkdvideo(getawardtime);
-  await redgetaward();
+  if(videostatus == 2 || videostatus == 4){
+      await dkdvideo();
+  }else if(videostatus == 3){
+    console.log(`\n✅ 执行【观看广告】任务\n`)
+      await redgetaward();
+  }
 }
 
 //dkdvideo
-async function dkdvideo(getawardtime, dkdstatus) {
+async function dkdvideo() {
   if (!getawardbodyArr[0]) {
     console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
     return;
   }
-  $.log(`【视频总数】:${getawardbodyArr.length}个,执行到第${$.begin}个`)
+  $.log(`【视频总数】:共有${getawardbodyArr.length}个`)
   $.index = 0;
 
-  for (let i = 0; i < getawardtime; i++) {
     for (let i = indexLast ? indexLast : 0; i < getawardbodyArr.length; i++) {
       if (getawardbodyArr[i]) {
         getawardbody = getawardbodyArr[i];
         $.index = $.index + 1;
-        console.log(`\n✅ 执行自动刷视频任务【${$.index}】`)
+        console.log(`\n✅ 执行【观看视频】任务-第${$.begin}个\n`)
+        await $.wait(2000)
+        console.log(`📠正在打印本次运行结果...\n`)
       }
       await AutoRead();
       break;
     }
-  }
-  $.log(`\n🧿多看点本次共完成${$.index}次阅读，获得${getawardscore}个金币，阅读请求结束`);
-  tz += `【自动阅读】：${getawardscore}个金币\n`;
+
+  //$.log(`\n🧿多看点本次共完成${$.index}次阅读，获得${getawardscore}个金币`);
+  //tz += `【自动阅读】：${getawardscore}个金币\n`;
 }
 
 //AutoRead
@@ -176,14 +182,10 @@ function AutoRead() {
       $.setdata(res + "", 'getawardbody_index');
       if (logs == 1) $.log(data)
       data = JSON.parse(data);
-      dkdstatus = data.status_code
-      let randomtime = Randomtime(30000, 30000) / 1000
-      await $.wait(Randomtime(30000, 30000));
-      console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
       if (data.status_code == 10020) {
-        $.log(`【本次视频🎦】:${data.message}`);
+        $.log(`【本次视频】:${data.message}`);
       } else {
-        $.log(`【本次视频🎦】:${data.data.award}个金币🏅`);
+        $.log(`【本次视频】:获取${data.data.award}个金币🏅`);
       }
       getawardscore += data.data.award;
       resolve()
@@ -210,9 +212,12 @@ async function redcountdown() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            getawardtime = data.data.red_time
-            $.log(`【视频状态】:${data.message}🎉,需要绕${data.data.red_time}圈获得红包🧧`);
-            //tz += `【好友贡献】:${data.userinfo.infoMeSumCashItem.value}红豆🍄\n`
+            videostatus = data.data.status
+            if(videostatus == 2 || videostatus == 4){
+              console.log("【目前状态】:视频📽");
+            }else if(videostatus == 3){
+              console.log("【目前状态】:红包🧧");
+            }
           }
         }
       } catch (e) {
@@ -246,7 +251,7 @@ async function redgetaward() {
             if (data.status_code == 10020) {
               $.log(`【惊喜红包🧧】:${data.message}`);
             } else {
-              $.log(`【惊喜红包🧧】:${data.data.award}个金币🏅`);
+              $.log(`【惊喜红包🧧】:获取${data.data.award}个金币🏅`);
             }
             //tz += `【好友贡献】:${data.userinfo.infoMeSumCashItem.value}红豆🍄\n`
           }
