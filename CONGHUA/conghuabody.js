@@ -81,6 +81,33 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   $.done()
 }
 
+//分享助力
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/count2\/callback/)) {
+  const callbackurl = $request.url;
+    if (callbackurl) $.setdata(callbackurl,'callbackurl')
+    $.log(`[${jsname}] 获取callbackurl请求🎉: 成功,callbackurl: ${callbackurl}`)
+
+  const callbackkey = JSON.stringify($request.headers)
+    if (callbackkey) $.setdata(callbackkey,'callbackkey')
+    $.log(`[${jsname}] 获取callbackkey请求🎉: 成功,callbackkey: ${callbackkey}`)
+    $.msg('', '', `添加 🥦助力奖励 请求: 成功🎉`)
+    $.done()
+}
+
+//提现cash
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/wechat\/exchange/)) {
+  const cashbody = $request.body
+    if (cashbody) $.setdata(cashbody,'cashbody')
+    $.log(`[${jsname}] 获取cashbody请求🎉: 成功,cashbody: ${cashbody}`)
+
+  const cashkey = JSON.stringify($request.headers)
+    if (cashkey) $.setdata(cashkey,'cashkey')
+    $.log(`[${jsname}] 获取cashkey请求🎉: 成功,cashkey: ${cashkey}`)
+    $.msg('', '', `添加 🥦提现 请求: 成功🎉`)
+    $.done()
+}
+
+
 
 function Env(t, e) {
   class s {

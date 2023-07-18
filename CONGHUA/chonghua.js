@@ -113,6 +113,18 @@ const readbodyArr = [];
 let readbodyVal = "";
 let READBODY = [];
 
+const callbackurlArr = [];
+let callbackurlVal = "";
+
+const callbackkeyArr = [];
+let callbackkeyVal = "";
+
+const cashbodyArr = [];
+let cashbodyVal = "";
+
+const cashkeyArr = [];
+let cashkeyVal = "";
+
 
 let readscore = 0;
 let sharescore = 0;
@@ -171,12 +183,41 @@ if ($.isNode()) {
       timeredbodyArr.push(timeredbodyVal[item])
     }
   });
+
+  Object.keys(callbackkeyVal).forEach((item) => {
+    if (callbackkeyVal[item]) {
+      callbackkeyArr.push(callbackkeyVal[item])
+    }
+  });
+
+  Object.keys(cashbodyVal).forEach((item) => {
+    if (cashbodyVal[item]) {
+      cashbodyArr.push(cashbodyVal[item])
+    }
+  });
+
+  Object.keys(cashkeyVal).forEach((item) => {
+    if (cashkeyVal[item]) {
+      cashkeyArr.push(cashkeyVal[item])
+    }
+  });
+
+  Object.keys(callbackurlVal).forEach((item) => {
+    if (callbackurlVal[item]) {
+      callbackurlArr.push(callbackurlVal[item])
+    }
+  });
+
 } else {
   //readbodyArr.push($.getdata('chgetbody_video'));
   //sharebodyArr.push($.getdata('chgetbody_share'));
   taskcenterbodyArr.push($.getdata('chgetbody_taskcenter'));
   sharerewardbodyArr.push($.getdata('chgetbody_sharereward'));
   timeredbodyArr.push($.getdata('chgetbody_timered'));
+  callbackkeyArr.push($.getdata('callbackkey'));
+  cashbodyArr.push($.getdata('cashbody'));
+  cashkeyArr.push($.getdata('cashkey'));
+  callbackurlArr.push($.getdata('callbackurl'));
 }
 
 
@@ -188,6 +229,11 @@ if ($.isNode()) {
   msgstyle = (`🥦${jsname}任务执行通知🔔`);
   taskcenterbodyVal = taskcenterbodyArr[0];
   timeredbodyVal = timeredbodyArr[0];
+  callbackurlVal = callbackurlArr[0];
+  callbackkeyVal = callbackkeyArr[0];
+  cashbodyVal = cashbodyArr[0];
+  cashkeyVal = cashkeyArr[0];
+
   console.log(`\n✅ 查询账户明细\n`)
   if (uid >= 1) {
     await todaycoin(); //box填入uid
@@ -209,6 +255,19 @@ if ($.isNode()) {
     console.log(`\n✅ 执行时段奖励任务`)
     await timered(task); //时段奖励
     await sharevideo(); //分享任务
+  }else if((hour == 0 && minute <= 21)) {
+    console.log(`\n✅ 执行分享助力任务`)
+    await callback();
+    if(mycash == 50000){
+          console.log(`\n✅ 执行提现任务`)
+          await todaycoin();
+          await cash();
+          tz += `【5元提现】：成功🎉\n`;
+    }else{
+      console.log(`\n💸 金币未满提现5元额度`)
+      tz += `【5元提现】：金币未满提现5元额度\n`;
+    }
+
   }else{
     console.log(`\n✅时段奖励与分享奖励已达上限,\n等待晚上11点执行自动阅读任务`)
     tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上11点执行自动阅读任务`;
@@ -222,6 +281,67 @@ if ($.isNode()) {
 
 
 ////////////////////////////////////////////////////////////////////////
+//助力分享
+async function callback() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `callbackurlVal`,
+      body: ``,
+      headers: JSON.parse(callbackkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            $.log(data)
+            data = JSON.parse(data);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+
+//提现cash
+async function cash() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://app.kxp.com/withdrawal/v2/wechat/exchange`,
+      body: cashbodyVal,
+      headers: JSON.parse(cashkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            $.log(data)
+            data = JSON.parse(data);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+
+
 async function videoread() {
   if (!readbodyArr[0]) {
     console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
@@ -259,8 +379,6 @@ async function sharevideo() {
   }
 
 }
-
-
 
 //任务中心
 function taskcenter() {
@@ -300,6 +418,7 @@ function todaycoin() {
     }
     $.post(todaycoinurl, async (error, resp, data) => {
       let todaycoin = JSON.parse(data);
+      mycash = todaycoin.data.score
       $.log(`【今日金币】：${todaycoin.data.today_score}金币`);
       $.log(`【账户金币】：${todaycoin.data.score}金币,${todaycoin.data.money}`);
       $.log(`【获取总计】：${todaycoin.data.total_score}金币`);
@@ -445,6 +564,19 @@ function Randomtime(mintime, maxtime) {
 function time(time) {
   var date = new Date(time + 8 * 3600 * 1000);
   return date.toJSON().substr(0, 19).replace('T', ' ').replace(/-/g, '.');
+}
+
+//安全获取
+function safeGet(data) {
+  try {
+    if (typeof JSON.parse(data) == "object") {
+      return true;
+    }
+  } catch (e) {
+    console.log(e);
+    console.log(`⛔️服务器访问数据为空，请检查自身设备网络情况`);
+    return false;
+  }
 }
 
 function Env(t, e) {
