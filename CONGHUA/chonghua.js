@@ -256,16 +256,16 @@ if ($.isNode()) {
     await timered(task); //时段奖励
     await sharevideo(); //分享任务
   }else if((hour == 0 && minute <= 21)) {
-    console.log(`\n✅ 执行分享助力任务`)
-    await callback();
-    if(mycash == 50000){
-          console.log(`\n✅ 执行提现任务`)
-          await todaycoin();
-          await cash();
-          tz += `【5元提现】：成功🎉\n`;
+    //console.log(`\n✅ 执行分享助力任务`)
+    //await callback();
+    //if(mycash == 50000){
+          //console.log(`\n✅ 执行提现任务`)
+          //await todaycoin();
+          //await cash();
+          //tz += `【5元提现】：成功🎉\n`;
     }else{
-      console.log(`\n💸 金币未满提现5元额度`)
-      tz += `【5元提现】：金币未满提现5元额度\n`;
+      //console.log(`\n💸 金币未满提现5元额度`)
+      //tz += `【5元提现】：金币未满提现5元额度\n`;
     }
 
   }else{
