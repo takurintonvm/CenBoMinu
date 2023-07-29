@@ -50,8 +50,8 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/sha
     }
     $.setdata(bodys, 'chgetbody_share')
     $.msg('', '', `添加🥦分享请求: 成功🎉,当前共有${sharebodyArr.length+1}个`)
-    if (sharebodyArr.length >= 3){
-    $.msg('', '', `警告❎,当前分享请求已超出3个,请到BOXJS-当前会话,清除chgetbody_share,重新分享视频,避免黑号！`);
+    if (sharebodyArr.length >= 3) {
+      $.msg('', '', `警告❎,当前分享请求已超出3个,请到BOXJS-当前会话,清除chgetbody_share,重新分享视频,避免黑号！`);
     }
     $.done()
   }
@@ -81,33 +81,39 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task_cente
   $.done()
 }
 
-//分享助力
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/count2\/callback/)) {
-  const callbackurl = $request.url;
-    if (callbackurl) $.setdata(callbackurl,'callbackurl')
-    $.log(`[${jsname}] 获取callbackurl请求🎉: 成功,callbackurl: ${callbackurl}`)
 
+//分享助力
+
+if ($request && $request.method != `OPTIONS` && $request.url.indexOf("callback") >= 0) {
+  const callbackurl = $request.url
+  if (callbackurl) $.setdata(callbackurl, 'callbackurl')
+  $.log(`获取callbackurl请求🎉: 成功,callbackurl: ${callbackurl}`)
   const callbackkey = JSON.stringify($request.headers)
-    if (callbackkey) $.setdata(callbackkey,'callbackkey')
-    $.log(`[${jsname}] 获取callbackkey请求🎉: 成功,callbackkey: ${callbackkey}`)
-    $.msg('', '', `添加 🥦助力奖励 请求: 成功🎉`)
-    $.done()
+  if (callbackkey) $.setdata(callbackkey, 'callbackkey')
+  $.log(`获取callbackkey请求🎉: 成功,callbackkey: ${callbackkey}`)
+  $.msg($.name, "添加 🥦助力奖励 请求: 成功🎉")
+  $.done()
 }
+
 
 //提现cash
+
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/wechat\/exchange/)) {
   const cashbody = $request.body
-    if (cashbody) $.setdata(cashbody,'cashbody')
-    $.log(`[${jsname}] 获取cashbody请求🎉: 成功,cashbody: ${cashbody}`)
-
+  if (cashbody) $.setdata(cashbody, 'cashbody')
+  $.log(`获取cashbody请求🎉: 成功,cashbody: ${cashbody}`)
   const cashkey = JSON.stringify($request.headers)
-    if (cashkey) $.setdata(cashkey,'cashkey')
-    $.log(`[${jsname}] 获取cashkey请求🎉: 成功,cashkey: ${cashkey}`)
-    $.msg('', '', `添加 🥦提现 请求: 成功🎉`)
-    $.done()
+  if (cashkey) $.setdata(cashkey, 'cashkey')
+  $.log(`获取cashkey请求🎉: 成功,cashkey: ${cashkey}`)
+  $.msg($.name, "添加 🥦提现 请求: 成功🎉")
+  $.done()
 }
 
 
+//getallkey
+if (typeof $request !== 'undefined') {
+  $.done()
+}
 
 function Env(t, e) {
   class s {

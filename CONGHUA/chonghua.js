@@ -289,7 +289,7 @@ async function callback() {
       body: ``,
       headers: JSON.parse(callbackkeyVal),
     };
-    $.post(url, async (err, resp, data) => {
+    $.get(url, async (err, resp, data) => {
       try {
         if (err) {
           console.log("⛔️API查询请求失败❌ ‼️‼️");
