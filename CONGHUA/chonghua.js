@@ -256,7 +256,7 @@ if ($.isNode()) {
     await timered(task); //时段奖励
     await sharevideo(); //分享任务
   //}else if((hour == 0 && minute <= 21)) {
-    //console.log(`\n✅ 执行分享助力任务`)
+    //console.log(`\n✅ 执行助力任务`)
     //await callback();
     //if(mycash == 50000){
           //console.log(`\n✅ 执行提现任务`)
