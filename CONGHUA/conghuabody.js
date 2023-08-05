@@ -98,7 +98,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("callback")
 
 //提现cash
 
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/wechat\/exchange/)) {
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/withdrawal\/v2/)) {
   const cashbody = $request.body
   if (cashbody) $.setdata(cashbody, 'cashbody')
   $.log(`获取cashbody请求🎉: 成功,cashbody: ${cashbody}`)
