@@ -65,6 +65,11 @@ let headerVal = {
   'Accept-Language': `zh-Hans-CN;q=1, en-CN;q=0.9`
 };
 
+//现在毫秒格式(13位数)
+let todaytimems = Math.round(Date.now())
+//现在秒格式(10位数)
+let todaytimes = Math.round(Date.now() / 1000)
+
 //time
 var hour = '';
 var minute = '';
@@ -85,7 +90,7 @@ async function showmsg() {
       }
     } else {
       if ((hour == 8 && minute <= 20) || (hour == 12 && minute <= 20) || (hour == 23 && minute <= 20)) {
-        $.msg(msgstyle,'',tz);
+        $.msg(msgstyle, '', tz);
       }
     }
   } else if (notifyInterval == 0) {
@@ -249,29 +254,32 @@ if ($.isNode()) {
 
   if (hour == 8 || hour == 12 || hour == 23) {
     await videoread(); //自动刷视频
-  }else if(hour <= 17) {
+  } else if (hour <= 17) {
     console.log(`\n✅ 打印任务状态清单`)
     await taskcenter(); //任务中心
     console.log(`\n✅ 执行时段奖励任务`)
     await timered(task); //时段奖励
     await sharevideo(); //分享任务
-  //}else if((hour == 0 && minute <= 21)) {
-    //console.log(`\n✅ 执行助力任务`)
-    //await callback();
-    //if(mycash == 50000){
-          //console.log(`\n✅ 执行提现任务`)
-          //await todaycoin();
-          //await cash();
-          //tz += `【5元提现】：成功🎉\n`;
-    //}else{
-      //console.log(`\n💸 金币未满提现5元额度`)
-      //tz += `【5元提现】：金币未满提现5元额度\n`;
-    //}
-
-  }else{
+  } else if (hour == 20) {
+    console.log(`\n✅ 执行自行助力任务`)
+    await callback();
+  } else {
     console.log(`\n✅时段奖励与分享奖励已达上限,\n等待晚上11点执行自动阅读任务`)
     tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上11点执行自动阅读任务`;
   }
+    console.log(`\n✅ 执行提现任务`)
+  if (mycash == 50000) {
+    await cash();
+    console.log(`\n【5元提现】：成功🎉`)
+    tz += `【5元提现】：成功🎉\n`;
+  } else {
+    console.log(`\n【5元提现】：金币未满或分享天数不足💸`)
+    tz += `【5元提现】：提现失败\n`;
+  }
+  shareTcode = callbackurlVal.split("https://task.youth.cn/count2/callback?si=")[1]
+  sharecode = shareTcode.split("&")[0]
+  console.log(`\n【你的助力码】:\n${sharecode}`);
+  
   await showmsg();
 
 })()
@@ -281,11 +289,12 @@ if ($.isNode()) {
 
 
 ////////////////////////////////////////////////////////////////////////
-//助力分享
+//助力分享https://task.youth.cn/count2/callback?si=997c02aea79d327fa546ed874fb67784&_=1612708716021&jsonpcallback=jsonp5
 async function callback() {
+  let callbackurl = callbackurlVal.replace(/&_=\d+/, `&_=${todaytimems}`)
   return new Promise((resolve) => {
     let url = {
-      url: `callbackurlVal`,
+      url: `${callbackurl}`,
       body: ``,
       headers: JSON.parse(callbackkeyVal),
     };
@@ -296,11 +305,11 @@ async function callback() {
           console.log(JSON.stringify(err));
           $.logErr(err);
         } else {
-          if (safeGet(data)) {
-            if (logs == 1) $.log(data)
-            $.log(data)
-            data = JSON.parse(data);
-          }
+
+          if (logs == 1) $.log(data)
+          $.log(data)
+          //data = JSON.parse(data);
+          console.log(`【助力分享】:获得500金币`);
         }
       } catch (e) {
         $.logErr(e, resp);
@@ -492,7 +501,7 @@ function timered(task) {
         headers: headerVal,
       };
       $.post(timeredurl, async (error, response, data) => {
-          timered = JSON.parse(data)
+        timered = JSON.parse(data)
 
         if (timered.code === 1007) {
           if (logs == 1) $.log(data)
@@ -536,8 +545,8 @@ function AutoRead() {
         tz += `【本次阅读${$.index}】：账号异常❌\n`;
       } else if (typeof readres.data.score === 'number') {
         if (logs == 1) $.log(data)
-        let randomtime = Randomtime(21000,60000) / 1000
-        await $.wait(Randomtime(21000,60000));
+        let randomtime = Randomtime(21000, 60000) / 1000
+        await $.wait(Randomtime(21000, 60000));
         console.log(`【随机延迟🕑】:${Math.round(randomtime)}秒...`);
         $.log(`【本次阅读】：${readres.data.score}个金币🏅`);
         readscore += readres.data.score;
@@ -557,8 +566,9 @@ function Jsname() {
   $.log(`┕━━┹┚┕┹━━┹┚┕┹━━┹┚┕┹━━┹┚┕┚`)
 
 }
+
 function Randomtime(mintime, maxtime) {
-    return Math.round(Math.random() * (maxtime - mintime)) + mintime;
+  return Math.round(Math.random() * (maxtime - mintime)) + mintime;
 }
 
 function time(time) {

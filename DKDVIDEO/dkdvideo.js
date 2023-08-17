@@ -152,9 +152,9 @@ async function dayindex() {
     await dkdxs() //小说？？
     await dkdsdjl() //小说时段奖励？？
     console.log(`\n✅ 执行【视频】任务\n`)
-    await dkdsc() //视频时长
     await dkdbx() //视频宝箱
     await dkdbxfb() //视频宝箱翻倍
+    await dkdsc() //视频时长
     await dkdvideoapp() //刷视频
     console.log(`\n✅ 执行【提现】任务\n`)
     await dkdtx() //提现
