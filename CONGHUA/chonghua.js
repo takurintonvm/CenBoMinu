@@ -279,7 +279,7 @@ if ($.isNode()) {
   shareTcode = callbackurlVal.split("https://task.youth.cn/count2/callback?si=")[1]
   sharecode = shareTcode.split("&")[0]
   console.log(`\n【你的助力码】:\n${sharecode}`);
-  
+
   await showmsg();
 
 })()
@@ -289,7 +289,7 @@ if ($.isNode()) {
 
 
 ////////////////////////////////////////////////////////////////////////
-//助力分享https://task.youth.cn/count2/callback?si=997c02aea79d327fa546ed874fb67784&_=1612708716021&jsonpcallback=jsonp5
+//助力分享
 async function callback() {
   let callbackurl = callbackurlVal.replace(/&_=\d+/, `&_=${todaytimems}`)
   return new Promise((resolve) => {
