@@ -276,9 +276,9 @@ if ($.isNode()) {
     console.log(`\n【5元提现】：金币未满或分享天数不足💸`)
     tz += `【5元提现】：提现失败\n`;
   }
-  shareTcode = callbackurlVal.split("https://task.youth.cn/count2/callback?si=")[1]
-  sharecode = shareTcode.split("&")[0]
-  console.log(`\n【你的助力码】:\n${sharecode}`);
+  //shareTcode = callbackurlVal.split("https://task.youth.cn/count2/callback?si=")[1]
+  //sharecode = shareTcode.split("&")[0]
+  //console.log(`\n【你的助力码】:\n${sharecode}`);
 
   await showmsg();
 
