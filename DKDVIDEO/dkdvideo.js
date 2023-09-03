@@ -85,8 +85,6 @@ if ($.isNode()) {
 }
 
 let dkdurl = $.getdata('dkdurl')
-let dkdhd = $.getdata('dkdhd')
-let dkdbody = $.getdata('dkdbody')
 let dkdtxurl = $.getdata('dkdtxurl')
 let dkdtxhd = $.getdata('dkdtxhd')
 let dkdtxbody = $.getdata('dkdtxbody')
@@ -96,8 +94,8 @@ async function dayindex() {
     return new Promise((resolve) => {
       let url = {
         url: `http://dkd-api.dysdk.com/task/index_days`,
-        body: dkdbody,
-        headers: JSON.parse($.getdata('dkdhd')),
+        body: `${dkdtokenbodyVal}`,
+        headers: JSON.parse(dkdtokenkeyVal),
       };
       $.post(url, async (err, resp, data) => {
         try {
@@ -109,6 +107,10 @@ async function dayindex() {
             if (safeGet(data)) {
               if (logs == 1) $.log(data)
               data = JSON.parse(data);
+              tasklist0 = data.data.list[0].status
+              tasklist1 = data.data.list[1].status
+              tasklist2 = data.data.list[2].status
+              tasklist3 = data.data.list[3].status
 
               $.log(`【视频领金币】:${data.data.list[0].task_go}`);
               $.log(`【广告领金币】:${data.data.list[1].task_go}`);
@@ -148,7 +150,8 @@ async function dayindex() {
       console.log(`\n+执行【转盘任务】任务+\n`)
       await dkdsxzp() //刷新转盘
       await dkdcj() //转盘抽奖
-      console.log(`\n✅ 日常任务红包\n`)
+
+      console.log(`\n+领取【日常任务红包】奖励+\n`)
       await redpro1()
       await redpro2()
       await redpro3()
@@ -157,14 +160,23 @@ async function dayindex() {
     console.log(`\n+执行【视频领金币】任务+\n`)
     await dkdbx() //视频宝箱
     await dkdbxfb() //视频宝箱翻倍
-    await dkdsc() //视频时长
-    console.log(`\n+执行【广告领金币】任务+\n`)
-    await dkdgg() //广告视频
-    console.log(`\n+执行【小说赚】任务+\n`)
-    await dkdxs() //小说？？
-    await dkdsdjl() //小说时段奖励？？
-    console.log(`\n+执行【分享赚】任务+\n`)
-    await dkdfx() //分享
+    if (tasklist0 == 0) {
+      await dkdsc() //视频领金币
+    }
+    if (tasklist1 == 0) {
+      console.log(`\n+执行【广告领金币】*10 任务+\n`)
+      await dkdgg() //广告视频
+    }
+    if (tasklist2 == 0) {
+      console.log(`\n+执行【小说赚】任务+\n`)
+      await dkdxs() //小说？？
+      await dkdsdjl() //小说时段奖励？？
+    }
+    if (tasklist3 == 0 ) {
+      console.log(`\n+执行【分享赚】任务+\n`)
+      await dkdfx() //分享
+    }
+
     console.log(`\n✅ 刷视频任务\n`)
     await dkdvideoapp() //刷视频
     console.log(`\n✅ 提现任务\n`)
@@ -483,12 +495,11 @@ function dkdqd(timeout = 0) {
       }
       let url = {
         url: 'http://dkd-api.dysdk.com/task/sign',
-        headers: JSON.parse($.getdata('dkdhd')),
-        body: 'adType=2&' + dkdbody,
+        headers: JSON.parse(dkdtokenkeyVal),
+        body: `adType=2&${dkdtokenbodyVal}`,
       }
       $.post(url, async (err, resp, data) => {
         try {
-          //$.log(dkdbody)
           const result = JSON.parse(data)
           if (result.status_code == 200) {
             $.log(`【签到】:获取${result.data.sign_award}金币`);
@@ -507,19 +518,7 @@ function dkdqd(timeout = 0) {
     }, timeout)
   })
 }
-//多看点数据获取
-function dkdck() {
-  if ($request.url.indexOf("index") > -1) {
-    $.setdata(JSON.stringify($request.url), 'dkdurl')
-    $.log(dkdurl)
-    $.setdata(JSON.stringify($request.headers), 'dkdhd')
-    $.log(dkdhd)
-    $.setdata($request.body, 'dkdbody')
-    $.log(dkdbody)
-    $.msg($.name, "", "多看点headers获取成功！")
-    $.msg($.name, "", "多看点body获取成功！")
-  }
-}
+
 //多看点提现ck
 function dkdtxck() {
   if ($request.url.indexOf("withdraw_do?") > -1) {
@@ -538,18 +537,17 @@ function dkdgg(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/task/get_ad_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody + '&type=2',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `adType=2&${dkdtokenbodyVal}&type=2`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【广告视频】:获取${result.data.award}金币`);
+          $.log(`【广告领金币】:获取${result.data.award}金币`);
         }
         if (result.status_code == 10020) {
-          $.log(`【广告视频】:${result.message}🚫`);
+          $.log(`【广告领金币】:${result.message}🚫`);
         }
       } catch (e) {
         //$.logErr(e, resp);
@@ -564,12 +562,11 @@ function dkdbx(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/red/box_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: dkdbody,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `${dkdtokenbodyVal}`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
           $.log(`【视频宝箱】:获取${result.data.award}金币`);
@@ -590,12 +587,11 @@ function dkdbxfb(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/red/box_extra',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `adType=2&${dkdtokenbodyVal}`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
           $.log(`【视频宝箱翻倍】:获取${result.data.award}金币`);
@@ -616,12 +612,11 @@ function dkdcj(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/lotto/start',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `adType=2&${dkdtokenbodyVal}`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
           $.log(`【转盘抽奖】:获取${result.data.award}金币`);
@@ -642,12 +637,11 @@ function dkdfx(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/task/get_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'id=52&' + dkdbody,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `id=52&${dkdtokenbodyVal}`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
           $.log(`【分享任务】:获取${result.data.award}金币`);
@@ -668,12 +662,11 @@ function dkdxs(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/task/get_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'id=51&' + dkdbody,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `id=51&${dkdtokenbodyVal}`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
           $.log(`【小说赚】:获取${result.data.award}金币`);
@@ -694,21 +687,20 @@ function dkdsdjl(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/video/extra_get',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: dkdbody,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `${dkdtokenbodyVal}`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(str.replace('headerInfo":"',""))
         const result = JSON.parse(data)
         if (result.status_code == 200 && result.data.status == -1) {
           $.log(`【小说时段奖励】:${result.data.msg}`);
-        }else{
+        } else if (result.status_code == 200 && result.data.award >= 0) {
           $.log(`【小说时段奖励】:获取${result.data.award}金币`);
-        }
-        if (result.status_code == 10020) {
+        } else if (result.status_code == 10020) {
           $.log(`【小说时段奖励】:${result.message}🚫`);
         }
+
       } catch (e) {
         //$.logErr(e, resp);
       } finally {
@@ -722,18 +714,17 @@ function dkdsc(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/task/get_ad_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody + '&type=1&overLimit',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `adType=2&${dkdtokenbodyVal}&type=1&overLimit`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【视频时长】:获取${result.data.award}金币`);
+          $.log(`【视频领金币】:获取${result.data.award}金币`);
         }
         if (result.status_code == 10020) {
-          $.log(`【视频时长】:${result.message}🚫`);
+          $.log(`【视频领金币】:${result.message}🚫`);
         }
       } catch (e) {
         //$.logErr(e, resp);
@@ -748,8 +739,8 @@ function dkdsxzp(timeout = 0) {
   return new Promise((resolve) => {
     let sx = dkdtxhd.match(/headerInfo":"\w+/) + ''
     let url = {
-      url: 'http://dkd-api.dysdk.com/lotto/index?' + dkdbody + '&headerInfo=' + sx.replace('headerInfo":"', ""),
-      headers: JSON.parse($.getdata('dkdhd')),
+      url: `http://dkd-api.dysdk.com/lotto/index?${dkdtokenbodyVal}` + '&headerInfo=' + sx.replace('headerInfo":"', ""),
+      headers: JSON.parse(dkdtokenkeyVal),
       body: '',
     }
     $.post(url, async (err, resp, data) => {
@@ -775,7 +766,7 @@ function dkdtx(timeout = 0) {
   return new Promise((resolve) => {
     let str = dkdtxhd.match(/headerInfo":"\w+/) + ''
     let url = {
-      url: 'http://dkd-api.dysdk.com/money/withdraw_do?' + dkdbody + '&headerInfo=' + str.replace('headerInfo":"', ""),
+      url: `http://dkd-api.dysdk.com/money/withdraw_do?${dkdtokenbodyVal}` + '&headerInfo=' + str.replace('headerInfo":"', ""),
       headers: JSON.parse($.getdata('dkdtxhd')),
       body: dkdtxbody,
     }
@@ -802,15 +793,14 @@ function dkdxx(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
       url: 'http://dkd-api.dysdk.com/user/index',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: dkdbody,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `${dkdtokenbodyVal}`,
     }
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(dkdbody)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log("",$.name + '运行完毕！' ,"")
+          $.log("", $.name + '运行完毕！', "")
           $.log(`【用户名】:${result.data.nickname}`);
           $.log(`【当前余额】:¥${result.data.cash}元`);
           $.log(`【总金币】:${result.data.gold}金币🏅`);
