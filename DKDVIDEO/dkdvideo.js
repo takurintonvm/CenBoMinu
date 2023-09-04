@@ -39,6 +39,21 @@ let dkdtokenbodyVal = "";
 const dkdtokenkeyArr = [];
 let dkdtokenkeyVal = "";
 
+const dkdcashurlArr = [];
+let dkdcashurlVal = "";
+
+const dkdcashbodyArr = [];
+let dkdcashbodyVal = "";
+
+const dkdcashkeyArr = [];
+let dkdcashkeyVal = "";
+
+const dkdlottourlArr = [];
+let dkdlottourlVal = "";
+
+const dkdlottokeyArr = [];
+let dkdlottokeyVal = "";
+
 const getawardbodyArr = [];
 let getawardbodyVal = "";
 
@@ -78,115 +93,93 @@ if ($.isNode()) {
     }
   });
 
+  Object.keys(dkdcashurlVal).forEach((item) => {
+    if (dkdcashurlVal[item]) {
+      dkdcashurlArr.push(dkdcashurlVal[item])
+    }
+  });
+
+  Object.keys(dkdcashbodyVal).forEach((item) => {
+    if (dkdcashbodyVal[item]) {
+      dkdcashbodyArr.push(dkdcashbodyVal[item])
+    }
+  });
+
+  Object.keys(dkdlottourlVal).forEach((item) => {
+    if (dkdlottourlVal[item]) {
+      dkdlottourlArr.push(dkdlottourlVal[item])
+    }
+  });
+
+
+  Object.keys(dkdlottokeyVal).forEach((item) => {
+    if (dkdlottokeyVal[item]) {
+      dkdlottokeyArr.push(dkdlottokeyVal[item])
+    }
+  });
+
+  Object.keys(dkdcashkeyVal).forEach((item) => {
+    if (dkdcashkeyVal[item]) {
+      dkdcashkeyArr.push(dkdcashkeyVal[item])
+    }
+  });
+
 
 } else {
   dkdtokenbodyArr.push($.getdata('dkdtokenbody'));
   dkdtokenkeyArr.push($.getdata('dkdtokenkey'));
+  dkdcashurlArr.push($.getdata('dkdcashurl'));
+  dkdcashbodyArr.push($.getdata('dkdcashbody'));
+  dkdcashkeyArr.push($.getdata('dkdcashkey'));
+  dkdlottourlArr.push($.getdata('dkdlottourl'));
+  dkdlottokeyArr.push($.getdata('dkdlottokey'));
 }
 
-let dkdurl = $.getdata('dkdurl')
-let dkdtxurl = $.getdata('dkdtxurl')
-let dkdtxhd = $.getdata('dkdtxhd')
-let dkdtxbody = $.getdata('dkdtxbody')
-
 //////////////////////////////////////////////////////////////////
-async function dayindex() {
-    return new Promise((resolve) => {
-      let url = {
-        url: `http://dkd-api.dysdk.com/task/index_days`,
-        body: `${dkdtokenbodyVal}`,
-        headers: JSON.parse(dkdtokenkeyVal),
-      };
-      $.post(url, async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log("⛔️API查询请求失败❌ ‼️‼️");
-            console.log(JSON.stringify(err));
-            $.logErr(err);
-          } else {
-            if (safeGet(data)) {
-              if (logs == 1) $.log(data)
-              data = JSON.parse(data);
-              tasklist0 = data.data.list[0].status
-              tasklist1 = data.data.list[1].status
-              tasklist2 = data.data.list[2].status
-              tasklist3 = data.data.list[3].status
 
-              $.log(`【视频领金币】:${data.data.list[0].task_go}`);
-              $.log(`【广告领金币】:${data.data.list[1].task_go}`);
-              $.log(`【小说赚】:${data.data.list[2].task_go}`);
-              $.log(`【分享赚】:${data.data.list[3].task_go}`);
-              $.log(`【高额游戏赚】:${data.data.list[4].task_go}`);
-              $.log(`【集赞得金币】:${data.data.list[5].task_go}`);
-
-            }
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve();
-        }
-      });
-    });
+!(async () => {
+  cc = (`${jsname}任务执行通知🔔`);
+  if (!dkdtokenbodyArr[0]) {
+    console.log($.name, '【提示】请先前往获取cookie📲')
+    return;
   }
+  dkdtokenbodyVal = dkdtokenbodyArr[0];
+  dkdtokenkeyVal = dkdtokenkeyArr[0];
+  dkdcashurlVal = dkdcashurlArr[0];
+  dkdcashbodyVal = dkdcashbodyArr[0];
+  dkdcashkeyVal = dkdcashkeyArr[0];
+  dkdlottourlVal = dkdlottourlArr[0];
+  dkdlottokeyVal = dkdlottokeyArr[0];
+
+  console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
+  console.log(`\n✅ 任务状态\n`)
+  await dayindex()
+  console.log(`\n✅ 日常任务\n`)
+  if (hour == 8 || hour == 12 || hour == 23) {
+    console.log(`\n+执行【签到】任务+\n`)
+    await dkdqd() //多看点签到
+  }
+  console.log(`\n+执行【转盘任务】任务+\n`)
+  await dkdsxzp() //转盘
+  await dkdcj()
 
 
-  !(async () => {
-    cc = (`${jsname}任务执行通知🔔`);
-    if (!dkdtokenbodyArr[0]) {
-      console.log($.name, '【提示】请先前往获取cookie📲')
-      return;
-    }
-    dkdtokenbodyVal = dkdtokenbodyArr[0];
-    dkdtokenkeyVal = dkdtokenkeyArr[0];
+  console.log(`\n+执行【视频时段宝箱&小说时段奖励】任务+\n`)
+  await dkdbx() //视频宝箱
+  await dkdsdjl() //小说时段奖励
 
-    console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
-    console.log(`\n✅ 任务状态\n`)
-    await dayindex()
-    console.log(`\n✅ 日常任务\n`)
-    if (hour == 8 || hour == 12 || hour == 23) {
-      console.log(`\n+执行【签到】任务+\n`)
-      await dkdqd() //多看点签到
-      console.log(`\n+执行【转盘任务】任务+\n`)
-      await dkdsxzp() //刷新转盘
-      await dkdcj() //转盘抽奖
+  await dkdnomal() //完成日常任务奖励领取
+  await dkdpro() //日常任务完成阶段性奖励
+  console.log(`\n✅ 刷视频任务\n`)
+  await dkdvideoapp() //刷视频
+  console.log(`\n✅ 提现任务\n`)
+  await dkdtx() //提现
 
-      console.log(`\n+领取【日常任务红包】奖励+\n`)
-      await redpro1()
-      await redpro2()
-      await redpro3()
-      await redpro4()
-    }
-    console.log(`\n+执行【视频领金币】任务+\n`)
-    await dkdbx() //视频宝箱
-    await dkdbxfb() //视频宝箱翻倍
-    if (tasklist0 == 0) {
-      await dkdsc() //视频领金币
-    }
-    if (tasklist1 == 0) {
-      console.log(`\n+执行【广告领金币】*10 任务+\n`)
-      await dkdgg() //广告视频
-    }
-    if (tasklist2 == 0) {
-      console.log(`\n+执行【小说赚】任务+\n`)
-      await dkdxs() //小说？？
-      await dkdsdjl() //小说时段奖励？？
-    }
-    if (tasklist3 == 0 ) {
-      console.log(`\n+执行【分享赚】任务+\n`)
-      await dkdfx() //分享
-    }
+  await dkdxx() //用户信息
+  await showmsg2();
 
-    console.log(`\n✅ 刷视频任务\n`)
-    await dkdvideoapp() //刷视频
-    console.log(`\n✅ 提现任务\n`)
-    await dkdtx() //提现
-    await dkdxx() //用户信息
-    await showmsg2();
-
-
-  })()
-  .catch((e) => $.logErr(e))
+})()
+.catch((e) => $.logErr(e))
   .finally(() => $.done())
 //////////////////////////////////////////////////////////////////
 //通知1
@@ -215,8 +208,10 @@ async function showmsg2() {
     console.log(cc + '' + tz);
   }
 }
-//////////////////////////////////////////////////////////////////
 
+
+//////////////////////////////////////////////////////////////////
+//刷视频模块
 async function dkdvideoapp() {
   console.log(`+检查【刷视频】任务状态+\n`)
   await $.wait(2000)
@@ -228,125 +223,224 @@ async function dkdvideoapp() {
     await redgetaward();
   }
 }
-//dkdvideo
-async function dkdvideo() {
-  if (!getawardbodyArr[0]) {
-    console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
-    return;
-  }
-  $.log(`【视频总数】:共有${getawardbodyArr.length}个`)
-  $.index = 0;
+//日常奖励pro模块
+async function dkdpro() {
 
-  for (let i = indexLast ? indexLast : 0; i < getawardbodyArr.length; i++) {
-    if (getawardbodyArr[i]) {
-      getawardbody = getawardbodyArr[i];
-      $.index = $.index + 1;
-      console.log(`\n+执行【观看视频】任务-第${$.begin}个+\n`)
-      await $.wait(2000)
-      console.log(`📠正在打印本次运行结果...\n`)
-    }
-    await AutoRead();
-    break;
+  console.log(`\n+领取【阶段性红包】奖励+\n`)
+
+  if (prolist0 == 0) {
+    $.log(`【20%进度红包】:未达成`);
+  } else if (prolist0 == 2) {
+    $.log(`【20%进度红包】:已达成`);
+  } else if (prolist0 == 1) {
+    await redpro1()
   }
 
-  //$.log(`\n🧿多看点本次共完成${$.index}次阅读，获得${getawardscore}个金币`);
-  //tz += `【自动阅读】：${getawardscore}个金币\n`;
+  if (prolist1 == 0) {
+    $.log(`【50%进度红包】:未达成`);
+  } else if (prolist1 == 2) {
+    $.log(`【50%进度红包】:已达成`);
+  } else if (prolist2 == 1) {
+    await redpro2()
+  }
+
+  if (prolist2 == 0) {
+    $.log(`【80%进度红包】:未达成`);
+  } else if (prolist2 == 2) {
+    $.log(`【80%进度红包】:已达成`);
+  } else if (prolist2 == 1) {
+    await redpro3()
+  }
+
+  if (prolist3 == 0) {
+    $.log(`【100%进度红包】:未达成`);
+  } else if (prolist3 == 2) {
+    $.log(`【100%进度红包】:已达成`);
+  } else if (prolist3 == 1) {
+    await redpro4()
+  }
+
 }
-//AutoRead
-function AutoRead() {
-  return new Promise((resolve, reject) => {
-    let url = {
-      url: `http://dkd-api.dysdk.com/android_video/getaward`,
-      headers: JSON.parse(dkdtokenkeyVal),
-      body: getawardbody
-    };
-    $.post(url, async (error, response, data) => {
-      $.begin = $.begin + 1;
-      let res = $.begin % getawardbodyArr.length
-      $.setdata(res + "", 'getawardbody_index');
-      if (logs == 1) $.log(data)
-      data = JSON.parse(data);
-      if (data.status_code == 10020) {
-        $.log(`【本次视频】:${data.message}`);
-      } else {
-        $.log(`【本次视频】:获取${data.data.award}个金币🏅\n`);
-      }
-      resolve()
-    })
-  })
-}
-//redcountdown
-async function redcountdown() {
-  return new Promise((resolve) => {
-    let url = {
-      url: `http://dkd-api.dysdk.com/video/red_countdown`,
-      body: dkdtokenbodyVal,
-      headers: JSON.parse(dkdtokenkeyVal),
-    };
-    $.post(url, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败❌ ‼️‼️");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == 1) $.log(data)
-            data = JSON.parse(data);
-            videostatus = data.data.status
-            if (videostatus == 2 || videostatus == 4) {
-              console.log("【目前状态】:视频📽");
-            } else if (videostatus == 3) {
-              console.log("【目前状态】:红包🧧");
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//red_getaward
-async function redgetaward() {
-  return new Promise((resolve) => {
-    let url = {
-      url: `http://dkd-api.dysdk.com/video/red_getaward`,
-      body: `adType=2&${dkdtokenbodyVal}`,
-      headers: JSON.parse(dkdtokenkeyVal),
-    };
-    $.post(url, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败❌ ‼️‼️");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == 1) $.log(data)
-            data = JSON.parse(data);
-            getawardtime = data.data.red_time
-            if (data.status_code == 10020) {
-              $.log(`【惊喜红包🧧】:${data.message}`);
-              tz += `【惊喜红包🧧】:${data.message}\n`
-            } else {
-              $.log(`【惊喜红包🧧】:获取${data.data.award}个金币🏅\n`);
-              tz += `【惊喜红包🧧】:获取${data.data.award}个金币🏅\n`
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
+//日常完成奖励模块
+async function dkdnomal() {
+
+  console.log(`\n+领取【日常任务完成】奖励+\n`)
+  if (tasklist0 == 0) {
+    await dkdsc() //视频领金币
+  } else {
+    console.log(`【视频领金币】:已完成`)
+  }
+  if (tasklist1 == 0) {
+    await dkdgg() //广告视频
+  } else {
+    console.log(`【广告领金币】:已完成`)
+  }
+  if (tasklist2 == 0) {
+    await dkdxs() //小说
+  } else {
+    console.log(`【小说赚】:已完成`)
+  }
+  if (tasklist3 == 0) {
+    await dkdfx() //分享
+  } else {
+    console.log(`【分享赚】:已完成`)
+  }
+
 }
 
 //////////////////////////////////////////////////////////////////
+//任务状态确认
+async function dayindex() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/task/index_days`,
+      body: `${dkdtokenbodyVal}`,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            tasklist0 = data.data.list[0].status
+            tasklist1 = data.data.list[1].status
+            tasklist2 = data.data.list[2].status
+            tasklist3 = data.data.list[3].status
+            prolist0 = data.data.Task_comp.data[0].status
+            prolist1 = data.data.Task_comp.data[1].status
+            prolist2 = data.data.Task_comp.data[2].status
+            prolist3 = data.data.Task_comp.data[3].status
+            $.log(`【阶段性红包完成度】:${data.data.Task_comp.pro}%`);
+            $.log(`【视频领金币】:${data.data.list[0].task_go}`);
+            $.log(`【广告领金币】:${data.data.list[1].task_go}`);
+            $.log(`【小说赚】:${data.data.list[2].task_go}`);
+            $.log(`【分享赚】:${data.data.list[3].task_go}`);
+            $.log(`【高额游戏赚】:${data.data.list[4].task_go}`);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//宝箱状态
+async function boxinit() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/red/box_init`,
+      body: `${dkdtokenbodyVal}`,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//多看点分享
+function dkdfx(timeout = 0) {
+  return new Promise((resolve) => {
+    let url = {
+      url: 'http://dkd-api.dysdk.com/task/get_award',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `id=52&${dkdtokenbodyVal}`,
+    }
+    $.post(url, async (err, resp, data) => {
+      try {
+        const result = JSON.parse(data)
+        if (result.status_code == 200) {
+          $.log(`【分享任务】:获取${result.data.award}金币`);
+        }
+        if (result.status_code == 10020) {
+          $.log(`【分享任务】:${result.message}`);
+        }
+      } catch (e) {
+        //$.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    }, timeout)
+  })
+}
+//多看点小说
+function dkdxs(timeout = 0) {
+  return new Promise((resolve) => {
+    let url = {
+      url: 'http://dkd-api.dysdk.com/task/get_award',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `id=51&${dkdtokenbodyVal}`,
+    }
+    $.post(url, async (err, resp, data) => {
+      try {
+        const result = JSON.parse(data)
+        if (result.status_code == 200) {
+          $.log(`【小说赚】:获取${result.data.award}金币`);
+        }
+        if (result.status_code == 10020) {
+          $.log(`【小说赚】:${result.message}`);
+        }
+      } catch (e) {
+        //$.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    }, timeout)
+  })
+}
+//多看点小说时段奖励
+function dkdsdjl(timeout = 0) {
+  return new Promise((resolve) => {
+    let url = {
+      url: 'http://dkd-api.dysdk.com/video/extra_get',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `${dkdtokenbodyVal}`,
+    }
+    $.post(url, async (err, resp, data) => {
+      try {
+        const result = JSON.parse(data)
+        if (result.status_code == 200 && result.data.status == -1) {
+          $.log(`【小说时段奖励】:${result.data.msg}`);
+        } else if (result.status_code == 200 && result.data.award >= 0) {
+          $.log(`【小说时段奖励】:获取${result.data.award}金币`);
+        } else if (result.status_code == 10020) {
+          $.log(`【小说时段奖励】:${result.message}`);
+        }
+
+      } catch (e) {
+        //$.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    }, timeout)
+  })
+}
+
+//////////////////////////////////////////////////////////////////
+
+//阶段性奖励
 async function redpro1() {
   return new Promise((resolve) => {
     let url = {
@@ -483,16 +577,129 @@ async function redpro4() {
     });
   });
 }
+//dkdvideo
+async function dkdvideo() {
+  if (!getawardbodyArr[0]) {
+    console.log($.name, '【提示】请把阅读视频的请求体填入Github 的 Secrets 中，请以#隔开')
+    return;
+  }
+  $.log(`【视频总数】:共有${getawardbodyArr.length}个`)
+  $.index = 0;
+
+  for (let i = indexLast ? indexLast : 0; i < getawardbodyArr.length; i++) {
+    if (getawardbodyArr[i]) {
+      getawardbody = getawardbodyArr[i];
+      $.index = $.index + 1;
+      console.log(`\n+执行【观看视频】任务-第${$.begin}个+\n`)
+      await $.wait(2000)
+      console.log(`📠正在打印本次运行结果...\n`)
+    }
+    await AutoRead();
+    break;
+  }
+
+  //$.log(`\n🧿多看点本次共完成${$.index}次阅读，获得${getawardscore}个金币`);
+  //tz += `【自动阅读】：${getawardscore}个金币\n`;
+}
+//AutoRead
+function AutoRead() {
+  return new Promise((resolve, reject) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/android_video/getaward`,
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: getawardbody
+    };
+    $.post(url, async (error, response, data) => {
+      $.begin = $.begin + 1;
+      let res = $.begin % getawardbodyArr.length
+      $.setdata(res + "", 'getawardbody_index');
+      if (logs == 1) $.log(data)
+      data = JSON.parse(data);
+      if (data.status_code == 10020) {
+        $.log(`【本次视频】:${data.message}`);
+      } else {
+        $.log(`【本次视频】:获取${data.data.award}个金币🏅\n`);
+      }
+      resolve()
+    })
+  })
+}
+//redcountdown
+async function redcountdown() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/video/red_countdown`,
+      body: dkdtokenbodyVal,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            videostatus = data.data.status
+            if (videostatus == 2 || videostatus == 4) {
+              console.log("【目前状态】:视频📽");
+            } else if (videostatus == 3) {
+              console.log("【目前状态】:红包🧧");
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//red_getaward
+async function redgetaward() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/video/red_getaward`,
+      body: `adType=2&${dkdtokenbodyVal}`,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            getawardtime = data.data.red_time
+            if (data.status_code == 10020) {
+              $.log(`【惊喜红包🧧】:${data.message}`);
+              tz += `【惊喜红包🧧】:${data.message}\n`
+            } else {
+              $.log(`【惊喜红包🧧】:获取${data.data.award}个金币🏅\n`);
+              tz += `【惊喜红包🧧】:获取${data.data.award}个金币🏅\n`
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 
 ////////////////////////////////////////////////////////////////////////
-//多看点签到
+//签到
 function dkdqd(timeout = 0) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      if (typeof $.getdata('dkdurl') === "undefined") {
-        $.msg($.name, "", '请先获取多看点Cookie!😓', )
-        return
-      }
       let url = {
         url: 'http://dkd-api.dysdk.com/task/sign',
         headers: JSON.parse(dkdtokenkeyVal),
@@ -502,12 +709,10 @@ function dkdqd(timeout = 0) {
         try {
           const result = JSON.parse(data)
           if (result.status_code == 200) {
-            $.log(`【签到】:获取${result.data.sign_award}金币`);
+            $.log(`【今日签到】:获取${result.data.sign_award}金币`);
           }
           if (result.status_code == 10020) {
-            $.log(`【签到】:${result.message}🚫`);
-
-
+            $.log(`【今日签到】:${result.message}`);
           }
         } catch (e) {
           //$.logErr(e, resp);
@@ -518,21 +723,32 @@ function dkdqd(timeout = 0) {
     }, timeout)
   })
 }
-
-//多看点提现ck
-function dkdtxck() {
-  if ($request.url.indexOf("withdraw_do?") > -1) {
-    $.setdata(JSON.stringify($request.url), 'dkdtxurl')
-    $.log(dkdtxurl)
-    $.setdata(JSON.stringify($request.headers), 'dkdtxhd')
-    $.log(dkdtxhd)
-    $.setdata($request.body, 'dkdtxbody')
-    $.log(dkdtxbody)
-    $.msg($.name, "", "多看点提现数据获取成功！")
-
-  }
+//视频领金币
+function dkdsc(timeout = 0) {
+  return new Promise((resolve) => {
+    let url = {
+      url: 'http://dkd-api.dysdk.com/task/get_ad_award',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `adType=2&${dkdtokenbodyVal}&type=1&overLimit`,
+    }
+    $.post(url, async (err, resp, data) => {
+      try {
+        const result = JSON.parse(data)
+        if (result.status_code == 200) {
+          $.log(`【视频领金币】:获取${result.data.award}金币`);
+        }
+        if (result.status_code == 10020) {
+          $.log(`【视频领金币】:${result.message}`);
+        }
+      } catch (e) {
+        //$.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    }, timeout)
+  })
 }
-//多看点广告视频
+//广告视频
 function dkdgg(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
@@ -557,7 +773,7 @@ function dkdgg(timeout = 0) {
     }, timeout)
   })
 }
-//多看点视频宝箱
+//视频宝箱
 function dkdbx(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
@@ -570,9 +786,11 @@ function dkdbx(timeout = 0) {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
           $.log(`【视频宝箱】:获取${result.data.award}金币`);
+          await $.wait(2000)
+          await dkdbxfb() //视频宝箱翻倍
         }
         if (result.status_code == 10020) {
-          $.log(`【视频宝箱】:${result.message}🚫`);
+          $.log(`【视频宝箱】:${result.message}`);
         }
       } catch (e) {
         //$.logErr(e, resp);
@@ -582,7 +800,7 @@ function dkdbx(timeout = 0) {
     }, timeout)
   })
 }
-//多看点视频宝箱翻倍
+//视频宝箱翻倍
 function dkdbxfb(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
@@ -607,7 +825,34 @@ function dkdbxfb(timeout = 0) {
     }, timeout)
   })
 }
-//多看点转盘抽奖
+//刷新转盘
+function dkdsxzp(timeout = 0) {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/lotto/index?${dkdtokenbodyVal}&headerInfo=${dkdlottourlVal}`,
+      headers: JSON.parse(dkdlottokeyVal),
+      body: '',
+    }
+    $.post(url, async (err, resp, data) => {
+      try {
+          if (logs == 1) $.log(data)
+           $.log(data)
+        const result = JSON.parse(data)
+        if (result.status_code == 200) {
+          console.log(`【抽奖次数】:次数为${result.data.times}次`)
+        }
+        if (result.status_code == 10020) {
+          console.log('【刷新抽奖】:失败:' + result.message)
+        }
+      } catch (e) {
+        //$.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    }, timeout)
+  })
+}
+//转盘抽奖
 function dkdcj(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
@@ -622,136 +867,7 @@ function dkdcj(timeout = 0) {
           $.log(`【转盘抽奖】:获取${result.data.award}金币`);
         }
         if (result.status_code == 10020) {
-          $.log(`【转盘抽奖】:${result.message}🚫`);
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点分享
-function dkdfx(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_award',
-      headers: JSON.parse(dkdtokenkeyVal),
-      body: `id=52&${dkdtokenbodyVal}`,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          $.log(`【分享任务】:获取${result.data.award}金币`);
-        }
-        if (result.status_code == 10020) {
-          $.log(`【分享任务】:${result.message}🚫`);
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点小说
-function dkdxs(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_award',
-      headers: JSON.parse(dkdtokenkeyVal),
-      body: `id=51&${dkdtokenbodyVal}`,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          $.log(`【小说赚】:获取${result.data.award}金币`);
-        }
-        if (result.status_code == 10020) {
-          $.log(`【小说赚】:${result.message}🚫`);
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点小说时段奖励
-function dkdsdjl(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/video/extra_get',
-      headers: JSON.parse(dkdtokenkeyVal),
-      body: `${dkdtokenbodyVal}`,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        const result = JSON.parse(data)
-        if (result.status_code == 200 && result.data.status == -1) {
-          $.log(`【小说时段奖励】:${result.data.msg}`);
-        } else if (result.status_code == 200 && result.data.award >= 0) {
-          $.log(`【小说时段奖励】:获取${result.data.award}金币`);
-        } else if (result.status_code == 10020) {
-          $.log(`【小说时段奖励】:${result.message}🚫`);
-        }
-
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点视频时长
-function dkdsc(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_ad_award',
-      headers: JSON.parse(dkdtokenkeyVal),
-      body: `adType=2&${dkdtokenbodyVal}&type=1&overLimit`,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          $.log(`【视频领金币】:获取${result.data.award}金币`);
-        }
-        if (result.status_code == 10020) {
-          $.log(`【视频领金币】:${result.message}🚫`);
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点刷新转盘
-function dkdsxzp(timeout = 0) {
-  return new Promise((resolve) => {
-    let sx = dkdtxhd.match(/headerInfo":"\w+/) + ''
-    let url = {
-      url: `http://dkd-api.dysdk.com/lotto/index?${dkdtokenbodyVal}` + '&headerInfo=' + sx.replace('headerInfo":"', ""),
-      headers: JSON.parse(dkdtokenkeyVal),
-      body: '',
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(str.replace('headerInfo":"',""))
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log(`【抽奖次数】:次数为${result.data.times}次`)
-        }
-        if (result.status_code == 10020) {
-          console.log('【刷新抽奖】:失败🚫:' + result.message)
+          $.log(`【转盘抽奖】:${result.message}`);
         }
       } catch (e) {
         //$.logErr(e, resp);
@@ -762,31 +878,42 @@ function dkdsxzp(timeout = 0) {
   })
 }
 //多看点提现
-function dkdtx(timeout = 0) {
+async function dkdtx() {
+  if (typeof $.getdata('dkdcashkey') === "undefined") {
+    $.log('⛔️请先获取提现Cookie!')
+    return
+  }
   return new Promise((resolve) => {
-    let str = dkdtxhd.match(/headerInfo":"\w+/) + ''
     let url = {
-      url: `http://dkd-api.dysdk.com/money/withdraw_do?${dkdtokenbodyVal}` + '&headerInfo=' + str.replace('headerInfo":"', ""),
-      headers: JSON.parse($.getdata('dkdtxhd')),
-      body: dkdtxbody,
-    }
+      url: `${dkdcashurlVal}`,
+      body: `${dkdcashbodyVal}`,
+      headers: JSON.parse(dkdcashkeyVal),
+    };
     $.post(url, async (err, resp, data) => {
       try {
-        //$.log(str.replace('headerInfo":"',""))
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          $.log(`【自动提现】:${result.message}🎉`);
-        }
-        if (result.status_code == 10020) {
-          $.log(`【自动提现】:${result.message}🚫`);
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            $.log(data)
+            data = JSON.parse(data);
+            if (data.status_code == 200) {
+              $.log(`【自动提现】:${data.message}🎉`);
+            } else if (result.status_code == 10020) {
+              $.log(`【自动提现】:${data.message}🚫`);
+            }
+          }
         }
       } catch (e) {
-        //$.logErr(e, resp);
+        $.logErr(e, resp);
       } finally {
-        resolve()
+        resolve();
       }
-    }, timeout)
-  })
+    });
+  });
 }
 //多看点用户信息
 function dkdxx(timeout = 0) {
@@ -800,7 +927,7 @@ function dkdxx(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log("", $.name + '运行完毕！', "")
+          $.log("", '运行完毕！打印用户清单...', "")
           $.log(`【用户名】:${result.data.nickname}`);
           $.log(`【当前余额】:¥${result.data.cash}元`);
           $.log(`【总金币】:${result.data.gold}金币🏅`);
@@ -822,8 +949,6 @@ function dkdxx(timeout = 0) {
     }, timeout)
   })
 }
-
-
 ////////////////////////////////////////////////////////////////////
 
 //解码URIcode

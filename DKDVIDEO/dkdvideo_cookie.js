@@ -5,13 +5,37 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/red
   const dkdtokenbody = $request.body
   if (dkdtokenbody) $.setdata(dkdtokenbody, 'dkdtokenbody')
   $.log(`[${jsname}] 获取dkdtokenbody请求🎉: 成功,dkdtokenbody: ${dkdtokenbody}`)
-
   const dkdtokenkey = JSON.stringify($request.headers)
   if (dkdtokenkey) $.setdata(dkdtokenkey, 'dkdtokenkey')
   $.log(`[${jsname}] 获取dkdtokenkey请求🎉: 成功,dkdtokenkey: ${dkdtokenkey}`)
+  $.msg($.name, "添加【一般任务】请求: 成功🎉")
   $.done()
 }
-
+//dkdcash
+if ($request && $request.method != `OPTIONS` && $request.url.indexOf("withdraw_do") >= 0) {
+  const dkdcashurl = $request.url
+  if (dkdcashurl) $.setdata(dkdcashurl, 'dkdcashurl')
+  $.log(`获取dkdcashurl请求🎉: 成功,dkdcashurl: ${dkdcashurl}`)
+  const dkdcashbody = $request.body
+  if (dkdcashbody) $.setdata(dkdcashbody, 'dkdcashbody')
+  $.log(`获取dkdcashbody请求🎉: 成功,dkdcashbody: ${dkdcashbody}`)
+  const dkdcashkey = JSON.stringify($request.headers)
+  if (dkdcashkey) $.setdata(dkdcashkey, 'dkdcashkey')
+  $.log(`获取dkdcashkey请求🎉: 成功,dkdcashkey: ${dkdcashkey}`)
+  $.msg($.name, "添加【提现任务】请求: 成功🎉")
+  $.done()
+}
+//dkdlotto
+if ($request && $request.method != `OPTIONS` && $request.url.indexOf("lotto") >= 0) {
+  const dkdlottourl = $request.url.split('headerInfo=')[1];
+  if (dkdlottourl) $.setdata(dkdlottourl, 'dkdlottourl')
+  $.log(`获取dkdlottourl请求🎉: 成功,dkdlottourl: ${dkdlottourl}`)
+  const dkdlottokey = JSON.stringify($request.headers)
+  if (dkdlottokey) $.setdata(dkdlottokey, 'dkdlottokey')
+  $.log(`获取dkdlottokey请求🎉: 成功,dkdlottokey: ${dkdlottokey}`)
+  $.msg($.name, "添加【转盘任务】请求: 成功🎉")
+  $.done()
+}
 
 //getaward
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/android_video\/getaward/)) {
