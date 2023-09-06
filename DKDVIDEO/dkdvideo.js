@@ -1,6 +1,7 @@
 /*
 仅为自用！！！！
 基于肥皂的多看点视频基础上修改成自己的版本...谢谢肥皂大佬！
+如果要使用,请填肥皂的邀请码：13152063
 
 */
 const jsname = '🧿多看点'
@@ -156,15 +157,15 @@ if ($.isNode()) {
   await dayindex()
   console.log(`\n✅ 日常任务\n`)
   if (hour == 8 || hour == 12 || hour == 23) {
-    console.log(`\n+执行【签到】任务+\n`)
+    console.log(`\n+执行【今日签到🤙】任务+\n`)
     await dkdqd() //多看点签到
   }
-  console.log(`\n+执行【转盘任务】任务+\n`)
+  console.log(`\n+执行【转盘任务🎡】任务+\n`)
   await dkdsxzp() //转盘
-  await dkdcj()
+  await dkdcj()//转盘奖励
 
 
-  console.log(`\n+执行【视频时段宝箱&小说时段奖励】任务+\n`)
+  console.log(`\n+执行【时段奖励类🕰】任务+\n`)
   await dkdbx() //视频宝箱
   await dkdsdjl() //小说时段奖励
 
@@ -226,12 +227,12 @@ async function dkdvideoapp() {
 //日常奖励pro模块
 async function dkdpro() {
 
-  console.log(`\n+领取【阶段性红包】奖励+\n`)
+  console.log(`\n+领取【阶段性红包🧧】奖励+\n`)
 
   if (prolist0 == 0) {
     $.log(`【20%进度红包】:未达成`);
   } else if (prolist0 == 2) {
-    $.log(`【20%进度红包】:已达成`);
+    $.log(`【20%进度红包】:已达成🎉`);
   } else if (prolist0 == 1) {
     await redpro1()
   }
@@ -239,7 +240,7 @@ async function dkdpro() {
   if (prolist1 == 0) {
     $.log(`【50%进度红包】:未达成`);
   } else if (prolist1 == 2) {
-    $.log(`【50%进度红包】:已达成`);
+    $.log(`【50%进度红包】:已达成🎉`);
   } else if (prolist2 == 1) {
     await redpro2()
   }
@@ -247,7 +248,7 @@ async function dkdpro() {
   if (prolist2 == 0) {
     $.log(`【80%进度红包】:未达成`);
   } else if (prolist2 == 2) {
-    $.log(`【80%进度红包】:已达成`);
+    $.log(`【80%进度红包】:已达成🎉`);
   } else if (prolist2 == 1) {
     await redpro3()
   }
@@ -255,7 +256,7 @@ async function dkdpro() {
   if (prolist3 == 0) {
     $.log(`【100%进度红包】:未达成`);
   } else if (prolist3 == 2) {
-    $.log(`【100%进度红包】:已达成`);
+    $.log(`【100%进度红包】:已达成🎉`);
   } else if (prolist3 == 1) {
     await redpro4()
   }
@@ -264,26 +265,26 @@ async function dkdpro() {
 //日常完成奖励模块
 async function dkdnomal() {
 
-  console.log(`\n+领取【日常任务完成】奖励+\n`)
+  console.log(`\n+领取【日常任务🎊】奖励+\n`)
   if (tasklist0 == 0) {
     await dkdsc() //视频领金币
   } else {
-    console.log(`【视频领金币】:已完成`)
+    console.log(`【视频领金币】:已完成🎉`)
   }
   if (tasklist1 == 0) {
     await dkdgg() //广告视频
   } else {
-    console.log(`【广告领金币】:已完成`)
+    console.log(`【广告领金币】:已完成🎉`)
   }
   if (tasklist2 == 0) {
     await dkdxs() //小说
   } else {
-    console.log(`【小说赚】:已完成`)
+    console.log(`【小说赚】:已完成🎉`)
   }
   if (tasklist3 == 0) {
     await dkdfx() //分享
   } else {
-    console.log(`【分享赚】:已完成`)
+    console.log(`【分享赚】:已完成🎉`)
   }
 
 }
@@ -315,12 +316,12 @@ async function dayindex() {
             prolist1 = data.data.Task_comp.data[1].status
             prolist2 = data.data.Task_comp.data[2].status
             prolist3 = data.data.Task_comp.data[3].status
-            $.log(`【阶段性红包完成度】:${data.data.Task_comp.pro}%`);
-            $.log(`【视频领金币】:${data.data.list[0].task_go}`);
-            $.log(`【广告领金币】:${data.data.list[1].task_go}`);
-            $.log(`【小说赚】:${data.data.list[2].task_go}`);
-            $.log(`【分享赚】:${data.data.list[3].task_go}`);
-            $.log(`【高额游戏赚】:${data.data.list[4].task_go}`);
+            $.log(`🔸阶段性红包完成度:${data.data.Task_comp.pro}%`);
+            $.log(`🔸视频领金币:${data.data.list[0].task_go}`);
+            $.log(`🔸广告领金币:${data.data.list[1].task_go}`);
+            $.log(`🔸小说赚:${data.data.list[2].task_go}`);
+            $.log(`🔸分享赚:${data.data.list[3].task_go}`);
+            $.log(`🔸高额游戏赚:${data.data.list[4].task_go}`);
           }
         }
       } catch (e) {
@@ -825,7 +826,7 @@ function dkdbxfb(timeout = 0) {
     }, timeout)
   })
 }
-//刷新转盘
+//转盘
 function dkdsxzp(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
@@ -836,13 +837,10 @@ function dkdsxzp(timeout = 0) {
     $.post(url, async (err, resp, data) => {
       try {
           if (logs == 1) $.log(data)
-           $.log(data)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          console.log(`【抽奖次数】:次数为${result.data.times}次`)
-        }
-        if (result.status_code == 10020) {
-          console.log('【刷新抽奖】:失败:' + result.message)
+          console.log(`【转盘次数】:次数为${result.data.times}次`)
+          console.log(`【转盘碎片】:💠${result.data.chip}个`)
         }
       } catch (e) {
         //$.logErr(e, resp);
