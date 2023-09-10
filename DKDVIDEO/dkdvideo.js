@@ -155,6 +155,7 @@ if ($.isNode()) {
   console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
   console.log(`\n✅ 任务状态\n`)
   await dayindex()
+  await boxinit()
   console.log(`\n✅ 日常任务\n`)
   if (hour == 8 || hour == 12 || hour == 23) {
     console.log(`\n+执行【今日签到🤙】任务+\n`)
@@ -350,6 +351,7 @@ async function boxinit() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
+            $.log(`🔸视频宝箱:${data.data.diff}`);
 
           }
         }
