@@ -351,7 +351,7 @@ async function boxinit() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`🔸视频宝箱:${data.data.diff}`);
+            $.log(`🔸视频宝箱【${data.data.diff}】:${data.data.msg}`);
 
           }
         }
