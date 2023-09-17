@@ -153,25 +153,31 @@ if ($.isNode()) {
   dkdlottokeyVal = dkdlottokeyArr[0];
 
   console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
+  console.log(`\n✅ 签到状态\n`)
+  await signinit()
   console.log(`\n✅ 任务状态\n`)
   await dayindex()
   await boxinit()
+
   console.log(`\n✅ 日常任务\n`)
-  if (hour == 8 || hour == 12 || hour == 23) {
-    console.log(`\n+执行【今日签到🤙】任务+\n`)
-    await dkdqd() //多看点签到
-  }
+
+  console.log(`\n+执行【今日签到🤙】任务+\n`)
+  await todaysign()//签到
+
   console.log(`\n+执行【转盘任务🎡】任务+\n`)
   await dkdsxzp() //转盘
-  await dkdcj()//转盘奖励
-
+  await dkdcj() //转盘奖励
 
   console.log(`\n+执行【时段奖励类🕰】任务+\n`)
   await dkdbx() //视频宝箱
   await dkdsdjl() //小说时段奖励
 
+  console.log(`\n+领取【日常任务🎊】奖励+\n`)
   await dkdnomal() //完成日常任务奖励领取
+
+  console.log(`\n+领取【阶段性红包🧧】奖励+\n`)
   await dkdpro() //日常任务完成阶段性奖励
+
   console.log(`\n✅ 刷视频任务\n`)
   await dkdvideoapp() //刷视频
   console.log(`\n✅ 提现任务\n`)
@@ -227,9 +233,6 @@ async function dkdvideoapp() {
 }
 //日常奖励pro模块
 async function dkdpro() {
-
-  console.log(`\n+领取【阶段性红包🧧】奖励+\n`)
-
   if (prolist0 == 0) {
     $.log(`【20%进度红包】:未达成`);
   } else if (prolist0 == 2) {
@@ -261,33 +264,39 @@ async function dkdpro() {
   } else if (prolist3 == 1) {
     await redpro4()
   }
-
 }
 //日常完成奖励模块
 async function dkdnomal() {
 
-  console.log(`\n+领取【日常任务🎊】奖励+\n`)
-  if (tasklist0 == 0) {
+  if (tasklist0 == 0 || tasklist0 == 1) {
     await dkdsc() //视频领金币
   } else {
     console.log(`【视频领金币】:已完成🎉`)
   }
-  if (tasklist1 == 0) {
+  if (tasklist1 == 0 || tasklist1 == 1) {
     await dkdgg() //广告视频
   } else {
     console.log(`【广告领金币】:已完成🎉`)
   }
-  if (tasklist2 == 0) {
+  if (tasklist2 == 0 || tasklist2 == 1) {
     await dkdxs() //小说
   } else {
-    console.log(`【小说赚】:已完成🎉`)
+    console.log(`【小说赚金币】:已完成🎉`)
   }
-  if (tasklist3 == 0) {
+  if (tasklist3 == 0 || tasklist3 == 1) {
     await dkdfx() //分享
   } else {
-    console.log(`【分享赚】:已完成🎉`)
+    console.log(`【分享赚金币】:已完成🎉`)
   }
 
+}
+//签到模块
+async function todaysign() {
+  if (todaycode == 0) {
+    await dkdqd() //多看点签到
+  } else {
+    $.log(`【今日签到】:今天已签到✔️`);
+  }
 }
 
 //////////////////////////////////////////////////////////////////
@@ -320,8 +329,8 @@ async function dayindex() {
             $.log(`🔸阶段性红包完成度:${data.data.Task_comp.pro}%`);
             $.log(`🔸视频领金币:${data.data.list[0].task_go}`);
             $.log(`🔸广告领金币:${data.data.list[1].task_go}`);
-            $.log(`🔸小说赚:${data.data.list[2].task_go}`);
-            $.log(`🔸分享赚:${data.data.list[3].task_go}`);
+            $.log(`🔸小说赚金币:${data.data.list[2].task_go}`);
+            $.log(`🔸分享赚金币:${data.data.list[3].task_go}`);
             $.log(`🔸高额游戏赚:${data.data.list[4].task_go}`);
           }
         }
@@ -352,6 +361,78 @@ async function boxinit() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             $.log(`🔸视频宝箱【${data.data.diff}】:${data.data.msg}`);
+
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//签到状态
+async function signinit() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/task/index_sign`,
+      body: `${dkdtokenbodyVal}`,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            day1code = data.data.sign_list.day1.status
+            day2code = data.data.sign_list.day2.status
+            day3code = data.data.sign_list.day3.status
+            day4code = data.data.sign_list.day4.status
+            day5code = data.data.sign_list.day5.status
+            day6code = data.data.sign_list.day6.status
+            day7code = data.data.sign_list.day7.status
+            todaycode = data.data.sign_status
+            if (day1code == 1) {
+              $.log(`🔸签到day1:已签到✔️`);
+            } else {
+              $.log(`🔸签到day1:未签到✖️`);
+            }
+            if (day2code == 1) {
+              $.log(`🔸签到day2:已签到✔️`);
+            } else {
+              $.log(`🔸签到day2:未签到✖️`);
+            }
+            if (day3code == 1) {
+              $.log(`🔸签到day3:已签到✔️`);
+            } else {
+              $.log(`🔸签到day3:未签到✖️`);
+            }
+            if (day4code == 1) {
+              $.log(`🔸签到day4:已签到✔️`);
+            } else {
+              $.log(`🔸签到day4:未签到✖️`);
+            }
+            if (day5code == 1) {
+              $.log(`🔸签到day5:已签到✔️`);
+            } else {
+              $.log(`🔸签到day5:未签到✖️`);
+            }
+            if (day6code == 1) {
+              $.log(`🔸签到day6:已签到✔️`);
+            } else {
+              $.log(`🔸签到day6:未签到✖️`);
+            }
+            if (day7code == 1) {
+              $.log(`🔸签到day7:已签到✔️`);
+            } else {
+              $.log(`🔸签到day7:未签到✖️`);
+            }
 
           }
         }
@@ -465,7 +546,7 @@ async function redpro1() {
             if (data.status_code == 10020) {
               $.log(`【20%进度红包】:${data.message}`);
             } else {
-              $.log(`【20%进度红包】:获取${data.data.award}个金币🏅\n`);
+              $.log(`【20%进度红包】:获取${data.data.award}个金币🏅`);
               tz += `【20%进度红包】:获取${data.data.award}个金币🏅\n`
             }
           }
@@ -499,7 +580,7 @@ async function redpro2() {
             if (data.status_code == 10020) {
               $.log(`【50%进度红包】:${data.message}`);
             } else {
-              $.log(`【50%进度红包】:获取${data.data.award}个金币🏅\n`);
+              $.log(`【50%进度红包】:获取${data.data.award}个金币🏅`);
               tz += `【50%进度红包】:获取${data.data.award}个金币🏅\n`
             }
           }
@@ -533,7 +614,7 @@ async function redpro3() {
             if (data.status_code == 10020) {
               $.log(`【80%进度红包】:${data.message}`);
             } else {
-              $.log(`【80%进度红包】:获取${data.data.award}个金币🏅\n`);
+              $.log(`【80%进度红包】:获取${data.data.award}个金币🏅`);
               tz += `【80%进度红包】:获取${data.data.award}个金币🏅\n`
             }
           }
@@ -567,7 +648,7 @@ async function redpro4() {
             if (data.status_code == 10020) {
               $.log(`【100%进度红包】:${data.message}`);
             } else {
-              $.log(`【100%进度红包】:获取${data.data.award}个金币🏅\n`);
+              $.log(`【100%进度红包】:获取${data.data.award}个金币🏅`);
               tz += `【100%进度红包】:获取${data.data.award}个金币🏅\n`
             }
           }
@@ -838,7 +919,7 @@ function dkdsxzp(timeout = 0) {
     }
     $.post(url, async (err, resp, data) => {
       try {
-          if (logs == 1) $.log(data)
+        if (logs == 1) $.log(data)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
           console.log(`【转盘次数】:次数为${result.data.times}次`)
