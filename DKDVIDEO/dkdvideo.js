@@ -162,7 +162,7 @@ if ($.isNode()) {
   console.log(`\n✅ 日常任务\n`)
 
   console.log(`\n+执行【今日签到🤙】任务+\n`)
-  await todaysign()//签到
+  await todaysign() //签到
 
   console.log(`\n+执行【转盘任务🎡】任务+\n`)
   await dkdsxzp() //转盘
@@ -288,6 +288,11 @@ async function dkdnomal() {
   } else {
     console.log(`【分享赚金币】:已完成🎉`)
   }
+  if (tasklist4 == 0 || tasklist4 == 1) {
+    await dkdgame() //高额游戏
+  } else {
+    console.log(`【高额游戏赚】:已完成🎉`)
+  }
 
 }
 //签到模块
@@ -322,6 +327,7 @@ async function dayindex() {
             tasklist1 = data.data.list[1].status
             tasklist2 = data.data.list[2].status
             tasklist3 = data.data.list[3].status
+            tasklist4 = data.data.list[4].status
             prolist0 = data.data.Task_comp.data[0].status
             prolist1 = data.data.Task_comp.data[1].status
             prolist2 = data.data.Task_comp.data[2].status
@@ -520,6 +526,39 @@ function dkdsdjl(timeout = 0) {
       }
     }, timeout)
   })
+}
+//高额游戏赚
+async function dkdgame() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/task/get_award`,
+      body: `id=55&${dkdtokenbodyVal}`,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            if (data.status_code == 200) {
+              $.log(`【高额游戏赚】:获取${result.data.award}金币`);
+            } else {
+              $.log(`【高额游戏赚】:${result.message}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
 }
 
 //////////////////////////////////////////////////////////////////
