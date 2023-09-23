@@ -1,717 +1,133 @@
-const $ = new Env('多看点');
-let dkdurl = $.getdata('dkdurl')
-let dkdhd = $.getdata('dkdhd')
-let dkdbody = $.getdata('dkdbody')
-let dkdtxurl = $.getdata('dkdtxurl')
-let dkdtxhd = $.getdata('dkdtxhd')
-let dkdtxbody = $.getdata('dkdtxbody')
+iOS 14.1 v1 .0 .19 - build501
 
- !(async () => {
-      await dkdqd()
-  })()
-  .catch((e) => $.logErr(e))
-  .finally(() => $.done())
 
-//多看点签到
-function dkdqd(timeout = 0) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      if (typeof $.getdata('dkdurl') === "undefined") {
-        $.msg($.name, "", '请先获取多看点Cookie!😓', )
-        return
+🔔🧿 多看点, 开始!
+
+  💗💕开始执行脚本任务💕💗
+
+
+✅ 任务状态
+
+🔸 阶段性红包完成度: 80 % 🔸视频领金币: 已完成🔸 广告领金币: 已完成🔸 小说赚: 已完成🔸 分享赚: 已完成🔸 高额游戏赚: 去完成🔸 视频宝箱【 - 1】: 明日再来！ {
+  "status_code": 200,
+  "message": "请求成功",
+  "data": {
+    "sign_list": {
+      "day1": {
+        "msg": "已签",
+        "status": 1,
+        "gold": "500"
+      },
+      "day2": {
+        "msg": "已签",
+        "status": 1,
+        "gold": "800"
+      },
+      "day3": {
+        "msg": "已签",
+        "status": 1,
+        "gold": "500"
+      },
+      "day4": {
+        "msg": "4天",
+        "status": 2,
+        "gold": "800"
+      },
+      "day5": {
+        "msg": "5天",
+        "status": 2,
+        "gold": "500"
+      },
+      "day6": {
+        "msg": "6天",
+        "status": 2,
+        "gold": "800"
+      },
+      "day7": {
+        "msg": "7天",
+        "status": 2,
+        "gold": "1000"
       }
-      let url = {
-        url: 'http://dkd-api.dysdk.com/task/sign',
-        headers: JSON.parse($.getdata('dkdhd')),
-        body: 'adType=2&' + dkdbody,
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          //$.log(dkdbody)
-          const result = JSON.parse(data)
-          if (result.status_code == 200) {
-            console.log('签到回执:成功🌝 ' + result.data.sign_award)
-          }
-          if (result.status_code == 10020) {
-            console.log('签到回执:失败🚫 ' + result.message)
-
-          }
-          await dkdgg() //多看点广告视频
-          await dkdsc() //多看点视频时长
-          await dkdbx() //多看点视频宝箱
-          await dkdbxfb()//多看点视频宝箱翻倍
-          await dkdsxzp()//多看点刷新转盘
-          await dkdcj()//多看点转盘抽奖
-          await dkdfx()//多看点分享
-          await dkdxs()//多看点小说？？
-          await dkdsdjl()//多看点小说时段奖励？？
-          await dkdxx()//多看点用户信息
-          await dkdz()
-          await dkdtx()//多看点提现
-        } catch (e) {
-          //$.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    }, timeout)
-  })
-}
-////////////////////////////////////////////////////////////////////////
-//多看点数据获取
-function dkdck() {
-  if ($request.url.indexOf("index") > -1) {
-    $.setdata(JSON.stringify($request.url), 'dkdurl')
-    $.log(dkdurl)
-    $.setdata(JSON.stringify($request.headers), 'dkdhd')
-    $.log(dkdhd)
-    $.setdata($request.body, 'dkdbody')
-    $.log(dkdbody)
-    $.msg($.name, "", "多看点headers获取成功！")
-    $.msg($.name, "", "多看点body获取成功！")
-  }
-}
-//多看点提现ck
-function dkdtxck() {
-  if ($request.url.indexOf("withdraw_do?") > -1) {
-    $.setdata(JSON.stringify($request.url), 'dkdtxurl')
-    $.log(dkdtxurl)
-    $.setdata(JSON.stringify($request.headers), 'dkdtxhd')
-    $.log(dkdtxhd)
-    $.setdata($request.body, 'dkdtxbody')
-    $.log(dkdtxbody)
-    $.msg($.name, "", "多看点提现数据获取成功！")
-
+    },
+    "get_more": "",
+    "get_more_url": "duokandian:\/\/watchad_sign",
+    "sign_tips": "",
+    "sign_status": 1,
+    "withdraw_task": {
+      "is_show_tips": 0,
+      "status": 0,
+      "data": [{
+        "title": "完成2个游戏任务",
+        "comp": 0,
+        "pathurl": "duokandian:\/\/thirdsdk?adtype=dy_ad_list",
+        "task_go": "去看看"
+      }, {
+        "title": "完成3个鱼玩盒子任务",
+        "comp": 0,
+        "pathurl": "duokandian:\/\/yuwan_box",
+        "task_go": "去看看"
+      }, {
+        "title": "完成3个截图任务",
+        "comp": 0,
+        "pathurl": "duokandian:\/\/zhiban",
+        "task_go": "去看看"
+      }]
+    },
+    "sign_award3000": {
+      "msg": ""
+    },
+    "Full_screen": 2
   }
 }
 
-////////////////////////////////////////////////////////////////////////
-//多看点广告视频
-function dkdgg(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_ad_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody + '&type=2',
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('广告视频回执:成功🌝 ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('广告视频回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点视频宝箱
-function dkdbx(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/red/box_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: dkdbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('视频宝箱回执:成功🌝 ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('视频宝箱回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点视频宝箱翻倍
-function dkdbxfb(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/red/box_extra',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('视频宝箱翻倍回执:成功🌝 ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('视频宝箱翻倍回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点转盘抽奖
-function dkdcj(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/lotto/start',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('转盘抽奖回执:成功🌝 ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('转盘抽奖回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点分享
-function dkdfx(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'id=52&' + dkdbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('分享任务回执:成功🌝 ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('分享任务回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点小说
-function dkdxs(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'id=51&' + dkdbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('小说任务回执:成功🌝 ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('小说任务回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点视频时长
-function dkdsc(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_ad_award',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: 'adType=2&' + dkdbody + '&type=1&overLimit',
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('时长任务回执:成功🌝 ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('时长任务回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//+'&headerInfo='+sx.replace('headerInfo":"',"")
-//多看点刷新转盘
-function dkdsxzp(timeout = 0) {
-  return new Promise((resolve) => {
-    let sx = dkdtxhd.match(/headerInfo":"\w+/) + ''
-    let url = {
-      url: 'http://dkd-api.dysdk.com/lotto/index?' + dkdbody + '&headerInfo=' + sx.replace('headerInfo":"', ""),
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: '',
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(str.replace('headerInfo":"',""))
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('开始刷新转抽奖页面，回执:成功🌝 剩余抽奖次数: ' + result.data.times)
-        }
-        if (result.status_code == 10020) {
-          console.log('开始刷新抽奖页面，回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点小说时段奖励
-function dkdsdjl(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/video/extra_get',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: dkdbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(str.replace('headerInfo":"',""))
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('开始领取小说时段奖励，回执:成功🌝    ' + result.data.award)
-        }
-        if (result.status_code == 10020) {
-          console.log('开始领取小说时段奖励，回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点提现
-function dkdtx(timeout = 0) {
-  return new Promise((resolve) => {
-    let str = dkdtxhd.match(/headerInfo":"\w+/) + ''
-    let url = {
-      url: 'http://dkd-api.dysdk.com/money/withdraw_do?' + dkdbody + '&headerInfo=' + str.replace('headerInfo":"', ""),
-      headers: JSON.parse($.getdata('dkdtxhd')),
-      body: dkdtxbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(str.replace('headerInfo":"',""))
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          console.log('提现回执:成功🌝 ' + result.message)
-        }
-        if (result.status_code == 10020) {
-          console.log('提现回执:失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
-//多看点用户信息
-function dkdxx(timeout = 0) {
-  return new Promise((resolve) => {
-    let url = {
-      url: 'http://dkd-api.dysdk.com/user/index',
-      headers: JSON.parse($.getdata('dkdhd')),
-      body: dkdbody,
-    }
-    $.post(url, async (err, resp, data) => {
-      try {
-        //$.log(dkdbody)
-        const result = JSON.parse(data)
-        if (result.status_code == 200) {
-          $.msg($.name + '运行完毕！', "", '用户信息回执:成功🌝\n' + '用户名: ' + result.data.nickname + '\n当前余额:' + result.data.cash + '\n总金币:' + result.data.gold + '\n今日金币:' + result.data.today_gold)
-        }
-        if (result.status_code == 10020) {
-          $.msg($.name, "", '运行完毕,用户信息获取失败🚫 ' + result.message)
-        }
-      } catch (e) {
-        //$.logErr(e, resp);
-      } finally {
-        resolve()
-      }
-    }, timeout)
-  })
-}
+✅ 日常任务
 
 
-function Env(t, e) {
-  class s {
-    constructor(t) {
-      this.env = t
-    }
-    send(t, e = "GET") {
-      t = "string" == typeof t ? {
-        url: t
-      } : t;
-      let s = this.get;
-      return "POST" === e && (s = this.post), new Promise((e, i) => {
-        s.call(this, t, (t, s, r) => {
-          t ? i(t) : e(s)
-        })
-      })
-    }
-    get(t) {
-      return this.send.call(this.env, t)
-    }
-    post(t) {
-      return this.send.call(this.env, t, "POST")
-    }
-  }
-  return new class {
-    constructor(t, e) {
-      this.name = t, this.http = new s(this), this.data = null, this.dataFile = "box.dat", this.logs = [], this.isMute = !1, this.isNeedRewrite = !1, this.logSeparator = "\n", this.startTime = (new Date).getTime(), Object.assign(this, e), this.log("", `\ud83d\udd14${this.name}, \u5f00\u59cb!`)
-    }
-    isNode() {
-      return "undefined" != typeof module && !!module.exports
-    }
-    isQuanX() {
-      return "undefined" != typeof $task
-    }
-    isSurge() {
-      return "undefined" != typeof $httpClient && "undefined" == typeof $loon
-    }
-    isLoon() {
-      return "undefined" != typeof $loon
-    }
-    toObj(t, e = null) {
-      try {
-        return JSON.parse(t)
-      } catch {
-        return e
-      }
-    }
-    toStr(t, e = null) {
-      try {
-        return JSON.stringify(t)
-      } catch {
-        return e
-      }
-    }
-    getjson(t, e) {
-      let s = e;
-      const i = this.getdata(t);
-      if (i) try {
-        s = JSON.parse(this.getdata(t))
-      } catch {}
-      return s
-    }
-    setjson(t, e) {
-      try {
-        return this.setdata(JSON.stringify(t), e)
-      } catch {
-        return !1
-      }
-    }
-    getScript(t) {
-      return new Promise(e => {
-        this.get({
-          url: t
-        }, (t, s, i) => e(i))
-      })
-    }
-    runScript(t, e) {
-      return new Promise(s => {
-        let i = this.getdata("@chavy_boxjs_userCfgs.httpapi");
-        i = i ? i.replace(/\n/g, "").trim() : i;
-        let r = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");
-        r = r ? 1 * r : 20, r = e && e.timeout ? e.timeout : r;
-        const [o, h] = i.split("@"), a = {
-          url: `http://${h}/v1/scripting/evaluate`,
-          body: {
-            script_text: t,
-            mock_type: "cron",
-            timeout: r
-          },
-          headers: {
-            "X-Key": o,
-            Accept: "*/*"
-          }
-        };
-        this.post(a, (t, e, i) => s(i))
-      }).catch(t => this.logErr(t))
-    }
-    loaddata() {
-      if (!this.isNode()) return {}; {
-        this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path");
-        const t = this.path.resolve(this.dataFile),
-          e = this.path.resolve(process.cwd(), this.dataFile),
-          s = this.fs.existsSync(t),
-          i = !s && this.fs.existsSync(e);
-        if (!s && !i) return {}; {
-          const i = s ? t : e;
-          try {
-            return JSON.parse(this.fs.readFileSync(i))
-          } catch (t) {
-            return {}
-          }
-        }
-      }
-    }
-    writedata() {
-      if (this.isNode()) {
-        this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path");
-        const t = this.path.resolve(this.dataFile),
-          e = this.path.resolve(process.cwd(), this.dataFile),
-          s = this.fs.existsSync(t),
-          i = !s && this.fs.existsSync(e),
-          r = JSON.stringify(this.data);
-        s ? this.fs.writeFileSync(t, r) : i ? this.fs.writeFileSync(e, r) : this.fs.writeFileSync(t, r)
-      }
-    }
-    lodash_get(t, e, s) {
-      const i = e.replace(/\[(\d+)\]/g, ".$1").split(".");
-      let r = t;
-      for (const t of i)
-        if (r = Object(r)[t], void 0 === r) return s;
-      return r
-    }
-    lodash_set(t, e, s) {
-      return Object(t) !== t ? t : (Array.isArray(e) || (e = e.toString().match(/[^.[\]]+/g) || []), e.slice(0, -1).reduce((t, s, i) => Object(t[s]) === t[s] ? t[s] : t[s] = Math.abs(e[i + 1]) >> 0 == +e[i + 1] ? [] : {}, t)[e[e.length - 1]] = s, t)
-    }
-    getdata(t) {
-      let e = this.getval(t);
-      if (/^@/.test(t)) {
-        const [, s, i] = /^@(.*?)\.(.*?)$/.exec(t), r = s ? this.getval(s) : "";
-        if (r) try {
-          const t = JSON.parse(r);
-          e = t ? this.lodash_get(t, i, "") : e
-        } catch (t) {
-          e = ""
-        }
-      }
-      return e
-    }
-    setdata(t, e) {
-      let s = !1;
-      if (/^@/.test(e)) {
-        const [, i, r] = /^@(.*?)\.(.*?)$/.exec(e), o = this.getval(i), h = i ? "null" === o ? null : o || "{}" : "{}";
-        try {
-          const e = JSON.parse(h);
-          this.lodash_set(e, r, t), s = this.setval(JSON.stringify(e), i)
-        } catch (e) {
-          const o = {};
-          this.lodash_set(o, r, t), s = this.setval(JSON.stringify(o), i)
-        }
-      } else s = this.setval(t, e);
-      return s
-    }
-    getval(t) {
-      return this.isSurge() || this.isLoon() ? $persistentStore.read(t) : this.isQuanX() ? $prefs.valueForKey(t) : this.isNode() ? (this.data = this.loaddata(), this.data[t]) : this.data && this.data[t] || null
-    }
-    setval(t, e) {
-      return this.isSurge() || this.isLoon() ? $persistentStore.write(t, e) : this.isQuanX() ? $prefs.setValueForKey(t, e) : this.isNode() ? (this.data = this.loaddata(), this.data[e] = t, this.writedata(), !0) : this.data && this.data[e] || null
-    }
-    initGotEnv(t) {
-      this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar))
-    }
-    get(t, e = (() => {})) {
-      t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
-        "X-Surge-Skip-Scripting": !1
-      })), $httpClient.get(t, (t, s, i) => {
-        !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i)
-      })) : this.isQuanX() ? (this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
-        hints: !1
-      })), $task.fetch(t).then(t => {
-        const {
-          statusCode: s,
-          statusCode: i,
-          headers: r,
-          body: o
-        } = t;
-        e(null, {
-          status: s,
-          statusCode: i,
-          headers: r,
-          body: o
-        }, o)
-      }, t => e(t))) : this.isNode() && (this.initGotEnv(t), this.got(t).on("redirect", (t, e) => {
-        try {
-          if (t.headers["set-cookie"]) {
-            const s = t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();
-            this.ckjar.setCookieSync(s, null), e.cookieJar = this.ckjar
-          }
-        } catch (t) {
-          this.logErr(t)
-        }
-      }).then(t => {
-        const {
-          statusCode: s,
-          statusCode: i,
-          headers: r,
-          body: o
-        } = t;
-        e(null, {
-          status: s,
-          statusCode: i,
-          headers: r,
-          body: o
-        }, o)
-      }, t => {
-        const {
-          message: s,
-          response: i
-        } = t;
-        e(s, i, i && i.body)
-      }))
-    }
-    post(t, e = (() => {})) {
-      if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
-        "X-Surge-Skip-Scripting": !1
-      })), $httpClient.post(t, (t, s, i) => {
-        !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i)
-      });
-      else if (this.isQuanX()) t.method = "POST", this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, {
-        hints: !1
-      })), $task.fetch(t).then(t => {
-        const {
-          statusCode: s,
-          statusCode: i,
-          headers: r,
-          body: o
-        } = t;
-        e(null, {
-          status: s,
-          statusCode: i,
-          headers: r,
-          body: o
-        }, o)
-      }, t => e(t));
-      else if (this.isNode()) {
-        this.initGotEnv(t);
-        const {
-          url: s,
-          ...i
-        } = t;
-        this.got.post(s, i).then(t => {
-          const {
-            statusCode: s,
-            statusCode: i,
-            headers: r,
-            body: o
-          } = t;
-          e(null, {
-            status: s,
-            statusCode: i,
-            headers: r,
-            body: o
-          }, o)
-        }, t => {
-          const {
-            message: s,
-            response: i
-          } = t;
-          e(s, i, i && i.body)
-        })
-      }
-    }
-    time(t) {
-      let e = {
-        "M+": (new Date).getMonth() + 1,
-        "d+": (new Date).getDate(),
-        "H+": (new Date).getHours(),
-        "m+": (new Date).getMinutes(),
-        "s+": (new Date).getSeconds(),
-        "q+": Math.floor(((new Date).getMonth() + 3) / 3),
-        S: (new Date).getMilliseconds()
-      };
-      /(y+)/.test(t) && (t = t.replace(RegExp.$1, ((new Date).getFullYear() + "").substr(4 - RegExp.$1.length)));
-      for (let s in e) new RegExp("(" + s + ")").test(t) && (t = t.replace(RegExp.$1, 1 == RegExp.$1.length ? e[s] : ("00" + e[s]).substr(("" + e[s]).length)));
-      return t
-    }
-    msg(e = t, s = "", i = "", r) {
-      const o = t => {
-        if (!t) return t;
-        if ("string" == typeof t) return this.isLoon() ? t : this.isQuanX() ? {
-          "open-url": t
-        } : this.isSurge() ? {
-          url: t
-        } : void 0;
-        if ("object" == typeof t) {
-          if (this.isLoon()) {
-            let e = t.openUrl || t.url || t["open-url"],
-              s = t.mediaUrl || t["media-url"];
-            return {
-              openUrl: e,
-              mediaUrl: s
-            }
-          }
-          if (this.isQuanX()) {
-            let e = t["open-url"] || t.url || t.openUrl,
-              s = t["media-url"] || t.mediaUrl;
-            return {
-              "open-url": e,
-              "media-url": s
-            }
-          }
-          if (this.isSurge()) {
-            let e = t.url || t.openUrl || t["open-url"];
-            return {
-              url: e
-            }
-          }
-        }
-      };
-      this.isMute || (this.isSurge() || this.isLoon() ? $notification.post(e, s, i, o(r)) : this.isQuanX() && $notify(e, s, i, o(r)));
-      let h = ["", "==============\ud83d\udce3\u7cfb\u7edf\u901a\u77e5\ud83d\udce3=============="];
-      h.push(e), s && h.push(s), i && h.push(i), console.log(h.join("\n")), this.logs = this.logs.concat(h)
-    }
-    log(...t) {
-      t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(t.join(this.logSeparator))
-    }
-    logErr(t, e) {
-      const s = !this.isSurge() && !this.isQuanX() && !this.isLoon();
-      s ? this.log("", `\u2757\ufe0f${this.name}, \u9519\u8bef!`, t.stack) : this.log("", `\u2757\ufe0f${this.name}, \u9519\u8bef!`, t)
-    }
-    wait(t) {
-      return new Promise(e => setTimeout(e, t))
-    }
-    done(t = {}) {
-      const e = (new Date).getTime(),
-        s = (e - this.startTime) / 1e3;
-      this.log("", `\ud83d\udd14${this.name}, \u7ed3\u675f! \ud83d\udd5b ${s} \u79d2`), this.log(), (this.isSurge() || this.isQuanX() || this.isLoon()) && $done(t)
-    }
-  }(t, e)
-}
+  +
+  执行【 今日签到🤙】 任务 +
+
+  【今日签到】: 今日已签到
+
+  +
+  执行【 转盘任务🎡】 任务 +
+
+  【转盘次数】: 次数为0次【 转盘碎片】: 💠0 个【 转盘抽奖】: 剩余看视频次数不足， 请明日再来！
+
+  +
+  执行【 时段奖励类🕰】 任务 +
+
+  【视频宝箱】: 明日再来！【 小说时段奖励】: 明日再来！
+
+  +
+  领取【 日常任务🎊】 奖励 +
+
+  【视频领金币】: 已完成🎉【 广告领金币】: 已完成🎉【 小说赚】: 已完成🎉【 分享赚】: 已完成🎉
+
+  +
+  领取【 阶段性红包🧧】 奖励 +
+
+  【20 % 进度红包】: 已达成🎉【 50 % 进度红包】: 已达成🎉【 80 % 进度红包】: 已达成🎉【 100 % 进度红包】: 未达成
+
+✅ 刷视频任务
+
+  +
+  检查【 刷视频】 任务状态 +
+
+  【目前状态】: 视频📽【 视频总数】: 共有59个
+
+  +
+  执行【 观看视频】 任务 - 第18个 +
+
+  📠正在打印本次运行结果...
+
+  【本次视频】: 同一视频一天只能领取两次奖励
+
+✅ 提现任务
+
+⛔️ 请先获取提现Cookie!
+
+  运行完毕！ 打印用户清单...
+
+  【用户名】: Cenbomin【 当前余额】: ¥12.84 元【 总金币】: 12 万金币🏅【 今日金币】: 20502 金币🏅
+
+🔔🧿 多看点, 结束!🕛5.858 秒

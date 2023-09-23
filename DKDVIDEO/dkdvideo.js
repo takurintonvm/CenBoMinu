@@ -546,9 +546,9 @@ async function dkdgame() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
-              $.log(`【高额游戏赚】:获取${result.data.award}金币`);
+              $.log(`【高额游戏赚】:获取${data.data.award}金币`);
             } else {
-              $.log(`【高额游戏赚】:${result.message}`);
+              $.log(`【高额游戏赚】:${data.message}`);
             }
           }
         }
