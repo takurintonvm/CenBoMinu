@@ -365,9 +365,8 @@ async function boxinit() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
+            $.log(data)
             data = JSON.parse(data);
-            $.log(`🔸视频宝箱【${data.data.diff}】:${data.data.msg}`);
-
           }
         }
       } catch (e) {
@@ -462,7 +461,7 @@ function dkdfx(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【分享任务】:获取${result.data.award}金币`);
+          $.log(`【分享任务】:获取${result.data.award}金币🏅`);
         }
         if (result.status_code == 10020) {
           $.log(`【分享任务】:${result.message}`);
@@ -487,7 +486,7 @@ function dkdxs(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【小说赚】:获取${result.data.award}金币`);
+          $.log(`【小说赚】:获取${result.data.award}金币🏅`);
         }
         if (result.status_code == 10020) {
           $.log(`【小说赚】:${result.message}`);
@@ -514,7 +513,7 @@ function dkdsdjl(timeout = 0) {
         if (result.status_code == 200 && result.data.status == -1) {
           $.log(`【小说时段奖励】:${result.data.msg}`);
         } else if (result.status_code == 200 && result.data.award >= 0) {
-          $.log(`【小说时段奖励】:获取${result.data.award}金币`);
+          $.log(`【小说时段奖励】:获取${result.data.award}金币🏅`);
         } else if (result.status_code == 10020) {
           $.log(`【小说时段奖励】:${result.message}`);
         }
@@ -546,7 +545,7 @@ async function dkdgame() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
-              $.log(`【高额游戏赚】:获取${data.data.award}金币`);
+              $.log(`【高额游戏赚】:获取${data.data.award}金币🏅`);
             } else {
               $.log(`【高额游戏赚】:${data.message}`);
             }
@@ -832,7 +831,7 @@ function dkdqd(timeout = 0) {
         try {
           const result = JSON.parse(data)
           if (result.status_code == 200) {
-            $.log(`【今日签到】:获取${result.data.sign_award}金币`);
+            $.log(`【今日签到】:获取${result.data.sign_award}金币🏅`);
           }
           if (result.status_code == 10020) {
             $.log(`【今日签到】:${result.message}`);
@@ -858,7 +857,7 @@ function dkdsc(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【视频领金币】:获取${result.data.award}金币`);
+          $.log(`【视频领金币】:获取${result.data.award}金币🏅`);
         }
         if (result.status_code == 10020) {
           $.log(`【视频领金币】:${result.message}`);
@@ -883,7 +882,7 @@ function dkdgg(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【广告领金币】:获取${result.data.award}金币`);
+          $.log(`【广告领金币】:获取${result.data.award}金币🏅`);
         }
         if (result.status_code == 10020) {
           $.log(`【广告领金币】:${result.message}🚫`);
@@ -908,7 +907,7 @@ function dkdbx(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【视频宝箱】:获取${result.data.award}金币`);
+          $.log(`【视频宝箱】:获取${result.data.award}金币🏅`);
           await $.wait(2000)
           await dkdbxfb() //视频宝箱翻倍
         }
@@ -935,7 +934,7 @@ function dkdbxfb(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【视频宝箱翻倍】:获取${result.data.award}金币`);
+          $.log(`【视频宝箱翻倍】:获取${result.data.award}金币🏅`);
         }
         if (result.status_code == 10020) {
           $.log(`【视频宝箱翻倍】:${result.message}🚫`);
@@ -984,7 +983,7 @@ function dkdcj(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          $.log(`【转盘抽奖】:获取${result.data.award}金币`);
+          $.log(`【转盘抽奖】:获取${result.data.award}金币🏅`);
         }
         if (result.status_code == 10020) {
           $.log(`【转盘抽奖】:${result.message}`);
