@@ -960,7 +960,7 @@ function dkdsxzp(timeout = 0) {
         if (logs == 1) $.log(data)
         const result = JSON.parse(data)
         if (result.status_code == 200) {
-          console.log(`【转盘次数】:次数为${result.data.times}次`)
+          console.log(`【转盘次数】:剩余次数为${result.data.times}次`)
           console.log(`【转盘碎片】:💠${result.data.chip}个`)
         }
       } catch (e) {
