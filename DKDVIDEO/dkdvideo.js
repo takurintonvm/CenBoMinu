@@ -158,6 +158,7 @@ if ($.isNode()) {
   console.log(`\n✅ 任务状态\n`)
   await dayindex()
   await boxinit()
+  await extratime()
 
   console.log(`\n✅ 日常任务\n`)
 
@@ -348,7 +349,7 @@ async function dayindex() {
     });
   });
 }
-//宝箱状态
+//宝箱状态开启
 async function boxinit() {
   return new Promise((resolve) => {
     let url = {
@@ -365,7 +366,34 @@ async function boxinit() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            $.log(data)
+            data = JSON.parse(data);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//小说时段状态开启
+async function extratime() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `http://dkd-api.dysdk.com/video/extra_time`,
+      body: `${dkdtokenbodyVal}`,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
             data = JSON.parse(data);
           }
         }
