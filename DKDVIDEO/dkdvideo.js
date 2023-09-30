@@ -1010,6 +1010,7 @@ function dkdcj(timeout = 0) {
     $.post(url, async (err, resp, data) => {
       try {
         const result = JSON.parse(data)
+        if (logs == 1) $.log(data)
         if (result.status_code == 200) {
           $.log(`【转盘抽奖】:获取${result.data.award}金币🏅`);
         }
