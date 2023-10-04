@@ -140,6 +140,7 @@ if ($.isNode()) {
   await cowhome1();
   await cowfood(bullish);
   await cowhome2();
+  await invite();
   await showmsg();
 
 })()
@@ -545,7 +546,7 @@ async function cowgetred() {
           if (safeGet(data)) {
             $.log(data)
             data = JSON.parse(data);
-            if (data.retcode == 0){
+            if (data.retcode == 0) {
               tz += `【🐮戳戳牛】:获得${data.reward_info[0].reward_desc}\n`
             }
           }
@@ -666,6 +667,7 @@ function cowtaskid6(cowticket) {
     })
   })
 }
+
 function cowstatuid6() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -721,6 +723,7 @@ function cowtaskid1(cowticket) {
     })
   })
 }
+
 function cowstatuid1() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -776,6 +779,7 @@ function cowtaskid2(cowticket) {
     })
   })
 }
+
 function cowstatuid2() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -831,6 +835,7 @@ function cowtaskid3(cowticket) {
     })
   })
 }
+
 function cowstatuid3() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -886,6 +891,7 @@ function cowtaskid4(cowticket) {
     })
   })
 }
+
 function cowstatuid4() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -941,6 +947,7 @@ function cowtaskid5(cowticket) {
     })
   })
 }
+
 function cowstatuid5() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -997,6 +1004,7 @@ function cowtaskid7(cowticket) {
     })
   })
 }
+
 function cowstatuid7() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1053,6 +1061,7 @@ function cowtaskid8(cowticket) {
     })
   })
 }
+
 function cowstatuid8() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1109,6 +1118,7 @@ function cowtaskid9(cowticket) {
     })
   })
 }
+
 function cowstatuid9() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1165,6 +1175,7 @@ function cowtaskid10(cowticket) {
     })
   })
 }
+
 function cowstatuid10() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -1188,6 +1199,29 @@ function cowstatuid10() {
         $.log(`验证状态失败,任务已执行🚫`);
       } else {
         $.log(`验证状态成功,可执行任务🎉`);
+      }
+      resolve()
+    })
+  })
+}
+
+function invite() {
+  return new Promise((resolve, reject) => {
+    let inviteurl = {
+      url: `https://zqact03.tenpay.com/activity/page/raisebull/?stat_data=Otw37p00qb228&inviteCode=WBLfuxb652&helpCode=WBLfuxb652&date=20210211`,
+      headers: {
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': `${wxtaskkeyVal}`,
+        'Connection': `keep-alive`,
+        'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8`,
+        'Host': `zqact03.tenpay.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.2(0x1800022c) NetType/WIFI Language/zh_CN`,
+        'Accept-Language': `zh-cn`
+      }
+    }
+    $.get(inviteurl, (error, resp, data) => {
+      if (error) {
+        //$.log("响应错误")
       }
       resolve()
     })
