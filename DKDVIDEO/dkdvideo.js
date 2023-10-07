@@ -246,7 +246,7 @@ async function dkdpro() {
     $.log(`【50%进度红包】:未达成`);
   } else if (prolist1 == 2) {
     $.log(`【50%进度红包】:已达成🎉`);
-  } else if (prolist2 == 1) {
+  } else if (prolist1 == 1) {
     await redpro2()
   }
 
