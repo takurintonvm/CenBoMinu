@@ -527,7 +527,7 @@ function dkdxs(timeout = 0) {
     }, timeout)
   })
 }
-//多看点小说时段奖励
+//小说时段奖励
 function dkdsdjl(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
@@ -542,8 +542,36 @@ function dkdsdjl(timeout = 0) {
           $.log(`【小说时段奖励】:${result.data.msg}`);
         } else if (result.status_code == 200 && result.data.award >= 0) {
           $.log(`【小说时段奖励】:获取${result.data.award}金币🏅`);
+          await dkdsdjl2()
         } else if (result.status_code == 10020) {
           $.log(`【小说时段奖励】:${result.message}`);
+        }
+
+      } catch (e) {
+        //$.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    }, timeout)
+  })
+}
+//多看点小说时段奖励翻倍
+function dkdsdjl2(timeout = 0) {
+  return new Promise((resolve) => {
+    let url = {
+      url: 'http://dkd-api.dysdk.com/video/extra_again',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `${dkdtokenbodyVal}`,
+    }
+    $.post(url, async (err, resp, data) => {
+      try {
+        const result = JSON.parse(data)
+        if (result.status_code == 200 && result.data.status == -1) {
+          $.log(`【时段奖励翻倍】:${result.data.msg}`);
+        } else if (result.status_code == 200 && result.data.award >= 0) {
+          $.log(`【时段奖励翻倍】:获取${result.data.award}金币🏅`);
+        } else if (result.status_code == 10020) {
+          $.log(`【时段奖励翻倍】:${result.message}`);
         }
 
       } catch (e) {
@@ -1012,7 +1040,7 @@ function dkdcj(timeout = 0) {
         const result = JSON.parse(data)
         if (logs == 1) $.log(data)
         if (result.status_code == 200) {
-          $.log(`【转盘抽奖】:获取${result.data.award}金币🏅`);
+          $.log(`【转盘抽奖】:获取${result.data.name}🏅`);
         }
         if (result.status_code == 10020) {
           $.log(`【转盘抽奖】:${result.message}`);
