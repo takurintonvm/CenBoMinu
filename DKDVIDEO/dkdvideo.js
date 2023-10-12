@@ -1015,8 +1015,9 @@ function dkdsxzp(timeout = 0) {
       try {
         if (logs == 1) $.log(data)
         const result = JSON.parse(data)
+
         if (result.status_code == 200) {
-          console.log(`【转盘次数】:剩余次数为${result.data.times}次`)
+          console.log(`【转盘次数】:剩余机会为${result.data.times}次`)
           console.log(`【转盘碎片】:💠${result.data.chip}个`)
         }
       } catch (e) {
@@ -1039,11 +1040,12 @@ function dkdcj(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (logs == 1) $.log(data)
+        $.log(data)
         if (result.status_code == 200) {
           $.log(`【转盘抽奖】:获取${result.data.name}🏅`);
         }
         if (result.status_code == 10020) {
-          $.log(`【转盘抽奖】:${result.message}`);
+          $.log(`【转盘抽奖】:明天再来！`);
         }
       } catch (e) {
         //$.logErr(e, resp);
