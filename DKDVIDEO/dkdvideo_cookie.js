@@ -16,9 +16,6 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("withdraw_d
   const dkdcashurl = $request.url
   if (dkdcashurl) $.setdata(dkdcashurl, 'dkdcashurl')
   $.log(`获取dkdcashurl请求🎉: 成功,dkdcashurl: ${dkdcashurl}`)
-  const dkdcashbody = $request.body
-  if (dkdcashbody) $.setdata(dkdcashbody, 'dkdcashbody')
-  $.log(`获取dkdcashbody请求🎉: 成功,dkdcashbody: ${dkdcashbody}`)
   const dkdcashkey = JSON.stringify($request.headers)
   if (dkdcashkey) $.setdata(dkdcashkey, 'dkdcashkey')
   $.log(`获取dkdcashkey请求🎉: 成功,dkdcashkey: ${dkdcashkey}`)

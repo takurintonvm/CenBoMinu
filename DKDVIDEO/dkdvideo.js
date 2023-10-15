@@ -43,9 +43,6 @@ let dkdtokenkeyVal = "";
 const dkdcashurlArr = [];
 let dkdcashurlVal = "";
 
-const dkdcashbodyArr = [];
-let dkdcashbodyVal = "";
-
 const dkdcashkeyArr = [];
 let dkdcashkeyVal = "";
 
@@ -100,12 +97,6 @@ if ($.isNode()) {
     }
   });
 
-  Object.keys(dkdcashbodyVal).forEach((item) => {
-    if (dkdcashbodyVal[item]) {
-      dkdcashbodyArr.push(dkdcashbodyVal[item])
-    }
-  });
-
   Object.keys(dkdlottourlVal).forEach((item) => {
     if (dkdlottourlVal[item]) {
       dkdlottourlArr.push(dkdlottourlVal[item])
@@ -130,7 +121,6 @@ if ($.isNode()) {
   dkdtokenbodyArr.push($.getdata('dkdtokenbody'));
   dkdtokenkeyArr.push($.getdata('dkdtokenkey'));
   dkdcashurlArr.push($.getdata('dkdcashurl'));
-  dkdcashbodyArr.push($.getdata('dkdcashbody'));
   dkdcashkeyArr.push($.getdata('dkdcashkey'));
   dkdlottourlArr.push($.getdata('dkdlottourl'));
   dkdlottokeyArr.push($.getdata('dkdlottokey'));
@@ -147,7 +137,6 @@ if ($.isNode()) {
   dkdtokenbodyVal = dkdtokenbodyArr[0];
   dkdtokenkeyVal = dkdtokenkeyArr[0];
   dkdcashurlVal = dkdcashurlArr[0];
-  dkdcashbodyVal = dkdcashbodyArr[0];
   dkdcashkeyVal = dkdcashkeyArr[0];
   dkdlottourlVal = dkdlottourlArr[0];
   dkdlottokeyVal = dkdlottokeyArr[0];
@@ -182,7 +171,7 @@ if ($.isNode()) {
   console.log(`\n✅ 刷视频任务\n`)
   await dkdvideoapp() //刷视频
   console.log(`\n✅ 提现任务\n`)
-  await dkdtx() //提现
+  await dkdcash() //提现
 
   await dkdxx() //用户信息
   await showmsg2();
@@ -220,6 +209,20 @@ async function showmsg2() {
 
 
 //////////////////////////////////////////////////////////////////
+//提现
+async function dkdcash() {
+  if (typeof $.getdata('dkdcashkey') === "undefined") {
+    $.log('⛔️请先提现一次,获取提现Cookie!')
+    $.log('👩‍⚕️提现策略:账户金额大于50元,优先提现50元...否则提现1元。')
+    return
+  }
+  await dkdxx2()
+  if (mycash >= 50) {
+    await dkdtx50()
+  } else {
+    await dkdtx01()
+  }
+}
 //刷视频模块
 async function dkdvideoapp() {
   console.log(`+检查【刷视频】任务状态+\n`)
@@ -1040,7 +1043,6 @@ function dkdcj(timeout = 0) {
       try {
         const result = JSON.parse(data)
         if (logs == 1) $.log(data)
-        $.log(data)
         if (result.status_code == 200) {
           $.log(`【转盘抽奖】:获取${result.data.name}🏅`);
         }
@@ -1056,15 +1058,11 @@ function dkdcj(timeout = 0) {
   })
 }
 //多看点提现
-async function dkdtx() {
-  if (typeof $.getdata('dkdcashkey') === "undefined") {
-    $.log('⛔️请先获取提现Cookie!')
-    return
-  }
+async function dkdtx50() {
   return new Promise((resolve) => {
     let url = {
       url: `${dkdcashurlVal}`,
-      body: `${dkdcashbodyVal}`,
+      body: `{"money":50,"type":2,"withdraw_card":null,"program":8,"is_special":2}`,
       headers: JSON.parse(dkdcashkeyVal),
     };
     $.post(url, async (err, resp, data) => {
@@ -1079,7 +1077,40 @@ async function dkdtx() {
             $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
-              $.log(`【自动提现】:${data.message}🎉`);
+              $.log(`【自动提现】:成功提现50元🎉`);
+            } else if (result.status_code == 10020) {
+              $.log(`【自动提现】:${data.message}🚫`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function dkdtx01() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `${dkdcashurlVal}`,
+      body: `{"money":1,"type":2,"withdraw_card":null,"program":8,"is_special":2}`,
+      headers: JSON.parse(dkdcashkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            $.log(data)
+            data = JSON.parse(data);
+            if (data.status_code == 200) {
+              $.log(`【自动提现】:成功提现1元🎉`);
             } else if (result.status_code == 10020) {
               $.log(`【自动提现】:${data.message}🚫`);
             }
@@ -1107,18 +1138,38 @@ function dkdxx(timeout = 0) {
         if (result.status_code == 200) {
           $.log("", '运行完毕！打印用户清单...', "")
           $.log(`【用户名】:${result.data.nickname}`);
-          $.log(`【当前余额】:¥${result.data.cash}元`);
           $.log(`【总金币】:${result.data.gold}金币🏅`);
+          $.log(`【当前余额】:¥${result.data.cash}元`);
           $.log(`【今日金币】:${result.data.today_gold}金币🏅`);
           tz += `【用户名】:${result.data.nickname}\n`
-          tz += `【当前余额】:¥${result.data.cash}元\n`
           tz += `【总金币】:${result.data.gold}金币🏅\n`
+          tz += `【当前余额】:¥${result.data.cash}元\n`
           tz += `【今日金币】:${result.data.today_gold}金币🏅\n`
         }
         if (result.status_code == 10020) {
           $.log($.name, "", '运行完毕,用户信息获取失败🚫 ' + result.message)
           tz += `【用户信息】:失败🚫\n`
         }
+      } catch (e) {
+        //$.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    }, timeout)
+  })
+}
+
+function dkdxx2(timeout = 0) {
+  return new Promise((resolve) => {
+    let url = {
+      url: 'http://dkd-api.dysdk.com/user/index',
+      headers: JSON.parse(dkdtokenkeyVal),
+      body: `${dkdtokenbodyVal}`,
+    }
+    $.post(url, async (err, resp, data) => {
+      try {
+        data = JSON.parse(data)
+        mycash = data.data.cash
       } catch (e) {
         //$.logErr(e, resp);
       } finally {
