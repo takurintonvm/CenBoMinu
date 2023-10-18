@@ -213,7 +213,7 @@ async function showmsg2() {
 async function dkdcash() {
   if (typeof $.getdata('dkdcashkey') === "undefined") {
     $.log('⛔️请先提现一次,获取提现Cookie!')
-    $.log('👩‍⚕️提现策略:账户金额大于50元,优先提现50元...否则提现1元。')
+    $.log('👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现1元。')
     return
   }
   await dkdxx2()
