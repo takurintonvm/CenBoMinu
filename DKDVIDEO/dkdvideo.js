@@ -1077,9 +1077,9 @@ async function dkdtx50() {
             $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
-              $.log(`【自动提现】:成功提现50元🎉`);
+              $.log(`【自动提现50元】:成功提现🎉`);
             } else if (result.status_code == 10020) {
-              $.log(`【自动提现】:${data.message}🚫`);
+              $.log(`【自动提现50元】:${data.message}🚫`);
             }
           }
         }
@@ -1110,9 +1110,9 @@ async function dkdtx01() {
             $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
-              $.log(`【自动提现】:成功提现1元🎉`);
+              $.log(`【自动提现1元】:成功提现🎉`);
             } else if (result.status_code == 10020) {
-              $.log(`【自动提现】:${data.message}🚫`);
+              $.log(`【自动提现1元】:${data.message}🚫`);
             }
           }
         }
