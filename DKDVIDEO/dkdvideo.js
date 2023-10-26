@@ -1,7 +1,7 @@
 /*
-仅为自用！！！！
 基于肥皂的多看点视频基础上修改成自己的版本...谢谢肥皂大佬！
-如果要使用,请填肥皂的邀请码：13152063
+使用填肥皂的邀请码：13152063 或者 我的13192689
+说明请见：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDVIDEO/readme.js
 
 */
 const jsname = '🧿多看点'
