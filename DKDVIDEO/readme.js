@@ -17,7 +17,7 @@
 【ME邀请码】: 13192689，13152063(肥皂)
 【定时cron】: */12 * * * *
 【脚本JS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDVIDEO/dkdvideo.js
-【重写引用conf】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/CONGHUA/GetBody.conf
+【重写引用conf】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDVIDEO/dkdvideo.conf
 
 //食用方法
 
