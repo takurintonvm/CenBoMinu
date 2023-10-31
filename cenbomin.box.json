@@ -119,7 +119,7 @@
 		"author": "@cenbomin",
 		"repo": ["https://raw.githubusercontent.com/CenBoMin/GithubSync"],
 		"script": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDVIDEO/dkdvideo.js",
-		"icons": ["https://raw.githubusercontent.com/ziye12/JavaScript/main/Task/duokandian.png", "https://raw.githubusercontent.com/ziye12/JavaScript/main/Task/duokandian.png"
+		"icons": ["https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDVIDEO/dkd.png", "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDVIDEO/dkd.png"
 		]
 	}]
 }
