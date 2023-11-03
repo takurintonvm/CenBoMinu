@@ -140,7 +140,6 @@ if ($.isNode()) {
   await cowhome1();
   await cowfood(bullish);
   await cowhome2();
-  await invite();
   await showmsg();
 
 })()
