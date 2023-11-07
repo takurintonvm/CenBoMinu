@@ -1074,11 +1074,10 @@ async function dkdtx50() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
               $.log(`【自动提现50元】:成功提现🎉`);
-            } else if (result.status_code == 10020) {
+            } else if (data.status_code == 10020) {
               $.log(`【自动提现50元】:${data.message}🚫`);
             }
           }
@@ -1107,11 +1106,10 @@ async function dkdtx01() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
               $.log(`【自动提现1元】:成功提现🎉`);
-            } else if (result.status_code == 10020) {
+            } else if (data.status_code == 10020) {
               $.log(`【自动提现1元】:${data.message}🚫`);
             }
           }

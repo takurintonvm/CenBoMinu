@@ -6,7 +6,7 @@
 
 【BOXJS】: https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json
 【下载APP】: http://wlsub.ccdy.cn/7gBTVl9lKe6
-【邀请码】: 9426520（脚本有验证邀请码机制,请勿随意更改或者散布）
+【邀请码】: 9426520
 【定时cron】: */8 */1 * * *
 【脚本JS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/WLAPP/wlapp.js
 【重写引用conf】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/WLAPP/cookie.conf
