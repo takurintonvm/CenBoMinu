@@ -1,6 +1,5 @@
-/*
-// 加密: 广告气泡获取,buff,福利中心时段元宝,微信小程序福利中心任务？
-// TODO: 步数换健康币：1000：1
+/*　　　　　　　　　　
+说明详情请见：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/RUNSTEP/readme.js
 */
 const jsname = '👟走路赚钱'
 const $ = Env(jsname)
