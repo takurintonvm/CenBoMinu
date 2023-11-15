@@ -1,5 +1,6 @@
 /*　　　　　　　　　　
 说明详情请见：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/RUNSTEP/readme.js
+
 */
 const jsname = '👟走路赚钱'
 const $ = Env(jsname)
