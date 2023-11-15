@@ -932,17 +932,17 @@ async function gglindex() {
               gglredstate = gglredlist.received;
               gglredstate2 = gglredlist.reached;
               gglredid = gglredlist.num;
-              if (shakeredstate == 0 && shakeredstate2 == 1) {
-                $.log(`\n🧧红包(${shakeredid}):未兑换,开始自动兑换...`);
+              if (gglredstate == 0 && gglredstate2 == 1) {
+                $.log(`\n🧧红包(${gglredid}):未兑换,开始自动兑换...`);
                 await $.wait(20000)
-                await shakepickpacket(shakeredid)
-              } else if (shakeredstate == 0 && shakeredstate2 == 0) {
-                $.log(`\n🧧红包(${shakeredid}):未抽奖`);
-              } else if (shakeredstate == 1) {
-                shakeredjkb = shakeredlist.detail.jkb;
-                shakeredstep = shakeredlist.detail.step;
-                shakeredmoney = shakeredlist.detail.money;
-                $.log(`🧧已领取红包【${shakeredid}】:\n▪️健康币(${shakeredjkb}),步数(${shakeredstep}),金额(${shakeredmoney})`);
+                await gglpickpacket(gglredid)
+              } else if (gglredstate == 0 && gglredstate2 == 0) {
+                $.log(`\n🧧红包(${gglredid}):未抽奖`);
+              } else if (gglredstate == 1) {
+                gglredjkb = gglredlist.detail.jkb;
+                gglredstep = gglredlist.detail.step;
+                gglredmoney = gglredlist.detail.money;
+                $.log(`🧧已领取红包【${gglredid}】:\n▪️健康币(${gglredjkb}),步数(${gglredstep}),金额(${gglredmoney})`);
               }
             }
             await ggledlist();
