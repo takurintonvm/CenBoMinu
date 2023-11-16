@@ -11,7 +11,7 @@
 【BOXJS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json
 【下载APP】:https://apps.apple.com/tw/app/%E8%B5%B0%E8%B7%AF%E8%B5%9A%E9%92%B1-%E8%BF%90%E5%8A%A8%E8%B7%91%E6%AD%A5%E6%89%8B%E6%9C%BA%E8%B5%9A%E9%92%B1/id1540915960
 【邀请码】:扫图片二维码加我好友
-【任务定时cron】: */30 * * * *
+【任务定时cron】: */15 * * * *
 【提现定时cron】: 0 0 * * *
 【任务脚本JS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/RUNSTEP/runstep.js
 【提现脚本JS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/RUNSTEP/cash.js
