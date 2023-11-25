@@ -23,18 +23,6 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("myself") >
   $.done()
 }
 
-if ($request && $request.method != `OPTIONS` && $request.url.indexOf("steptomoney") >= 0) {
-  const txtoken = $request.url.split('=')[1];
-  if (txtoken) $.setdata(txtoken, 'txtoken')
-  $.log(`获取txtoken请求🎉: 成功,txtoken: ${txtoken}`)
-  const txkey = JSON.stringify($request.headers)
-  if (txkey) $.setdata(txkey, 'txkey')
-  $.log(`获取txkey请求🎉: 成功,txkey: ${txkey}`)
-  $.msg($.name, "添加【提现】请求: 成功🎉")
-  $.done()
-}
-
-
 
 
 
