@@ -179,6 +179,7 @@ async function index() {
                 bbred = bblist.step
                 $.log(`🆔${bbid}\n🎈${bbname}:${bbred}👣`);
                 if (bbid >= 0) {
+                  await $.wait(15000)
                   await pickstep(bbid)
                 }
               }
