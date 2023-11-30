@@ -116,14 +116,27 @@ async function runstepapp() {
   //await advlist();
   await wheelindex()
   console.log(`\n2️⃣开始🤘摇一摇🤘任务`)
-  await shakeindex()
+  await shakeindex();
   console.log(`\n3️⃣开始🎫刮一刮🎫任务`)
-  await gglindex()
+  await gglindex();
+
+  await runstepend();
   console.log(`\n🇨🇳【开始提现任务】`)
   console.log(`👧请使用专门的提现脚本,每天提现0.3元`)
 
 }
-
+///////////////////////////【收尾】//////////////////////////////////
+async function runstepend(){
+  if(wheeltotalnum >= 7 && shaketotalnum >= 7 && ggltotalnum >= 20){
+    console.log(`\n🔂开始🔥燃尽模式🔥任务`)
+    await $.wait(8000)
+    await wheelincr();
+    await $.wait(8000)
+    await shakeincr();
+    await $.wait(8000)
+    await gglincr();
+  }
+}
 ///////////////////////////【首页】//////////////////////////////////
 //index
 async function index() {
@@ -435,6 +448,7 @@ async function wheelindex() {
             if (logs == 1) $.log(data)
             //$.log(data)
             data = JSON.parse(data);
+            wheeltotalnum = data.data.user_wheelinfo.total_num
             wheelprizes = data.data.wheel_prizes
             wheelleftnum = data.data.user_wheelinfo.left_num
             wheelexsteps = data.data.user_wheelinfo.exchange_steps
@@ -462,7 +476,12 @@ async function wheelindex() {
                 $.log(`🧧已领取红包【${wheelredid}】:\n▪️健康币(${wheelredjkb}),步数(${wheelredstep}),金额(${wheelredmoney})`);
               }
             }
-            await wheelincr();
+            if(wheeltotalnum <= 8){
+              await wheelincr();
+            }else{
+              $.log(`\n👧幸运转盘已达红包上限,进行下一个任务...\n`);
+            }
+
           }
         }
       } catch (e) {
@@ -539,7 +558,7 @@ async function wheelincr() {
       $.log(`🆔(${wheelid}):${wheelname}`);
     }
     await wheelpick()
-  } else if (wheelleftnum == 0 && wheelexjkb == 100 && wheelexjkb <= userjkb) {
+  } else if (wheelleftnum == 0 && wheelexjkb <= 400 && wheelexjkb <= userjkb) {
     $.log(`👧使用【健康币】兑换抽奖机会...`);
     await wheelincr2(); //jkb兑换
     $.log(`\n📠打印幸运转盘奖励清单...`);
@@ -690,6 +709,7 @@ async function shakeindex() {
             if (logs == 1) $.log(data)
             //$.log(data)
             data = JSON.parse(data);
+            shaketotalnum = data.data.user_shakeinfo.total_num
             shakemylog = data.data.mylog
             shakeleftnum = data.data.user_shakeinfo.left_num
             shakeexsteps = data.data.user_shakeinfo.exchange_steps
@@ -717,7 +737,11 @@ async function shakeindex() {
               }
             }
             await shakedlist();
-            await shakeincr();
+            if(shaketotalnum <= 8){
+              await shakeincr();
+            }else{
+              $.log(`👧摇一摇已达红包上限,进行下一个任务...\n`);
+            }
           }
         }
       } catch (e) {
@@ -735,7 +759,7 @@ async function shakeincr() {
     $.log(`👧使用【步数】兑换抽奖机会...`);
     await shakeincr1(); //step兑换
     await shakepick()
-  } else if (shakeleftnum == 0 && shakeexjkb == 100 && shakeexjkb <= userjkb) {
+  } else if (shakeleftnum == 0 && shakeexjkb <= 400 && shakeexjkb <= userjkb) {
     $.log(`👧使用【健康币】兑换抽奖机会...`);
     await shakeincr2(); //jkb兑换
     await shakepick()
@@ -921,6 +945,7 @@ async function gglindex() {
             if (logs == 1) $.log(data)
             //$.log(data)
             data = JSON.parse(data);
+            ggltotalnum = data.data.user_gglinfo.total_num
             gglmylog = data.data.mylog
             gglleftnum = data.data.user_gglinfo.left_num
             gglexsteps = data.data.user_gglinfo.exchange_steps
@@ -948,7 +973,11 @@ async function gglindex() {
               }
             }
             await ggledlist();
-            await gglincr();
+            if(ggltotalnum <= 21){
+              await gglincr();
+            }else{
+              $.log(`👧摇一摇已达红包上限,进行下一个任务...\n`);
+            }
           }
         }
       } catch (e) {
@@ -966,7 +995,7 @@ async function gglincr() {
     $.log(`👧使用【步数】兑换抽奖机会...`);
     await gglincr1(); //step兑换
     await gglpick()
-  } else if (gglleftnum == 0 && gglexjkb == 100 && gglexjkb <= userjkb) {
+  } else if (gglleftnum == 0 && gglexjkb <= 400 && gglexjkb <= userjkb) {
     $.log(`👧使用【健康币】兑换抽奖机会...`);
     await gglincr2(); //jkb兑换
     await gglpick()
