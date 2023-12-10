@@ -111,11 +111,11 @@ function showmsg1() {
 async function showmsg2() {
   if (notifyInterval == 1) {
     if ($.isNode()) {
-      if (hour == 8 || hour == 0 ) {
+      if (hour == 8 || hour == 0 || hour == 12 || hour == 23) {
         await notify.sendNotify($.name, tz)
       }
     } else {
-      if (hour == 8 || hour == 0 ) {
+      if (hour == 8 || hour == 0 || hour == 12 || hour == 23) {
         $.msg(cc, '', tz);
       }
     }

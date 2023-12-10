@@ -61,7 +61,7 @@ if ($.isNode()) {
 //////////////////////////////////////////////////////////////////
 
 !(async () => {
-  cc = (`🥦${jsname}任务执行通知🔔`);
+  cc = (`${jsname}任务执行通知🔔`);
   if (typeof $.getdata('runsteptoken') === "undefined") {
     console.log($.name, '【提示】请先前往获取cookie📲')
     return;
@@ -71,7 +71,6 @@ if ($.isNode()) {
 
   console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
   await runstepapp();
-  await showmsg2();
 
 })()
 .catch((e) => $.logErr(e))
