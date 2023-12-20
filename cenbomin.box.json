@@ -130,9 +130,7 @@
 				"id": "version",
 				"name": "APP版本号:更新软件,请更改。",
 				"val": "",
-				"type": "textarea",
-				"autoGrow": false,
-				"rows": 1,
+				"type": "text",
 				"desc": "默认1.5.1,更新APP软件,请更改。"
 			},
 		],
