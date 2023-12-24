@@ -3,10 +3,10 @@ const $ = Env(jsname)
 
 if ($request && $request.method != `OPTIONS` && $request.url.indexOf("advlist") >= 0) {
   const runsteptoken = $request.url.split('&')[2];
-  if (runsteptoken) $.setdata(runsteptoken, 'runsteptoken')
+  if (runsteptoken) $.setdata(runsteptoken, 'runsteptoken'+ $.idx)
   $.log(`获取runsteptoken请求🎉: 成功,runsteptoken: ${runsteptoken}`)
   const runstepkey = JSON.stringify($request.headers)
-  if (runstepkey) $.setdata(runstepkey, 'runstepkey')
+  if (runstepkey) $.setdata(runstepkey, 'runstepkey'+ $.idx)
   $.log(`获取runstepkey请求🎉: 成功,runstepkey: ${runstepkey}`)
   $.msg($.name, "添加【任务】请求: 成功🎉")
   $.done()
@@ -14,10 +14,10 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("advlist") 
 
 if ($request && $request.method != `OPTIONS` && $request.url.indexOf("myself") >= 0) {
   const txtoken = $request.url.split('=')[1];
-  if (txtoken) $.setdata(txtoken, 'txtoken')
+  if (txtoken) $.setdata(txtoken, 'txtoken'+ $.idx)
   $.log(`获取txtoken请求🎉: 成功,txtoken: ${txtoken}`)
   const txkey = JSON.stringify($request.headers)
-  if (txkey) $.setdata(txkey, 'txkey')
+  if (txkey) $.setdata(txkey, 'txkey'+ $.idx)
   $.log(`获取txkey请求🎉: 成功,txkey: ${txkey}`)
   $.msg($.name, "添加【提现】请求: 成功🎉")
   $.done()

@@ -124,7 +124,7 @@
 	},{
 	  "id": "runstep",
 	  "name": "走路赚钱",
-	  "keys": ["runsteptoken", "runstepkey", "txtoken","txkey","version"],
+	  "keys": ["version", "runsteptoken", "runstepkey", "txtoken", "txkey", "runsteptoken1", "runstepkey1", "txtoken1", "txkey1", "runsteptoken2", "runstepkey2", "txtoken2", "txkey2", "runsteptoken3", "runstepkey3", "txtoken3", "txkey3", "runsteptoken4", "runstepkey4", "txtoken4", "txkey4"],
 	  "settings": [
 	    {
 	      "id": "version",
@@ -132,7 +132,19 @@
 	      "val": "",
 	      "type": "text",
 	      "desc": "默认1.5.1,更新APP软件,请更改。"
-	    }
+	    },{
+				"id": "Suffix",
+				"name": "当前账号",
+				"val": "1",
+				"type": "number",
+				"desc": "当前抓取ck记录的账号序号，如：1、2、3、"
+			},{
+				"id": "Count",
+				"name": "账号个数",
+				"val": "1",
+				"type": "number",
+				"desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+			}
 	  ],
 	  "author": "@cenbomin",
 	  "repo": ["https://raw.githubusercontent.com/CenBoMin/GithubSync"],

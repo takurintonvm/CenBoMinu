@@ -3,6 +3,7 @@
 
 */
 const jsname = '👟走路赚钱'
+$.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 const $ = Env(jsname)
 //0为关闭日志，1为开启,默认为0
 const logs = 0;
@@ -12,7 +13,6 @@ const notifyInterval = 1;
 let tz = '';
 let tz2 = '';
 let version = $.getval('version') || "1.5.1"; //APP版本号,更新请到APP更改
-$.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 //////////////////////////////////////////////////////////////////
 //hour&min
 var hour = '';
@@ -60,11 +60,9 @@ if ($.isNode()) {
   // 根据boxjs中设置的额外账号数，添加存在的账号数据进行任务处理
   let Count = ($.getval('Count') || '1') - 0;
   for (let i = 2; i <= Count; i++) {
-    if ($.getdata(`runsteptoken${i}`)) {
-      runsteptokenArr.push($.getdata(`runsteptoken${i}`));
-      runstepkeyArr.push($.getdata(`runstepkey${i}`));
-    }
-  }
+      if ($.getdata(`runsteptoken${i}`)) {
+          runsteptokenArr.push($.getdata(`runsteptoken${i}`));
+          runstepkeyArr.push($.getdata(`runstepkey${i}`));
 }
 
 //////////////////////////////////////////////////////////////////
@@ -75,16 +73,15 @@ if ($.isNode()) {
     console.log($.name, '【提示】请先前往获取cookie📲')
     return;
   }
-  console.log(`\n✅ 检查共有多少个账号。。。`)
-  await $.wait(4000)
-  console.log(`👥 本次执行共${runsteptokenArr.length}个账号`)
-  for(let i = 0; i < runsteptokenArr.length; i++){
-    runsteptokenVal = runsteptokenArr[0];
-    runstepkeyVal = runstepkeyArr[0];
-    console.log(`\n💗💕 开始执行【${$.name+(i+1)}】脚本任务 💕💗\n`)
-    await $.wait(3000)
+  console.log(`------------- 共${runsteptokenArr.length}个账号----------------\n`)
+  for (let i = 0; i < runsteptokenArr; i++){
+    runsteptokenVal = runsteptokenArr[i];
+    runstepkeyVal = runstepkeyArr[i];
+
+    console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
     await runstepapp();
   }
+
 })()
 .catch((e) => $.logErr(e))
   .finally(() => $.done())
