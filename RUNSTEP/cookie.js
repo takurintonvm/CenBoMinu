@@ -8,7 +8,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("advlist") 
   const runstepkey = JSON.stringify($request.headers)
   if (runstepkey) $.setdata(runstepkey, 'runstepkey'+ $.idx)
   $.log(`获取runstepkey请求🎉: 成功,runstepkey: ${runstepkey}`)
-  $.msg($.name, "添加【任务】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【任务】请求: 成功🎉")
   $.done()
 }
 
@@ -19,7 +19,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("myself") >
   const txkey = JSON.stringify($request.headers)
   if (txkey) $.setdata(txkey, 'txkey'+ $.idx)
   $.log(`获取txkey请求🎉: 成功,txkey: ${txkey}`)
-  $.msg($.name, "添加【提现】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【提现】请求: 成功🎉")
   $.done()
 }
 
