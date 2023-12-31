@@ -124,7 +124,7 @@
 	},{
 	  "id": "runstep",
 	  "name": "走路赚钱",
-	  "keys": ["version", "runsteptoken", "runstepkey", "txtoken", "txkey", "runsteptoken1", "runstepkey1", "txtoken1", "txkey1", "runsteptoken2", "runstepkey2", "txtoken2", "txkey2", "runsteptoken3", "runstepkey3", "txtoken3", "txkey3", "runsteptoken4", "runstepkey4", "txtoken4", "txkey4"],
+	  "keys": ["version", "runsteptoken", "runstepkey", "txtoken", "txkey", "runsteptoken2", "runstepkey2", "txtoken2", "txkey2", "runsteptoken3", "runstepkey3", "txtoken3", "txkey3", "runsteptoken4", "runstepkey4", "txtoken4", "txkey4"],
 	  "settings": [
 	    {
 	      "id": "version",
