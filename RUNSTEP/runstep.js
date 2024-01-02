@@ -12,7 +12,7 @@ const notifyInterval = 1;
 let tz = '';
 let tz2 = '';
 let version = $.getval('version') || "1.5.1"; //APP版本号,更新请到APP更改
-$.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
+
 //////////////////////////////////////////////////////////////////
 //hour&min
 var hour = '';
