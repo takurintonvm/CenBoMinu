@@ -79,8 +79,8 @@ if ($.isNode()) {
   await $.wait(4000)
   console.log(`👥 本次执行共${runsteptokenArr.length}个账号`)
   for(let i = 0; i < runsteptokenArr.length; i++){
-    runsteptokenVal = runsteptokenArr[0];
-    runstepkeyVal = runstepkeyArr[0];
+    runsteptokenVal = runsteptokenArr[i];
+    runstepkeyVal = runstepkeyArr[i];
     console.log(`\n💗💕 开始执行【${$.name+(i+1)}】脚本任务 💕💗\n`)
     await $.wait(3000)
     await runstepapp();
