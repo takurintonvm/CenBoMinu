@@ -10,7 +10,6 @@ const logs = 0;
 const notifyInterval = 1;
 //通知风格
 let tz = '';
-let tz2 = '';
 let version = $.getval('version') || "1.5.1"; //APP版本号,更新请到APP更改
 
 //////////////////////////////////////////////////////////////////
@@ -81,7 +80,7 @@ if ($.isNode()) {
   for(let i = 0; i < runsteptokenArr.length; i++){
     runsteptokenVal = runsteptokenArr[i];
     runstepkeyVal = runstepkeyArr[i];
-    console.log(`\n💗💕 开始执行【${$.name+(i+1)}】脚本任务 💕💗\n`)
+    console.log(`\n💗💕 开始${$.name}账号【${(i+1)}】 💕💗\n`)
     await $.wait(3000)
     await runstepapp();
   }

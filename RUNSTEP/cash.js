@@ -74,6 +74,16 @@ if ($.isNode()) {
   runstepkeyArr.push($.getdata('runstepkey'));
   txtokenArr.push($.getdata('txtoken'));
   txkeyArr.push($.getdata('txkey'));
+  // 根据boxjs中设置的额外账号数，添加存在的账号数据进行任务处理
+  let Count = ($.getval('Count') || '1') - 0;
+  for (let i = 2; i <= Count; i++) {
+    if ($.getdata(`runsteptoken${i}`)) {
+      runsteptokenArr.push($.getdata(`runsteptoken${i}`));
+      runstepkeyArr.push($.getdata(`runstepkey${i}`));
+      txtokenArr.push($.getdata(`txtoken${i}`));
+      txkeyArr.push($.getdata(`txkey${i}`));
+    }
+  }
 }
 
 //////////////////////////////////////////////////////////////////
@@ -84,14 +94,21 @@ if ($.isNode()) {
     console.log($.name, '【提示】请先前往获取cookie📲')
     return;
   }
-  runsteptokenVal = runsteptokenArr[0];
-  runstepkeyVal = runstepkeyArr[0];
-  txtokenVal = txtokenArr[0];
-  txkeyVal = txkeyArr[0];
+  console.log(`\n✅ 检查共有多少个账号。。。`)
+  await $.wait(4000)
+  console.log(`👥 本次执行共${txtokenArr.length}个账号`)
+  for(let i = 0; i < txtokenArr.length; i++){
+    runsteptokenVal = runsteptokenArr[i];
+    runstepkeyVal = runstepkeyArr[i];
+    txtokenVal = txtokenArr[i];
+    txkeyVal = txkeyArr[i];
 
-  console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
-  await runstepcash();
-  await showmsg2();
+    console.log(`\n💗💕 开始${$.name}账号【${(i+1)}】 💕💗\n`)
+    await $.wait(3000)
+    await runstepcash();
+    await showmsg2();
+  }
+
 
 })()
 .catch((e) => $.logErr(e))
@@ -128,7 +145,7 @@ async function runstepcash() {
   await myself()
   await txlog()
   console.log(`\n🇨🇳【开始提现任务】`)
-  $.log('👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现0.3元。\n')
+  $.log('👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现1元。\n')
   if (hour == 0) {
     await cash()
   } else {
@@ -230,7 +247,7 @@ async function cash() {
 async function cash1() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://runstep.kujievip.com/runstep/applytx?account=0.3&type=2&appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
+      url: `https://runstep.kujievip.com/runstep/applytx?account=1&type=2&appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
       body: ``,
       headers: JSON.parse(txkeyVal),
     };
@@ -244,8 +261,8 @@ async function cash1() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`【自动提现0.3元】:成功🎉\n`);
-            tz += `【自动提现0.3元】:成功🎉\n`
+            $.log(`【自动提现1元】:成功🎉\n`);
+            tz += `【自动提现1元】:成功🎉\n`
           }
         }
       } catch (e) {
