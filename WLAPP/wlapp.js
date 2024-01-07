@@ -221,7 +221,7 @@ if ($.isNode()) {
 
 !(async () => {
   await Jsname()
-  cc = (`🥦${jsname}任务执行通知🔔`);
+  cc = (`${jsname}任务执行通知🔔`);
   if (!getdomainbodyArr[0]) {
     console.log($.name, '【提示】请先前往获取cookie📲')
     return;
