@@ -240,7 +240,10 @@ async function txlog() {
 async function cash() {
   if (usercash >= 50) {
     await cash50()
-  } else {
+  } else if(usercash <= 1) {
+    $.log(`【自动提现1元】:账户金额不足1元！\n`);
+    tz += `【自动提现1元】:账户金额不足1元！\n`    
+  }else{
     await cash1()
   }
 }
