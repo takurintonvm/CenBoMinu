@@ -239,18 +239,21 @@ async function txlog() {
 //cash
 async function cash() {
   if (usercash >= 50) {
+    $.log(`开始请求提现5元...\n`);
     await cash50()
   } else if(usercash <= 1) {
-    $.log(`【自动提现1元】:账户金额不足1元！\n`);
-    tz += `【自动提现1元】:账户金额不足1元！\n`
+    $.log(`【请求提现1元】:账户金额不足1元！\n`);
+    tz += `【请求提现1元】:账户金额不足1元！\n`
   }else{
-    await cash1()
+    $.log(`【请求提现1元】:⛔️目前失效,暂停请求提现1元\n`);
+    //$.log(`开始请求提现1元...\n`);
+    //await cash1()
   }
 }
 async function cash1() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://runstep.kujievip.com/runstep/applytx?account=0.3&type=2&appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
+      url: `https://runstep.kujievip.com/runstep/applytx?account=1&type=2&appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
       body: ``,
       headers: JSON.parse(txkeyVal),
     };
@@ -264,8 +267,8 @@ async function cash1() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`【提现请求0.3元】:成功🎉\n`);
-            tz += `【提现请求0.3元】:成功🎉\n`
+            $.log(`【提现请求1元】:成功🎉\n`);
+            tz += `【提现请求1元】:成功🎉\n`
           }
         }
       } catch (e) {
