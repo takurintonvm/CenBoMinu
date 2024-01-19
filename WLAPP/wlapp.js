@@ -33,6 +33,8 @@ let today1 = formatDateTime(new Date());
 let today2 = formatDateTime(todaytimes);
 
 //////////////////////////////////////////////////////////////////
+var jsessionid = "";
+
 const getdomainbodyArr = [];
 let getdomainbodyVal = "";
 
