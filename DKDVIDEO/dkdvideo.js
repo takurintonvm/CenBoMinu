@@ -1012,7 +1012,6 @@ function dkdsxzp(timeout = 0) {
     let url = {
       url: `http://dkd-api.dysdk.com/lotto/index?${dkdtokenbodyVal}&headerInfo=${dkdlottourlVal}`,
       headers: JSON.parse(dkdlottokeyVal),
-      body: '',
     }
     $.post(url, async (err, resp, data) => {
       try {
