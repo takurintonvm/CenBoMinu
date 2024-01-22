@@ -292,7 +292,7 @@ async function cowhome1() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?invite_code=&help_code=&share_date=&type=bullish&action=home&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${cowkeyVal}`,
         'Accept': `application/json, text/plain, */*`,
@@ -333,7 +333,7 @@ async function cowhome2() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?invite_code=&help_code=&share_date=&type=bullish&action=home&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${cowkeyVal}`,
         'Accept': `application/json, text/plain, */*`,
@@ -389,7 +389,7 @@ async function cowlevel() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=feed&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${cowkeyVal}`,
         'Accept': `application/json, text/plain, */*`,
@@ -432,7 +432,7 @@ async function cowopenbox() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=open_box&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${cowkeyVal}`,
         'Accept': `application/json, text/plain, */*`,
@@ -471,7 +471,7 @@ async function cowopenboxck() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=open_box&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${cowkeyVal}`,
         'Accept': `application/json, text/plain, */*`,
@@ -523,7 +523,7 @@ async function cowgetred() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=rock_bullish&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${cowkeyVal}`,
         'Accept': `application/json, text/plain, */*`,
@@ -562,7 +562,7 @@ async function cowgetredck() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact03.tenpay.com/cgi-bin/activity_year_party.fcgi?type=bullish&action=rock_bullish&channel=1&actid=1105&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${cowkeyVal}`,
         'Accept': `application/json, text/plain, */*`,
@@ -615,7 +615,7 @@ function cowtaskticket() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskticket&channel=1&actid=1105&_rndtime=${rndtime}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -644,7 +644,7 @@ function cowtaskid6(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=39&id=6&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -671,7 +671,7 @@ function cowstatuid6() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=6&tid=39&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -700,7 +700,7 @@ function cowtaskid1(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=5&id=1&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -727,7 +727,7 @@ function cowstatuid1() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=1&tid=5&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -756,7 +756,7 @@ function cowtaskid2(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=11&id=2&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -783,7 +783,7 @@ function cowstatuid2() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=2&tid=11&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -812,7 +812,7 @@ function cowtaskid3(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=28&id=3&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -839,7 +839,7 @@ function cowstatuid3() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=3&tid=28&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -868,7 +868,7 @@ function cowtaskid4(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=22&id=4&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -895,7 +895,7 @@ function cowstatuid4() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=4&tid=22&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -924,7 +924,7 @@ function cowtaskid5(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=2&id=5&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -951,7 +951,7 @@ function cowstatuid5() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=5&tid=2&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -981,7 +981,7 @@ function cowtaskid7(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=29&id=7&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -1008,7 +1008,7 @@ function cowstatuid7() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=7&tid=29&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -1038,7 +1038,7 @@ function cowtaskid8(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=4&id=8&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -1065,7 +1065,7 @@ function cowstatuid8() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=8&tid=4&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -1095,7 +1095,7 @@ function cowtaskid9(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=14&id=9&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -1122,7 +1122,7 @@ function cowstatuid9() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=9&tid=14&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -1152,7 +1152,7 @@ function cowtaskid10(cowticket) {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1105&tid=13&id=10&task_ticket=${cowticket}&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,
@@ -1179,7 +1179,7 @@ function cowstatuid10() {
   return new Promise((resolve, reject) => {
     let testurl = {
       url: `https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskstatus&channel=1&actid=1105&id=10&tid=13&_appName=ios${taskheaderVal}`,
-      body: ``,
+
       headers: {
         'Cookie': `${taskkeyVal}`,
         'Accept': `*/*`,

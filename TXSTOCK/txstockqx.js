@@ -599,7 +599,7 @@ function guesstime() {
   return new Promise((resolve) => {
     let url = {
       url: `https://zqact.tenpay.com/cgi-bin/guess_home.fcgi?channel=1&source=2&new_version=2&_=${rndtime}&_appName=ios${taskheaderVal}`,
-      
+
       headers: {
         'Cookie': `${signkeyVal}`,
         'Accept': `application/json, text/plain, */*`,

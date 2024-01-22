@@ -259,7 +259,6 @@ async function callback() {
   return new Promise((resolve) => {
     let url = {
       url: `${callbackurl}`,
-      body: ``,
       headers: JSON.parse(callbackkeyVal),
     };
     $.get(url, async (err, resp, data) => {
@@ -382,26 +381,37 @@ function taskcenter() {
 
 
 //今日金币
-function todaycoin() {
-
-  return new Promise((resolve, reject) => {
-    let todaycoinurl = {
+async function todaycoin() {
+  return new Promise((resolve) => {
+    let url = {
       url: `https://app.kxp.com/web/income/detail?uid=${uid}`,
       headers: headerVal,
-    }
-    $.post(todaycoinurl, async (error, resp, data) => {
-      let todaycoin = JSON.parse(data);
-      mycash = todaycoin.data.score
-      $.log(`【今日金币】：${todaycoin.data.today_score}金币`);
-      $.log(`【账户金币】：${todaycoin.data.score}金币,${todaycoin.data.money}`);
-      $.log(`【获取总计】：${todaycoin.data.total_score}金币`);
-      tz += `【今日金币】：${todaycoin.data.today_score}金币\n`;
-      tz += `【账户金币】：${todaycoin.data.score}金币,${todaycoin.data.money}\n`;
-      tz += `【获取总计】：${todaycoin.data.total_score}金币\n`;
-      resolve()
-    })
-  })
-
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            let todaycoin = JSON.parse(data);
+            mycash = todaycoin.data.score
+            $.log(`【今日金币】：${todaycoin.data.today_score}金币`);
+            $.log(`【账户金币】：${todaycoin.data.score}金币,${todaycoin.data.money}`);
+            $.log(`【获取总计】：${todaycoin.data.total_score}金币`);
+            tz += `【今日金币】：${todaycoin.data.today_score}金币\n`;
+            tz += `【账户金币】：${todaycoin.data.score}金币,${todaycoin.data.money}\n`;
+            tz += `【获取总计】：${todaycoin.data.total_score}金币\n`;
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
 }
 
 //分享视频赚钱
