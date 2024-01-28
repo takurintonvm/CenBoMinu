@@ -145,7 +145,7 @@ async function runstepcash() {
   await myself()
   await txlog()
   console.log(`\n🇨🇳【开始提现任务】`)
-  $.log('👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现0.3元。\n')
+  $.log('👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现1元。\n')
   if (hour == 0) {
     await cash()
   } else {
@@ -245,9 +245,9 @@ async function cash() {
     $.log(`【请求提现1元】:账户金额不足1元！\n`);
     tz += `【请求提现1元】:账户金额不足1元！\n`
   }else{
-    $.log(`【请求提现1元】:⛔️目前失效,暂停请求提现1元\n`);
-    //$.log(`开始请求提现1元...\n`);
-    //await cash1()
+    //$.log(`【请求提现1元】:⛔️目前失效,暂停请求提现1元\n`);
+    $.log(`开始请求提现1元...\n`);
+    await cash1()
   }
 }
 async function cash1() {
