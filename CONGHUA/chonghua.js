@@ -232,7 +232,7 @@ if ($.isNode()) {
     tz += `\n✅时段奖励与分享奖励已达上限,\n等待晚上11点执行自动阅读任务`;
   }
     console.log(`\n✅ 执行提现任务`)
-  if (mycash == 50000) {
+  if (mycash >= 50000) {
     await cash();
     console.log(`\n【5元提现】：成功🎉`)
     tz += `【5元提现】：成功🎉\n`;
