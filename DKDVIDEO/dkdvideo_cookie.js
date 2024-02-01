@@ -13,9 +13,9 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/video\/red
 }
 //dkdcash
 if ($request && $request.method != `OPTIONS` && $request.url.indexOf("withdraw_do") >= 0) {
-  const dkdcashurl = $request.url
-  if (dkdcashurl) $.setdata(dkdcashurl, 'dkdcashurl')
-  $.log(`获取dkdcashurl请求🎉: 成功,dkdcashurl: ${dkdcashurl}`)
+  //const dkdcashurl = $request.url
+  //if (dkdcashurl) $.setdata(dkdcashurl, 'dkdcashurl')
+  //$.log(`获取dkdcashurl请求🎉: 成功,dkdcashurl: ${dkdcashurl}`)
   const dkdcashkey = JSON.stringify($request.headers)
   if (dkdcashkey) $.setdata(dkdcashkey, 'dkdcashkey')
   $.log(`获取dkdcashkey请求🎉: 成功,dkdcashkey: ${dkdcashkey}`)
@@ -24,9 +24,9 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("withdraw_d
 }
 //dkdlotto
 if ($request && $request.method != `OPTIONS` && $request.url.indexOf("lotto") >= 0) {
-  const dkdlottourl = $request.url.split('headerInfo=')[1];
-  if (dkdlottourl) $.setdata(dkdlottourl, 'dkdlottourl')
-  $.log(`获取dkdlottourl请求🎉: 成功,dkdlottourl: ${dkdlottourl}`)
+  //const dkdlottourl = $request.url.split('headerInfo=')[1];
+  //if (dkdlottourl) $.setdata(dkdlottourl, 'dkdlottourl')
+  //$.log(`获取dkdlottourl请求🎉: 成功,dkdlottourl: ${dkdlottourl}`)
   const dkdlottokey = JSON.stringify($request.headers)
   if (dkdlottokey) $.setdata(dkdlottokey, 'dkdlottokey')
   $.log(`获取dkdlottokey请求🎉: 成功,dkdlottokey: ${dkdlottokey}`)

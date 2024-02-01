@@ -46,8 +46,8 @@ let dkdcashurlVal = "";
 const dkdcashkeyArr = [];
 let dkdcashkeyVal = "";
 
-const dkdlottourlArr = [];
-let dkdlottourlVal = "";
+//const dkdlottourlArr = [];
+//let dkdlottourlVal = "";
 
 const dkdlottokeyArr = [];
 let dkdlottokeyVal = "";
@@ -97,11 +97,11 @@ if ($.isNode()) {
     }
   });
 
-  Object.keys(dkdlottourlVal).forEach((item) => {
-    if (dkdlottourlVal[item]) {
-      dkdlottourlArr.push(dkdlottourlVal[item])
-    }
-  });
+  //Object.keys(dkdlottourlVal).forEach((item) => {
+    //if (dkdlottourlVal[item]) {
+      //dkdlottourlArr.push(dkdlottourlVal[item])
+    //}
+  //});
 
 
   Object.keys(dkdlottokeyVal).forEach((item) => {
@@ -122,7 +122,7 @@ if ($.isNode()) {
   dkdtokenkeyArr.push($.getdata('dkdtokenkey'));
   dkdcashurlArr.push($.getdata('dkdcashurl'));
   dkdcashkeyArr.push($.getdata('dkdcashkey'));
-  dkdlottourlArr.push($.getdata('dkdlottourl'));
+  //dkdlottourlArr.push($.getdata('dkdlottourl'));
   dkdlottokeyArr.push($.getdata('dkdlottokey'));
 }
 
@@ -132,13 +132,14 @@ if ($.isNode()) {
   cc = (`${jsname}任务执行通知🔔`);
   if (!dkdtokenbodyArr[0]) {
     console.log($.name, '【提示】请先前往获取cookie📲')
+    tz += `【提示】请先前往获取cookie📲\n`
     return;
   }
   dkdtokenbodyVal = dkdtokenbodyArr[0];
   dkdtokenkeyVal = dkdtokenkeyArr[0];
   dkdcashurlVal = dkdcashurlArr[0];
   dkdcashkeyVal = dkdcashkeyArr[0];
-  dkdlottourlVal = dkdlottourlArr[0];
+  //dkdlottourlVal = dkdlottourlArr[0];
   dkdlottokeyVal = dkdlottokeyArr[0];
 
   console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
@@ -211,11 +212,13 @@ async function showmsg2() {
 //////////////////////////////////////////////////////////////////
 //提现
 async function dkdcash() {
-  if (typeof $.getdata('dkdcashkey') === "undefined") {
+  if (!dkdcashkeyArr[0]) {
     $.log('⛔️请先提现一次,获取提现Cookie!')
     $.log('👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现1元。')
-    return
+    tz += `⛔️请先提现一次,获取提现Cookie!\n`
+    return;
   }
+
   await dkdxx2()
   if (mycash >= 50) {
     await dkdtx50()
@@ -313,7 +316,7 @@ async function todaysign() {
 async function dayindex() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/task/index_days`,
+      url: `https://dkd-api.dysdk.com/task/index_days`,
       body: `${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -356,7 +359,7 @@ async function dayindex() {
 async function boxinit() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/red/box_init`,
+      url: `https://dkd-api.dysdk.com/red/box_init`,
       body: `${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -384,7 +387,7 @@ async function boxinit() {
 async function extratime() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/video/extra_time`,
+      url: `https://dkd-api.dysdk.com/video/extra_time`,
       body: `${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -412,7 +415,7 @@ async function extratime() {
 async function signinit() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/task/index_sign`,
+      url: `https://dkd-api.dysdk.com/task/index_sign`,
       body: `${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -484,7 +487,7 @@ async function signinit() {
 function dkdfx(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_award',
+      url: 'https://dkd-api.dysdk.com/task/get_award',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `id=52&${dkdtokenbodyVal}`,
     }
@@ -509,7 +512,7 @@ function dkdfx(timeout = 0) {
 function dkdxs(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_award',
+      url: 'https://dkd-api.dysdk.com/task/get_award',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `id=51&${dkdtokenbodyVal}`,
     }
@@ -534,7 +537,7 @@ function dkdxs(timeout = 0) {
 function dkdsdjl(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/video/extra_get',
+      url: 'https://dkd-api.dysdk.com/video/extra_get',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `${dkdtokenbodyVal}`,
     }
@@ -562,7 +565,7 @@ function dkdsdjl(timeout = 0) {
 function dkdsdjl2(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/video/extra_again',
+      url: 'https://dkd-api.dysdk.com/video/extra_again',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `${dkdtokenbodyVal}`,
     }
@@ -589,7 +592,7 @@ function dkdsdjl2(timeout = 0) {
 async function dkdgame() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/task/get_award`,
+      url: `https://dkd-api.dysdk.com/task/get_award`,
       body: `id=55&${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -625,7 +628,7 @@ async function dkdgame() {
 async function redpro1() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/task/get_award_pro`,
+      url: `https://dkd-api.dysdk.com/task/get_award_pro`,
       body: `step=1&${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -659,7 +662,7 @@ async function redpro1() {
 async function redpro2() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/task/get_award_pro`,
+      url: `https://dkd-api.dysdk.com/task/get_award_pro`,
       body: `step=2&${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -693,7 +696,7 @@ async function redpro2() {
 async function redpro3() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/task/get_award_pro`,
+      url: `https://dkd-api.dysdk.com/task/get_award_pro`,
       body: `step=3&${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -727,7 +730,7 @@ async function redpro3() {
 async function redpro4() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/task/get_award_pro`,
+      url: `https://dkd-api.dysdk.com/task/get_award_pro`,
       body: `step=4&${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -786,7 +789,7 @@ async function dkdvideo() {
 function AutoRead() {
   return new Promise((resolve, reject) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/android_video/getaward`,
+      url: `https://dkd-api.dysdk.com/android_video/getaward`,
       headers: JSON.parse(dkdtokenkeyVal),
       body: getawardbody
     };
@@ -809,7 +812,7 @@ function AutoRead() {
 async function redcountdown() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/video/red_countdown`,
+      url: `https://dkd-api.dysdk.com/video/red_countdown`,
       body: dkdtokenbodyVal,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -843,7 +846,7 @@ async function redcountdown() {
 async function redgetaward() {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/video/red_getaward`,
+      url: `https://dkd-api.dysdk.com/video/red_getaward`,
       body: `adType=2&${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdtokenkeyVal),
     };
@@ -882,7 +885,7 @@ function dkdqd(timeout = 0) {
   return new Promise((resolve) => {
     setTimeout(() => {
       let url = {
-        url: 'http://dkd-api.dysdk.com/task/sign',
+        url: 'https://dkd-api.dysdk.com/task/sign',
         headers: JSON.parse(dkdtokenkeyVal),
         body: `adType=2&${dkdtokenbodyVal}`,
       }
@@ -908,7 +911,7 @@ function dkdqd(timeout = 0) {
 function dkdsc(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_ad_award',
+      url: 'https://dkd-api.dysdk.com/task/get_ad_award',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `adType=2&${dkdtokenbodyVal}&type=1&overLimit`,
     }
@@ -933,7 +936,7 @@ function dkdsc(timeout = 0) {
 function dkdgg(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/task/get_ad_award',
+      url: 'https://dkd-api.dysdk.com/task/get_ad_award',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `adType=2&${dkdtokenbodyVal}&type=2`,
     }
@@ -958,7 +961,7 @@ function dkdgg(timeout = 0) {
 function dkdbx(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/red/box_award',
+      url: 'https://dkd-api.dysdk.com/red/box_award',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `${dkdtokenbodyVal}`,
     }
@@ -985,7 +988,7 @@ function dkdbx(timeout = 0) {
 function dkdbxfb(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/red/box_extra',
+      url: 'https://dkd-api.dysdk.com/red/box_extra',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `adType=2&${dkdtokenbodyVal}`,
     }
@@ -1010,7 +1013,7 @@ function dkdbxfb(timeout = 0) {
 function dkdsxzp(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: `http://dkd-api.dysdk.com/lotto/index?${dkdtokenbodyVal}&headerInfo=${dkdlottourlVal}`,
+      url: `https://dkd-api.dysdk.com/lotto/index?${dkdtokenbodyVal}`,
       headers: JSON.parse(dkdlottokeyVal),
     }
     $.post(url, async (err, resp, data) => {
@@ -1034,7 +1037,7 @@ function dkdsxzp(timeout = 0) {
 function dkdcj(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/lotto/start',
+      url: 'https://dkd-api.dysdk.com/lotto/start',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `adType=2&${dkdtokenbodyVal}`,
     }
@@ -1060,7 +1063,7 @@ function dkdcj(timeout = 0) {
 async function dkdtx50() {
   return new Promise((resolve) => {
     let url = {
-      url: `${dkdcashurlVal}`,
+      url: `https://dkd-api.dysdk.com/money/withdraw_do?${dkdtokenbodyVal}`,
       body: `{"money":50,"type":2,"withdraw_card":null,"program":8,"is_special":2}`,
       headers: JSON.parse(dkdcashkeyVal),
     };
@@ -1092,7 +1095,7 @@ async function dkdtx50() {
 async function dkdtx01() {
   return new Promise((resolve) => {
     let url = {
-      url: `${dkdcashurlVal}`,
+      url: `https://dkd-api.dysdk.com/money/withdraw_do?${dkdtokenbodyVal}`,
       body: `{"money":1,"type":2,"withdraw_card":null,"program":8,"is_special":2}`,
       headers: JSON.parse(dkdcashkeyVal),
     };
@@ -1125,7 +1128,7 @@ async function dkdtx01() {
 function dkdxx(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/user/index',
+      url: 'https://dkd-api.dysdk.com/user/index',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `${dkdtokenbodyVal}`,
     }
@@ -1159,7 +1162,7 @@ function dkdxx(timeout = 0) {
 function dkdxx2(timeout = 0) {
   return new Promise((resolve) => {
     let url = {
-      url: 'http://dkd-api.dysdk.com/user/index',
+      url: 'https://dkd-api.dysdk.com/user/index',
       headers: JSON.parse(dkdtokenkeyVal),
       body: `${dkdtokenbodyVal}`,
     }

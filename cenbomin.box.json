@@ -95,7 +95,7 @@
 	},{
 		"id": "dkdvideo",
 		"name": "多看点视频",
-		"keys": ["dkdtokenbody", "dkdtokenkey", "getawardbody","getawardbody_index","dkdcashurl","dkdcashkey","dkdlottourl","dkdlottokey"],
+		"keys": ["dkdtokenbody", "dkdtokenkey", "getawardbody","getawardbody_index","dkdcashurl","dkdcashkey","dkdlottokey"],
 		"settings": [
 			{
 				"id": "getawardbody",
