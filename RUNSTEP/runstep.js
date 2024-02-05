@@ -1,5 +1,6 @@
 /*　　　　　　　　　　
 说明详情请见：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/RUNSTEP/readme.js
+https://runstep.kujievip.com/runstep/getrobot?
 */
 const jsname = '👟走路赚钱'
 const $ = Env(jsname)
@@ -121,7 +122,7 @@ async function runstepapp() {
   await steptomoney();
   await getharvest();
   //console.log(`\n🇨🇳【开始福利中心任务】`)
-  //await center();
+  await center();
   console.log(`\n1️⃣开始🎡幸运转盘🎡任务`)
   //await advlist();
   await wheelindex()
@@ -422,12 +423,12 @@ async function center() {
             if (logs == 1) $.log(data)
             //$.log(data)
             data = JSON.parse(data);
-            $.log(`\n🙇‍♂️查询当前任务状态`);
-            for (centerlist of data.data.redpackets) {
-              centername = centerlist.title;
-              centerstatus = centerlist.status;
-              $.log(`【${centername}】:${centerstatus}`);
-            }
+            //$.log(`\n🙇‍♂️查询当前任务状态`);
+            //for (centerlist of data.data.redpackets) {
+              //centername = centerlist.title;
+              //centerstatus = centerlist.status;
+              //$.log(`【${centername}】:${centerstatus}`);
+            //}
           }
         }
       } catch (e) {
