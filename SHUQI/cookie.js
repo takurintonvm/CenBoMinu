@@ -10,7 +10,6 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/reso
   const loadresourcekey = JSON.stringify($request.headers)
   if (loadresourcekey) $.setdata(loadresourcekey, 'loadresourcekey')
   $.log(`获取loadresourcekey请求🎉: 成功,loadresourcekey: ${loadresourcekey}`)
-  $.msg($.name, "添加【一般-用户信息】请求: 成功🎉")
   $.done()
 }
 
