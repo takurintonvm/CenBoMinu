@@ -13,6 +13,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/reso
   $.done()
 }
 
+//有问题！！！！！
 if ($request && $request.method != `OPTIONS` && $request.url.indexOf("boxTask") >= 0) {
   const boxtaskbody = $request.url
   if (boxtaskbody) $.setdata(boxtaskbody, 'boxtaskbody')
