@@ -13,8 +13,8 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/reso
   $.done()
 }
 
-//有问题！！！！！
-if ($request && $request.method != `OPTIONS` && $request.url.indexOf("boxTask") >= 0) {
+//boxTask
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/activity\/boxTask/)) {
   const boxtaskbody = $request.url
   if (boxtaskbody) $.setdata(boxtaskbody, 'boxtaskbody')
   $.log(`获取boxtaskbody请求🎉: 成功,boxtaskbody: ${boxtaskbody}`)
