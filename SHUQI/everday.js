@@ -2,16 +2,21 @@ const jsname='📚书旗小说'
 const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
-//任务判定
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/resource/)) {
-  const sploadresourcebody = $request.body
-  if (sploadresourcebody) $.setdata(sploadresourcebody, 'sploadresourcebody'+ $.idx)
-  $.log(`获取sploadresourcebody请求🎉: 成功,sploadresourcebody: ${sploadresourcebody}`)
-  const sploadresourcekey = JSON.stringify($request.headers)
-  if (sploadresourcekey) $.setdata(sploadresourcekey, 'sploadresourcekey'+ $.idx)
-  $.log(`获取sploadresourcekey请求🎉: 成功,sploadresourcekey: ${sploadresourcekey}`)
+//readupload
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/reading\/upload/)) {
+  const readuploadbody = $request.body
+  if (readuploadbody) $.setdata(readuploadbody, 'readuploadbody'+ $.idx)
+  $.log(`获取readuploadbody请求🎉: 成功,readuploadbody: ${readuploadbody}`)
+  const readuploadkey = JSON.stringify($request.headers)
+  if (readuploadkey) $.setdata(readuploadkey, 'readuploadkey'+ $.idx)
+  $.log(`获取readuploadkey请求🎉: 成功,readuploadkey: ${readuploadkey}`)
+  $.msg($.name + $.idx, "添加【阅读时长】请求: 成功🎉")
   $.done()
 }
+
+//极速版看视频2（签到）
+
+
 
 
 

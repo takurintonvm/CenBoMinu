@@ -2,14 +2,21 @@ const jsname='📚书旗小说'
 const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
-//任务判定
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/resource/)) {
-  const sploadresourcebody = $request.body
-  if (sploadresourcebody) $.setdata(sploadresourcebody, 'sploadresourcebody'+ $.idx)
-  $.log(`获取sploadresourcebody请求🎉: 成功,sploadresourcebody: ${sploadresourcebody}`)
-  const sploadresourcekey = JSON.stringify($request.headers)
-  if (sploadresourcekey) $.setdata(sploadresourcekey, 'sploadresourcekey'+ $.idx)
-  $.log(`获取sploadresourcekey请求🎉: 成功,sploadresourcekey: ${sploadresourcekey}`)
+//转盘机会
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/lottery/)) {
+  const luckylotterybody = $request.body
+  if (luckylotterybody) $.setdata(luckylotterybody, 'luckylotterybody'+ $.idx)
+  $.log(`获取luckylotterybody请求🎉: 成功,luckylotterybody: ${luckylotterybody}`)
+  $.msg($.name + $.idx, "添加【一般-转盘机会】请求: 成功🎉")
+  $.done()
+}
+
+//转盘抽奖
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/lottery\/draw/)) {
+  const luckyredbody = $request.body
+  if (luckyredbody) $.setdata(luckyredbody, 'luckyredbody'+ $.idx)
+  $.log(`获取luckyredbody请求🎉: 成功,luckyredbody: ${luckyredbody}`)
+  $.msg($.name + $.idx, "添加【一般-转盘抽奖】请求: 成功🎉")
   $.done()
 }
 

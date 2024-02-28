@@ -2,13 +2,13 @@ const jsname='📚书旗小说'
 const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
-//readupload
+//任务判定
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/resource/)) {
   const loadresourcebody = $request.body
-  if (loadresourcebody) $.setdata(loadresourcebody, 'loadresourcebody')
+  if (loadresourcebody) $.setdata(loadresourcebody, 'loadresourcebody'+ $.idx)
   $.log(`获取loadresourcebody请求🎉: 成功,loadresourcebody: ${loadresourcebody}`)
   const loadresourcekey = JSON.stringify($request.headers)
-  if (loadresourcekey) $.setdata(loadresourcekey, 'loadresourcekey')
+  if (loadresourcekey) $.setdata(loadresourcekey, 'loadresourcekey'+ $.idx)
   $.log(`获取loadresourcekey请求🎉: 成功,loadresourcekey: ${loadresourcekey}`)
   $.done()
 }
@@ -16,12 +16,63 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/reso
 //boxTask
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/activity\/boxTask/)) {
   const boxtaskbody = $request.url
-  if (boxtaskbody) $.setdata(boxtaskbody, 'boxtaskbody')
+  if (boxtaskbody) $.setdata(boxtaskbody, 'boxtaskbody'+ $.idx)
   $.log(`获取boxtaskbody请求🎉: 成功,boxtaskbody: ${boxtaskbody}`)
   const boxtaskkey = JSON.stringify($request.headers)
-  if (boxtaskkey) $.setdata(boxtaskkey, 'boxtaskkey')
+  if (boxtaskkey) $.setdata(boxtaskkey, 'boxtaskkey'+ $.idx)
   $.log(`获取boxtaskkey请求🎉: 成功,boxtaskkey: ${boxtaskkey}`)
-  $.msg($.name, "添加【阅读时长-信息】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【阅读时长-信息】请求: 成功🎉")
+  $.done()
+}
+
+//withdraw
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/withdraw\/info/)) {
+  const withdrawbody = $request.body
+  if (withdrawbody) $.setdata(withdrawbody, 'withdrawbody'+ $.idx)
+  $.log(`获取withdrawbody请求🎉: 成功,withdrawbody: ${withdrawbody}`)
+  $.msg($.name + $.idx, "添加【账号信息】请求: 成功🎉")
+  $.done()
+}
+//bubble
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/bubble\/info/)) {
+  const bubblebody = $request.body
+  if (bubblebody) $.setdata(bubblebody, 'bubblebody'+ $.idx)
+  $.log(`获取bubblebody请求🎉: 成功,bubblebody: ${bubblebody}`)
+  $.msg($.name + $.idx, "添加【气泡奖励信息】请求: 成功🎉")
+  $.done()
+}
+//receive
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/manual\/receive/)) {
+  const receivebody = $request.body
+  if (receivebody) $.setdata(receivebody, 'receivebody'+ $.idx)
+  $.log(`获取receivebody请求🎉: 成功,receivebody: ${receivebody}`)
+  $.msg($.name + $.idx, "添加【一键收取】请求: 成功🎉")
+  $.done()
+}
+//signInAction
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/v5\/signInAction/)) {
+  const signinactionbody = $request.body
+  if (signinactionbody) $.setdata(signinactionbody, 'signinactionbody'+ $.idx)
+  $.log(`获取signinactionbody请求🎉: 成功,signinactionbody: ${signinactionbody}`)
+  $.msg($.name + $.idx, "添加【一般-签到打卡】请求: 成功🎉")
+  $.done()
+}
+
+//readlottery
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/readpage/)) {
+  const readlotterybody = $request.body
+  if (readlotterybody) $.setdata(readlotterybody, 'readlotterybody'+ $.idx)
+  $.log(`获取readlotterybody请求🎉: 成功,readlotterybody: ${readlotterybody}`)
+  $.msg($.name + $.idx, "添加【一般-阅读金币】请求: 成功🎉")
+  $.done()
+}
+
+//videolottery
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/lottery/)) {
+  const videolotterybody = $request.body
+  if (videolotterybody) $.setdata(videolotterybody, 'videolotterybody'+ $.idx)
+  $.log(`获取videolotterybody请求🎉: 成功,videolotterybody: ${videolotterybody}`)
+  $.msg($.name + $.idx, "添加【一般-看视频金币】请求: 成功🎉")
   $.done()
 }
 
