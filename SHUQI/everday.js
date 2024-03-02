@@ -15,6 +15,13 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/reading\/u
 }
 
 //极速版看视频2（签到）
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/lottery/)) {
+  const sp2videocoinbody = $request.body
+  if (sp2videocoinbody) $.setdata(sp2videocoinbody, 'sp2videocoinbody'+ $.idx)
+  $.log(`获取sp2videocoinbody请求🎉: 成功,sp2videocoinbody: ${sp2videocoinbody}`)
+  $.msg($.name + $.idx, "添加【极速-签到页面看视频】请求: 成功🎉")
+  $.done()
+}
 
 
 

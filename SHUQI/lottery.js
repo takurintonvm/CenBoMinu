@@ -20,6 +20,18 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/lottery\/d
   $.done()
 }
 
+//极速浏览书城
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task\/reward/)) {
+  const booktaskurl = $request.url
+  if (booktaskurl) $.setdata(booktaskurl, 'booktaskurl'+ $.idx)
+  $.log(`获取booktaskurl请求🎉: 成功,booktaskurl: ${booktaskurl}`)
+  const booktaskbody = $request.body
+  if (booktaskbody) $.setdata(booktaskbody, 'booktaskbody'+ $.idx)
+  $.log(`获取booktaskbody请求🎉: 成功,booktaskbody: ${booktaskbody}`)
+  $.msg($.name + $.idx, "添加【极速-浏览书城15秒】请求: 成功🎉")
+  $.done()
+}
+
 
 
 
