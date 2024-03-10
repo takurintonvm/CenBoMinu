@@ -18,7 +18,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/v5\/signIn
   const spsigninactionbody = $request.body
   if (spsigninactionbody) $.setdata(spsigninactionbody, 'spsigninactionbody'+ $.idx)
   $.log(`获取spsigninactionbody请求🎉: 成功,spsigninactionbody: ${spsigninactionbody}`)
-  $.msg($.name + $.idx, "添加【极速-签到】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【极速-签到打卡】请求: 成功🎉")
   $.done()
 }
 

@@ -21,7 +21,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/activity\/
   const boxtaskkey = JSON.stringify($request.headers)
   if (boxtaskkey) $.setdata(boxtaskkey, 'boxtaskkey'+ $.idx)
   $.log(`获取boxtaskkey请求🎉: 成功,boxtaskkey: ${boxtaskkey}`)
-  $.msg($.name + $.idx, "添加【阅读时长-信息】请求: 成功🎉")
+  //$.msg($.name + $.idx, "添加【阅读时长-信息】请求: 成功🎉")
   $.done()
 }
 
@@ -30,7 +30,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/withdraw\/
   const withdrawbody = $request.body
   if (withdrawbody) $.setdata(withdrawbody, 'withdrawbody'+ $.idx)
   $.log(`获取withdrawbody请求🎉: 成功,withdrawbody: ${withdrawbody}`)
-  $.msg($.name + $.idx, "添加【账号信息】请求: 成功🎉")
+  //$.msg($.name + $.idx, "添加【账号信息】请求: 成功🎉")
   $.done()
 }
 //bubble
@@ -38,7 +38,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/bubble\/in
   const bubblebody = $request.body
   if (bubblebody) $.setdata(bubblebody, 'bubblebody'+ $.idx)
   $.log(`获取bubblebody请求🎉: 成功,bubblebody: ${bubblebody}`)
-  $.msg($.name + $.idx, "添加【气泡奖励信息】请求: 成功🎉")
+  //$.msg($.name + $.idx, "添加【气泡奖励信息】请求: 成功🎉")
   $.done()
 }
 //receive
