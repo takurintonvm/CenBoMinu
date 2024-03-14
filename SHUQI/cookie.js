@@ -30,7 +30,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/withdraw\/
   const withdrawbody = $request.body
   if (withdrawbody) $.setdata(withdrawbody, 'withdrawbody'+ $.idx)
   $.log(`获取withdrawbody请求🎉: 成功,withdrawbody: ${withdrawbody}`)
-  //$.msg($.name + $.idx, "添加【账号信息】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【账号信息】请求: 成功🎉")
   $.done()
 }
 //bubble

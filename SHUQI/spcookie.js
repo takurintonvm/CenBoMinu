@@ -38,7 +38,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/lot
   const sp1videocoinbody = $request.body
   if (sp1videocoinbody) $.setdata(sp1videocoinbody, 'sp1videocoinbody'+ $.idx)
   $.log(`获取sp1videocoinbody请求🎉: 成功,sp1videocoinbody: ${sp1videocoinbody}`)
-  $.msg($.name + $.idx, "添加【极速-看视频拿金币】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【极速-看视频金币】请求: 成功🎉")
   $.done()
 }
 
