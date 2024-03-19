@@ -10,6 +10,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/reso
   const sploadresourcekey = JSON.stringify($request.headers)
   if (sploadresourcekey) $.setdata(sploadresourcekey, 'sploadresourcekey'+ $.idx)
   $.log(`获取sploadresourcekey请求🎉: 成功,sploadresourcekey: ${sploadresourcekey}`)
+  $.msg($.name + $.idx, "添加【极速-用户信息】请求: 成功🎉")
   $.done()
 }
 

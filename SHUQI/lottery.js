@@ -3,6 +3,7 @@ const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
 //转盘机会
+/*
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/lottery/)) {
   const luckylotterybody = $request.body
   if (luckylotterybody) $.setdata(luckylotterybody, 'luckylotterybody'+ $.idx)
@@ -10,6 +11,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/lot
   $.msg($.name + $.idx, "添加【一般-转盘机会】请求: 成功🎉")
   $.done()
 }
+*/
 
 //转盘抽奖
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/lottery\/draw/)) {
@@ -29,6 +31,15 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task\/rewa
   if (booktaskbody) $.setdata(booktaskbody, 'booktaskbody'+ $.idx)
   $.log(`获取booktaskbody请求🎉: 成功,booktaskbody: ${booktaskbody}`)
   $.msg($.name + $.idx, "添加【极速-浏览书城15秒】请求: 成功🎉")
+  $.done()
+}
+
+//极速版看视频2（签到）
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/prize\/lottery/)) {
+  const sp2videocoinbody = $request.body
+  if (sp2videocoinbody) $.setdata(sp2videocoinbody, 'sp2videocoinbody'+ $.idx)
+  $.log(`获取sp2videocoinbody请求🎉: 成功,sp2videocoinbody: ${sp2videocoinbody}`)
+  $.msg($.name + $.idx, "添加【极速-签到页面看视频】请求: 成功🎉")
   $.done()
 }
 
