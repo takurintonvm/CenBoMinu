@@ -2,6 +2,18 @@ const jsname='📚书旗小说'
 const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
+
+//spvideoinfo
+if ($request && $request.method != `OPTIONS` && $request.url.match(/\/api\/getAdInfo/)) {
+  const spvideoinfourl = $request.url
+  if (spvideoinfourl) $.setdata(spvideoinfourl, 'spvideoinfourl'+ $.idx)
+  $.log(`获取spvideoinfourl请求🎉: 成功,spvideoinfourl: ${spvideoinfourl}`)
+  $.log(`添加【极速-视频判定Key】请求: 成功🎉`)
+  //$.msg($.name + $.idx, "添加【极速-视频判定Key】请求: 成功🎉")
+  $.done()
+}
+
+
 //任务判定
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/resource/)) {
   const sploadresourcebody = $request.body
