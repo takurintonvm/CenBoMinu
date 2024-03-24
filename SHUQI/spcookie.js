@@ -3,6 +3,7 @@ const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
 
+
 //spvideoinfo
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/api\/getAdInfo/)) {
   const spvideoinfourl = $request.url
