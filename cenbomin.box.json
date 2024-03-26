@@ -95,7 +95,7 @@
 	},{
 		"id": "shuqi",
 		"name": "书旗小说",
-		"keys": ["readuploadbody","readuploadkey","boxtaskbody","boxtaskkey","loadresourcebody","loadresourcekey","sploadresourcebody","sploadresourcekey","withdrawbody","bubblebody","receivebody","signinactionbody","readlotterybody","videolotterybody","luckylotterybody","luckyredurl","luckyredbody","sharebody","booktaskurl","booktaskbody","spsigninactionbody","spreadcoinurl","spreadcoinbody","sp1videocoinbody","sp2videocoinbody","spsharebody"],
+		"keys": ["readuploadbody","readuploadkey","boxtaskbody","boxtaskkey","loadresourcebody","loadresourcekey","sploadresourcebody","sploadresourcekey","withdrawbody","bubblebody","receivebody","signinactionbody","readlotterybody","videolotterybody","luckylotterybody","luckyredurl","luckyredbody","sharebody","booktaskurl","booktaskbody","spsigninactionbody","spreadcoinurl","spreadcoinbody","sp1videocoinbody","sp2videocoinbody","spsharebody","lotteryinfourl","videoinfourl","spvideoinfourl"],
 		"settings": [
       {
 				"id": "Suffix",
