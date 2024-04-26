@@ -6,7 +6,7 @@
 	"repo": "https://github.com/CenBoMin/GithubSync",
 	"apps": [{
 		"id": "chonghauapp",
-		"name": "葱花视频",
+		"name": "加点葱花",
 		"keys": ["uid","chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton","chgetbody_video_index"],
 		"settings": [
 			{
@@ -58,7 +58,7 @@
 		]
 	},{
 		"id": "txstockapp",
-		"name": "腾旭自选股",
+		"name": "腾讯自选股",
 		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "wxtaskkey","cash"],
 		"settings": [
 			{
@@ -76,7 +76,7 @@
 		]
 	},{
 		"id": "wlapp",
-		"name": "文旅看点",
+		"name": "一毛看点",
 		"keys": ["getdomainbody", "getdomainkey", "userloginbody", "userloginkey", "artlistbody", "artlistkey", "artstationurl", "artstationkey", "readaccountbody", "readaccountkey", "infomebody", "infomekey", "videoartlistbody", "videoartlistkey", "videoreadaccountbody", "videoreadaccountkey", "artdetailbody", "artdetailkey"],
 		"settings": [
 			{
@@ -94,7 +94,7 @@
 		]
 	},{
 		"id": "shuqiapp",
-		"name": "书旗小说",
+		"name": "舒淇想说",
 		"keys": ["readuploadbody","readuploadkey","boxtaskbody","boxtaskkey","loadresourcebody","loadresourcekey","sploadresourcebody","sploadresourcekey","withdrawbody","bubblebody","receivebody","signinactionbody","readlotterybody","videolotterybody","luckylotterybody","luckyredurl","luckyredbody","sharebody","booktaskurl","booktaskbody","spsigninactionbody","spreadcoinurl","spreadcoinbody","sp1videocoinbody","sp2videocoinbody","spsharebody","lotteryinfourl","videoinfourl","spvideoinfourl"],
 		"settings": [
       {
@@ -118,7 +118,7 @@
 		]
 	},{
 		"id": "dkdvideo",
-		"name": "多看点视频",
+		"name": "想看多看点",
 		"keys": ["dkdtokenbody", "dkdtokenkey", "getawardbody","getawardbody_index","dkdcashurl","dkdcashkey","dkdlottokey"],
 		"settings": [
 			{
