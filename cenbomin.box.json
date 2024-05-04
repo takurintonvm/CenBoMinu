@@ -1,12 +1,12 @@
 {
 	"id": "cenbomin.app.sub",
-	"name": "CenBoMin电影🎬",
+	"name": "👩‍自导自演小电影",
 	"author": "@cenbomin",
 	"icon": "https://avatars0.githubusercontent.com/u/75375782?s=400&u=86eee41f7f138c5d0187aa10d2242bfc9799182e&v=4",
 	"repo": "https://github.com/CenBoMin/GithubSync",
 	"apps": [{
 		"id": "chonghauapp",
-		"name": "加点葱花",
+		"name": "🥦加点葱花",
 		"keys": ["uid","chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton","chgetbody_video_index"],
 		"settings": [
 			{
@@ -58,7 +58,7 @@
 		]
 	},{
 		"id": "txstockapp",
-		"name": "自选羊毛股",
+		"name": "📈自选羊毛股",
 		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "wxtaskkey","cash"],
 		"settings": [
 			{
@@ -76,7 +76,7 @@
 		]
 	},{
 		"id": "wlapp",
-		"name": "一毛看点",
+		"name": "⛱一毛看点",
 		"keys": ["getdomainbody", "getdomainkey", "userloginbody", "userloginkey", "artlistbody", "artlistkey", "artstationurl", "artstationkey", "readaccountbody", "readaccountkey", "infomebody", "infomekey", "videoartlistbody", "videoartlistkey", "videoreadaccountbody", "videoreadaccountkey", "artdetailbody", "artdetailkey"],
 		"settings": [
 			{
@@ -94,7 +94,7 @@
 		]
 	},{
 		"id": "shuqiapp",
-		"name": "舒淇想说",
+		"name": "📚舒淇想说",
 		"keys": ["readuploadbody","readuploadkey","boxtaskbody","boxtaskkey","loadresourcebody","loadresourcekey","sploadresourcebody","sploadresourcekey","withdrawbody","bubblebody","receivebody","signinactionbody","readlotterybody","videolotterybody","luckylotterybody","luckyredurl","luckyredbody","sharebody","booktaskurl","booktaskbody","spsigninactionbody","spreadcoinurl","spreadcoinbody","sp1videocoinbody","sp2videocoinbody","spsharebody","lotteryinfourl","videoinfourl","spvideoinfourl"],
 		"settings": [
       {
@@ -118,7 +118,7 @@
 		]
 	},{
 		"id": "dkdvideo",
-		"name": "想看多看点",
+		"name": "🧿想看多看点",
 		"keys": ["dkdtokenbody", "dkdtokenkey", "getawardbody","getawardbody_index","dkdcashurl","dkdcashkey","dkdlottokey"],
 		"settings": [
 			{
@@ -147,7 +147,7 @@
 		]
 	},{
 	  "id": "runstep",
-	  "name": "不走会亏钱",
+	  "name": "👟不走会亏钱",
 	  "keys": ["version", "runsteptoken", "runstepkey", "txtoken", "txkey", "runsteptoken2", "runstepkey2", "txtoken2", "txkey2", "runsteptoken3", "runstepkey3", "txtoken3", "txkey3", "runsteptoken4", "runstepkey4", "txtoken4", "txkey4", "runsteptoken5", "runstepkey5", "txtoken5", "txkey5", "runsteptoken6", "runstepkey6", "txtoken6", "txkey6", "runsteptoken7", "runstepkey7", "txtoken7", "txkey7"],
 	  "settings": [
 	    {
