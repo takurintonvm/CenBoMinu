@@ -422,11 +422,13 @@ async function shuqiapp() {
   console.log(`\n2️⃣ 开始➰30秒计时阅读⏱➰任务`)
   $.log(`\n⏳查询[30秒计时阅读]状态...\n`);
   await task21();
+  await $.wait(2000)
   await task22();
   await $.wait(2000)
   console.log(`\n3️⃣ 开始➰看视频🎞➰任务`)
   $.log(`\n⏳查询[看视频]状态...\n`);
   await task31();
+  await $.wait(2000)
   await task32();
   await $.wait(2000)
   console.log(`\n4️⃣ 开始➰福利转转转🎡➰任务`)
@@ -497,7 +499,6 @@ async function task31() {
   } else {
     $.log(`【普通版-看视频】:未完成,准备执行任务...`);
     await prizelottery1();
-    await $.wait(5000)
     tz += `【普通版-看视频】:获得250金币💰\n`
   }
 
@@ -510,7 +511,6 @@ async function task32() {
     $.log(`【极速版-看视频】:未完成,准备执行任务...`);
     await prizelottery2();
     await prizelottery3();
-    await $.wait(5000)
     tz += `【极速版-看视频】:获得200金币💰\n`
   }
 
@@ -531,14 +531,12 @@ async function task4() {
     $.log(`【福利转转转】:已完成🎉`);
     tz += `【福利转转转】:已完成🎉\n`
   }
-
 }
 //5.邀请书友
 async function task5() {
   if (task3status === 0) {
     $.log(`【普通版-邀请书友】:未完成,开始执行任务...`);
     sharetask1();
-    tz += `【普通版-邀请书友】:获得200金币💰\n`
   } else {
     $.log(`【普通版-邀请书友】:已完成🎉`);
     tz += `【普通版-邀请书友】:已完成🎉\n`
@@ -547,7 +545,6 @@ async function task5() {
   if (sptask4status === 0) {
     $.log(`【极速版-邀请书友】:未完成,开始执行任务...`);
     sharetask2();
-    tz += `【极速版-邀请书友】:获得200金币💰\n`
   } else {
     $.log(`【极速版-邀请书友】:已完成🎉`);
     tz += `【极速版-邀请书友】:已完成🎉\n`
@@ -558,7 +555,6 @@ async function task6() {
   if (sptask4status === 0) {
     $.log(`【极速版-浏览书城】:未完成,开始执行任务...`);
     await booktask();
-    tz += `【极速版-浏览书城】:获得200金币💰\n`
   } else {
     $.log(`【极速版-浏览书城】:已完成🎉`);
     tz += `【极速版-浏览书城】:已完成🎉\n`
@@ -579,6 +575,15 @@ async function lotteryinfo() {
   return new Promise((resolve) => {
     let url = {
       url: lotteryinfourlVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.6.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.6.0) 750x1334 Winding(WV_3) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.get(url, async (err, resp, data) => {
       try {
@@ -608,6 +613,15 @@ async function videoinfo() {
   return new Promise((resolve) => {
     let url = {
       url: videoinfourlVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.6.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.6.0) 750x1334 Winding(WV_3) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.get(url, async (err, resp, data) => {
       try {
@@ -637,6 +651,15 @@ async function spvideoinfo() {
   return new Promise((resolve) => {
     let url = {
       url: spvideoinfourlVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept': `application/json, text/plain, */*`,
+        'Connection': `keep-alive`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/1.0.3.0) WindVane/8.6.1 Shuqi-Lite (iPhone8,1__shuqi__v1.0.3.0) 750x1334 Winding(WV_2) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.get(url, async (err, resp, data) => {
       try {
@@ -772,6 +795,16 @@ async function withdrawinfo() {
     let url = {
       url: `https://ocean.shuqireader.com/api/activity/xapi/gold/withdraw/info`,
       body: withdrawbodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.4.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.4.0) 750x1334 Winding(WV_2) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -816,6 +849,16 @@ async function bubbleinfo() {
     let url = {
       url: `https://ocean.shuqireader.com/api/prizecenter/xapi/prize/bubble/info`,
       body: bubblebodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.4.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.4.0) 750x1334 Winding(WV_2) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -850,6 +893,16 @@ async function receive() {
     let url = {
       url: `https://ocean.shuqireader.com/api/prizecenter/xapi/prize/manual/receive`,
       body: receivebodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.4.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.4.0) 750x1334 Winding(WV_2) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -879,6 +932,16 @@ async function signinaction1() {
     let url = {
       url: `https://ocean.shuqireader.com/api/activity/xapi/signin/v5/signInAction`,
       body: signinactionbodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.4.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.4.0) 750x1334 Winding(WV_2) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -913,6 +976,17 @@ async function signinaction2() {
     let url = {
       url: `https://ocean.shuqireader.com/api/activity/xapi/signin/v5/signInAction`,
       body: spsigninactionbodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/1.0.2.0) WindVane/8.6.1 Shuqi-Lite (iPhone8,1__shuqi__v1.0.2.0) 750x1334 Winding(WV_2) WK`,
+        'Accept-Language': `zh-cn`
+      },
+
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -947,6 +1021,16 @@ async function readlottery1() {
     let url = {
       url: `https://ocean.shuqireader.com/api/ad/v1/api/prize/readpage/pendant/lottery`,
       body: readlotterybodyVal,
+      headers: {
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `shuqireader/4.3.4 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1`
+      },
+
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -983,6 +1067,15 @@ async function readlottery2() {
     let url = {
       url: spreadcoinurlVal,
       body: spreadcoinbodyVal,
+      headers: {
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `shuqifast/1.0.2 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1019,6 +1112,15 @@ async function prizelottery1() {
     let url = {
       url: `https://ocean.shuqireader.com/api/ad/v1/api/prize/lottery`,
       body: videolotterybodyVal,
+      headers: {
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `shuqireader/4.3.4 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1049,6 +1151,15 @@ async function prizelottery2() {
     let url = {
       url: `https://ocean.shuqireader.com/api/ad/v1/api/prize/lottery`,
       body: sp1videocoinbodyVal,
+      headers: {
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `shuqireader/4.3.4 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1062,7 +1173,7 @@ async function prizelottery2() {
             //$.log(data)
             data = JSON.parse(data);
             redmsg = data.data.awardMessage
-            $.log(`👧${redmsg}🎉`);
+            $.log(`👧正常视频页面:${redmsg}🎉`);
           }
         }
       } catch (e) {
@@ -1079,6 +1190,15 @@ async function prizelottery3() {
     let url = {
       url: `https://ocean.shuqireader.com/api/ad/v1/api/prize/lottery`,
       body: sp2videocoinbodyVal,
+      headers: {
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `shuqifast/1.0.2 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1092,7 +1212,7 @@ async function prizelottery3() {
             //$.log(data)
             data = JSON.parse(data);
             redmsg = data.data.awardMessage
-            $.log(`👧${redmsg}🎉`);
+            $.log(`👧签到视频页面:${redmsg}🎉`);
           }
         }
       } catch (e) {
@@ -1109,6 +1229,15 @@ async function prizelottery() {
     let url = {
       url: `https://ocean.shuqireader.com/api/ad/v1/api/prize/lottery`,
       body: luckylotterybodyVal,
+      headers: {
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `shuqifast/1.0.2 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1141,6 +1270,16 @@ async function prizered() {
     let url = {
       url: luckyredurlVal,
       body: luckyredbodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.4.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.4.0) 750x1334 Winding(WV_5) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1171,6 +1310,16 @@ async function sharetask1() {
     let url = {
       url: `https://ocean.shuqireader.com/api/activity/v1/task/reward`,
       body: sharebodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/1.0.2.0) WindVane/8.6.1 Shuqi-Lite (iPhone8,1__shuqi__v1.0.2.0) 750x1334 Winding(WV_2) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1184,6 +1333,7 @@ async function sharetask1() {
             //$.log(data)
             //data = JSON.parse(data);
             $.log(`👧普通版邀请书友:获取200金币🏅`);
+            tz += `【普通版-邀请书友】:获得200金币💰\n`
           }
         }
       } catch (e) {
@@ -1200,6 +1350,16 @@ async function sharetask2() {
     let url = {
       url: `https://ocean.shuqireader.com/api/activity/v1/task/reward`,
       body: spsharebodyVal,
+      headers: {
+        'Origin': `https://render-web.shuqireader.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept': `application/json, text/plain, */*`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AliApp(shuqi/4.3.4.0) WindVane/8.6.1 Shuqi (iPhone8,1__shuqi__v4.3.4.0) 750x1334 Winding(WV_5) WK`,
+        'Accept-Language': `zh-cn`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1213,6 +1373,7 @@ async function sharetask2() {
             //$.log(data)
             //data = JSON.parse(data);
             $.log(`👧极速版邀请书友:获取200金币🏅`);
+            tz += `【极速版-邀请书友】:获得200金币💰\n`
           }
         }
       } catch (e) {
@@ -1229,6 +1390,15 @@ async function booktask() {
     let url = {
       url: booktaskurlVal,
       body: booktaskbodyVal,
+      headers: {
+        'Accept': `*/*`,
+        'Connection': `keep-alive`,
+        'Content-Type': `application/x-www-form-urlencoded`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Host': `ocean.shuqireader.com`,
+        'User-Agent': `shuqifast/1.0.2 (iPhone; iOS 14.1; Scale/2.00)`,
+        'Accept-Language': `zh-Hans-CN;q=1`
+      },
     };
     $.post(url, async (err, resp, data) => {
       try {
@@ -1241,6 +1411,7 @@ async function booktask() {
             if (logs == 1) $.log(data)
             //$.log(data)
             $.log(`👧浏览书城15秒:获取200金币🏅`);
+            tz += `【极速版-浏览书城】:获得200金币💰\n`
           }
         }
       } catch (e) {
