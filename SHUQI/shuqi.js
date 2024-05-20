@@ -569,6 +569,7 @@ async function task8() {
     await receive();
   }
 }
+
 ///////////////////////////【CenBoMin-Network request】//////////////////////////////////
 //lotteryinfo
 async function lotteryinfo() {
