@@ -103,6 +103,6 @@
 "sp1videocoinbody":spcookie.conf✅【极速-看视频金币】
 "sp2videocoinbody":everday.conf✅【极速-签到页面看视频】
 "spsharebody":spcookie.conf✅【极速-邀请书友】
-"lotteryinfourl":cookie.conf,一般转盘任务判定Key，隐藏(转盘页面)
+"lotteryinfourl":lottery.conf,一般转盘任务判定Key，隐藏(转盘页面)
 "videoinfourl":cookie.conf,一般视频任务判定Key，隐藏(福利页面)
 "spvideoinfourl":spcookie.conf,极速视频任务判定Key，隐藏(福利页面)
