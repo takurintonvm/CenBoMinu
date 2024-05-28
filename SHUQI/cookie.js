@@ -3,16 +3,6 @@ const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
 
-//lotteryinfo
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/lottery\/info/)) {
-  const lotteryinfourl = $request.url
-  if (lotteryinfourl) $.setdata(lotteryinfourl, 'lotteryinfourl'+ $.idx)
-  $.log(`获取lotteryinfourl请求🎉: 成功,lotteryinfourl: ${lotteryinfourl}`)
-  $.log(`添加【一般-转盘判定Key】请求: 成功🎉`)
-  //$.msg($.name + $.idx, "添加【一般-转盘判定Key】请求: 成功🎉")
-  $.done()
-}
-
 //videoinfo
 if ($request && $request.method != `OPTIONS` && $request.url.match(/\/api\/getAdInfo/)) {
   const videoinfourl = $request.url
