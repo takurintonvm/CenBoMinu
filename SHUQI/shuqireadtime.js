@@ -162,7 +162,7 @@ async function task7() {
   if (readtime <= 2) {
     $.log(`💡今日阅读时长cookie失效,请重新获取📱`);
     tz += `💡今日阅读时长cookie失效,请重新获取📱\n`
-  } else if (readtime >= 0 && totaltime >= readtime) {
+  } else if (readtime >= 0 && 200 >= readtime) {
     //报名？？报名判定？？
     await readupload() //上传时长
     await boxTask2()
