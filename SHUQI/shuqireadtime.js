@@ -15,7 +15,7 @@ const logs = 0;
 const notifyInterval = 1;
 //通知风格
 let tz = '';
-//let version = $.getval('version') || "1.5.1";
+let mymaxtime = $.getval('mymaxtime') || "180";
 
 ////////////////////////// 【CenBoMin-Time】///////////////////////////////////////
 //hour&min
@@ -162,16 +162,23 @@ async function task7() {
   if (readtime <= 2) {
     $.log(`💡今日阅读时长cookie失效,请重新获取📱`);
     tz += `💡今日阅读时长cookie失效,请重新获取📱\n`
-  } else if (readtime >= 0 && 200 >= readtime) {
+  } else if (readtime >= 0 && mymaxtime >= readtime) {
     //报名？？报名判定？？
     await readupload() //上传时长
     await boxTask2()
     mytime = readtime2 - readtime
     mytime2 = totaltime - readtime2
-    $.log(`⏱上传阅读时长:${mytime}分钟，还需${mytime2}分钟完成任务`);
-    tz += `⏱上传阅读时长:${mytime}分钟，还需${mytime2}分钟完成任务\n`
-  } else if (readtime >= 0 && totaltime <= readtime) {
+    $.log(`⏱上传阅读时长:${mytime}分钟，还需${mytime2}分钟完成阅读任务`);
+    tz += `⏱上传阅读时长:${mytime}分钟，还需${mytime2}分钟完成阅读任务\n`
+  } else if (readtime >= 0 && totaltime <= readtime && mymaxtime <= readtime) {
     $.log(`【每日阅读180min】:已完成🎉`);
+    $.log(`【阅读挑战赛${mymaxtime}min】:已完成🎉`);
+    tz += `【每日阅读180min】:已完成🎉\n`
+    tz += `【阅读挑战赛${mymaxtime}min】:已完成🎉\n`
+  } else if (readtime >= 0 && totaltime <= readtime && mymaxtime >= readtime) {
+    mytime3 = mymaxtime - readtime2
+    $.log(`⏱上传阅读时长:${mytime}分钟，还需${mytime3}分钟完成挑战赛任务`);
+    tz += `⏱上传阅读时长:${mytime}分钟，还需${mytime3}分钟完成挑战赛任务\n`
   }
 }
 ///////////////////////////【CenBoMin-Network request】//////////////////////////////////
@@ -222,7 +229,7 @@ async function boxTask2() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            //$.log(data)
+            $.log(data)
             data = JSON.parse(data);
             readtime2 = data.data.readTime
             totaltime = data.data.total

@@ -97,6 +97,7 @@
 		"name": "舒淇想说",
 		"keys": ["readuploadbody","readuploadkey","boxtaskbody","boxtaskkey","loadresourcebody","loadresourcekey","sploadresourcebody","sploadresourcekey","withdrawbody","bubblebody","receivebody","signinactionbody","readlotterybody","videolotterybody","luckylotterybody","luckyredurl","luckyredbody","sharebody","booktaskurl","booktaskbody","spsigninactionbody","spreadcoinurl","spreadcoinbody","sp1videocoinbody","sp2videocoinbody","spsharebody","lotteryinfourl","videoinfourl","spvideoinfourl"],
 		"settings": [
+
       {
 				"id": "Suffix",
 				"name": "当前账号",
@@ -109,7 +110,13 @@
 				"val": "1",
 				"type": "number",
 				"desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
-			}
+			},{
+ 	      "id": "mymaxtime",
+ 	      "name": "阅读时长最大值:根据挑战赛时长内容,弹性调整最大阅读时长。",
+ 	      "val": "",
+ 	      "type": "text",
+ 	      "desc": "默认180,需要突破限制请添加数字。"
+ 	    }
 		],
 		"author": "@cenbomin",
 		"repo": ["https://raw.githubusercontent.com/CenBoMin/GithubSync"],
