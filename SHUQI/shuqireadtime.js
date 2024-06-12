@@ -229,7 +229,7 @@ async function boxTask2() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            $.log(data)
+            //$.log(data)
             data = JSON.parse(data);
             readtime2 = data.data.readTime
             totaltime = data.data.total
