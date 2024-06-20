@@ -162,7 +162,7 @@ async function task7() {
   if (readtime <= 2) {
     $.log(`💡今日阅读时长cookie失效,请重新获取📱`);
     tz += `💡今日阅读时长cookie失效,请重新获取📱\n`
-  } else if (readtime >= 0 && mymaxtime >= readtime) {
+  } else if (readtime >= 0 && totaltime >= readtime && mymaxtime >= readtime) {
     //报名？？报名判定？？
     await readupload() //上传时长
     await boxTask2()
@@ -176,6 +176,9 @@ async function task7() {
     tz += `【每日阅读180min】:已完成🎉\n`
     tz += `【阅读挑战赛${mymaxtime}min】:已完成🎉\n`
   } else if (readtime >= 0 && totaltime <= readtime && mymaxtime >= readtime) {
+    await readupload() //上传时长
+    await boxTask2()
+    mytime = readtime2 - readtime
     mytime3 = mymaxtime - readtime2
     $.log(`⏱上传阅读时长:${mytime}分钟，还需${mytime3}分钟完成挑战赛任务`);
     tz += `⏱上传阅读时长:${mytime}分钟，还需${mytime3}分钟完成挑战赛任务\n`
