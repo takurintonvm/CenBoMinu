@@ -168,8 +168,8 @@ async function task7() {
     await boxTask2()
     mytime = readtime2 - readtime
     mytime2 = totaltime - readtime2
-    $.log(`⏱上传阅读时长:${mytime}分钟，还需${mytime2}分钟完成阅读任务`);
-    tz += `⏱上传阅读时长:${mytime}分钟，还需${mytime2}分钟完成阅读任务\n`
+    $.log(`⏱上传阅读时长约${mytime}分钟，还需${mytime2}分钟完成阅读任务`);
+    tz += `⏱上传阅读时长约${mytime}分钟，还需${mytime2}分钟完成阅读任务\n`
   } else if (readtime >= 0 && totaltime <= readtime && mymaxtime <= readtime) {
     $.log(`【每日阅读180min】:已完成🎉`);
     $.log(`【阅读挑战赛${mymaxtime}min】:已完成🎉`);
@@ -180,8 +180,8 @@ async function task7() {
     await boxTask2()
     mytime = readtime2 - readtime
     mytime3 = mymaxtime - readtime2
-    $.log(`⏱上传阅读时长:${mytime}分钟，还需${mytime3}分钟完成挑战赛任务`);
-    tz += `⏱上传阅读时长:${mytime}分钟，还需${mytime3}分钟完成挑战赛任务\n`
+    $.log(`⏱上传阅读时长约${mytime}分钟，还需${mytime3}分钟完成挑战赛任务`);
+    tz += `⏱上传阅读时长约${mytime}分钟，还需${mytime3}分钟完成挑战赛任务\n`
   }
 }
 ///////////////////////////【CenBoMin-Network request】//////////////////////////////////
@@ -276,6 +276,8 @@ async function testupload() {
   });
 }
 async function readupload() {
+  decode_rdtime = decodeURIComponent(readuploadbodyVal)
+  rdsectime = decode_rdtime.split("{")[1].split("}")[0].split(":")[6]
   return new Promise((resolve) => {
     let url = {
       url: `https://jcollection.shuqireader.com/collection/iosapi/reading/upload`,
@@ -293,7 +295,7 @@ async function readupload() {
             if (logs == 1) $.log(data)
             //$.log(data)
             //data = JSON.parse(data);
-            $.log(`👧上传阅读时长:成功🎉\n`);
+            $.log(`👧上传阅读时长${rdsectime}秒:成功🎉\n`);
           }
         }
       } catch (e) {
