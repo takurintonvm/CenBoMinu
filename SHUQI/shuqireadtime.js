@@ -184,6 +184,7 @@ async function task7() {
     tz += `⏱上传阅读时长约${mytime}分钟，还需${mytime3}分钟完成挑战赛任务\n`
   }
 }
+
 ///////////////////////////【CenBoMin-Network request】//////////////////////////////////
 //任务列表
 async function boxTask() {
