@@ -296,7 +296,8 @@ async function readupload() {
             if (logs == 1) $.log(data)
             //$.log(data)
             //data = JSON.parse(data);
-            $.log(`👧上传阅读时长${rdsectime}秒:成功🎉\n`);
+            $.log(`👧请求上传时长${rdsectime}秒:成功🎉\n`);
+            tz += `👧请求上传时长${rdsectime}秒:成功🎉\n\n`
           }
         }
       } catch (e) {
