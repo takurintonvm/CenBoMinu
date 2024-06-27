@@ -474,8 +474,12 @@ async function task1() {
 async function task21() {
   if (task1status === 0) {
     $.log(`\n【普通版-30秒计时奖励】:未完成,开始执行任务...`);
-    await readlottery1();
-    tz += `【普通版-30秒计时奖励】:‍剩余${mycnt}次\n`
+    if (readlotterybodyVal == '') {
+      $.log(`❌readlotterybody未获取,请参照说明附录的对照表获取cookie。\n`);
+    } else {
+      await readlottery1();
+    }
+
   } else {
     $.log(`【普通版-30秒计时奖励】:已完成🎉`);
     tz += `【普通版-30秒计时奖励】:已完成🎉\n`
@@ -1049,6 +1053,7 @@ async function readlottery1() {
             mycnt = maxcnt - nowcnt
             if (maxcnt != nowcnt) {
               $.log(`🙇‍♂️第${nowcnt}次阅读:获得${data.data.prizeResult.prizeDesc},还有${mycnt}次\n`);
+              tz += `【普通版-30秒计时奖励】:‍剩余${mycnt}次\n`
             } else {
               $.log(`⛔️本次阅读奖励已达上限\n`);
             }
