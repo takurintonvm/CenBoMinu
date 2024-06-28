@@ -15,6 +15,7 @@ const logs = 0;
 const notifyInterval = 1;
 //通知风格
 let tz = '';
+//var i = 0;
 //let version = $.getval('version') || "1.5.1";
 
 ////////////////////////// 【CenBoMin-Time】///////////////////////////////////////
@@ -338,7 +339,7 @@ if ($.isNode()) {
   console.log(`\n✅ 检查共有多少个账号。。。`)
   await $.wait(1000)
   console.log(`👥 本次执行共${loadresourcebodyArr.length}个账号`)
-  for (let i = 0; i < loadresourcebodyArr.length; i++) {
+  for (var i = 0; i < loadresourcebodyArr.length; i++) {
     loadresourcebodyVal = loadresourcebodyArr[i];
     loadresourcekeyVal = loadresourcekeyArr[i];
     sploadresourcebodyVal = sploadresourcebodyArr[i];
@@ -402,13 +403,19 @@ async function showmsg2() {
 }
 ////////////////////////// 【CenBoMin-Task order】///////////////////////////////////////
 async function shuqiapp() {
+  console.log("✔️检查loadresourcebody/loadresourcekey");
+  await $.wait(1000)
   await loadresource1();
+  console.log("\n✔️检查lotteryinfourl");
   await $.wait(1000)
   await lotteryinfo();
+  console.log("\n✔️检查videoinfourl");
   await $.wait(1000)
   await videoinfo();
+  console.log("\n✔️检查sploadresourcebody/sploadresourcekey");
   await $.wait(1000)
   await loadresource2();
+  console.log("\n✔️检查spvideoinfourl");
   await $.wait(1000)
   await spvideoinfo();
   await $.wait(1000)
@@ -463,7 +470,11 @@ async function task1() {
 
   if (sptask2status === 0) {
     $.log(`【极速版-每日签到】:未完成,准备执行任务...`);
-    signinaction2(); //并发
+    if (spsigninactionbodyVal == '') {
+      $.log(`❌spsigninactionbody未获取,请参照说明附录的对照表获取cookie。\n`);
+    } else {
+      await signinaction2();
+    }
   } else {
     $.log(`【极速版-每日签到】:已完成🎉`);
     tz += `【极速版-每日签到】:已完成🎉\n`
@@ -474,8 +485,8 @@ async function task1() {
 async function task21() {
   if (task1status === 0) {
     $.log(`\n【普通版-30秒计时奖励】:未完成,开始执行任务...`);
-    if (readlotterybodyVal == '') {
-      $.log(`❌readlotterybody未获取,请参照说明附录的对照表获取cookie。\n`);
+    if (!readlotterybodyVal) {
+      $.log(`目前账号readlotterybody未获取,请参照说明对照表获取cookie。\n`);
     } else {
       await readlottery1();
     }
@@ -513,9 +524,16 @@ async function task32() {
     tz += `【极速版-看视频】:已完成🎉\n`
   } else {
     $.log(`【极速版-看视频】:未完成,准备执行任务...`);
-    await prizelottery2();
-    await prizelottery3();
-    tz += `【极速版-看视频】:获得200金币💰\n`
+    if (!sp1videocoinbodyVal) {
+      $.log(`❌目前账号sp1videocoinbody未获取,请参照说明对照表获取cookie。\n`);
+    } else {
+      await prizelottery2();
+    }
+    if (!sp2videocoinbodyVal) {
+      $.log(`❌目前账号sp2videocoinbody未获取,请参照说明对照表获取cookie。\n`);
+    } else {
+      await prizelottery3();
+    }
   }
 
 }
@@ -540,7 +558,11 @@ async function task4() {
 async function task5() {
   if (task3status === 0) {
     $.log(`【普通版-邀请书友】:未完成,开始执行任务...`);
-    sharetask1();
+    if (!sharebodyVal) {
+      $.log(`❌目前账号sharebody未获取,请参照说明对照表获取cookie。\n`);
+    } else {
+      await sharetask1();;
+    }
   } else {
     $.log(`【普通版-邀请书友】:已完成🎉`);
     tz += `【普通版-邀请书友】:已完成🎉\n`
@@ -548,7 +570,7 @@ async function task5() {
 
   if (sptask4status === 0) {
     $.log(`【极速版-邀请书友】:未完成,开始执行任务...`);
-    sharetask2();
+    await sharetask2();
   } else {
     $.log(`【极速版-邀请书友】:已完成🎉`);
     tz += `【极速版-邀请书友】:已完成🎉\n`
@@ -558,7 +580,12 @@ async function task5() {
 async function task6() {
   if (sptask4status === 0) {
     $.log(`【极速版-浏览书城】:未完成,开始执行任务...`);
-    await booktask();
+    if (!booktaskurlVal || !booktaskbodyVal) {
+      $.log(`❌目前账号booktaskurl未获取,请参照说明对照表获取cookie。\n`);
+      $.log(`❌目前账号booktaskbody未获取,请参照说明对照表获取cookie。\n`);
+    } else {
+      await booktask();
+    }
   } else {
     $.log(`【极速版-浏览书城】:已完成🎉`);
     tz += `【极速版-浏览书城】:已完成🎉\n`
@@ -1179,7 +1206,9 @@ async function prizelottery2() {
             //$.log(data)
             data = JSON.parse(data);
             redmsg = data.data.awardMessage
-            $.log(`👧正常视频页面:${redmsg}🎉`);
+            $.log(`👧一般视频页面:${redmsg}🎉`);
+            tz += `【极速版-一般视频】:获得100金币💰\n`
+
           }
         }
       } catch (e) {
@@ -1219,6 +1248,7 @@ async function prizelottery3() {
             data = JSON.parse(data);
             redmsg = data.data.awardMessage
             $.log(`👧签到视频页面:${redmsg}🎉`);
+            tz += `【极速版-签到视频】:获得100金币💰\n`
           }
         }
       } catch (e) {
