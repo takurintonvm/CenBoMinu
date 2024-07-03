@@ -462,7 +462,11 @@ async function shuqiapp() {
 async function task1() {
   if (task2status === 0) {
     $.log(`【普通版-每日签到】:未完成,准备执行任务...`);
-    signinaction1(); //并发
+    if (!signinactionbodyVal) {
+      $.log(`❌signinactionbody未获取,请参照说明对照表获取cookie。\n`);
+    } else {
+      await signinaction1();
+    }
   } else {
     $.log(`【普通版-每日签到】:已完成🎉`);
     tz += `【普通版-每日签到】:已完成🎉\n`
@@ -470,8 +474,8 @@ async function task1() {
 
   if (sptask2status === 0) {
     $.log(`【极速版-每日签到】:未完成,准备执行任务...`);
-    if (spsigninactionbodyVal == '') {
-      $.log(`❌spsigninactionbody未获取,请参照说明附录的对照表获取cookie。\n`);
+    if (!spsigninactionbodyVal) {
+      $.log(`❌spsigninactionbody未获取,请参照说明对照表获取cookie。\n`);
     } else {
       await signinaction2();
     }
@@ -486,7 +490,7 @@ async function task21() {
   if (task1status === 0) {
     $.log(`\n【普通版-30秒计时奖励】:未完成,开始执行任务...`);
     if (!readlotterybodyVal) {
-      $.log(`目前账号readlotterybody未获取,请参照说明对照表获取cookie。\n`);
+      $.log(`❌目前账号readlotterybody未获取,请参照说明对照表获取cookie。\n`);
     } else {
       await readlottery1();
     }
