@@ -79,12 +79,12 @@
 
 "readuploadbody":everday.conf✅【极速-获取阅读时长】
 "readuploadkey":everday.conf✅【极速-获取阅读时长】
-"boxtaskbody":cookie.conf,阅读时长判定Key，隐藏(福利页面)
-"boxtaskkey":cookie.conf,阅读时长判定Key，隐藏(福利页面)
-"loadresourcebody":cookie.conf,一般任务判定Key，隐藏(福利页面)
-"loadresourcekey":cookie.conf,一般任务判定Key，隐藏(福利页面)
-"sploadresourcebody":spcookie.conf,极速任务判定Key，隐藏(福利页面)
-"sploadresourcekey":spcookie.conf,极速任务判定Key，隐藏(福利页面)
+"boxtaskbody":cookie.conf,阅读时长判定Key，隐藏(一般福利页面)
+"boxtaskkey":cookie.conf,阅读时长判定Key，隐藏(一般福利页面)
+"loadresourcebody":cookie.conf,一般任务判定Key，隐藏(一般福利页面)
+"loadresourcekey":cookie.conf,一般任务判定Key，隐藏(一般福利页面)
+"sploadresourcebody":spcookie.conf,极速任务判定Key，隐藏(极速福利页面)
+"sploadresourcekey":spcookie.conf,极速任务判定Key，隐藏(极速福利页面)
 "withdrawbody":cookie.conf,钱包信息，隐藏(福利页面)
 "bubblebody":cookie.conf,气泡信息，隐藏(福利页面)
 "receivebody":cookie.conf✅【一键收取】
@@ -103,6 +103,6 @@
 "sp1videocoinbody":spcookie.conf✅【极速-看视频金币】
 "sp2videocoinbody":everday.conf✅【极速-签到页面看视频】
 "spsharebody":spcookie.conf✅【极速-邀请书友】
-"lotteryinfourl":lottery.conf,一般转盘任务判定Key，隐藏(转盘页面)
-"videoinfourl":cookie.conf,一般视频任务判定Key，隐藏(福利页面)
-"spvideoinfourl":spcookie.conf,极速视频任务判定Key，隐藏(福利页面)
+"lotteryinfourl":lottery.conf,一般转盘任务判定Key，隐藏(一般转盘页面)
+"videoinfourl":cookie.conf,一般视频任务判定Key，隐藏(一般福利页面)
+"spvideoinfourl":spcookie.conf,极速视频任务判定Key，隐藏(极速福利页面)
