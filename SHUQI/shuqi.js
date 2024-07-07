@@ -421,38 +421,40 @@ async function shuqiapp() {
   await $.wait(1000)
   console.log(`\n👤 开始➰查询用户资讯➰`)
   await withdrawinfo();
-  await $.wait(2000)
+  await $.wait(1000)
   console.log(`\n1️⃣ 开始➰每日签到🤟➰任务`)
   $.log(`\n⏳查询[每日签到]状态...\n`);
   await task1();
-  await $.wait(2000)
+  await $.wait(1000)
   console.log(`\n2️⃣ 开始➰30秒计时阅读⏱➰任务`)
   $.log(`\n⏳查询[30秒计时阅读]状态...\n`);
   await task21();
-  await $.wait(2000)
+  await $.wait(1000)
   await task22();
   await $.wait(2000)
   console.log(`\n3️⃣ 开始➰看视频🎞➰任务`)
   $.log(`\n⏳查询[看视频]状态...\n`);
   await task31();
-  await $.wait(2000)
+  await $.wait(1000)
   await task32();
-  await $.wait(2000)
+  await $.wait(1000)
   console.log(`\n4️⃣ 开始➰福利转转转🎡➰任务`)
   $.log(`\n⏳查询[福利转转转]状态...\n`);
   await task4();
-  await $.wait(2000)
+  await $.wait(1000)
   console.log(`\n5️⃣ 开始➰邀请书友👭➰任务`)
   $.log(`\n⏳查询[邀请书友]状态...\n`);
-  await task5();
-  await $.wait(2000)
+  await task51();
+  await $.wait(1000)
+  await task52();
+  await $.wait(1000)
   console.log(`\n6️⃣ 开始➰浏览书城👁➰任务`)
   $.log(`\n⏳查询[浏览书城]状态...\n`);
   await task6();
-  await $.wait(2000)
+  await $.wait(1000)
   console.log(`\n7️⃣ 开始➰每日阅读📚➰任务\n`)
   $.log(`👧请使用【专门刷时长】版本来执行任务...`);
-  await $.wait(2000)
+  await $.wait(1000)
   console.log(`\n8️⃣ 开始➰一键收取📥➰任务`)
   $.log(`\n⏳检查未收取气泡...\n`);
   await task8();
@@ -559,7 +561,7 @@ async function task4() {
   }
 }
 //5.邀请书友
-async function task5() {
+async function task51() {
   if (task3status === 0) {
     $.log(`【普通版-邀请书友】:未完成,开始执行任务...`);
     if (!sharebodyVal) {
@@ -571,7 +573,9 @@ async function task5() {
     $.log(`【普通版-邀请书友】:已完成🎉`);
     tz += `【普通版-邀请书友】:已完成🎉\n`
   }
+}
 
+async function task52() {
   if (sptask4status === 0) {
     $.log(`【极速版-邀请书友】:未完成,开始执行任务...`);
     await sharetask2();
@@ -580,6 +584,7 @@ async function task5() {
     tz += `【极速版-邀请书友】:已完成🎉\n`
   }
 }
+
 //6.浏览书城
 async function task6() {
   if (sptask4status === 0) {
