@@ -431,7 +431,7 @@ async function shuqiapp() {
   await task21();
   await $.wait(1000)
   await task22();
-  await $.wait(2000)
+  await $.wait(1000)
   console.log(`\n3️⃣ 开始➰看视频🎞➰任务`)
   $.log(`\n⏳查询[看视频]状态...\n`);
   await task31();
