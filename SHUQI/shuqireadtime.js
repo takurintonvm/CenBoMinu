@@ -159,7 +159,7 @@ async function shuqiapp() {
 ///////////////////////////【CenBoMin-Network request order】//////////////////////////////////
 //7.每日阅读
 async function task7() {
-  if (readtime <= 2) {
+  if (readtime <= 1) {
     $.log(`💡今日阅读时长cookie失效,请重新获取📱`);
     tz += `💡今日阅读时长cookie失效,请重新获取📱\n`
   } else if (readtime >= 0 && totaltime >= readtime && mymaxtime >= readtime) {
