@@ -12,7 +12,8 @@ const logs = 0;
 const notifyInterval = 1;
 //通知风格
 let tz = '';
-//let cash = $.getval('cash') || 0; //0为不自动提现,1为自动提现1元,5为自动提现1元
+let myselfcash = $.getval('myselfcash') || 1; //自定义未满50元的提现金额
+
 //////////////////////////////////////////////////////////////////
 //hour&min
 var hour = '';
@@ -214,7 +215,7 @@ async function showmsg2() {
 async function dkdcash() {
   if (!dkdcashkeyArr[0]) {
     $.log('⛔️请先提现一次,获取提现Cookie!')
-    $.log('👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现1元。')
+    $.log(`👩‍⚕️提现策略:\n账户金额大于50元,优先提现50元,否则提现${myselfcash}元。`)
     tz += `⛔️请先提现一次,获取提现Cookie!\n`
     return;
   }
@@ -1096,7 +1097,7 @@ async function dkdtx01() {
   return new Promise((resolve) => {
     let url = {
       url: `https://dkd-api.dysdk.com/money/withdraw_do?${dkdtokenbodyVal}`,
-      body: `{"money":1,"type":2,"withdraw_card":null,"program":8,"is_special":2}`,
+      body: `{"money":${myselfcash},"type":2,"withdraw_card":null,"program":8,"is_special":2}`,
       headers: JSON.parse(dkdcashkeyVal),
     };
     $.post(url, async (err, resp, data) => {
