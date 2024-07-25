@@ -136,16 +136,21 @@
 				"autoGrow": false,
 				"rows": 1,
 				"desc": "看视频，倒计时转一圈显示金币到账。"
-			},
-			{
-					"id": "getawardbody_index",
-					"name": "上次执行位置",
-					"val": "",
-					"type": "textarea",
-					"autoGrow": false,
-					"rows": 1,
-					"desc": "记录上次执行的位置，可以控制从第几个视频请求开始执行"
-				}
+			},{
+				"id": "getawardbody_index",
+				"name": "上次执行位置",
+				"val": "",
+				"type": "textarea",
+				"autoGrow": false,
+				"rows": 1,
+				"desc": "记录上次执行的位置，可以控制从第几个视频请求开始执行"
+			},{
+ 	      "id": "myselfcash",
+ 	      "name": "自定义未满50元的提现金额",
+ 	      "val": "",
+ 	      "type": "text",
+ 	      "desc": "默认1,即未满50提现1元。"
+ 	    }
 		],
 		"author": "@cenbomin",
 		"repo": ["https://raw.githubusercontent.com/CenBoMin/GithubSync"],
