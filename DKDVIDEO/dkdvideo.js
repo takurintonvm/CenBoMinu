@@ -1111,9 +1111,9 @@ async function dkdtx01() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             if (data.status_code == 200) {
-              $.log(`【自动提现1元】:成功提现🎉`);
+              $.log(`【自动提现${myselfcash}元】:成功提现🎉`);
             } else if (data.status_code == 10020) {
-              $.log(`【自动提现1元】:${data.message}🚫`);
+              $.log(`【自动提现${myselfcash}元】:${data.message}🚫`);
             }
           }
         }
