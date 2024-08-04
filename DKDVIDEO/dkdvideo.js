@@ -41,8 +41,8 @@ let dkdtokenbodyVal = "";
 const dkdtokenkeyArr = [];
 let dkdtokenkeyVal = "";
 
-const dkdcashurlArr = [];
-let dkdcashurlVal = "";
+//const dkdcashurlArr = [];
+//let dkdcashurlVal = "";
 
 const dkdcashkeyArr = [];
 let dkdcashkeyVal = "";
@@ -92,11 +92,11 @@ if ($.isNode()) {
     }
   });
 
-  Object.keys(dkdcashurlVal).forEach((item) => {
-    if (dkdcashurlVal[item]) {
-      dkdcashurlArr.push(dkdcashurlVal[item])
-    }
-  });
+  //Object.keys(dkdcashurlVal).forEach((item) => {
+    //if (dkdcashurlVal[item]) {
+      //dkdcashurlArr.push(dkdcashurlVal[item])
+    //}
+  //});
 
   //Object.keys(dkdlottourlVal).forEach((item) => {
     //if (dkdlottourlVal[item]) {
@@ -121,7 +121,7 @@ if ($.isNode()) {
 } else {
   dkdtokenbodyArr.push($.getdata('dkdtokenbody'));
   dkdtokenkeyArr.push($.getdata('dkdtokenkey'));
-  dkdcashurlArr.push($.getdata('dkdcashurl'));
+  //dkdcashurlArr.push($.getdata('dkdcashurl'));
   dkdcashkeyArr.push($.getdata('dkdcashkey'));
   //dkdlottourlArr.push($.getdata('dkdlottourl'));
   dkdlottokeyArr.push($.getdata('dkdlottokey'));
@@ -138,7 +138,7 @@ if ($.isNode()) {
   }
   dkdtokenbodyVal = dkdtokenbodyArr[0];
   dkdtokenkeyVal = dkdtokenkeyArr[0];
-  dkdcashurlVal = dkdcashurlArr[0];
+  //dkdcashurlVal = dkdcashurlArr[0];
   dkdcashkeyVal = dkdcashkeyArr[0];
   //dkdlottourlVal = dkdlottourlArr[0];
   dkdlottokeyVal = dkdlottokeyArr[0];

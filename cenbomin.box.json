@@ -126,7 +126,7 @@
 	},{
 		"id": "dkdvideo",
 		"name": "想看多看点",
-		"keys": ["dkdtokenbody", "dkdtokenkey", "getawardbody","getawardbody_index","dkdcashurl","dkdcashkey","dkdlottokey"],
+		"keys": ["dkdtokenbody", "dkdtokenkey", "getawardbody","getawardbody_index","dkdcashkey","dkdlottokey"],
 		"settings": [
 			{
 				"id": "getawardbody",
