@@ -367,7 +367,7 @@ if ($.isNode()) {
     spvideoinfourlVal = spvideoinfourlArr[i];
     console.log(`\n💗💕 开始${$.name}账号【${(i+1)}】 💕💗\n`)
     await shuqiapp();
-    //await showmsg1();
+    await showmsg1();
     await showmsg2();
   }
 })()
@@ -863,7 +863,7 @@ async function withdrawinfo() {
             mycash = Math.round(data.data.withdrawableCash * 100) / 100
             $.log(`\n🔸用户信息`);
             $.log(`【账号】:${myphone}`);
-            tz += `【账号】:${myphone}\n`
+            tz += `\n🔸账号${myphone}🔸\n`
             $.log(`【余额】:¥${mycash}`);
             tz += `【余额】:¥${mycash}\n`
             $.log(`\n💰提现任务`);
