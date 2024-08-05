@@ -110,6 +110,7 @@ if ($.isNode()) {
     boxtaskbodyVal = boxtaskbodyArr[i];
     boxtaskkeyVal = boxtaskkeyArr[i];
     console.log(`\n💗💕 开始${$.name}账号【${(i+1)}】 💕💗\n`)
+    tz += `\n🔸账号【${(i+1)}】🔸\n`
     await $.wait(1000)
     await shuqiapp();
     //await showmsg1();

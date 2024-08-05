@@ -367,7 +367,7 @@ if ($.isNode()) {
     spvideoinfourlVal = spvideoinfourlArr[i];
     console.log(`\n💗💕 开始${$.name}账号【${(i+1)}】 💕💗\n`)
     await shuqiapp();
-    await showmsg1();
+    //await showmsg1();
     await showmsg2();
   }
 })()
