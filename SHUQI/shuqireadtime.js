@@ -113,7 +113,7 @@ if ($.isNode()) {
     tz += `\n🔸账号【${(i+1)}】🔸\n`
     await $.wait(1000)
     await shuqiapp();
-    //await showmsg1();
+    await showmsg1();
     await showmsg2();
   }
 })()
@@ -298,7 +298,7 @@ async function readupload() {
             //$.log(data)
             //data = JSON.parse(data);
             $.log(`👧请求上传时长${rdsectime}秒:成功🎉\n`);
-            tz += `👧请求上传时长${rdsectime}秒:成功🎉\n\n`
+            tz += `👧请求上传时长${rdsectime}秒:成功🎉\n`
           }
         }
       } catch (e) {
