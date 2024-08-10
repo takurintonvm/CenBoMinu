@@ -113,7 +113,7 @@ if ($.isNode()) {
     tz += `\n🔸账号【${(i+1)}】🔸\n`
     await $.wait(1000)
     await shuqiapp();
-    await showmsg1();
+    //await showmsg1();
     await showmsg2();
   }
 })()
