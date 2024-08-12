@@ -993,7 +993,7 @@ async function signinaction1() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            $.log(data)
+            //$.log(data)
             data = JSON.parse(data);
             coinmsg = data.data.copyWriting
             todaycoin = data.data.todayPrizeInfo.prizeName
@@ -1038,7 +1038,7 @@ async function signinaction2() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            $.log(data)
+            //$.log(data)
             data = JSON.parse(data);
             coinmsg = data.data.copyWriting
             todaycoin = data.data.todayPrizeInfo.prizeName
