@@ -99,13 +99,13 @@
 		"settings": [
 
       {
-				"id": "Suffix",
+				"id": "shuqiappSuffix",
 				"name": "当前账号",
 				"val": "1",
 				"type": "number",
 				"desc": "当前抓取ck记录的账号序号，如：1、2、3、"
 			},{
-				"id": "Count",
+				"id": "shuqiappCount",
 				"name": "账号个数",
 				"val": "1",
 				"type": "number",
@@ -169,13 +169,13 @@
 	      "type": "text",
 	      "desc": "默认1.5.1,更新APP软件,请更改。"
 	    },{
-				"id": "Suffix",
+				"id": "runstepSuffix",
 				"name": "当前账号",
 				"val": "1",
 				"type": "number",
 				"desc": "当前抓取ck记录的账号序号，如：1、2、3、"
 			},{
-				"id": "Count",
+				"id": "runstepCount",
 				"name": "账号个数",
 				"val": "1",
 				"type": "number",
