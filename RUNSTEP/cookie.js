@@ -1,6 +1,6 @@
 const jsname='👟走路赚钱'
 const $ = Env(jsname)
-$.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
+$.idx = ($.idx = ($.getval('runstepSuffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
 if ($request && $request.method != `OPTIONS` && $request.url.indexOf("advlist") >= 0) {
   const runsteptoken = $request.url.split('&')[2];

@@ -1,6 +1,6 @@
 const jsname='📚书旗小说'
 const $ = Env(jsname)
-$.idx = ($.idx = ($.getval('Suffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
+$.idx = ($.idx = ($.getval('shuqiappSuffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
 
 //videoinfo
