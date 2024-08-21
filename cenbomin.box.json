@@ -100,13 +100,13 @@
 
       {
 				"id": "shuqiappSuffix",
-				"name": "当前账号",
+				"name": "当前抓取ck账号",
 				"val": "1",
 				"type": "number",
 				"desc": "当前抓取ck记录的账号序号，如：1、2、3、"
 			},{
 				"id": "shuqiappCount",
-				"name": "账号个数",
+				"name": "脚本执行账号个数",
 				"val": "1",
 				"type": "number",
 				"desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
@@ -170,13 +170,13 @@
 	      "desc": "默认1.5.1,更新APP软件,请更改。"
 	    },{
 				"id": "runstepSuffix",
-				"name": "当前账号",
+				"name": "当前抓取ck账号",
 				"val": "1",
 				"type": "number",
 				"desc": "当前抓取ck记录的账号序号，如：1、2、3、"
 			},{
 				"id": "runstepCount",
-				"name": "账号个数",
+				"name": "脚本执行账号个数",
 				"val": "1",
 				"type": "number",
 				"desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
