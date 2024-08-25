@@ -59,7 +59,7 @@
 	},{
 		"id": "txstockapp",
 		"name": "自选羊毛股",
-		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "wxtaskkey","cash"],
+		"keys": ["signheader", "signkey", "taskheader", "taskkey", "userheader", "userkey", "wxtaskkey","cash","cashheader"],
 		"settings": [
 			{
 				"id": "cash",
