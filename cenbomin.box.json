@@ -7,7 +7,7 @@
 	"apps": [{
 		"id": "chonghauapp",
 		"name": "加点葱花",
-		"keys": ["uid","chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton","chgetbody_video_index"],
+		"keys": ["uid","chgetbody_video", "chgetbody_share", "chgetbody_timered", "chgetbody_taskcenter", "chgetbody_sharereward", "logbutton", "tzbutton","chgetbody_video_index","cashbody","cashkey","callbackkey","callbackurl"],
 		"settings": [
 			{
 				"id": "chgetbody_video",
