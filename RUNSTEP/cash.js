@@ -9,7 +9,7 @@ const logs = 0;
 const notifyInterval = 1;
 //通知风格
 let tz = '';
-let version = $.getval('version') || "1.5.1"; //APP版本号,更新请到APP更改
+let version = $.getval('version') || "1.5.2"; //APP版本号,更新请到APP更改
 //////////////////////////////////////////////////////////////////
 //hour&min
 var hour = '';
@@ -43,6 +43,9 @@ let txtokenVal = "";
 const txkeyArr = [];
 let txkeyVal = "";
 
+const wxtxtokenArr = [];
+let wxtxtokenVal = "";
+
 if ($.isNode()) {
   Object.keys(runsteptokenVal).forEach((item) => {
     if (runsteptokenVal[item]) {
@@ -69,11 +72,18 @@ if ($.isNode()) {
     }
   });
 
+  Object.keys(wxtxtokenVal).forEach((item) => {
+    if (wxtxtokenVal[item]) {
+      wxtxtokenArr.push(wxtxtokenVal[item])
+    }
+  });
+
 } else {
   runsteptokenArr.push($.getdata('runsteptoken'));
   runstepkeyArr.push($.getdata('runstepkey'));
   txtokenArr.push($.getdata('txtoken'));
   txkeyArr.push($.getdata('txkey'));
+  wxtxtokenArr.push($.getdata('wxtxtoken'));
   // 根据boxjs中设置的额外账号数，添加存在的账号数据进行任务处理
   let Count = ($.getval('Count') || '1') - 0;
   for (let i = 2; i <= Count; i++) {
@@ -82,6 +92,7 @@ if ($.isNode()) {
       runstepkeyArr.push($.getdata(`runstepkey${i}`));
       txtokenArr.push($.getdata(`txtoken${i}`));
       txkeyArr.push($.getdata(`txkey${i}`));
+      wxtxtokenArr.push($.getdata(`wxtxtoken${i}`));
     }
   }
 }
@@ -102,6 +113,7 @@ if ($.isNode()) {
     runstepkeyVal = runstepkeyArr[i];
     txtokenVal = txtokenArr[i];
     txkeyVal = txkeyArr[i];
+    wxtxtokenVal = wxtxtokenArr[i];
 
     console.log(`\n💗💕 开始${$.name}账号【${(i+1)}】 💕💗\n`)
     await $.wait(3000)
@@ -160,7 +172,7 @@ async function runstepcash() {
 async function myself() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://runstep.kujievip.com/runstep/myself?appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
+      url: `https://runstep.kujievip.com/runstep/myself?appid=${txtokenVal}=${version}&token=${wxtxtokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
       body: ``,
       headers: JSON.parse(txkeyVal),
     };
@@ -199,7 +211,7 @@ async function myself() {
 async function txlog() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://runstep.kujievip.com/runstep/txlog?page=1&appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Flog%2Flog&platform=miniProgram&env=production`,
+      url: `https://runstep.kujievip.com/runstep/txlog?page=1&appid=${txtokenVal}=${version}&token=${wxtxtokenVal}&path=p%2Faccount%2Flog%2Flog&platform=miniProgram&env=production`,
       body: ``,
       headers: JSON.parse(txkeyVal),
     };
@@ -248,10 +260,14 @@ async function cash() {
     await cash1()
   }
 }
+
+
+https://runstep.kujievip.com/runstep/myself?appid=wx12b60cc9e37c9240&version=1.5.2&token=55962fa2-cc89-49a5-9a89-2fd56d9bd735&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production
+
 async function cash1() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://runstep.kujievip.com/runstep/applytx?account=1&type=2&appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
+      url: `https://runstep.kujievip.com/runstep/applytx?account=1&type=2&appid=${txtokenVal}=${version}&token=${wxtxtokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
       body: ``,
       headers: JSON.parse(txkeyVal),
     };
@@ -280,7 +296,7 @@ async function cash1() {
 async function cash50() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://runstep.kujievip.com/runstep/applytx?account=50&type=2&appid=${txtokenVal}=${version}&${runsteptokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
+      url: `https://runstep.kujievip.com/runstep/applytx?account=50&type=2&appid=${txtokenVal}=${version}&token=${wxtxtokenVal}&path=p%2Faccount%2Ftake%2Ftake&platform=miniProgram&env=production`,
       body: ``,
       headers: JSON.parse(txkeyVal),
     };

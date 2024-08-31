@@ -2,7 +2,7 @@ const jsname='👟走路赚钱'
 const $ = Env(jsname)
 $.idx = ($.idx = ($.getval('runstepSuffix') || '1') - 1) > 0 ? ($.idx + 1 + '') : ''; // 账号扩展字符
 
-if ($request && $request.method != `OPTIONS` && $request.url.indexOf("advlist") >= 0) {
+if ($request && $request.method != `OPTIONS` && $request.url.indexOf("center") >= 0) {
   const runsteptoken = $request.url.split('&')[2];
   if (runsteptoken) $.setdata(runsteptoken, 'runsteptoken'+ $.idx)
   $.log(`获取runsteptoken请求🎉: 成功,runsteptoken: ${runsteptoken}`)
@@ -13,16 +13,20 @@ if ($request && $request.method != `OPTIONS` && $request.url.indexOf("advlist") 
   $.done()
 }
 
-if ($request && $request.method != `OPTIONS` && $request.url.indexOf("myself") >= 0) {
+if ($request && $request.method != `OPTIONS` && $request.url.indexOf("myself") >= 0 && $request.url.indexOf("platform=miniProgram") >= 0) {
   const txtoken = $request.url.split('=')[1];
   if (txtoken) $.setdata(txtoken, 'txtoken'+ $.idx)
   $.log(`获取txtoken请求🎉: 成功,txtoken: ${txtoken}`)
+  const wxtxtoken = $request.url.split('=')[3];
+  if (wxtxtoken) $.setdata(wxtxtoken, 'wxtxtoken'+ $.idx)
+  $.log(`获取wxtxtoken请求🎉: 成功,wxtxtoken: ${wxtxtoken}`)
   const txkey = JSON.stringify($request.headers)
   if (txkey) $.setdata(txkey, 'txkey'+ $.idx)
   $.log(`获取txkey请求🎉: 成功,txkey: ${txkey}`)
   $.msg($.name + $.idx, "添加【提现】请求: 成功🎉")
   $.done()
 }
+
 
 
 
