@@ -231,7 +231,7 @@ async function txstock(){
   await wxtask8();
   await wxtask9();
   await wxtask10();
-  await wxtask11();
+  //await wxtask11();
   console.log(`\n✅ 执行【自动提现】任务\n`)
   await cashorder(cash, money);
 }
