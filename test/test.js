@@ -1,86 +1,18 @@
 {
-  "ok": true,
-  "result": [{
-    "update_id": 329841413,
-    "message": {
-      "message_id": 625,
-      "from": {
-        "id": 1443684190,
-        "is_bot": false,
-        "first_name": "\u4f60",
-        "last_name": "love",
-        "username": "whatloveme"
-      },
-      "chat": {
-        "id": -1001328051322,
-        "title": "\u4e0d\u4e8c\u5bb6\ud83c\udfe0",
-        "type": "supergroup"
-      },
-      "date": 1618962833,
-      "new_chat_participant": {
-        "id": 1443684190,
-        "is_bot": false,
-        "first_name": "\u4f60",
-        "last_name": "love",
-        "username": "whatloveme"
-      },
-      "new_chat_member": {
-        "id": 1443684190,
-        "is_bot": false,
-        "first_name": "\u4f60",
-        "last_name": "love",
-        "username": "whatloveme"
-      },
-      "new_chat_members": [{
-        "id": 1443684190,
-        "is_bot": false,
-        "first_name": "\u4f60",
-        "last_name": "love",
-        "username": "whatloveme"
-      }]
-    }
-  }, {
-    "update_id": 329841414,
-    "message": {
-      "message_id": 627,
-      "from": {
-        "id": 1443684190,
-        "is_bot": false,
-        "first_name": "\u4f60",
-        "last_name": "love",
-        "username": "whatloveme"
-      },
-      "chat": {
-        "id": -1001328051322,
-        "title": "\u4e0d\u4e8c\u5bb6\ud83c\udfe0",
-        "type": "supergroup"
-      },
-      "date": 1618962873,
-      "text": "\u53c8\u6362\u5934\u50cf\u4e86\u5440"
-    }
-  }, {
-    "update_id": 329841415,
-    "message": {
-      "message_id": 629,
-      "from": {
-        "id": 1285467394,
-        "is_bot": false,
-        "first_name": "\u6735\u62c9",
-        "username": "Cenbomin",
-        "language_code": "zh-hans"
-      },
-      "chat": {
-        "id": -1001328051322,
-        "title": "\u4e0d\u4e8c\u5bb6\ud83c\udfe0",
-        "type": "supergroup"
-      },
-      "date": 1619009541,
-      "text": "/test \u6267\u610feyeueiwieieieieoroeor",
-      "entities": [{
-        "offset": 0,
-        "length": 5,
-        "type": "bot_command"
-      }]
-    }
-  }]
+  "name": "test.js",
+  "path": "test/test.js",
+  "sha": "4767f5b0dd5d7e892a56df2258e1338c481c29ce",
+  "size": 2045,
+  "url": "https://api.github.com/repos/CenBoMin/GithubSync/contents/test/test.js?ref=main",
+  "html_url": "https://github.com/CenBoMin/GithubSync/blob/main/test/test.js",
+  "git_url": "https://api.github.com/repos/CenBoMin/GithubSync/git/blobs/4767f5b0dd5d7e892a56df2258e1338c481c29ce",
+  "download_url": "https://raw.githubusercontent.com/CenBoMin/GithubSync/main/test/test.js",
+  "type": "file",
+  "content": "ewogICJvayI6IHRydWUsCiAgInJlc3VsdCI6IFt7CiAgICAidXBkYXRlX2lk\nIjogMzI5ODQxNDEzLAogICAgIm1lc3NhZ2UiOiB7CiAgICAgICJtZXNzYWdl\nX2lkIjogNjI1LAogICAgICAiZnJvbSI6IHsKICAgICAgICAiaWQiOiAxNDQz\nNjg0MTkwLAogICAgICAgICJpc19ib3QiOiBmYWxzZSwKICAgICAgICAiZmly\nc3RfbmFtZSI6ICJcdTRmNjAiLAogICAgICAgICJsYXN0X25hbWUiOiAibG92\nZSIsCiAgICAgICAgInVzZXJuYW1lIjogIndoYXRsb3ZlbWUiCiAgICAgIH0s\nCiAgICAgICJjaGF0IjogewogICAgICAgICJpZCI6IC0xMDAxMzI4MDUxMzIy\nLAogICAgICAgICJ0aXRsZSI6ICJcdTRlMGRcdTRlOGNcdTViYjZcdWQ4M2Nc\ndWRmZTAiLAogICAgICAgICJ0eXBlIjogInN1cGVyZ3JvdXAiCiAgICAgIH0s\nCiAgICAgICJkYXRlIjogMTYxODk2MjgzMywKICAgICAgIm5ld19jaGF0X3Bh\ncnRpY2lwYW50IjogewogICAgICAgICJpZCI6IDE0NDM2ODQxOTAsCiAgICAg\nICAgImlzX2JvdCI6IGZhbHNlLAogICAgICAgICJmaXJzdF9uYW1lIjogIlx1\nNGY2MCIsCiAgICAgICAgImxhc3RfbmFtZSI6ICJsb3ZlIiwKICAgICAgICAi\ndXNlcm5hbWUiOiAid2hhdGxvdmVtZSIKICAgICAgfSwKICAgICAgIm5ld19j\naGF0X21lbWJlciI6IHsKICAgICAgICAiaWQiOiAxNDQzNjg0MTkwLAogICAg\nICAgICJpc19ib3QiOiBmYWxzZSwKICAgICAgICAiZmlyc3RfbmFtZSI6ICJc\ndTRmNjAiLAogICAgICAgICJsYXN0X25hbWUiOiAibG92ZSIsCiAgICAgICAg\nInVzZXJuYW1lIjogIndoYXRsb3ZlbWUiCiAgICAgIH0sCiAgICAgICJuZXdf\nY2hhdF9tZW1iZXJzIjogW3sKICAgICAgICAiaWQiOiAxNDQzNjg0MTkwLAog\nICAgICAgICJpc19ib3QiOiBmYWxzZSwKICAgICAgICAiZmlyc3RfbmFtZSI6\nICJcdTRmNjAiLAogICAgICAgICJsYXN0X25hbWUiOiAibG92ZSIsCiAgICAg\nICAgInVzZXJuYW1lIjogIndoYXRsb3ZlbWUiCiAgICAgIH1dCiAgICB9CiAg\nfSwgewogICAgInVwZGF0ZV9pZCI6IDMyOTg0MTQxNCwKICAgICJtZXNzYWdl\nIjogewogICAgICAibWVzc2FnZV9pZCI6IDYyNywKICAgICAgImZyb20iOiB7\nCiAgICAgICAgImlkIjogMTQ0MzY4NDE5MCwKICAgICAgICAiaXNfYm90Ijog\nZmFsc2UsCiAgICAgICAgImZpcnN0X25hbWUiOiAiXHU0ZjYwIiwKICAgICAg\nICAibGFzdF9uYW1lIjogImxvdmUiLAogICAgICAgICJ1c2VybmFtZSI6ICJ3\naGF0bG92ZW1lIgogICAgICB9LAogICAgICAiY2hhdCI6IHsKICAgICAgICAi\naWQiOiAtMTAwMTMyODA1MTMyMiwKICAgICAgICAidGl0bGUiOiAiXHU0ZTBk\nXHU0ZThjXHU1YmI2XHVkODNjXHVkZmUwIiwKICAgICAgICAidHlwZSI6ICJz\ndXBlcmdyb3VwIgogICAgICB9LAogICAgICAiZGF0ZSI6IDE2MTg5NjI4NzMs\nCiAgICAgICJ0ZXh0IjogIlx1NTNjOFx1NjM2Mlx1NTkzNFx1NTBjZlx1NGU4\nNlx1NTQ0MCIKICAgIH0KICB9LCB7CiAgICAidXBkYXRlX2lkIjogMzI5ODQx\nNDE1LAogICAgIm1lc3NhZ2UiOiB7CiAgICAgICJtZXNzYWdlX2lkIjogNjI5\nLAogICAgICAiZnJvbSI6IHsKICAgICAgICAiaWQiOiAxMjg1NDY3Mzk0LAog\nICAgICAgICJpc19ib3QiOiBmYWxzZSwKICAgICAgICAiZmlyc3RfbmFtZSI6\nICJcdTY3MzVcdTYyYzkiLAogICAgICAgICJ1c2VybmFtZSI6ICJDZW5ib21p\nbiIsCiAgICAgICAgImxhbmd1YWdlX2NvZGUiOiAiemgtaGFucyIKICAgICAg\nfSwKICAgICAgImNoYXQiOiB7CiAgICAgICAgImlkIjogLTEwMDEzMjgwNTEz\nMjIsCiAgICAgICAgInRpdGxlIjogIlx1NGUwZFx1NGU4Y1x1NWJiNlx1ZDgz\nY1x1ZGZlMCIsCiAgICAgICAgInR5cGUiOiAic3VwZXJncm91cCIKICAgICAg\nfSwKICAgICAgImRhdGUiOiAxNjE5MDA5NTQxLAogICAgICAidGV4dCI6ICIv\ndGVzdCBcdTYyNjdcdTYxMGZleWV1ZWl3aWVpZWllaWVvcm9lb3IiLAogICAg\nICAiZW50aXRpZXMiOiBbewogICAgICAgICJvZmZzZXQiOiAwLAogICAgICAg\nICJsZW5ndGgiOiA1LAogICAgICAgICJ0eXBlIjogImJvdF9jb21tYW5kIgog\nICAgICB9XQogICAgfQogIH1dCn0=\n",
+  "encoding": "base64",
+  "_links": {
+    "self": "https://api.github.com/repos/CenBoMin/GithubSync/contents/test/test.js?ref=main",
+    "git": "https://api.github.com/repos/CenBoMin/GithubSync/git/blobs/4767f5b0dd5d7e892a56df2258e1338c481c29ce",
+    "html": "https://github.com/CenBoMin/GithubSync/blob/main/test/test.js"
+  }
 }
