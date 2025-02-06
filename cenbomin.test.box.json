@@ -1,12 +1,12 @@
 {
 	"id": "cenbomintest.app.sub",
-	"name": "CenBomin.TEST",
+	"name": "CenBomin.TestScript",
 	"author": "@cenbomin",
 	"icon": "https://avatars0.githubusercontent.com/u/75375782?s=400&u=86eee41f7f138c5d0187aa10d2242bfc9799182e&v=4",
 	"repo": "https://github.com/CenBoMin/TEST",
 	"apps": [{
 	  "id": "nioapp",
-	  "name": "NIoNio",
+	  "name": "NIoNio(失效)",
 	  "keys": ["fornum", "niocoinbody", "niocoinkey", "nioexpbody", "nioexpkey", "niocoinbody2", "niocoinkey2", "nioexpbody2", "nioexpkey2", "niocoinbody3", "niocoinkey3", "nioexpbody3", "nioexpkey3", "niocoinbody4", "niocoinkey4", "nioexpbody4", "nioexpkey4", "niocoinbody5", "niocoinkey5", "nioexpbody5", "nioexpkey5", "niocoinbody6", "niocoinkey6", "nioexpbody6", "nioexpkey6", "niocoinbody7", "niocoinkey7", "nioexpbody7", "nioexpkey7", "niocoinbody8", "niocoinkey8", "nioexpbody8", "nioexpkey8", "niocoinbody9", "niocoinkey9", "nioexpbody9", "nioexpkey9", "niocoinbody10", "niocoinkey10", "nioexpbody10", "nioexpkey11", "niocoinbody11", "niocoinkey11", "nioexpbody11", "nioexpkey11", "niocoinbody12", "niocoinkey12", "nioexpbody12", "nioexpkey12"],
 	  "settings": [
 	    {
