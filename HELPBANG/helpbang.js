@@ -916,7 +916,7 @@ let Base64 = {
 async function githubkey(keystate) {
   return new Promise((resolve) => {
     let url = {
-      url: `https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TGBOT/test.js`,
+      url: `https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TGBOT/helpbang.js`,
     };
     $.get(url, async (err, resp, data) => {
       try {
