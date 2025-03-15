@@ -14,13 +14,12 @@ let helpbangkey = $.getval('helpbangkey')
   //++++++++++++++++++++++++++++++++++++
   !(async () => {
     cc = (`${$.name}任务执行通知🔔`);
-    console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Updatetime:2021.04.28\n");
+    console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n*Telegram:https://t.me/CbScript\n* Updatetime:2021.04.28\n");
     console.log(`Now login(UTC+8):${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}`)
     if (typeof $request !== "undefined") {
       await GetCookie();
     } else if (!helpbangkey) {
       $.log(`\n▪️[${$.name}]:开始下载脚本使用权限秘钥...`)
-      $.msg($.name, '', `▪️[开始下载脚本使用权限秘钥...`)
       await githubkey();
     } else {
       let ckList = helpbang.filter(ck => ck.hd).map((ck) => ({
@@ -939,7 +938,6 @@ async function githubkey(keystate) {
               if (helpbangkey) $.setdata(helpbangkey, 'helpbangkey');
               $.log(`\n▪️[${$.name}]:请重新执行脚本进行秘钥验证`);
               $.msg($.name, '', `▪️请重新执行脚本进行秘钥验证`);
-              break;
           }
         }
       } catch (e) {
