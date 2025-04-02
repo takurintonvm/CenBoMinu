@@ -61,7 +61,7 @@ let helpbangkey = $.getval('helpbangkey')
       for (let i = 0; i < ckList.length; i++) {
         tkList = ckList[i];
         $.log(`\n▪️[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
-        if (checkid(i)) {
+        if (z(i)) {
           $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！`);
           $.log(`\n▪️[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
           await main(i);
@@ -70,7 +70,7 @@ let helpbangkey = $.getval('helpbangkey')
           $.log(`\n▪️[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
           await githubkey("again");
           $.log(`\n▪️[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
-          if (checkid()) {
+          if (z()) {
             $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！`);
             $.log(`\n▪️[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
             await main(i);
@@ -949,12 +949,12 @@ async function githubkey(keystate) {
   });
 }
 
-function checkid() {
-  const checkkeyList = decodeURIComponent(atob(helpbangkey))
+function z() {
+  const ll = decodeURIComponent(atob(helpbangkey))
 
-  function checkmatch(id) {
+  function f(id) {
     try {
-      if (checkkeyList.indexOf(id) > -1) {
+      if (ll.indexOf(id) > -1) {
         return true;
       }
     } catch (e) {
@@ -962,7 +962,7 @@ function checkid() {
       return false;
     }
   }
-  if (checkmatch(tkList.uid)) {
+  if (f(tkList.uid)) {
     return true;
   } else {
     return false;
