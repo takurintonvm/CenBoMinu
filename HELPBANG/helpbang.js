@@ -5,9 +5,10 @@ const $ = new Env("HELPBANG");
 const host = "https://hlxcx.renmaibangvip.cn";
 const logs = 0;
 const notifyInterval = 1;
-const tgmarkcode = "/test gq@"
+const tgmarkcode = "submit_activity_codes helpbang@"
 const stepnumber = Random(22000, 26000);
 const coinct = Random(13, 20);
+const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TGBOT/helpbang.js'
 let tz = "";
 let helpbang = $.getjson('helpbang', [])
 let helpbangkey = $.getval('helpbangkey')
@@ -76,8 +77,8 @@ let helpbangkey = $.getval('helpbangkey')
             await main(i);
           } else {
             $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-            $.log(`\n⚠️用户${i+1}:~ 请提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:/helpbang ${tkList.uid}`);
-            $.msg($.name, '', `⚠️用户${i+1}:~ 请提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:/helpbang ${tkList.uid}`);
+            $.log(`\n⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
+            $.msg($.name, '', `⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
           }
         }
       }
@@ -915,7 +916,7 @@ let Base64 = {
 async function githubkey(keystate) {
   return new Promise((resolve) => {
     let url = {
-      url: `https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TGBOT/helpbang.js`,
+      url: `${githubkeyUrl}`,
     };
     $.get(url, async (err, resp, data) => {
       try {
