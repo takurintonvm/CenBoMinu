@@ -1,1 +1,1 @@
-/submit_activity_codes helpbang@QDqdQMDA
+/helpbang QDqdQMDE
