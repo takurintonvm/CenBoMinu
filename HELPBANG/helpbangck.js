@@ -23,6 +23,7 @@ async function GetCookie() {
   if ($request.url.indexOf("getUserInfo") > -1) {
     const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
+    //[response data]
     let [userId, gold] = await userinfo(userbody, userkey);
     if (userId) {
       let status = 1;
@@ -39,12 +40,16 @@ async function GetCookie() {
           no = i;
         }
       }
-      helpbang[no] = {
-        uid: userId,
-        bd: userbody,
-        hd: userkey,
-        gold: gold
-      };
+      // helpbang[no] = {
+      //   uid: userId,
+      //   bd: userbody,
+      //   hd: userkey,
+      //   gold: gold
+      // };
+      helpbang[no].uid = userId
+      helpbang[no].bd = userbody
+      helpbang[no].hd = userkey
+      helpbang[no].gold = gold
       $.setdata(JSON.stringify(helpbang, null, 2), 'helpbang');
       $.log(`获取成功🎉: userbody: ${userbody}`)
       $.log(`获取成功🎉: userkey: ${userkey}`)

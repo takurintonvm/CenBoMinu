@@ -97,6 +97,7 @@ async function GetCookie() {
   if ($request.url.indexOf("getUserInfo") > -1) {
     const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
+    //[response data]
     let [userId, gold] = await userinfo(userbody, userkey);
     if (userId) {
       let status = 1;
@@ -113,12 +114,16 @@ async function GetCookie() {
           no = i;
         }
       }
-      helpbang[no] = {
-        uid: userId,
-        bd: userbody,
-        hd: userkey,
-        gold: gold
-      };
+      // helpbang[no] = {
+      //   uid: userId,
+      //   bd: userbody,
+      //   hd: userkey,
+      //   gold: gold
+      // };
+      helpbang[no].uid = userId
+      helpbang[no].bd = userbody
+      helpbang[no].hd = userkey
+      helpbang[no].gold = gold
       $.setdata(JSON.stringify(helpbang, null, 2), 'helpbang');
       $.log(`获取成功🎉: userbody: ${userbody}`)
       $.log(`获取成功🎉: userkey: ${userkey}`)
@@ -379,7 +384,11 @@ async function main(i) {
   for (let m = 0; m < 4; m++) {
     switch (m) {
       case 1:
-        taskinfoList[m].completeCount != 6 ? await WatchVideo() : console.log(`\n☑️[${$.name}]:~今天[看视频]任务已完成🎉`);
+        if(!tkList.kanvideohd){
+          $.log('【提示】请先前往获取[看视频]cookie📲')
+        }else{
+          taskinfoList[m].completeCount != 6 ? await WatchVideo() : console.log(`\n☑️[${$.name}]:~今天[看视频]任务已完成🎉`);
+        }
         break;
       case 2:
         taskinfoList[m].completeCount == 0 ? await sharewx() : console.log(`\n☑️[${$.name}]:~今天[分享朋友圈]任务已完成🎉`);
@@ -393,7 +402,8 @@ async function main(i) {
     }
   };
   console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 刷步数金币`)
-  !tkList.stepcoinhd ? $.log('【提示】请先前往获取cookie📲') : await steptocoin();
+  //hdmark
+  !tkList.stepcoinhd ? $.log('【提示】请先前往获取[步数金币]cookie📲') : await steptocoin();
   console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 刷气泡金币`)
   await collectCoin1();
   console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 提现任务`)
