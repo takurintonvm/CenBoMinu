@@ -15,12 +15,12 @@ let helpbangkey = $.getval('helpbangkey')
   //++++++++++++++++++++++++++++++++++++
   !(async () => {
     cc = (`${$.name}任务执行通知🔔`);
-    console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n*Telegram:https://t.me/CbScript\n* Updatetime:2021.04.28\n");
+    console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Telegram:https://t.me/CbScript\n* Updatetime:2021.04.28\n");
     console.log(`Now login(UTC+8):${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}`)
     if (typeof $request !== "undefined") {
       await GetCookie();
     } else if (!helpbangkey) {
-      $.log(`\n▪️[${$.name}]:开始下载脚本使用权限秘钥...`)
+      $.log(`\n🤖[${$.name}]:开始下载脚本使用权限秘钥...`)
       await githubkey();
     } else {
       let ckList = helpbang.filter(ck => ck.hd).map((ck) => ({
@@ -57,23 +57,23 @@ let helpbangkey = $.getval('helpbangkey')
 
         //===================================
       }));
-      console.log(`\n▪️[${$.name}]:~ System💲/脚本账号数量 `)
+      console.log(`\n🤖[${$.name}]:~ System💲/脚本账号数量 `)
       console.log(`本次执行共${ckList.length}个账号`)
       for (let i = 0; i < ckList.length; i++) {
         tkList = ckList[i];
-        $.log(`\n▪️[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
+        $.log(`\n🤖[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
         if (z(i)) {
           $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！`);
-          $.log(`\n▪️[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
+          $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
           await main(i);
         } else {
           $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-          $.log(`\n▪️[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
+          $.log(`\n🤖[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
           await githubkey("again");
-          $.log(`\n▪️[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
+          $.log(`\n🤖[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
           if (z()) {
             $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！`);
-            $.log(`\n▪️[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
+            $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
             await main(i);
           } else {
             $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
@@ -341,7 +341,7 @@ async function GetCookie() {
     }
   }
 
-//===================================
+  //===================================
 
 }
 //++++++++++++++++++++++++++++++++++++
@@ -375,18 +375,18 @@ function TaskOptions(url, body, hd) {
 }
 
 async function main(i) {
-  console.log(`\n▪️[${$.name}]:~ User${i+1}💲/查询 用户资讯&任务`)
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/查询 用户资讯&任务`)
   await userinfo2();
   await taskinfo();
-  console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 签到任务`)
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 签到任务`)
   await signtask();
-  console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 看视频+分享朋友圈+发布互助任务+分享微信群`)
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 看视频+分享朋友圈+发布互助任务+分享微信群`)
   for (let m = 0; m < 4; m++) {
     switch (m) {
       case 1:
-        if(!tkList.kanvideohd){
+        if (!tkList.kanvideohd) {
           $.log('【提示】请先前往获取[看视频]cookie📲')
-        }else{
+        } else {
           taskinfoList[m].completeCount != 6 ? await WatchVideo() : console.log(`\n☑️[${$.name}]:~今天[看视频]任务已完成🎉`);
         }
         break;
@@ -401,12 +401,24 @@ async function main(i) {
         break;
     }
   };
-  console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 刷步数金币`)
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷步数金币`)
   //hdmark
-  !tkList.stepcoinhd ? $.log('【提示】请先前往获取[步数金币]cookie📲') : await steptocoin();
-  console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 刷气泡金币`)
+  await steptocoin();
+  await $.wait(3000)
+  if (!tkList.stepcoinhd) {
+    $.log('【提示】请先前往获取[步数金币]cookie📲')
+  } else if (steprpcode === 200) {
+    while (i < 10) {
+      await steptocoin(steprpcode);
+      await $.wait(3000)
+      i++
+    };
+    console.log(`\n[本次步数金币小计]:共获取${sumstepcoin}金币🎉`)
+  } else {
+  };
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷气泡金币`)
   await collectCoin1();
-  console.log(`\n▪️[${$.name}]:~ User${i+1}💲/执行 提现任务`)
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 提现任务`)
   console.log(`⛔️提现任务未测试,目前禁止使用。\n首次提现1元只能一次,务必获取提现Cookie,否则..等待5元提现获取。`)
   // await applyWithdraw();
 
@@ -417,7 +429,7 @@ async function main(i) {
 //applyWithdraw
 async function applyWithdraw() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("user/applyWithdraw", `{"applyAmount":100,"uniqueId":"${tkList.uid}"}`, tkList.txnon, tkList.txsum, tkList.txtt);
+    const options = initTaskOptions("user/applyWithdraw", `{"applyAmount":500,"uniqueId":"${tkList.uid}"}`, tkList.txnon, tkList.txsum, tkList.txtt);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -433,10 +445,10 @@ async function applyWithdraw() {
             txmsg = data.head.msg
             switch (txcode) {
               case 112:
-                console.log(`▪️[${$.name}]:⚠️${txmsg}`);
+                console.log(`🤖[${$.name}]:⚠️${txmsg}`);
                 break;
               default:
-              $.log(`\n‼️${resp.statusCode}[提现]:${resp.body}`);
+                $.log(`\n‼️${resp.statusCode}[提现]:${resp.body}`);
 
             }
           }
@@ -464,25 +476,26 @@ async function collectCoin1() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             stepcode = data.head.code
+            coint = Random(13, 20)
             switch (stepcode) {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
-                  coin8 = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[气泡金币]执行成功！你的奖励:${coin8}金币,已入账。`)
-                  // await $.wait(2000);
-                  // await collectCoin2();
+                  // coin8 = data.data.coinInfo.curDayCoinBalance - goldbalance
+                  console.log(`✔️[气泡金币]执行成功！你的奖励:${coint}金币,已入账。`)
+                  await $.wait(2000);
+                  await collectCoin2();
                 } else {
                   coin7 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
-                  // await $.wait(2000);
-                  // await collectCoin2();
+                  await $.wait(2000);
+                  await collectCoin2();
                 }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[气泡金币]:${resp.body}`);
-                case 115:
-                  console.log(`\n☑️[${$.name}]:~今天[气泡金币]任务已完成🎉`)
-                  break;
+              case 115:
+                console.log(`\n☑️[${$.name}]:~今天[气泡金币]任务已完成🎉`)
+                break;
             }
           }
         }
@@ -496,7 +509,7 @@ async function collectCoin1() {
 }
 async function collectCoin2() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("user/collectCoin", `{"coinCount":${coinct},"collectCoinType":2,"uniqueId":"${tkList.uid}"}`, tkList.collectcoinnon, tkList.collectcoinsum, tkList.collectcointt);
+    const options = initTaskOptions("user/collectCoin", `{"coinCount":20,"collectCoinType":2,"uniqueId":"${tkList.uid}"}`, tkList.collectcoinnon, tkList.collectcoinsum, tkList.collectcointt);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -508,18 +521,22 @@ async function collectCoin2() {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
             stepcode = data.head.code
+            coint = Random(13, 20)
             switch (stepcode) {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
-                  coin10 = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:${coin10}金币,已入账。`)
+                  // coin10 = data.data.coinInfo.curDayCoinBalance - goldbalance
+                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:20金币,已入账。`)
                 } else {
                   coin9 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:${coin9-coin7}金币,已入账。`)
+                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:20金币,已入账。`)
                 }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[气泡金币翻倍]:${resp.body}`);
+                break;
+              case 115:
+                console.log(`\n☑️[${$.name}]:~今天[气泡金币翻倍]任务已完成🎉`)
                 break;
             }
           }
@@ -546,19 +563,24 @@ async function steptocoin() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            rpcode = data.head.code
-            switch (rpcode) {
+            steprpcode = data.head.code
+            coint = Random(13, 20)
+            switch (steprpcode) {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
-                  coin6 = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[步数金币]执行成功！你的奖励:${coin6}金币,已入账。`)
+                  coin6 = data.data.coinInfo.curDayCoinBalance - coint
+                  console.log(`✔️[步数金币]执行成功！你的奖励:${coint}金币,已入账。`)
+                  sumstepcoin += coint
                 } else {
-                  coin5 = data.data.coinInfo.coinBalance + addtaskcoin
+                  // coin5 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[步数金币]任务执行成功！你的奖励:${coin5-coin4}金币,已入账。`)
                 }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[步数金币]:${resp.body}`);
+              case 114:
+                console.log(`\n☑️[${$.name}]:~今天[步数金币]任务已完成🎉`)
+                break;
             }
           }
         }
@@ -587,8 +609,13 @@ async function WatchVideo() {
             rpcode = data.head.code
             switch (rpcode) {
               case 200:
+                if (typeof addtaskcoin == "undefined") {
+                  const coinvideo = data.data.coinInfo.coinBalance - nowgold
+                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:${coinvideo}金币,已入账。`)
+                } else {
                   coin4 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[看视频]执行成功！你的奖励:${coin4-coin3}金币,已入账。`);
+                }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[看视频]:${resp.body}`);
@@ -620,8 +647,13 @@ async function sharewxgroup() {
             rpcode = data.head.code
             switch (rpcode) {
               case 200:
-              coin3 = data.data.coinInfo.coinBalance + addtaskcoin
-              console.log(`✔️今天[分享微信群]任务完成！你的奖励:${coin3-coin2}金币,已入账。`);
+                if (typeof addtaskcoin == "undefined") {
+                  const coinwxgroup = data.data.coinInfo.coinBalance - nowgold
+                  console.log(`✔️[步数金币]执行成功！你的奖励:${coinwxgroup}金币,已入账。`)
+                } else {
+                  coin3 = data.data.coinInfo.coinBalance + addtaskcoin
+                  console.log(`✔️今天[分享微信群]任务完成！你的奖励:${coin3-coin2}金币,已入账。`);
+                }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[分享微信群]:${resp.body}`);
@@ -652,8 +684,8 @@ async function sharewx() {
             data = JSON.parse(data);
             switch (rpcode) {
               case 200:
-              coin2 = data.data.coinInfo.coinBalance + addtaskcoin
-              console.log(`✔️[分享朋友圈]任务完成！你的奖励:${coin2-coin1}金币,已入账。`);
+                coin2 = data.data.coinInfo.coinBalance + addtaskcoin
+                console.log(`✔️[分享朋友圈]任务完成！你的奖励:${coin2-coin1}金币,已入账。`);
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[分享朋友圈]:${resp.body}`);
@@ -760,6 +792,9 @@ async function signtask() {
               case 107:
                 console.log(`\n☑️[${$.name}]:~今天[签到]任务已完成🎉`);
                 break;
+              case 110:
+                $.log('【提示】请先前往获取[签到]cookie📲')
+                break;
             }
           }
         }
@@ -814,8 +849,9 @@ async function userinfo2() {
             data = JSON.parse(data);
             userinfoList = data.data.userInfo
             nowgold = userinfoList.coinBalance
+            goldbalance = userinfoList.curDayCoinBalance
             userinfocode = data.head.code
-            console.log(`今天用户[${userinfoList.nickName}]获取${userinfoList.curDayCoinBalance}金币,目前账户金币为${userinfoList.coinBalance},约${Math.round(userinfoList.coinBalance/1000)/10}元,截止到今日共获取${Math.round(userinfoList.historyCoin/1000)/10}元`)
+            console.log(`今天用户[${userinfoList.nickName}]获取${userinfoList.curDayCoinBalance}金币(包含发布任务返回金币,实际收益可能为${userinfoList.curDayCoinBalance-5000}金币),目前账户金币为${userinfoList.coinBalance},约${Math.round(userinfoList.coinBalance/1000)/10}元,截止到今日共获取${Math.round(userinfoList.historyCoin/1000)/10}元`)
 
           }
         }
@@ -827,7 +863,6 @@ async function userinfo2() {
     })
   })
 }
-
 
 function userinfo(userbody, userkey) {
   return new Promise((resolve) => {
@@ -903,7 +938,6 @@ function unique(arr) {
   return Array.from(new Set(arr))
 }
 
-
 //base64
 let Base64 = {
   encode(str) {
@@ -941,14 +975,14 @@ async function githubkey(keystate) {
               helpbangkey = Base64.encode(data);
               $.log(helpbangkey);
               if (helpbangkey) $.setdata(helpbangkey, 'helpbangkey');
-              $.log(`\n▪️[${$.name}]:下载完成!~脚本使用权限秘钥已更新`);
+              $.log(`\n🤖[${$.name}]:下载完成!~脚本使用权限秘钥已更新`);
               break;
             default:
               helpbangkey = Base64.encode(data);
               console.log(helpbangkey);
               if (helpbangkey) $.setdata(helpbangkey, 'helpbangkey');
-              $.log(`\n▪️[${$.name}]:请重新执行脚本进行秘钥验证`);
-              $.msg($.name, '', `▪️请重新执行脚本进行秘钥验证`);
+              $.log(`\n🤖[${$.name}]:请重新执行脚本进行秘钥验证`);
+              $.msg($.name, '', `🤖请重新执行脚本进行秘钥验证`);
           }
         }
       } catch (e) {
