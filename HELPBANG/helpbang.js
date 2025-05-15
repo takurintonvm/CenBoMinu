@@ -3,13 +3,14 @@
 //++++++++++++++++++++++++++++++++++++
 const $ = new Env("HELPBANG");
 const host = "https://hlxcx.renmaibangvip.cn";
-const logs = 0;
+const logs = true;
 const notifyInterval = 1;
 const tgmarkcode = "submit_activity_codes helpbang@"
 const stepnumber = Random(22000, 26000);
 const coinct = Random(13, 20);
 const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TGBOT/helpbang.js'
 let tz = "";
+let sumstepcoin = 0;
 let helpbang = $.getjson('helpbang', [])
 let helpbangkey = $.getval('helpbangkey')
   //++++++++++++++++++++++++++++++++++++
@@ -61,22 +62,22 @@ let helpbangkey = $.getval('helpbangkey')
       console.log(`本次执行共${ckList.length}个账号`)
       for (let i = 0; i < ckList.length; i++) {
         tkList = ckList[i];
-        $.log(`\n🤖[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
+        $.log(`\n🗝[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
         if (z(i)) {
-          $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！`);
-          $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
+          $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
+          $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 👤User${i+1},UID:${tkList.uid}的脚本任务`)
           await main(i);
         } else {
           $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-          $.log(`\n🤖[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
+          $.log(`\n🗝[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
           await githubkey("again");
-          $.log(`\n🤖[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
+          $.log(`\n🗝[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
           if (z()) {
-            $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！`);
+            $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
             $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
             await main(i);
           } else {
-            $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
+            $.log(`❌用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
             $.log(`\n⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
             $.msg($.name, '', `⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
           }
@@ -414,10 +415,19 @@ async function main(i) {
       i++
     };
     console.log(`\n[本次步数金币小计]:共获取${sumstepcoin}金币🎉`)
-  } else {
-  };
+  } else {};
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷气泡金币`)
-  await collectCoin1();
+  await collectCoinck();
+  await $.wait(3000)
+  if (collectckcode == 200) {
+    while (i < 4) {
+        await collectCoin1();
+      await $.wait(3000)
+      i++
+    };
+  }else{};
+  await $.wait(2000);
+  await collectCoin2();
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 提现任务`)
   console.log(`【提示】提现任务未测试,目前禁止使用🚫。首次提现1元只能一次,务必获取提现Cookie,否则..请等待5元提现获取❗️。`)
   // await applyWithdraw();
@@ -438,7 +448,7 @@ async function applyWithdraw() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             $.log(data)
             data = JSON.parse(data);
             txcode = data.head.code
@@ -462,6 +472,46 @@ async function applyWithdraw() {
   });
 }
 //collectCoin
+async function collectCoinck() {
+  return new Promise((resolve) => {
+    const options = initTaskOptions("user/collectCoin", `{"coinCount":${coinct},"collectCoinType":1,"uniqueId":"${tkList.uid}"}`, tkList.collectcoinnon, tkList.collectcoinsum, tkList.collectcointt);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == false) $.log(data)
+            data = JSON.parse(data);
+            collectckcode = data.head.code
+            switch (collectckcode) {
+              case 200:
+                if (typeof addtaskcoin == "undefined") {
+                  // coin8 = data.data.coinInfo.curDayCoinBalance - goldbalance
+                  console.log(`✔️[气泡金币]执行成功！你的奖励:${coint}金币,已入账。`)
+                } else {
+                  coin7 = data.data.coinInfo.coinBalance + addtaskcoin
+                  console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
+                }
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[气泡金币]:${resp.body}`);
+              case 115:
+                console.log(`\n☑️[${$.name}]:~今天[气泡金币]任务已完成🎉`)
+                break;
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 async function collectCoin1() {
   return new Promise((resolve) => {
     const options = initTaskOptions("user/collectCoin", `{"coinCount":${coinct},"collectCoinType":1,"uniqueId":"${tkList.uid}"}`, tkList.collectcoinnon, tkList.collectcoinsum, tkList.collectcointt);
@@ -473,29 +523,19 @@ async function collectCoin1() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             stepcode = data.head.code
             coint = Random(13, 20)
             switch (stepcode) {
-              case 200:
+              default:
                 if (typeof addtaskcoin == "undefined") {
                   // coin8 = data.data.coinInfo.curDayCoinBalance - goldbalance
                   console.log(`✔️[气泡金币]执行成功！你的奖励:${coint}金币,已入账。`)
-                  await $.wait(2000);
-                  await collectCoin2();
                 } else {
                   coin7 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
-                  await $.wait(2000);
-                  await collectCoin2();
                 }
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[气泡金币]:${resp.body}`);
-              case 115:
-                console.log(`\n☑️[${$.name}]:~今天[气泡金币]任务已完成🎉`)
-                break;
             }
           }
         }
@@ -518,7 +558,7 @@ async function collectCoin2() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             stepcode = data.head.code
             coint = Random(13, 20)
@@ -561,7 +601,7 @@ async function steptocoin() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             steprpcode = data.head.code
             coint = Random(13, 20)
@@ -604,14 +644,14 @@ async function WatchVideo() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             rpcode = data.head.code
             switch (rpcode) {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
                   const coinvideo = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:${coinvideo}金币,已入账。`)
+                  console.log(`✔️[看视频]执行成功！你的奖励:${coinvideo}金币,已入账。`)
                 } else {
                   coin4 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[看视频]执行成功！你的奖励:${coin4-coin3}金币,已入账。`);
@@ -642,14 +682,14 @@ async function sharewxgroup() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == true) $.log(data)
             data = JSON.parse(data);
             rpcode = data.head.code
             switch (rpcode) {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
                   const coinwxgroup = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[步数金币]执行成功！你的奖励:${coinwxgroup}金币,已入账。`)
+                  console.log(`✔️[分享微信群]执行成功！你的奖励:${coinwxgroup}金币,已入账。`)
                 } else {
                   coin3 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️今天[分享微信群]任务完成！你的奖励:${coin3-coin2}金币,已入账。`);
@@ -680,12 +720,17 @@ async function sharewx() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == true) $.log(data)
             data = JSON.parse(data);
             switch (rpcode) {
               case 200:
+              if (typeof addtaskcoin == "undefined") {
+                const coinwxgroup = data.data.coinInfo.coinBalance - nowgold
+                console.log(`✔️[分享朋友圈]执行成功！你的奖励:${coinwxgroup}金币,已入账。`)
+              } else{
                 coin2 = data.data.coinInfo.coinBalance + addtaskcoin
                 console.log(`✔️[分享朋友圈]任务完成！你的奖励:${coin2-coin1}金币,已入账。`);
+              }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[分享朋友圈]:${resp.body}`);
@@ -712,21 +757,28 @@ async function completetask() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
-            addtaskcode = data.head.code
-            switch (addtaskcode) {
+            taskcode = data.head.code
+            switch (taskcode) {
               case 200:
+              if (typeof addtaskcoin == "undefined") {
+                const coin = data.data.coinInfo.coinBalance - nowgold
+                console.log(`✔️[分享朋友圈]执行成功！你的奖励:${coin}金币,已入账。`)
+              } else{
                 coin1 = data.data.coinInfo.coinBalance + addtaskcoin
                 console.log(`✔️[发布互助1单]任务完成！你的奖励:${coin1-signcoin}金币,已入账。`);
+              }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[发布互助1单]:${resp.body}`);
               case 119:
                 console.log(`\n☑️[${$.name}]:~今天[发布互助1单]任务已完成🎉`);
                 break;
-                // console.log(`今天尚未发布1单互助任务...尝试发布任务。`);
-                // await addtask();
+              case 120:
+                console.log(`❗️今天尚未发布1单互助任务...尝试发布5000金币任务。`);
+                await addtask();
+                break;
             }
           }
         }
@@ -750,11 +802,11 @@ async function addtask() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             taskid = data.data.taskId
             addtaskcoin = data.data.coinBalance
-            console.log(`发布ID${taskid}互助任务,花费${signcoin-addtaskcoin}金币,发布任务结束后返回金币。`);
+            console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);
             await $.wait(1000)
             await completetask();
           }
@@ -779,7 +831,7 @@ async function signtask() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             signtaskcode = data.head.code
             switch (signtaskcode) {
@@ -818,7 +870,7 @@ async function taskinfo() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             taskinfoList = data.data.rewardTaskInfo
             taskinfoList.forEach(tk => console.log(`[${tk.taskTitle}]:每日执行${tk.taskCompleteNum}次,领取${tk.taskRewardInitAmount * tk.taskCompleteNum}金币`))
@@ -969,7 +1021,7 @@ async function githubkey(keystate) {
           console.log(JSON.stringify(err));
           $.logErr(err);
         } else {
-          if (logs == 1) $.log(data)
+          if (logs == false) $.log(data)
           switch (keystate) {
             case "again":
               helpbangkey = Base64.encode(data);
