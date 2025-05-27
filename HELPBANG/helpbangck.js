@@ -2,7 +2,7 @@
 
 //++++++++++++++++++++++++++++++++++++
 const $ = new Env("HELPBANG Cookie");
-let helpbang = $.getjson('helpbang', [])
+var helpbang = $.getjson('helpbang', [])
 
   //++++++++++++++++++++++++++++++++++++
   !(async () => {
