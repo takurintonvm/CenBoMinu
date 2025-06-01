@@ -11,10 +11,11 @@ const coinct = Random(13, 20);
 const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TGBOT/helpbang.js'
 let tz = "";
 let sumstepcoin = 0,
-  sumcollectcoin = 0;
+  sumcollectcoin = 0，
+sumcollectcoin2 = 0；
 let dosteptime = 0,
   docollecttime = 0,
-  docollecttime2 =0;
+  docollecttime2 = 0;
 let helpbang = $.getjson('helpbang', [])
 let helpbangkey = $.getval('helpbangkey')
   //++++++++++++++++++++++++++++++++++++
@@ -409,17 +410,23 @@ async function main(i) {
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷步数金币`)
   if (!tkList.stepcoinhd) {
     $.log('【提示】请先前往获取[步数金币]cookie📲')
-  }else {
+  } else {
     await steptocoin();
-    console.log(`\n🧮[本次步数金币小计]:共获取${sumstepcoin}金币🎉`)
+    if (sumstepcoin > 0) {
+      console.log(`\n🧮[本次步数金币小计]:共获取${sumstepcoin}金币`)
+    } else {}
   }
 
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷气泡金币`)
   await collectCoin1();
-  console.log(`\n🧮[本次气泡金币小计]:共获取${sumcollectcoin}金币🎉`)
+  if (sumcollectcoin > 0) {
+    console.log(`\n🧮[本次气泡金币小计]:共获取${sumcollectcoin}金币`)
+  } else {}
   await $.wait(2000);
   await collectCoin2();
-  console.log(`\n🧮[本次气泡金币翻倍小计]:共获取${sumcollectcoin2}金币🎉`)
+  if (sumcollectcoin2 > 0) {
+    console.log(`\n🧮[本次气泡金币翻倍小计]:共获取${sumcollectcoin2}金币`)
+  } else {}
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 提现任务`)
   console.log(`【提示】提现任务未测试,目前禁止使用🚫。首次提现1元只能一次,务必获取提现Cookie,否则..请等待5元提现获取❗️。`)
   // await applyWithdraw();
