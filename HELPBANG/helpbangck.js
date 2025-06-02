@@ -40,12 +40,8 @@ async function GetCookie() {
           no = i;
         }
       }
-      // helpbang[no] = {
-      //   uid: userId,
-      //   bd: userbody,
-      //   hd: userkey,
-      //   gold: gold
-      // };
+      console.log(no);
+      helpbang[no] = {};
       helpbang[no].uid = userId
       helpbang[no].bd = userbody
       helpbang[no].hd = userkey
@@ -147,7 +143,6 @@ async function GetCookie() {
       $.msg($.name, "", '互利帮[互助任务奖励]数据获取失败⚠️');
     }
   }
-
   //sharewx朋友圈
   if ($request.url.indexOf("completeShareWxCircleTask") > -1) {
     const userbody = $request.body;
@@ -192,7 +187,6 @@ async function GetCookie() {
       $.msg($.name, "", '互利帮[分享微信群]数据获取失败⚠️');
     }
   }
-
   //kanvideo
   if ($request.url.indexOf("completeWatchVideoTask") > -1) {
     const userbody = $request.body;
@@ -245,7 +239,6 @@ async function GetCookie() {
       $.msg($.name, "", '互利帮[气泡金币]数据获取失败⚠️');
     }
   }
-
   if ($request.url.indexOf("applyWithdraw") > -1) {
     const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
@@ -266,9 +259,6 @@ async function GetCookie() {
       $.msg($.name, "", '互利帮[提现]数据获取失败⚠️');
     }
   }
-
-//===================================
-
 }
 //++++++++++++++++++++++++++++++++++++
 
