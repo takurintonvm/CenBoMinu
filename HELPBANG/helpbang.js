@@ -12,7 +12,7 @@ const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/TGBOTCode/main/
 let tz = "";
 let sumstepcoin = 0,
   sumcollectcoin = 0,
-sumcollectcoin2 = 0;
+  sumcollectcoin2 = 0;
 let dosteptime = 0,
   docollecttime = 0,
   docollecttime2 = 0;
@@ -495,6 +495,9 @@ async function completetask() {
               case 119:
                 console.log(`\n☑️[${$.name}]:~今天[发布互助1单]任务已完成🎉`);
                 break;
+              case 110:
+                $.log('【提示】请先前往获取[发布互助1单]cookie📲')
+                break;
               case 120:
                 console.log(`❗️今天尚未发布1单互助任务...尝试发布5000金币任务。`);
                 await addtask();
@@ -524,11 +527,20 @@ async function addtask() {
           if (safeGet(data)) {
             if (logs == true) $.log(data)
             data = JSON.parse(data);
-            taskid = data.data.taskId
-            addtaskcoin = data.data.coinBalance
-            console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);
-            await $.wait(1000)
-            await completetask();
+            addtaskcode = data.head.code
+            switch (addtaskcode) {
+              case expression:
+              case 110:
+                $.log('【提示】请先发布任务获取cookie📲')
+                break;
+              default:
+              taskid = data.data.taskId
+              addtaskcoin = data.data.coinBalance
+              console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);
+              await $.wait(1000)
+              await completetask();                
+            }
+
           }
         }
       } catch (e) {
