@@ -324,17 +324,11 @@ async function steptocoin() {
             coint = Random(13, 20)
             switch (steprpcode) {
               case 200:
-                if (typeof addtaskcoin == "undefined") {
-                  coin6 = data.data.coinInfo.curDayCoinBalance - coint
                   dosteptime++
                   await $.wait(3000);
                   await steptocoin();
                   console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${coint}金币,已入账。`)
                   sumstepcoin += coint
-                } else {
-                  coin5 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[步数金币]任务执行成功！你的奖励:${coin5-coin4}金币,已入账。`)
-                }
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[步数金币]:${resp.body}`);
@@ -402,7 +396,7 @@ async function sharewxgroup() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == true) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             rpcode = data.head.code
             switch (rpcode) {
@@ -440,7 +434,7 @@ async function sharewx() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == true) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             switch (rpcode) {
               case 200:
@@ -525,7 +519,7 @@ async function addtask() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == true) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             addtaskcode = data.head.code
             switch (addtaskcode) {
@@ -538,7 +532,7 @@ async function addtask() {
               addtaskcoin = data.data.coinBalance
               console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);
               await $.wait(1000)
-              await completetask();                
+              await completetask();
             }
 
           }
@@ -563,12 +557,12 @@ async function signtask() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == true) $.log(data)
+            if (logs == false) $.log(data)
             data = JSON.parse(data);
             signtaskcode = data.head.code
             switch (signtaskcode) {
               case 200:
-                signcoin = data.data.coinBalance - nowgold
+                signcoin = data.data.coinInfo.coinBalance - nowgold
                 console.log(`✔️[签到]任务完成!你的奖励:${signcoin}金币,已入账。`);
                 break;
               default:
