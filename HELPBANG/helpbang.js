@@ -139,7 +139,13 @@ async function main(i) {
         if (!tkList.kanvideohd) {
           $.log('【提示】请先前往获取[看视频]cookie📲')
         } else {
-          taskinfoList[m].completeCount != 6 ? await WatchVideo() : console.log(`\n☑️[${$.name}]:~今天[看视频]任务已完成🎉`);
+          if (taskinfoList[m].completeCount != 6) {
+            for (let i = 0; i < 6; i++) {
+              await WatchVideo()
+            }
+          } else {
+            console.log(`\n☑️[${$.name}]:~今天[看视频]任务已完成🎉`)
+          }
         }
         break;
       case 2:
@@ -168,7 +174,7 @@ async function main(i) {
   if (sumcollectcoin > 0) {
     console.log(`\n🧮[本次气泡金币小计]:共获取${sumcollectcoin}金币`)
   } else {}
-  await $.wait(2000);
+  await $.wait(5000);
   await collectCoin2();
   if (sumcollectcoin2 > 0) {
     console.log(`\n🧮[本次气泡金币翻倍小计]:共获取${sumcollectcoin2}金币`)
@@ -238,12 +244,15 @@ async function collectCoin1() {
                   docollecttime++;
                   console.log(`✔️[气泡金币${docollecttime}]执行成功！你的奖励:${coint}金币,已入账。`)
                   sumcollectcoin += coint
-                  await $.wait(3000);
+                  await $.wait(5000);
                   await collectCoin1();
                 } else {
                   coin7 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
                 }
+                break;
+              case 110:
+                $.log('【提示】请先前往获取[气泡金币]cookie📲')
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[气泡金币]:${resp.body}`);
@@ -324,11 +333,14 @@ async function steptocoin() {
             coint = Random(13, 20)
             switch (steprpcode) {
               case 200:
-                  dosteptime++
-                  await $.wait(3000);
-                  await steptocoin();
-                  console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${coint}金币,已入账。`)
-                  sumstepcoin += coint
+                dosteptime++
+                await $.wait(5000);
+                await steptocoin();
+                console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${coint}金币,已入账。`)
+                sumstepcoin += coint
+                break;
+              case 110:
+                $.log('【提示】请先前往获取[步数金币]cookie📲')
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[步数金币]:${resp.body}`);
@@ -408,6 +420,9 @@ async function sharewxgroup() {
                   coin3 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️今天[分享微信群]任务完成！你的奖励:${coin3-coin2}金币,已入账。`);
                 }
+                break;
+              case 110:
+                $.log('【提示】请先前往获取[分享微信群]cookie📲')
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[分享微信群]:${resp.body}`);
@@ -528,11 +543,11 @@ async function addtask() {
                 $.log('【提示】请先发布任务获取cookie📲')
                 break;
               default:
-              taskid = data.data.taskId
-              addtaskcoin = data.data.coinBalance
-              console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);
-              await $.wait(1000)
-              await completetask();
+                taskid = data.data.taskId
+                addtaskcoin = data.data.coinBalance
+                console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);
+                await $.wait(1000)
+                await completetask();
             }
 
           }
