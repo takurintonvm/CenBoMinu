@@ -142,6 +142,7 @@ async function main(i) {
           if (taskinfoList[m].completeCount != 6) {
             for (let i = 0; i < 6; i++) {
               await WatchVideo()
+              await $.wait(5000)
             }
           } else {
             console.log(`\n☑️[${$.name}]:~今天[看视频]任务已完成🎉`)
