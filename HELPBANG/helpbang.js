@@ -182,7 +182,7 @@ async function main(i) {
   } else {}
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 提现任务`)
   console.log(`【提示】提现任务未测试,目前禁止使用🚫。首次提现1元只能一次,务必获取提现Cookie,否则..请等待5元提现获取❗️。`)
-  // await applyWithdraw();
+  //await applyWithdraw();
 
   // await showmsg1();
 }
@@ -335,10 +335,10 @@ async function steptocoin() {
             switch (steprpcode) {
               case 200:
                 dosteptime++
-                await $.wait(5000);
-                await steptocoin();
                 console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${coint}金币,已入账。`)
                 sumstepcoin += coint
+                await $.wait(5000);
+                await steptocoin();
                 break;
               case 110:
                 $.log('【提示】请先前往获取[步数金币]cookie📲')
@@ -539,7 +539,6 @@ async function addtask() {
             data = JSON.parse(data);
             addtaskcode = data.head.code
             switch (addtaskcode) {
-              case expression:
               case 110:
                 $.log('【提示】请先发布任务获取cookie📲')
                 break;
