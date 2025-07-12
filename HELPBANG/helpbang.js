@@ -141,7 +141,7 @@ async function main(i) {
         } else {
           if (taskinfoList[m].completeCount != 6) {
             for (let i = 0; i < 6; i++) {
-              await WatchVideo()
+              await WatchVideo(i)
               await $.wait(5000)
             }
           } else {
@@ -172,14 +172,14 @@ async function main(i) {
 
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷气泡金币`)
   await collectCoin1();
-  if (sumcollectcoin > 0) {
-    console.log(`\n🧮[本次气泡金币小计]:共获取${sumcollectcoin}金币`)
-  } else {}
+  // if (sumcollectcoin > 0) {
+  //   console.log(`\n🧮[本次气泡金币小计]:共获取${sumcollectcoin}金币`)
+  // } else {}
   await $.wait(5000);
   await collectCoin2();
-  if (sumcollectcoin2 > 0) {
-    console.log(`\n🧮[本次气泡金币翻倍小计]:共获取${sumcollectcoin2}金币`)
-  } else {}
+  // if (sumcollectcoin2 > 0) {
+  //   console.log(`\n🧮[本次气泡金币翻倍小计]:共获取${sumcollectcoin2}金币`)
+  // } else {}
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 提现任务`)
   console.log(`【提示】提现任务未测试,目前禁止使用🚫。首次提现1元只能一次,务必获取提现Cookie,否则..请等待5元提现获取❗️。`)
   //await applyWithdraw();
@@ -242,11 +242,12 @@ async function collectCoin1() {
             switch (collectckcode) {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
-                  docollecttime++;
+                  // docollecttime++;
                   console.log(`✔️[气泡金币${docollecttime}]执行成功！你的奖励:${coint}金币,已入账。`)
-                  sumcollectcoin += coint
-                  await $.wait(5000);
-                  await collectCoin1();
+                  // console.log(`✔️[气泡金币${docollecttime}]执行成功！你的奖励:${coint}金币,已入账。`)
+                  // sumcollectcoin += coint
+                  // await $.wait(5000);
+                  // await collectCoin1();
                 } else {
                   coin7 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
@@ -289,11 +290,12 @@ async function collectCoin2() {
             switch (stepcode) {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
-                  docollecttime2++
-                  console.log(`✔️[气泡金币翻倍${docollecttime2}]执行成功！你的奖励:${coint}金币,已入账。`)
-                  sumcollectcoin2 += coint
-                  await $.wait(3000);
-                  await collectCoin2();
+                  // docollecttime2++
+                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:${coint}金币,已入账。`)
+                  // console.log(`✔️[气泡金币翻倍${docollecttime2}]执行成功！你的奖励:${coint}金币,已入账。`)
+                  // sumcollectcoin2 += coint
+                  // await $.wait(3000);
+                  // await collectCoin2();
                 } else {
                   coin9 = data.data.coinInfo.coinBalance + addtaskcoin
                   console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:20金币,已入账。`)
@@ -360,7 +362,7 @@ async function steptocoin() {
   });
 }
 //WatchVideo
-async function WatchVideo() {
+async function WatchVideo(i) {
   return new Promise((resolve) => {
     const options = TaskOptions("user/completeWatchVideoTask", `{"uniqueId":"${tkList.uid}"}`, tkList.kanvideohd);
     $.post(options, async (err, resp, data) => {
@@ -378,10 +380,9 @@ async function WatchVideo() {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
                   const coinvideo = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[看视频]执行成功！你的奖励:${coinvideo}金币,已入账。`)
+                  console.log(`✔️[看视频${i+1}]执行成功！你的奖励:60金币,已入账。`)
                 } else {
-                  coin4 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[看视频]执行成功！你的奖励:${coin4-coin3}金币,已入账。`);
+                  console.log(`✔️[看视频${i+1}]执行成功！你的奖励:60金币,已入账。`);
                 }
                 break;
               default:
@@ -494,10 +495,10 @@ async function completetask() {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
                   const coin = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[分享朋友圈]执行成功！你的奖励:${coin}金币,已入账。`)
+                  console.log(`✔️[发布互助1单]执行成功！你的奖励:${coin}金币,已入账。`)
                 } else {
                   coin1 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[发布互助1单]任务完成！你的奖励:${coin1-signcoin}金币,已入账。`);
+                  console.log(`✔️[发布互助1单]任务完成！你的奖励:110金币,已入账。`);
                 }
                 break;
               default:
@@ -563,7 +564,7 @@ async function addtask() {
 //signInWatchVideo
 async function signtask() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("user/signInWatchVideo", `{"coinCount":86,"uniqueId":"${tkList.uid}"}`, tkList.signnon, tkList.signsum, tkList.signtt);
+    const options = initTaskOptions("user/signInWatchVideo", `{"coinCount":100,"uniqueId":"${tkList.uid}"}`, tkList.signnon, tkList.signsum, tkList.signtt);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
