@@ -241,17 +241,17 @@ async function collectCoin1() {
             coint = Random(15, 20)
             switch (collectckcode) {
               case 200:
-                if (typeof addtaskcoin == "undefined") {
+                // if (typeof addtaskcoin == "undefined") {
                   // docollecttime++;
-                  console.log(`✔️[气泡金币${docollecttime}]执行成功！你的奖励:${coint}金币,已入账。`)
+                  console.log(`✔️[气泡金币]执行成功！你的奖励:${coint}金币,已入账。`)
                   // console.log(`✔️[气泡金币${docollecttime}]执行成功！你的奖励:${coint}金币,已入账。`)
                   // sumcollectcoin += coint
                   // await $.wait(5000);
                   // await collectCoin1();
-                } else {
-                  coin7 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
-                }
+                // } else {
+                //   coin7 = data.data.coinInfo.coinBalance + addtaskcoin
+                //   console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
+                // }
                 break;
               case 110:
                 $.log('【提示】请先前往获取[气泡金币]cookie📲')
@@ -320,8 +320,9 @@ async function collectCoin2() {
 }
 //steptocoin
 async function steptocoin() {
+  let stepcoin = Random(13, 20)
   return new Promise((resolve) => {
-    const options = TaskOptions("user/exchangeStepToCoin", `{"curStepCount":${stepnumber},"exchangeCoin":${coinct},"uniqueId":"${tkList.uid}"}`, tkList.stepcoinhd);
+    const options = TaskOptions("user/exchangeStepToCoin", `{"curStepCount":${stepnumber},"exchangeCoin":${stepcoin},"uniqueId":"${tkList.uid}"}`, tkList.stepcoinhd);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -333,12 +334,11 @@ async function steptocoin() {
             if (logs == false) $.log(data)
             data = JSON.parse(data);
             steprpcode = data.head.code
-            coint = Random(13, 20)
             switch (steprpcode) {
               case 200:
                 dosteptime++
-                console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${coint}金币,已入账。`)
-                sumstepcoin += coint
+                console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${stepcoin}金币,已入账。`)
+                sumstepcoin += stepcoin
                 await $.wait(5000);
                 await steptocoin();
                 break;
@@ -457,10 +457,10 @@ async function sharewx() {
               case 200:
                 if (typeof addtaskcoin == "undefined") {
                   const coinwxgroup = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[分享朋友圈]执行成功！你的奖励:${coinwxgroup}金币,已入账。`)
+                  console.log(`✔️[分享朋友圈]执行成功！你的奖励:100金币,已入账。`)
                 } else {
                   coin2 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[分享朋友圈]任务完成！你的奖励:${coin2-coin1}金币,已入账。`);
+                  console.log(`✔️[分享朋友圈]任务完成！你的奖励:100金币,已入账。`);
                 }
                 break;
               default:
