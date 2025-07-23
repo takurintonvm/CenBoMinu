@@ -38,14 +38,14 @@ async function GetCookie() {
           }
         } else if (no == len) {
           no = i;
+          helpbang[no] = {
+            uid : userId,
+            bd : userbody,
+            hd : userkey,
+            gold : gold,
+          };
         }
       }
-      console.log(no);
-      helpbang[no] = {};
-      helpbang[no].uid = userId
-      helpbang[no].bd = userbody
-      helpbang[no].hd = userkey
-      helpbang[no].gold = gold
       $.setdata(JSON.stringify(helpbang, null, 2), 'helpbang');
       $.log(`获取成功🎉: userbody: ${userbody}`)
       $.log(`获取成功🎉: userkey: ${userkey}`)
@@ -292,21 +292,18 @@ function userinfo(userbody, userkey) {
 
 //++++++++++++++++++++++++++++++++++++
 function calarrno(l, n) {
-  let status = 1;
   let no = l;
-  for (let i = 0, len = no; i < len; i++) {
+  for (let i = 0, len2 = no; i < len2; i++) {
     let ac = helpbang[i] || {};
     if (ac.uid) {
       if (ac.uid == n) {
         no = i;
-        status = 0;
         break;
       }
-    } else if (no == len) {
+    } else if (no == len2) {
       no = i;
     }
   }
-  let valarr = [no, status]
   return no
 }
 
