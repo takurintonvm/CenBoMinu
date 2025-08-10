@@ -35,13 +35,13 @@ async function GetCookie() {
           }
         } else if (no == len) {
           no = i;
-          elongcash[no] = {
-            uid : userId,
-            hd : userkey,
-            sharecode : sharecode
-          };
         }
       }
+      elongcash[no] = {
+        uid : userId,
+        hd : userkey,
+        sharecode : sharecode
+      };
       $.setdata(JSON.stringify(elongcash, null, 2), 'elongcash');
       $.log(`获取成功🎉: userkey: ${userkey}`)
       $.log(`获取成功🎉: userid: ${userId}`)
