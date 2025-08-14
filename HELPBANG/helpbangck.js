@@ -38,14 +38,18 @@ async function GetCookie() {
           }
         } else if (no == len) {
           no = i;
-          helpbang[no] = {
-            uid : userId,
-            bd : userbody,
-            hd : userkey,
-            gold : gold,
-          };
         }
       }
+      let helpbangck = helpbang[no]
+      if (!helpbangck) {
+        helpbang[no] = {
+          uid : userId,
+          bd : userbody,
+          hd : userkey,
+          gold : gold,
+        };
+      }
+
       $.setdata(JSON.stringify(helpbang, null, 2), 'helpbang');
       $.log(`获取成功🎉: userbody: ${userbody}`)
       $.log(`获取成功🎉: userkey: ${userkey}`)
