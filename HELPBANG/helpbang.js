@@ -182,7 +182,7 @@ async function main(i) {
   // } else {}
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 提现任务`)
   console.log(`【提示】提现任务未测试,目前禁止使用🚫。首次提现1元只能一次,务必获取提现Cookie,否则..请等待5元提现获取❗️。`)
-  await applyWithdraw();
+  //await applyWithdraw();
 
   // await showmsg1();
 }
