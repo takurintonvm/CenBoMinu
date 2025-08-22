@@ -43,10 +43,10 @@ async function GetCookie() {
       let helpbangck = helpbang[no]
       if (!helpbangck) {
         helpbang[no] = {
-          uid : userId,
-          bd : userbody,
-          hd : userkey,
-          gold : gold,
+          uid: userId,
+          bd: userbody,
+          hd: userkey,
+          gold: gold,
         };
       }
 
@@ -249,6 +249,7 @@ async function GetCookie() {
     let hduid = $request.headers['uniqueId'];
     let sum = $request.headers['checkSum'];
     let non = $request.headers['nonce'];
+    let tt = $request.headers['curTime'];
     let len = helpbang.length
     if (hduid) {
       helpbang[calarrno(len, hduid)].txsum = sum;
