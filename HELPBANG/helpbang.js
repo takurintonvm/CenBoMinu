@@ -24,7 +24,7 @@ let helpbangkey = $.getval('helpbangkey')
     console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Telegram:https://t.me/CbScript\n* Updatetime:2021.04.28\n");
     console.log(`Now login(UTC+8):${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}`)
     if (typeof $request !== "undefined") {
-      await GetCookie();
+      $.log('【提示】请先前往获取cookie📲')
     } else if (!helpbangkey) {
       $.log(`\n🤖[${$.name}]:开始下载脚本使用权限秘钥...`)
       await githubkey();

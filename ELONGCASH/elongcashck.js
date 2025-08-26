@@ -19,7 +19,7 @@ async function GetCookie() {
   //基础数据
   if ($request.url.indexOf("receive-reward") > -1) {
     const userbody = $request.body;
-    const userkey = JSON.stringify($request.headers);
+    const userkey = JSON.stringify($request.headers['Cookie']);
     const userId = $request.headers['Cookie'].split("openid=")[1].split(";")[0];
     const sharecode = JSON.parse(userbody).fromUnionId
     if (userId) {
