@@ -64,8 +64,94 @@ async function main(i) {
   await userAccount();
   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/查询 用户任务`)
   await userTaskList();
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/助力确认测试 群主小号 `)
+  await sharecheck();
+  if(sharecode == 0){
+    console.log(`\n🤖[${$.name}]:~ User${i+1}💲/开始助力群主小号 `)
+    await runshare();
+  }else {
+    console.log(`❌助力群主小号失败 `)
+  }
 }
+
+
 //++++++++++++++++++++++++++++++++++++
+async function sharecheck() {
+  return new Promise((resolve) => {
+    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","helpPreValid":1,"activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            sharecode = data.businesscode
+            console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+            $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+
+async function runshare() {
+  return new Promise((resolve) => {
+    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}\nCoins:${body.treasureValue}`);
+            $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+// async function sharecheck() {
+//   return new Promise((resolve) => {
+//     const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"${tkList.sharecode}","taskCode":"10001","helpPreValid":2,"activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
+//     $.post(options, async (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+//           console.log(JSON.stringify(err));
+//           $.logErr(err);
+//         } else {
+//           if (safeGet(data)) {
+//             data = JSON.parse(data);
+//             console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+//             $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp);
+//       } finally {
+//         resolve();
+//       }
+//     });
+//   });
+// }
 async function userAccount() {
   return new Promise((resolve) => {
     const options = initTaskOptions("account?activityCode=treasure");
@@ -108,9 +194,9 @@ async function userTaskList() {
             data = JSON.parse(data);
             taskinfoList = data.body
             taskinfoList.forEach((task) => console.log(`→任务ID${task.taskCode}-${task.taskTitle}:${task.state ? "任务结束\n🔚" : "任务未完成\n🔜"}任务情况:${task.completedTimes}/${task.dayLimit}${task.unit}\n`));
-
+            //签到任务状态
             taskSignState = taskinfoList.filter(state => state.taskCode == 10000)[0].state
-            console.log(taskSignState);      
+            // console.log(taskSignState);
           }
         }
       } catch (e) {
