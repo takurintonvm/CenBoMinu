@@ -105,7 +105,7 @@ async function sharecheck() {
 
 async function runshare() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
+    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"${tkList.sharecode}","taskCode":"10001","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
