@@ -168,7 +168,7 @@ async function userAccount() {
             // for (let body of Object.keys(data.body)) {
             //   console.log(`${body}:${data.body[body]}`);
             // }
-            $.log(`→你的助力码为${data.body.unionId}\n→目前金币${data.body.accountAmount},约${data.body.canWithdrawalAmount}元,好友助力${data.body.riskLevel}位`)
+            $.log(`→你的助力码为:${data.body.unionId}\n→目前金币${data.body.accountAmount},约${data.body.canWithdrawalAmount}元,好友助力${data.body.riskLevel}位`)
           }
         }
       } catch (e) {
