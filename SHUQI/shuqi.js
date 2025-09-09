@@ -533,9 +533,7 @@ async function task32() {
     if (!sp1videocoinbodyVal) {
       $.log(`❌目前账号sp1videocoinbody未获取,请参照说明对照表获取cookie。\n`);
     } else {
-      for (var i = 0; i < 10; i++) {
         await prizelottery2();
-      }
     }
     if (!sp2videocoinbodyVal) {
       $.log(`❌目前账号sp2videocoinbody未获取,请参照说明对照表获取cookie。\n`);
