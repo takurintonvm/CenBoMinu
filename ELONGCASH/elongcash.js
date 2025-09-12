@@ -1,9 +1,11 @@
+// @grant quanx
 const $ = new Env("ELONGCASH");
 const host = "https://x.elong.com/feifang/activity/baseapi/treasure";
 const logs = true;
 const notifyInterval = 1;
 const tgmarkcode = "/submitactivitycodes elongcash@"
 const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/TGBOTCode/main/elongcash.js'
+const taskChannel = "26170";
 let tz = "";
 let elongcash = $.getjson('elongcash', [])
 let elongcashkey = $.getval('elongcashkey')
@@ -22,7 +24,7 @@ let elongcashkey = $.getval('elongcashkey')
       let ckList = elongcash.filter(ck => ck.hd).map((ck) => ({
         uid: ck.uid,
         sharecode: ck.sharecode,
-        headers: JSON.parse(ck.hd),
+        headers: JSON.parse(ck.hd)
         //===================================
       }));
       console.log(`\n🤖[${$.name}]:~ System💲/脚本账号数量 `)
@@ -60,24 +62,188 @@ function initTaskOptions(url, body) {
   };
 }
 async function main(i) {
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/查询 用户资讯`)
+  // console.log(Base64.decode(elongcashkey));
+    // console.log(`\n🤖[${$.name}]:~ User${i+1}💲/助力确认测试 群主小号 `)
+    // await sharecheck();
+    // if(sharecode == 0){
+    //   console.log(`\n🤖[${$.name}]:~ User${i+1}💲/开始助力群主小号 `)
+    //   await runshare();
+    // }else {
+    //   console.log(`❌助力群主小号失败 `)
+    // }
+
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲用户资讯`)
   await userAccount();
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/查询 用户任务`)
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲用户任务`)
   await userTaskList();
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/助力确认测试 群主小号 `)
-  await sharecheck();
-  if(sharecode == 0){
-    console.log(`\n🤖[${$.name}]:~ User${i+1}💲/开始助力群主小号 `)
-    await runshare();
-  }else {
-    console.log(`❌助力群主小号失败 `)
+  console.log(`🤖[${$.name}]:~ User${i+1}💲签到任务`)
+  if (taskSignState) {
+    console.log(`\n→签到任务已完成🎉`);
+  } else {
+    await runsign();
+  }
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲视频任务`)
+  if (taskVideoState) {
+    console.log(`\n→视频任务已完成🎉`);
+  } else {
+    const num = 10 - taskVideoTimes
+    for (let i = 0; i < num; i++) {
+      await runvideo(i);
+      await $.wait(3000);
+    }
+  }
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲金币气泡清单`)
+  await goldList();
+  console.log(`\n🤖[${$.name}]:~ User${i+1}💲收取气泡`)
+  for ( let i = 0; i < rewardIdList.length; i++) {
+    let rewardId = rewardIdList[i]
+    console.log(rewardId);
+  await rungold(rewardId,i);
+  await $.wait(2000);
   }
 }
 
 //++++++++++++++++++++++++++++++++++++
+async function rungold(rewardId,i) {
+  return new Promise((resolve) => {
+    const options = initTaskOptions("task/gold-collection",`{"rewardId":"${rewardId}","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26170"}`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.businesscode
+            switch (code) {
+              case 0:
+                console.log(`→收取第${i+1}个气泡成功🎉`);
+                break;
+              default:
+              console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+              $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function goldList() {
+  return new Promise((resolve) => {
+    const options = initTaskOptions("task/gold/list?activityCode=treasure");
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.businesscode
+            switch (code) {
+              case 0:
+                data.body.forEach((info) => console.log(`→${info.remark}:${info.rewardId}`));
+                rewardIdList = data.body.map(id => id.rewardId);
+                console.log(`→小计:共有${rewardIdList.length}个任务金币未收取`);
+                break;
+              default:
+              console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+              $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function runvideo(i) {
+  return new Promise((resolve) => {
+    const options = initTaskOptions("task/receive-reward",`{"taskCode":"10004","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.businesscode
+            switch (code) {
+              case 100:
+              console.log(`🗣${data.retdesc}`);
+                break;
+              case 0:
+                $.log(`→领取视频第${i+1}次奖励:${data.body.treasureValue}金币`)
+                break;
+              default:
+              console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+              $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function runsign() {
+  return new Promise((resolve) => {
+    const options = initTaskOptions("task/receive-reward",`{"taskCode":"10000","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.businesscode
+            switch (code) {
+              case 100:
+              console.log(`🗣${data.retdesc}`);
+                break;
+              case 0:
+                $.log(`→领取签到奖励:${data.body.treasureValue}金币`)
+                break;
+              default:
+              console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+              $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//"fromUnionId":"${sharecode}"
 async function sharecheck() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","helpPreValid":1,"activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
+    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","helpPreValid":1,"activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -103,7 +269,7 @@ async function sharecheck() {
 }
 async function runshare() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
+    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -126,31 +292,6 @@ async function runshare() {
     });
   });
 }
-
-// async function sharecheck() {
-//   return new Promise((resolve) => {
-//     const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"${tkList.sharecode}","taskCode":"10001","helpPreValid":2,"activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"26355"}`);
-//     $.post(options, async (err, resp, data) => {
-//       try {
-//         if (err) {
-//           console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-//           console.log(JSON.stringify(err));
-//           $.logErr(err);
-//         } else {
-//           if (safeGet(data)) {
-//             data = JSON.parse(data);
-//             console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
-//             $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
-//           }
-//         }
-//       } catch (e) {
-//         $.logErr(e, resp);
-//       } finally {
-//         resolve();
-//       }
-//     });
-//   });
-// }
 async function userAccount() {
   return new Promise((resolve) => {
     const options = initTaskOptions("account?activityCode=treasure");
@@ -195,7 +336,10 @@ async function userTaskList() {
             taskinfoList.forEach((task) => console.log(`→任务ID${task.taskCode}-${task.taskTitle}:${task.state ? "任务结束\n🔚" : "任务未完成\n🔜"}任务情况:${task.completedTimes}/${task.dayLimit}${task.unit}\n`));
             //签到任务状态
             taskSignState = taskinfoList.filter(state => state.taskCode == 10000)[0].state
-            // console.log(taskSignState);
+            //视频任务状态
+            taskVideoState = taskinfoList.filter(state => state.taskCode == 10004)[0].state
+            //视频任务次数
+            taskVideoTimes = taskinfoList.filter(state => state.taskCode == 10004)[0].completedTimes
           }
         }
       } catch (e) {
@@ -207,6 +351,8 @@ async function userTaskList() {
   });
 }
 
+
+
 //++++++++++++++++++++++++++++++++++++
 async function showmsg1() {
   if (notifyInterval != 1) {
@@ -217,7 +363,6 @@ async function showmsg1() {
     $.msg(cc, '\n', tz);
   }
 }
-
 function safeGet(data) {
   try {
     if (typeof JSON.parse(data) == "object") {
@@ -229,22 +374,156 @@ function safeGet(data) {
     return false;
   }
 }
-let Base64 = {
-  encode(str) {
-    // first we use encodeURIComponent to get percent-encoded UTF-8,
-    // then we convert the percent encodings into raw bytes which
-    // can be fed into btoa.
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-      function toSolidBytes(match, p1) {
-        return String.fromCharCode('0x' + p1);
-      }));
-  },
-  decode(str) {
-    // Going backwards: from bytestream, to percent-encoding, to original string.
-    return decodeURIComponent(atob(str).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-  }
+var Base64 = {
+
+    // private property
+    keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+
+    // public method for encoding
+    , encode: function (input)
+    {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+
+        input = Base64.utf8encode(input);
+
+        while (i < input.length)
+        {
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+
+            if (isNaN(chr2))
+            {
+                enc3 = enc4 = 64;
+            }
+            else if (isNaN(chr3))
+            {
+                enc4 = 64;
+            }
+
+            output = output +
+                this.keyStr.charAt(enc1) + this.keyStr.charAt(enc2) +
+                this.keyStr.charAt(enc3) + this.keyStr.charAt(enc4);
+        } // Whend
+
+        return output;
+    } // End Function encode
+
+
+    // public method for decoding
+    ,decode: function (input)
+    {
+        var output = "";
+        var chr1, chr2, chr3;
+        var enc1, enc2, enc3, enc4;
+        var i = 0;
+
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+        while (i < input.length)
+        {
+            enc1 = this.keyStr.indexOf(input.charAt(i++));
+            enc2 = this.keyStr.indexOf(input.charAt(i++));
+            enc3 = this.keyStr.indexOf(input.charAt(i++));
+            enc4 = this.keyStr.indexOf(input.charAt(i++));
+
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+
+            output = output + String.fromCharCode(chr1);
+
+            if (enc3 != 64)
+            {
+                output = output + String.fromCharCode(chr2);
+            }
+
+            if (enc4 != 64)
+            {
+                output = output + String.fromCharCode(chr3);
+            }
+
+        } // Whend
+
+        output = Base64.utf8decode(output);
+
+        return output;
+    } // End Function decode
+
+
+    // private method for UTF-8 encoding
+    ,utf8encode: function (string)
+    {
+        var utftext = "";
+        string = string.replace(/\r\n/g, "\n");
+
+        for (var n = 0; n < string.length; n++)
+        {
+            var c = string.charCodeAt(n);
+
+            if (c < 128)
+            {
+                utftext += String.fromCharCode(c);
+            }
+            else if ((c > 127) && (c < 2048))
+            {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else
+            {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+
+        } // Next n
+
+        return utftext;
+    } // End Function utf8encode
+
+    // private method for UTF-8 decoding
+    ,utf8decode: function (utftext)
+    {
+        var string = "";
+        var i = 0;
+        var c, c1, c2, c3;
+        c = c1 = c2 = 0;
+
+        while (i < utftext.length)
+        {
+            c = utftext.charCodeAt(i);
+
+            if (c < 128)
+            {
+                string += String.fromCharCode(c);
+                i++;
+            }
+            else if ((c > 191) && (c < 224))
+            {
+                c2 = utftext.charCodeAt(i + 1);
+                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                i += 2;
+            }
+            else
+            {
+                c2 = utftext.charCodeAt(i + 1);
+                c3 = utftext.charCodeAt(i + 2);
+                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                i += 3;
+            }
+
+        } // Whend
+
+        return string;
+    } // End Function utf8decode
+
 };
 async function githubkey(keystate) {
   return new Promise((resolve) => {
@@ -280,11 +559,9 @@ async function githubkey(keystate) {
     });
   });
 }
-
 function Random(min, max) {
   return Math.round(Math.random() * (max - min)) + min;
 }
-
 function Env(name, opts) {
   class Http {
     constructor(env) {
