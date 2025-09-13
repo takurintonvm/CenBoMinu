@@ -1,4 +1,3 @@
-// @grant quanx
 const $ = new Env("ELONGCASH");
 const host = "https://x.elong.com/feifang/activity/baseapi/treasure";
 const logs = true;
@@ -243,7 +242,7 @@ async function runsign() {
 //"fromUnionId":"${sharecode}"
 async function sharecheck() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","helpPreValid":1,"activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
+    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0E9737244AB86BB6468BADD05D990E4DCECE8971CD4920B6F963CDB9F1950953","taskCode":"10001","helpPreValid":1,"activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -269,7 +268,7 @@ async function sharecheck() {
 }
 async function runshare() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0295FBD9C0FBA180AE0D11E44BF4556FA88213E6771DBE0149549C3F8C013501","taskCode":"10001","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
+    const options = initTaskOptions("task/receive-reward",`{"fromUnionId":"0E9737244AB86BB6468BADD05D990E4DCECE8971CD4920B6F963CDB9F1950953","taskCode":"10001","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":${taskChannel}}`);
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -303,7 +302,7 @@ async function userAccount() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            // $.log(data)
+            $.log(data)
             data = JSON.parse(data);
             // for (let body of Object.keys(data.body)) {
             //   console.log(`${body}:${data.body[body]}`);
@@ -350,8 +349,6 @@ async function userTaskList() {
     });
   });
 }
-
-
 
 //++++++++++++++++++++++++++++++++++++
 async function showmsg1() {
