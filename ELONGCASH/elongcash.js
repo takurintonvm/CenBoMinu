@@ -292,6 +292,7 @@ async function guessTask() {
                 console.log("→夺宝任务清单:");
                 taskidArr.forEach(info => console.log(`[ID${info.treasureId}]${info.treasureName}:第${info.periodNumber}场`))
                 const taskOnecoin = taskidArr.filter(name => name.treasureId === 4)
+                console.log(taskOnecoin);
                 oneCoinid = taskOnecoin[0].periodNumber
                 break;
               default:
