@@ -218,7 +218,7 @@ async function guessResultList() {
                   await guessTask();
                   await runguess(oneCoinid);
                 } else if (taskidArr !== null) {
-                  const taskOnecoin = taskidArr.filter(name => name.treasureId === 4)
+                  const taskOnecoin = taskidArr.filter(name => name.treasureId === 4);
                   console.log(taskOnecoin);
                   oneCoinResultid = taskOnecoin[0].periodNumber
                   console.log(`→已报名1元现金${oneCoinResultid}场次`);
@@ -291,7 +291,7 @@ async function guessTask() {
               case 0:
                 console.log("→夺宝任务清单:");
                 taskidArr.forEach(info => console.log(`[ID${info.treasureId}]${info.treasureName}:第${info.periodNumber}场`))
-                const taskOnecoin = taskidArr.filter(name => name.treasureId === 4)
+                const taskOnecoin = taskidArr.filter(name => name.treasureId === 4);
                 console.log(taskOnecoin);
                 oneCoinid = taskOnecoin[0].periodNumber
                 break;
