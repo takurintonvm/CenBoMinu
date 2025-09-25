@@ -7,10 +7,12 @@ const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/TGBOTCode/main/
 const taskChannel = "26170";
 const blackCodeList = ["0E9737244AB86BB6468BADD05D990E4DCECE8971CD4920B6F963CDB9F1950953", "400FC8D6CC0AC558880B38960B16ABBB631EBD85BCD91F1BE7FD463E3936CC01","5286DB310E42AA8CBF0C14E2B95D4720ED8CCF6C261AA100706BEE38C3E2AD11"]
 let tz = "";
-let elongcash = $.getjson('elongcash', [])
-let elongcashkey = $.getval('elongcashkey')
-let shareRandomNumber = Random(0,blackCodeList.length - 1)
-let shareRandomId = blackCodeList[shareRandomNumber]
+let elongcash = $.getjson('elongcash', []);
+let elongcashkey = $.getval('elongcashkey');
+let shareRandomNumber = Random(0,blackCodeList.length - 1);
+let shareRandomId = blackCodeList[shareRandomNumber];
+let todaytimems = Math.round(Date.now());
+const nowmouth = formatDateTime(todaytimems)
 var hour = '';
 var minute = '';
   //++++++++++++++++++++++++++++++++++++
@@ -198,7 +200,7 @@ async function guessFinishList() {
 //++++++++++++++++++++++++++++++++++++
 async function guessResultList() {
   return new Promise((resolve) => {
-    const options = initTaskOptions("my-hunt/period/list/paging?pageIndex=1&pageSize=10&month=202105&lotteryStatus=1&activityCode=treasure");
+    const options = initTaskOptions(`my-hunt/period/list/paging?pageIndex=1&pageSize=10&month=${nowmouth}&lotteryStatus=1&activityCode=treasure`);
     $.get(options, async (err, resp, data) => {
       try {
         if (err) {
@@ -227,7 +229,7 @@ async function guessResultList() {
                 }
                 break;
               default:
-                console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+                console.log(`**** guessResultList ****\nBusinesscode:${data.businesscode}\nMessages:${data.retdesc}`);
                 $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
             }
           }
@@ -296,7 +298,7 @@ async function guessTask() {
                 oneCoinid = taskOnecoin[0].periodNumber
                 break;
               default:
-                console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+                console.log(`**** guessTask ****\nBusinesscode:${data.businesscode}\nMessages:${data.retdesc}`);
                 $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
             }
           }
@@ -690,7 +692,21 @@ async function userTaskList() {
 }
 
 //++++++++++++++++++++++++++++++++++++
-
+function formatDateTime(inputTime) {
+  var date = new Date(inputTime);
+  var y = date.getFullYear();
+  var m = date.getMonth() + 1;
+  m = m < 10 ? ('0' + m) : m;
+  var d = date.getDate();
+  d = d < 10 ? ('0' + d) : d;
+  var h = date.getHours();
+  h = h < 10 ? ('0' + h) : h;
+  var minute = date.getMinutes();
+  var second = date.getSeconds();
+  minute = minute < 10 ? ('0' + minute) : minute;
+  second = second < 10 ? ('0' + second) : second;
+  return y + m ;
+};
 function safeGet(data) {
   try {
     if (typeof JSON.parse(data) == "object") {
