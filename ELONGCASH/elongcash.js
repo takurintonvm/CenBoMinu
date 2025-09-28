@@ -221,7 +221,6 @@ async function guessResultList() {
                   await runguess(oneCoinid);
                 } else if (taskidArr !== null) {
                   const taskOnecoin = taskidArr.filter(name => name.treasureId === 4);
-                  console.log(taskOnecoin);
                   oneCoinResultid = taskOnecoin[0].periodNumber
                   console.log(`→已报名1元现金${oneCoinResultid}场次`);
                 } else {
@@ -254,7 +253,6 @@ async function runguess(oneCoinid) {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            $.log(data)
             const code = data.businesscode
             switch (code) {
               case 1007:
@@ -264,7 +262,7 @@ async function runguess(oneCoinid) {
                 console.log(`→ 成功报名一元现金${oneCoinid}场`);
                 break;
               default:
-                console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);
+                console.log(`**** runguess ****\nBusinesscode:${data.businesscode}\nMessages:${data.retdesc}`);
                 $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
             }
           }
@@ -297,7 +295,6 @@ async function guessTask() {
                 console.log("→夺宝任务清单:");
                 taskidArr.forEach(info => console.log(`[ID${info.treasureId}]${info.treasureName}:第${info.periodNumber}场`))
                 const taskOnecoin = taskidArr.filter(name => name.treasureId === 4);
-                console.log(taskOnecoin);
                 oneCoinid = taskOnecoin[0].periodNumber
                 break;
               default:
