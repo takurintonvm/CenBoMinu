@@ -256,7 +256,7 @@ async function runguess(oneCoinid) {
             const code = data.businesscode
             switch (code) {
               case 1007:
-                console.log(`→ 🔐请先成功解锁1元夺宝任务,手动参加夺宝`);
+                console.log(`\n🔐请先成功解锁1元夺宝任务,手动参加夺宝解锁`);
                 break;
               case 0:
                 console.log(`→ 成功报名一元现金${oneCoinid}场`);
