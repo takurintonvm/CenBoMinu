@@ -257,7 +257,7 @@ async function main(i) {
     }
   }
 
-  if ((hour == 8 && minute <= 15) || (hour == 12 && minute <= 15) || (hour == 17 && minute <= 15) || (hour == 20 && minute <= 15) || (hour == 23 && minute <= 15)) {
+  if ((hour == 8 && minute <= 15) || (hour == 12 && minute <= 15) || (hour == 23 && minute <= 15)) {
     console.log(`\n🤖[${$.name}]:~💲 正在准备礼物 🎁`)
     await guessFinishList();
     await surprisedTask();
