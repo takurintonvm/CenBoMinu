@@ -4,11 +4,11 @@ const notifyInterval = 1;
 const tgmarkcode = "/submitactivitycodes elongcash@"
 const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/TGBOTCode/main/elongcash.js'
 const taskChannel = "26170";
-const blackCodeList = ["0E9737244AB86BB6468BADD05D990E4DCECE8971CD4920B6F963CDB9F1950953", "400FC8D6CC0AC558880B38960B16ABBB631EBD85BCD91F1BE7FD463E3936CC01","5286DB310E42AA8CBF0C14E2B95D4720ED8CCF6C261AA100706BEE38C3E2AD11"]
+const blackCodeList = ["0E9737244AB86BB6468BADD05D990E4DCECE8971CD4920B6F963CDB9F1950953", "400FC8D6CC0AC558880B38960B16ABBB631EBD85BCD91F1BE7FD463E3936CC01", "5286DB310E42AA8CBF0C14E2B95D4720ED8CCF6C261AA100706BEE38C3E2AD11"]
 let tz = "";
 let elongcash = $.getjson('elongcash', []);
 let elongcashkey = $.getval('elongcashkey');
-let shareRandomNumber = Random(0,blackCodeList.length - 1);
+let shareRandomNumber = Random(0, blackCodeList.length - 1);
 let shareRandomId = blackCodeList[shareRandomNumber];
 let todaytimems = Math.round(Date.now());
 const nowmouth = formatDateTime(todaytimems)
@@ -146,52 +146,52 @@ var Base64 = {
   } // End Function utf8decode
 
 };
-  //++++++++++++++++++++++++++++++++++++
-  !(async () => {
-    cc = (`${$.name}任务执行通知🔔`);
-    console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Telegram:https://t.me/CbScript\n* Updatetime:2021.05.22\n");
-    console.log(`Now login(UTC+8):${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}`)
-    if (typeof $request !== "undefined") {
-      $.log('【提示】请先前往获取cookie📲')
-    } else if (!elongcashkey) {
-      $.log(`\n🤖[${$.name}]:开始下载脚本使用权限秘钥...`)
-      await githubkey();
-    } else {
-      await githubkey("again");
-      let ckList = elongcash.filter(ck => ck.hd).map((ck) => ({
-        uid: ck.uid,
-        sharecode: ck.sharecode,
-        headers: JSON.parse(ck.hd)
-        //===================================
-      }));
-      console.log(`\n🤖[${$.name}]:~ System💲脚本账号数量 `)
-      console.log(`本次执行共${ckList.length}个账号`)
-      for (let i = 0; i < ckList.length; i++) {
-        tkList = ckList[i];
-        $.log(`\n🗝[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
-        if (z(i)) {
+//++++++++++++++++++++++++++++++++++++
+!(async () => {
+  cc = (`${$.name}任务执行通知🔔`);
+  console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Telegram:https://t.me/CbScript\n* Updatetime:2021.05.22\n");
+  console.log(`Now login(UTC+8):${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}`)
+  if (typeof $request !== "undefined") {
+    $.log('【提示】请先前往获取cookie📲')
+  } else if (!elongcashkey) {
+    $.log(`\n🤖[${$.name}]:开始下载脚本使用权限秘钥...`)
+    await githubkey();
+  } else {
+    await githubkey("again");
+    let ckList = elongcash.filter(ck => ck.hd).map((ck) => ({
+      uid: ck.uid,
+      sharecode: ck.sharecode,
+      headers: JSON.parse(ck.hd)
+      //===================================
+    }));
+    console.log(`\n🤖[${$.name}]:~ System💲脚本账号数量 `)
+    console.log(`本次执行共${ckList.length}个账号`)
+    for (let i = 0; i < ckList.length; i++) {
+      tkList = ckList[i];
+      $.log(`\n🗝[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
+      if (z(i)) {
+        $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
+        $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 👤User${i+1}的脚本任务`)
+        await main(i);
+      } else {
+        $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
+        $.log(`\n🗝[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
+        await githubkey("again");
+        $.log(`\n🗝[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
+        if (z()) {
           $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
-          $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 👤User${i+1}的脚本任务`)
+          $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1}的脚本任务`)
           await main(i);
         } else {
-          $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-          $.log(`\n🗝[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
-          await githubkey("again");
-          $.log(`\n🗝[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
-          if (z()) {
-            $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
-            $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1}的脚本任务`)
-            await main(i);
-          } else {
-            $.log(`❌用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-            $.log(`\n⚠️用户${i+1}:~ 请在群内提交互助码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.sharecode}`);
-            $.msg($.name, '', `⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.sharecode}`);
-          }
+          $.log(`❌用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
+          $.log(`\n⚠️用户${i+1}:~ 请在群内提交互助码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.sharecode}`);
+          $.msg($.name, '', `⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.sharecode}`);
         }
       }
     }
-  })()
-  .catch((e) => {
+  }
+})()
+.catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
   })
   .finally(() => {
@@ -837,8 +837,9 @@ function formatDateTime(inputTime) {
   var second = date.getSeconds();
   minute = minute < 10 ? ('0' + minute) : minute;
   second = second < 10 ? ('0' + second) : second;
-  return y + m ;
+  return y + m;
 };
+
 function safeGet(data) {
   try {
     if (typeof JSON.parse(data) == "object") {
@@ -883,11 +884,14 @@ async function githubkey(keystate) {
     });
   });
 }
+
 function Random(min, max) {
   return Math.round(Math.random() * (max - min)) + min;
 }
+
 function z() {
   const ll = decodeURIComponent(Base64.decode(elongcashkey))
+
   function f(id) {
     try {
       if (ll.indexOf(id) > -1) {
@@ -904,6 +908,7 @@ function z() {
     return false;
   }
 }
+
 function Env(name, opts) {
   class Http {
     constructor(env) {
