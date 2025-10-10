@@ -33,7 +33,7 @@ console.log(`\n🤖[${$.name}]:~ User${i+1}💲金币气泡`)
 await goldList();console.log(`\n🤖[${$.name}]:~ User${i+1}💲夺宝任务`)
 await guessResultList();if((hour==8&&minute<=15)||(hour==12&&minute<=15)||(hour==17&&minute<=15)||(hour==20&&minute<=15)||(hour==23&&minute<=15)){console.log(`\n🤖[${$.name}]:~ User${i+1}💲助力测试 `)
 await sharecheck();if(sharecode==0){await runshare();}else{console.log(`❌助力失败 `)}}
-if((hour==8&&minute<=15)||(hour==12&&minute<=15)||(hour==23&&minute<=15)){console.log(`\n🤖[${$.name}]:~💲 正在准备礼物 🎁`)
+if((hour==8&&minute<=5)||(hour==12&&minute<=5)||(hour==23&&minute<=5)){console.log(`\n🤖[${$.name}]:~💲 正在准备礼物 🎁`)
 await guessFinishList();await surprisedTask();}}
 async function surprisedTask(){return new Promise((resolve)=>{const options=initTaskOptions("receive-prize",`{"periodNumber":"${SurprisedNumber}","treasureId":"${SurprisedId}","mobile":"","contactsName":"","idCardNo":"","address":"","cityName":"","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"0"}`);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.businesscode
 switch(code){case 0:console.log("\n🎁 送你一个惊喜大礼物哟!!!");$.msg(cc,'',"🎁 送你一个惊喜大礼物哟!!!10秒内送到...");break;case 8:console.log("\n🎁 你的礼物掉在路上了...");break;default:console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);$.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
