@@ -11,29 +11,29 @@ if(enc4!=64){output=output+String.fromCharCode(chr3);}}
 output=Base64.utf8decode(output);return output;},utf8encode:function(string){var utftext="";string=string.replace(/\r\n/g,"\n");for(var n=0;n<string.length;n++){var c=string.charCodeAt(n);if(c<128){utftext+=String.fromCharCode(c);}else if((c>127)&&(c<2048)){utftext+=String.fromCharCode((c>>6)|192);utftext+=String.fromCharCode((c&63)|128);}else{utftext+=String.fromCharCode((c>>12)|224);utftext+=String.fromCharCode(((c>>6)&63)|128);utftext+=String.fromCharCode((c&63)|128);}}
 return utftext;},utf8decode:function(utftext){var string="";var i=0;var c,c1,c2,c3;c=c1=c2=0;while(i<utftext.length){c=utftext.charCodeAt(i);if(c<128){string+=String.fromCharCode(c);i++;}else if((c>191)&&(c<224)){c2=utftext.charCodeAt(i+1);string+=String.fromCharCode(((c&31)<<6)|(c2&63));i+=2;}else{c2=utftext.charCodeAt(i+1);c3=utftext.charCodeAt(i+2);string+=String.fromCharCode(((c&15)<<12)|((c2&63)<<6)|(c3&63));i+=3;}}
 return string;}};!(async()=>{cc=(`${$.name}任务执行通知🔔`);console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Telegram:https://t.me/CbScript\n* Updatetime:2021.05.22\n");console.log(`Now login(UTC+8):${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}`)
-if(typeof $request!=="undefined"){$.log('【提示】请先前往获取cookie📲')}else if(!elongcashkey){$.log(`\n🤖[${$.name}]:开始下载脚本使用权限秘钥...`)
-await githubkey();}else{let ckList=elongcash.filter(ck=>ck.hd).map((ck)=>({uid:ck.uid,sharecode:ck.sharecode,headers:JSON.parse(ck.hd)}));console.log(`\n🤖[${$.name}]:~ System💲脚本账号数量 `)
+if(typeof $request!=="undefined"){$.log('【提示】请先前往获取cookie📲')}else if(!elongcashkey){$.log(`\n🐲[${$.name}]:开始下载脚本使用权限秘钥...`)
+await githubkey();}else{let ckList=elongcash.filter(ck=>ck.hd).map((ck)=>({uid:ck.uid,sharecode:ck.sharecode,headers:JSON.parse(ck.hd)}));console.log(`\n🐲[${$.name}]:~ System💲脚本账号数量 `)
 console.log(`本次执行共${ckList.length}个账号`)
 for(let i=0;i<ckList.length;i++){tkList=ckList[i];$.log(`\n🗝[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
-if(z(i)){$.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);$.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 👤User${i+1}的脚本任务`)
+if(z(i)){$.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);$.log(`\n🐲[${$.name}]:~ System💲/执行脚本\n开始执行 👤User${i+1}的脚本任务`)
 await main(i);}else{$.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);$.log(`\n🗝[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
 await githubkey("again");$.log(`\n🗝[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
-if(z()){$.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);$.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1}的脚本任务`)
+if(z()){$.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);$.log(`\n🐲[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1}的脚本任务`)
 await main(i);}else{$.log(`❌用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);$.log(`\n⚠️用户${i+1}:~ 请在群内提交互助码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.sharecode}`);$.msg($.name,'',`⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.sharecode}`);}}}}})().catch((e)=>{$.log('',`❌ ${$.name}, 失败! 原因: ${e}!`,'')}).finally(()=>{$.done();})
 function initTaskOptions(url,body){return{url:`${host}/${url}`,headers:{'Accept':`application/json, text/plain, */*`,'Origin':`https://x.elong.com`,'Accept-Encoding':`gzip, deflate, br`,'Cookie':tkList.headers,'Content-Type':`application/json;charset=utf-8`,'Host':`x.elong.com`,'Connection':`keep-alive`,'User-Agent':`Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.5(0x18000528) NetType/4G Language/zh_CN miniProgram`,'Accept-Language':`zh-cn`},body:body};}
-async function main(i){console.log(`\n🤖[${$.name}]:~ User${i+1}💲用户资讯`)
-await userAccount();console.log(`\n🤖[${$.name}]:~ User${i+1}💲用户任务`)
-await userTaskList();console.log(`🤖[${$.name}]:~ User${i+1}💲小猪扑满`)
-await pigInfo();console.log(`\n🤖[${$.name}]:~ User${i+1}💲签到任务`)
+async function main(i){console.log(`\n🐲[${$.name}]:~ User${i+1}💲用户资讯`)
+await userAccount();console.log(`\n🐲[${$.name}]:~ User${i+1}💲用户任务`)
+await userTaskList();console.log(`🐲[${$.name}]:~ User${i+1}💲小猪扑满`)
+await pigInfo();console.log(`\n🐲[${$.name}]:~ User${i+1}💲签到任务`)
 if(taskSignState){console.log(`→签到任务已完成🎉`);}else{await runsign();}
-console.log(`\n🤖[${$.name}]:~ User${i+1}💲视频任务`)
+console.log(`\n🐲[${$.name}]:~ User${i+1}💲视频任务`)
 if(taskVideoState){console.log(`→视频任务已完成🎉`);}else{const num=10-taskVideoTimes
 for(let i=0;i<num;i++){await runvideo(i);await $.wait(3000);}}
-console.log(`\n🤖[${$.name}]:~ User${i+1}💲金币气泡`)
-await goldList();console.log(`\n🤖[${$.name}]:~ User${i+1}💲夺宝任务`)
-await guessTaskinfo();await guessResultList();if((h==8&&m<=15)||(h==12&&m<=15)||(h==17&&m<=15)||(h==20&&m<=15)||(h==23&&m<=15)){console.log(`\n🤖[${$.name}]:~ User${i+1}💲助力测试 `)
+console.log(`\n🐲[${$.name}]:~ User${i+1}💲金币气泡`)
+await goldList();console.log(`\n🐲[${$.name}]:~ User${i+1}💲夺宝任务`)
+await guessTaskinfo();await guessResultList();if((h==8&&m<=15)||(h==12&&m<=15)||(h==17&&m<=15)||(h==20&&m<=15)||(h==23&&m<=15)){console.log(`\n🐲[${$.name}]:~ User${i+1}💲助力测试 `)
 await githubkey("again");await sharecheck();if(sharecode==0){await runshare();}else{console.log(`❌助力失败 `)}}
-if((h==8&&m<=5)||(h==12&&m<=5)||(h==23&&m<=5)){console.log(`\n🤖[${$.name}]:~💲 正在准备礼物 🎁`)
+if((h==8&&m<=5)||(h==12&&m<=5)||(h==23&&m<=5)){console.log(`\n🐲[${$.name}]:~💲 正在准备礼物 🎁`)
 await guessFinishList();}}
 async function surprisedTask(){return new Promise((resolve)=>{const options=initTaskOptions("receive-prize",`{"periodNumber":"${SurprisedNumber}","treasureId":"${SurprisedId}","mobile":"","contactsName":"","idCardNo":"","address":"","cityName":"","activityCode":"treasure","tcMemberId":"","platFrom":1,"channel":"0"}`);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.businesscode
 switch(code){case 0:console.log("\n🎁 送你一个惊喜大礼物哟!!!");$.msg(cc,'',"🎁 送你一个惊喜大礼物哟!!!10秒内送到...");break;case 8:console.log("\n🎁 你的礼物掉在路上了...");break;default:console.log(`Businesscode:${data.businesscode}\nMessages:${data.retdesc}`);$.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
@@ -92,7 +92,7 @@ taskinfoList.forEach((task)=>console.log(`→任务ID${task.taskCode}-${task.tas
 taskVideoState=taskinfoList.filter(state=>state.taskCode==10004)[0].state
 taskVideoTimes=taskinfoList.filter(state=>state.taskCode==10004)[0].completedTimes}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
 function formatDateTime(inputTime){var date=new Date(inputTime);var y=date.getFullYear();var m=date.getMonth()+1;m=m<10?('0'+m):m;var d=date.getDate();d=d<10?('0'+d):d;var h=date.getHours();h=h<10?('0'+h):h;var minute=date.getMinutes();var second=date.getSeconds();minute=minute<10?('0'+minute):minute;second=second<10?('0'+second):second;return y+m;};function safeGet(data){try{if(typeof JSON.parse(data)=="object"){return true;}}catch(e){console.log(e);console.log(`⛔️服务器访问数据为空，请检查自身设备网络情况`);return false;}}
-async function githubkey(keystate){return new Promise((resolve)=>{let url={url:`${githubkeyUrl}`,};$.get(url,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败❌ ‼️‼️");console.log(JSON.stringify(err));$.logErr(err);}else{switch(keystate){case"again":elongcashkey=Base64.encode(data);if(elongcashkey)$.setdata(elongcashkey,'elongcashkey');break;default:elongcashkey=Base64.encode(data);$.log(elongcashkey);if(elongcashkey)$.setdata(elongcashkey,'elongcashkey');$.log(`\n🤖[${$.name}]:请重新执行脚本进行秘钥验证`);$.msg($.name,'',`🤖请重新执行脚本进行秘钥验证`);}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function githubkey(keystate){return new Promise((resolve)=>{let url={url:`${githubkeyUrl}`,};$.get(url,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败❌ ‼️‼️");console.log(JSON.stringify(err));$.logErr(err);}else{switch(keystate){case"again":elongcashkey=Base64.encode(data);if(elongcashkey)$.setdata(elongcashkey,'elongcashkey');break;default:elongcashkey=Base64.encode(data);$.log(elongcashkey);if(elongcashkey)$.setdata(elongcashkey,'elongcashkey');$.log(`\n🐲[${$.name}]:请重新执行脚本进行秘钥验证`);$.msg($.name,'',`🐲请重新执行脚本进行秘钥验证`);}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
 function Random(min,max){return Math.round(Math.random()*(max-min))+min;}
 function z(){const ll=decodeURIComponent(Base64.decode(elongcashkey))
 function f(id){try{if(ll.indexOf(id)>-1){return true;}}catch(e){$.log(e);return false;}}
