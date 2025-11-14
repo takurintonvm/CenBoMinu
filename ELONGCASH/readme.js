@@ -1,16 +1,21 @@
+🐷 同程小猪脚本：
+可完成 自动签到,看视频,夺宝,收取任务金币
+
 👉👉👉 脚本说明 👈👈👈
 ❗️❗️本脚本为测试版本(TF),如果你还未取得测试资格,请先关注https://t.me/CbScript,不定时会放出测试资格邀请链接。
 
 👉👉👉 信息 👈👈👈
 【BOXJS】: https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.test.box.json
 【脚本定时cron】: 0 */1 * * * (每个小时执行一次)
-【脚本JS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/elongcashck.js
+【脚本JS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/elongcash.js
 【重写引用】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/cookie.conf
 
 👉👉👉 配置文件 👈👈👈
+[详情请见]
+https://github.com/CenBoMin/GithubSync/tree/main/ELONGCASH
 
 [task_local]
-0 */1 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/elongcashck.js, tag=同程小猪🐷, img-url=https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/140.png, enabled=false
+0 */1 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/elongcash.js, tag=同程小猪🐷, img-url=https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/140.png, enabled=false
 
 [rewrite_local]
 https://x.elong.com/feifang/activity/baseapi/treasure/task/receive-reward url script-request-body https://raw.githubusercontent.com/CenBoMin/GithubSync/main/ELONGCASH/elongcashck.js
