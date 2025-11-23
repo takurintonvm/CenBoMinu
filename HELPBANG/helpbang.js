@@ -1,1379 +1,243 @@
-// TODO:
-
-//++++++++++++++++++++++++++++++++++++
-const $ = new Env("HELPBANG");
-const host = "https://hlxcx.renmaibangvip.cn";
-const logs = true;
-const notifyInterval = 1;
-const tgmarkcode = "/submitactivitycodes helpbang@"
-const stepnumber = Random(22000, 26000);
-const coinct = Random(13, 20);
-const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/TGBOTCode/main/helpbang.js'
-let tz = "";
-let sumstepcoin = 0,
-  sumcollectcoin = 0,
-  sumcollectcoin2 = 0;
-let dosteptime = 0,
-  docollecttime = 0,
-  docollecttime2 = 0;
-let helpbang = $.getjson('helpbang', [])
-let helpbangkey = $.getval('helpbangkey')
-  //++++++++++++++++++++++++++++++++++++
-  !(async () => {
-    cc = (`${$.name}任务执行通知🔔`);
-    console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Telegram:https://t.me/CbScript\n* Updatetime:2021.04.28\n");
-    console.log(`Now login(UTC+8):${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}`)
-    if (typeof $request !== "undefined") {
-      $.log('【提示】请先前往获取cookie📲')
-    } else if (!helpbangkey) {
-      $.log(`\n🤖[${$.name}]:开始下载脚本使用权限秘钥...`)
-      await githubkey();
-    } else {
-      let ckList = helpbang.filter(ck => ck.hd).map((ck) => ({
-        uid: ck.uid,
-        body: ck.bd,
-        headers: JSON.parse(ck.hd),
-        gold: ck.gold,
-        tkinfosum: ck.tkinfosum,
-        tkinfonon: ck.tkinfonon,
-        signsum: ck.signsum,
-        signnon: ck.signnon,
-        signtt: ck.signtt,
-        gotasksum: ck.gotasksum,
-        gotasknon: ck.gotasknon,
-        gotasktt: ck.gotasktt,
-        gotaskbody: ck.gotaskbody,
-        fintasksum: ck.fintasksum,
-        fintasknon: ck.fintasknon,
-        fintasktt: ck.fintasktt,
-        wxsharesum: ck.wxsharesum,
-        wxsharenon: ck.wxsharenon,
-        wxsharett: ck.wxsharett,
-        sharesum: ck.sharesum,
-        sharenon: ck.sharenon,
-        sharett: ck.sharett,
-        kanvideohd: ck.kanvideohd,
-        stepcoinhd: ck.stepcoinhd,
-        collectcoinsum: ck.collectcoinsum,
-        collectcoinnon: ck.collectcoinnon,
-        collectcointt: ck.collectcointt,
-        txsum: ck.txsum,
-        txnon: ck.txnon,
-        txtt: ck.txtt
-
-        //===================================
-      }));
-      console.log(`\n🤖[${$.name}]:~ System💲/脚本账号数量 `)
-      console.log(`本次执行共${ckList.length}个账号`)
-      for (let i = 0; i < ckList.length; i++) {
-        tkList = ckList[i];
-        $.log(`\n🗝[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
-        if (z(i)) {
-          $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
-          $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 👤User${i+1},UID:${tkList.uid}的脚本任务`)
-          await main(i);
-        } else {
-          $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-          $.log(`\n🗝[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
-          await githubkey("again");
-          $.log(`\n🗝[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
-          if (z()) {
-            $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
-            $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1},UID:${tkList.uid}的脚本任务`)
-            await main(i);
-          } else {
-            $.log(`❌用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-            $.log(`\n⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
-            $.msg($.name, '', `⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
-          }
-        }
-      }
-    }
-  })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
-
-//++++++++++++++++++++++++++++++++++++
-function initTaskOptions(url, body, nonce, sum, time) {
-  let inithd = tkList.headers
-  let noncehd = inithd['nonce'].replace(/\w+/, `${nonce}`)
-  let sumcehd = inithd['checkSum'].replace(/\w+/, `${sum}`)
-  let timehd = inithd['curTime'].replace(/\w+/, `${time}`)
-  let initbd = tkList.body
-  let ckbd = initbd.replace(/.*/, `${body}`)
-  inithd.nonce = noncehd
-  inithd.checkSum = sumcehd
-  inithd.curTime = timehd
-  return {
-    url: `${host}/${url}`,
-    headers: inithd,
-    body: ckbd
-  };
-}
-
-function TaskOptions(url, body, hd) {
-  let inithd = JSON.parse(hd)
-  let initbd = tkList.body
-  let ckbd = initbd.replace(/.*/, `${body}`)
-  return {
-    url: `${host}/${url}`,
-    headers: inithd,
-    body: ckbd
-  };
-}
-
-async function main(i) {
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/查询 用户资讯&任务`)
-  await userinfo2();
-  await taskinfo();
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 签到任务`)
-  await signtask();
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 看视频+分享朋友圈+发布互助任务+分享微信群`)
-  for (let m = 0; m < 4; m++) {
-    switch (m) {
-      case 1:
-        if (!tkList.kanvideohd) {
-          $.log('【提示】请先前往获取[看视频]cookie📲')
-        } else {
-          if (taskinfoList[m].completeCount != 6) {
-            for (let i = 0; i < 6; i++) {
-              await WatchVideo(i)
-              await $.wait(5000)
-            }
-          } else {
-            console.log(`\n☑️[${$.name}]:~今天[看视频]任务已完成🎉`)
-          }
-        }
-        break;
-      case 2:
-        taskinfoList[m].completeCount == 0 ? await sharewx() : console.log(`\n☑️[${$.name}]:~今天[分享朋友圈]任务已完成🎉`);
-        break;
-      case 3:
-        taskinfoList[m].completeCount == 0 ? await completetask() : console.log(`\n☑️[${$.name}]:~今天[发布互助任务]任务已完成🎉`);
-        break;
-      default:
-        taskinfoList[m].completeCount == 0 ? await sharewxgroup() : console.log(`\n☑️[${$.name}]:~今天[分享微信群]任务已完成🎉`);
-        break;
-    }
-  };
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷步数金币`)
-  if (!tkList.stepcoinhd) {
-    $.log('【提示】请先前往获取[步数金币]cookie📲')
-  } else {
-    await steptocoin();
-    if (sumstepcoin > 0) {
-      console.log(`\n🧮[本次步数金币小计]:共获取${sumstepcoin}金币`)
-    } else {}
-  }
-
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 刷气泡金币`)
-  await collectCoin1();
-  // if (sumcollectcoin > 0) {
-  //   console.log(`\n🧮[本次气泡金币小计]:共获取${sumcollectcoin}金币`)
-  // } else {}
-  await $.wait(5000);
-  await collectCoin2();
-  // if (sumcollectcoin2 > 0) {
-  //   console.log(`\n🧮[本次气泡金币翻倍小计]:共获取${sumcollectcoin2}金币`)
-  // } else {}
-  console.log(`\n🤖[${$.name}]:~ User${i+1}💲/执行 提现任务`)
-  console.log(`【提示】提现任务未测试,目前禁止使用🚫。首次提现1元只能一次,务必获取提现Cookie,否则..请等待5元提现获取❗️。`)
-  //await applyWithdraw();
-
-  // await showmsg1();
-}
-//===================================
-//++++++++++++++++++++++++++++++++++++
-//applyWithdraw
-async function applyWithdraw() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("user/applyWithdraw", `{"applyAmount":500,"uniqueId":"${tkList.uid}"}`, tkList.txnon, tkList.txsum, tkList.txtt);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            $.log(data)
-            data = JSON.parse(data);
-            txcode = data.head.code
-            txmsg = data.head.msg
-            switch (txcode) {
-              case 112:
-                console.log(`🤖[${$.name}]:⚠️${txmsg}`);
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[提现]:${resp.body}`);
-
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//collectCoin
-async function collectCoin1() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("user/collectCoin", `{"coinCount":${coinct},"collectCoinType":1,"uniqueId":"${tkList.uid}"}`, tkList.collectcoinnon, tkList.collectcoinsum, tkList.collectcointt);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            collectckcode = data.head.code
-            coint = Random(15, 20)
-            switch (collectckcode) {
-              case 200:
-                // if (typeof addtaskcoin == "undefined") {
-                  // docollecttime++;
-                  console.log(`✔️[气泡金币]执行成功！你的奖励:${coint}金币,已入账。`)
-                  // console.log(`✔️[气泡金币${docollecttime}]执行成功！你的奖励:${coint}金币,已入账。`)
-                  // sumcollectcoin += coint
-                  // await $.wait(5000);
-                  // await collectCoin1();
-                // } else {
-                //   coin7 = data.data.coinInfo.coinBalance + addtaskcoin
-                //   console.log(`✔️[气泡金币]执行成功！你的奖励:${coin7-coin5}金币,已入账。`)
-                // }
-                break;
-              case 110:
-                $.log('【提示】请先前往获取[气泡金币]cookie📲')
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[气泡金币]:${resp.body}`);
-              case 115:
-                console.log(`\n☑️[${$.name}]:~今天[气泡金币]任务已完成🎉`)
-                break;
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-async function collectCoin2() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("user/collectCoin", `{"coinCount":${coinct},"collectCoinType":2,"uniqueId":"${tkList.uid}"}`, tkList.collectcoinnon, tkList.collectcoinsum, tkList.collectcointt);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            stepcode = data.head.code
-            coint = Random(13, 20)
-            switch (stepcode) {
-              case 200:
-                if (typeof addtaskcoin == "undefined") {
-                  // docollecttime2++
-                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:${coint}金币,已入账。`)
-                  // console.log(`✔️[气泡金币翻倍${docollecttime2}]执行成功！你的奖励:${coint}金币,已入账。`)
-                  // sumcollectcoin2 += coint
-                  // await $.wait(3000);
-                  // await collectCoin2();
-                } else {
-                  coin9 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:20金币,已入账。`)
-                }
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[气泡金币翻倍]:${resp.body}`);
-                break;
-              case 115:
-                console.log(`\n☑️[${$.name}]:~今天[气泡金币翻倍]任务已完成🎉`)
-                break;
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//steptocoin
-async function steptocoin() {
-  let stepcoin = Random(13, 20)
-  return new Promise((resolve) => {
-    const options = TaskOptions("user/exchangeStepToCoin", `{"curStepCount":${stepnumber},"exchangeCoin":${stepcoin},"uniqueId":"${tkList.uid}"}`, tkList.stepcoinhd);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            steprpcode = data.head.code
-            switch (steprpcode) {
-              case 200:
-                dosteptime++
-                console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${stepcoin}金币,已入账。`)
-                sumstepcoin += stepcoin
-                await $.wait(5000);
-                await steptocoin();
-                break;
-              case 110:
-                $.log('【提示】请先前往获取[步数金币]cookie📲')
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[步数金币]:${resp.body}`);
-              case 114:
-                console.log(`\n☑️[${$.name}]:~今天[步数金币]任务已完成🎉`)
-                break;
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//WatchVideo
-async function WatchVideo(i) {
-  return new Promise((resolve) => {
-    const options = TaskOptions("user/completeWatchVideoTask", `{"uniqueId":"${tkList.uid}"}`, tkList.kanvideohd);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            rpcode = data.head.code
-            switch (rpcode) {
-              case 200:
-                if (typeof addtaskcoin == "undefined") {
-                  const coinvideo = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[看视频${i+1}]执行成功！你的奖励:60金币,已入账。`)
-                } else {
-                  console.log(`✔️[看视频${i+1}]执行成功！你的奖励:60金币,已入账。`);
-                }
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[看视频]:${resp.body}`);
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//sharewxgroup
-async function sharewxgroup() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("user/completeShareWxGroupTask", `{"uniqueId":"${tkList.uid}"}`, tkList.sharenon, tkList.sharesum, tkList.sharett);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            rpcode = data.head.code
-            switch (rpcode) {
-              case 200:
-                if (typeof addtaskcoin == "undefined") {
-                  const coinwxgroup = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[分享微信群]执行成功！你的奖励:${coinwxgroup}金币,已入账。`)
-                } else {
-                  coin3 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️今天[分享微信群]任务完成！你的奖励:${coin3-coin2}金币,已入账。`);
-                }
-                break;
-              case 110:
-                $.log('【提示】请先前往获取[分享微信群]cookie📲')
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[分享微信群]:${resp.body}`);
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//sharewx
-async function sharewx() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("user/completeShareWxCircleTask", `{"uniqueId":"${tkList.uid}"}`, tkList.wxsharenon, tkList.wxsharesum, tkList.wxsharett);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            switch (rpcode) {
-              case 200:
-                if (typeof addtaskcoin == "undefined") {
-                  const coinwxgroup = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[分享朋友圈]执行成功！你的奖励:100金币,已入账。`)
-                } else {
-                  coin2 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[分享朋友圈]任务完成！你的奖励:100金币,已入账。`);
-                }
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[分享朋友圈]:${resp.body}`);
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//completetask
-async function completetask() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("user/completeMutualAidTask", `{"uniqueId":"${tkList.uid}"}`, tkList.fintasknon, tkList.fintasksum, tkList.fintasktt);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            taskcode = data.head.code
-            switch (taskcode) {
-              case 200:
-                if (typeof addtaskcoin == "undefined") {
-                  const coin = data.data.coinInfo.coinBalance - nowgold
-                  console.log(`✔️[发布互助1单]执行成功！你的奖励:${coin}金币,已入账。`)
-                } else {
-                  coin1 = data.data.coinInfo.coinBalance + addtaskcoin
-                  console.log(`✔️[发布互助1单]任务完成！你的奖励:110金币,已入账。`);
-                }
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[发布互助1单]:${resp.body}`);
-              case 119:
-                console.log(`\n☑️[${$.name}]:~今天[发布互助1单]任务已完成🎉`);
-                break;
-              case 110:
-                $.log('【提示】请先前往获取[发布互助1单]cookie📲')
-                break;
-              case 120:
-                console.log(`❗️今天尚未发布1单互助任务...尝试发布5000金币任务。`);
-                await addtask();
-                break;
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//addTask
-async function addtask() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("benefit/addTask", tkList.gotaskbody, tkList.gotasknon, tkList.gotasksum, tkList.gotasktt);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            addtaskcode = data.head.code
-            switch (addtaskcode) {
-              case 110:
-                $.log('【提示】请先发布任务获取cookie📲')
-                break;
-              default:
-                taskid = data.data.taskId
-                addtaskcoin = data.data.coinBalance
-                console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);
-                await $.wait(1000)
-                await completetask();
-            }
-
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//signInWatchVideo
-async function signtask() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("user/signInWatchVideo", `{"coinCount":100,"uniqueId":"${tkList.uid}"}`, tkList.signnon, tkList.signsum, tkList.signtt);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            signtaskcode = data.head.code
-            switch (signtaskcode) {
-              case 200:
-                signcoin = data.data.coinInfo.coinBalance - nowgold
-                console.log(`✔️[签到]任务完成!你的奖励:${signcoin}金币,已入账。`);
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[签到]:${resp.body}`);
-              case 107:
-                console.log(`\n☑️[${$.name}]:~今天[签到]任务已完成🎉`);
-                break;
-              case 110:
-                $.log('【提示】请先前往获取[签到]cookie📲')
-                break;
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//TaskConfigInfo
-async function taskinfo() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions("reward/getRewardTaskConfigInfo_V5", `{"uniqueId":"${tkList.uid}"}`, tkList.tkinfonon, tkList.tkinfosum);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == false) $.log(data)
-            data = JSON.parse(data);
-            taskinfoList = data.data.rewardTaskInfo
-            taskinfoList.forEach(tk => console.log(`[${tk.taskTitle}]:每日执行${tk.taskCompleteNum}次,领取${tk.taskRewardInitAmount * tk.taskCompleteNum}金币`))
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//getUserInfo
-async function userinfo2() {
-  return new Promise((resolve) => {
-    let options = {
-      url: `https://hlxcx.renmaibangvip.cn/user/getUserInfo`,
-      body: `${tkList.body}`,
-      headers: tkList.headers,
-    }
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`⛔️API查询请求失败,请检查网络设置‼️‼️ \n ${JSON.stringify(err)}`);
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            userinfoList = data.data.userInfo
-            nowgold = userinfoList.coinBalance
-            goldbalance = userinfoList.curDayCoinBalance
-            userinfocode = data.head.code
-            console.log(`今天用户[${userinfoList.nickName}]获取${userinfoList.curDayCoinBalance}金币(包含发布任务返回金币,实际收益可能为${userinfoList.curDayCoinBalance-5000}金币),目前账户金币为${userinfoList.coinBalance},约${Math.round(userinfoList.coinBalance/1000)/10}元,截止到今日共获取${Math.round(userinfoList.historyCoin/1000)/10}元`)
-
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
-
-function userinfo(userbody, userkey) {
-  return new Promise((resolve) => {
-    let options = {
-      url: `https://hlxcx.renmaibangvip.cn/user/getUserInfo`,
-      body: userbody,
-      headers: JSON.parse(userkey),
-    }
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`⛔️API查询请求失败,请检查网络设置‼️‼️ \n ${JSON.stringify(err)}`);
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            userId = data.data.userInfo.uniqueId
-            gold = data.data.userInfo.coinBalance
-          }
-        }
-      } catch (e) {
-        $.log(`=================\nurl: ${options.url}\ndata: ${resp && resp.body}`);
-        $.logErr(e, resp);
-      } finally {
-        resolve([userId, gold])
-      }
-    })
-  })
-}
-
-//++++++++++++++++++++++++++++++++++++
-async function showmsg1() {
-  if (notifyInterval != 1) {
-    console.log(cc + '\n' + tz);
-  }
-
-  if (notifyInterval == 1) {
-    $.msg(cc, '\n', tz);
-  }
-}
-
-function calarrno(l, n) {
-  let status = 1;
-  let no = l;
-  for (let i = 0, len = no; i < len; i++) {
-    let ac = helpbang[i] || {};
-    if (ac.uid) {
-      if (ac.uid == n) {
-        no = i;
-        status = 0;
-        break;
-      }
-    } else if (no == len) {
-      no = i;
-    }
-  }
-  let valarr = [no, status]
-  return no
-}
-
-function safeGet(data) {
-  try {
-    if (typeof JSON.parse(data) == "object") {
-      return true;
-    }
-  } catch (e) {
-    console.log(e);
-    console.log(`⛔️服务器访问数据为空，请检查自身设备网络情况`);
-    return false;
-  }
-}
-
-function unique(arr) {
-  return Array.from(new Set(arr))
-}
-
-//base64
-let Base64 = {
-  encode(str) {
-    // first we use encodeURIComponent to get percent-encoded UTF-8,
-    // then we convert the percent encodings into raw bytes which
-    // can be fed into btoa.
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-      function toSolidBytes(match, p1) {
-        return String.fromCharCode('0x' + p1);
-      }));
-  },
-  decode(str) {
-    // Going backwards: from bytestream, to percent-encoding, to original string.
-    return decodeURIComponent(atob(str).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-  }
-};
-
-async function githubkey(keystate) {
-  return new Promise((resolve) => {
-    let url = {
-      url: `${githubkeyUrl}`,
-    };
-    $.get(url, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败❌ ‼️‼️");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (logs == false) $.log(data)
-          switch (keystate) {
-            case "again":
-              helpbangkey = Base64.encode(data);
-              $.log(helpbangkey);
-              if (helpbangkey) $.setdata(helpbangkey, 'helpbangkey');
-              $.log(`\n🤖[${$.name}]:下载完成!~脚本使用权限秘钥已更新`);
-              break;
-            default:
-              helpbangkey = Base64.encode(data);
-              console.log(helpbangkey);
-              if (helpbangkey) $.setdata(helpbangkey, 'helpbangkey');
-              $.log(`\n🤖[${$.name}]:请重新执行脚本进行秘钥验证`);
-              $.msg($.name, '', `🤖请重新执行脚本进行秘钥验证`);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-
-function z() {
-  const ll = decodeURIComponent(atob(helpbangkey))
-
-  function f(id) {
-    try {
-      if (ll.indexOf(id) > -1) {
-        return true;
-      }
-    } catch (e) {
-      $.log(e);
-      return false;
-    }
-  }
-  if (f(tkList.uid)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function Random(min, max) {
-  return Math.round(Math.random() * (max - min)) + min;
-}
-
-function Env(name, opts) {
-  class Http {
-    constructor(env) {
-      this.env = env
-    }
-
-    send(opts, method = 'GET') {
-      opts = typeof opts === 'string' ? {
-        url: opts
-      } : opts
-      let sender = this.get
-      if (method === 'POST') {
-        sender = this.post
-      }
-      return new Promise((resolve, reject) => {
-        sender.call(this, opts, (err, resp, body) => {
-          if (err) reject(err)
-          else resolve(resp)
-        })
-      })
-    }
-
-    get(opts) {
-      return this.send.call(this.env, opts)
-    }
-
-    post(opts) {
-      return this.send.call(this.env, opts, 'POST')
-    }
-  }
-
-  return new(class {
-    constructor(name, opts) {
-      this.name = name
-      this.http = new Http(this)
-      this.data = null
-      this.dataFile = 'box.dat'
-      this.logs = []
-      this.isMute = false
-      this.isNeedRewrite = false
-      this.logSeparator = '\n'
-      this.startTime = new Date().getTime()
-      Object.assign(this, opts)
-      this.log('', `🔔${this.name}, 开始!`)
-    }
-
-    isNode() {
-      return 'undefined' !== typeof module && !!module.exports
-    }
-
-    isQuanX() {
-      return 'undefined' !== typeof $task
-    }
-
-    isSurge() {
-      return 'undefined' !== typeof $httpClient && 'undefined' === typeof $loon
-    }
-
-    isLoon() {
-      return 'undefined' !== typeof $loon
-    }
-
-    isShadowrocket() {
-      return 'undefined' !== typeof $rocket
-    }
-
-    toObj(str, defaultValue = null) {
-      try {
-        return JSON.parse(str)
-      } catch {
-        return defaultValue
-      }
-    }
-
-    toStr(obj, defaultValue = null) {
-      try {
-        return JSON.stringify(obj)
-      } catch {
-        return defaultValue
-      }
-    }
-
-    getjson(key, defaultValue) {
-      let json = defaultValue
-      const val = this.getdata(key)
-      if (val) {
-        try {
-          json = JSON.parse(this.getdata(key))
-        } catch {}
-      }
-      return json
-    }
-
-    setjson(val, key) {
-      try {
-        return this.setdata(JSON.stringify(val), key)
-      } catch {
-        return false
-      }
-    }
-
-    getScript(url) {
-      return new Promise((resolve) => {
-        this.get({
-          url
-        }, (err, resp, body) => resolve(body))
-      })
-    }
-
-    runScript(script, runOpts) {
-      return new Promise((resolve) => {
-        let httpapi = this.getdata('@chavy_boxjs_userCfgs.httpapi')
-        httpapi = httpapi ? httpapi.replace(/\n/g, '').trim() : httpapi
-        let httpapi_timeout = this.getdata('@chavy_boxjs_userCfgs.httpapi_timeout')
-        httpapi_timeout = httpapi_timeout ? httpapi_timeout * 1 : 20
-        httpapi_timeout = runOpts && runOpts.timeout ? runOpts.timeout : httpapi_timeout
-        const [key, addr] = httpapi.split('@')
-        const opts = {
-          url: `http://${addr}/v1/scripting/evaluate`,
-          body: {
-            script_text: script,
-            mock_type: 'cron',
-            timeout: httpapi_timeout
-          },
-          headers: {
-            'X-Key': key,
-            'Accept': '*/*'
-          }
-        }
-        this.post(opts, (err, resp, body) => resolve(body))
-      }).catch((e) => this.logErr(e))
-    }
-
-    loaddata() {
-      if (this.isNode()) {
-        this.fs = this.fs ? this.fs : require('fs')
-        this.path = this.path ? this.path : require('path')
-        const curDirDataFilePath = this.path.resolve(this.dataFile)
-        const rootDirDataFilePath = this.path.resolve(process.cwd(), this.dataFile)
-        const isCurDirDataFile = this.fs.existsSync(curDirDataFilePath)
-        const isRootDirDataFile = !isCurDirDataFile && this.fs.existsSync(rootDirDataFilePath)
-        if (isCurDirDataFile || isRootDirDataFile) {
-          const datPath = isCurDirDataFile ? curDirDataFilePath : rootDirDataFilePath
-          try {
-            return JSON.parse(this.fs.readFileSync(datPath))
-          } catch (e) {
-            return {}
-          }
-        } else return {}
-      } else return {}
-    }
-
-    writedata() {
-      if (this.isNode()) {
-        this.fs = this.fs ? this.fs : require('fs')
-        this.path = this.path ? this.path : require('path')
-        const curDirDataFilePath = this.path.resolve(this.dataFile)
-        const rootDirDataFilePath = this.path.resolve(process.cwd(), this.dataFile)
-        const isCurDirDataFile = this.fs.existsSync(curDirDataFilePath)
-        const isRootDirDataFile = !isCurDirDataFile && this.fs.existsSync(rootDirDataFilePath)
-        const jsondata = JSON.stringify(this.data)
-        if (isCurDirDataFile) {
-          this.fs.writeFileSync(curDirDataFilePath, jsondata)
-        } else if (isRootDirDataFile) {
-          this.fs.writeFileSync(rootDirDataFilePath, jsondata)
-        } else {
-          this.fs.writeFileSync(curDirDataFilePath, jsondata)
-        }
-      }
-    }
-
-    lodash_get(source, path, defaultValue = undefined) {
-      const paths = path.replace(/\[(\d+)\]/g, '.$1').split('.')
-      let result = source
-      for (const p of paths) {
-        result = Object(result)[p]
-        if (result === undefined) {
-          return defaultValue
-        }
-      }
-      return result
-    }
-
-    lodash_set(obj, path, value) {
-      if (Object(obj) !== obj) return obj
-      if (!Array.isArray(path)) path = path.toString().match(/[^.[\]]+/g) || []
-      path
-        .slice(0, -1)
-        .reduce((a, c, i) => (Object(a[c]) === a[c] ? a[c] : (a[c] = Math.abs(path[i + 1]) >> 0 === +path[i + 1] ? [] : {})), obj)[
-          path[path.length - 1]
-        ] = value
-      return obj
-    }
-
-    getdata(key) {
-      let val = this.getval(key)
-      // 如果以 @
-      if (/^@/.test(key)) {
-        const [, objkey, paths] = /^@(.*?)\.(.*?)$/.exec(key)
-        const objval = objkey ? this.getval(objkey) : ''
-        if (objval) {
-          try {
-            const objedval = JSON.parse(objval)
-            val = objedval ? this.lodash_get(objedval, paths, '') : val
-          } catch (e) {
-            val = ''
-          }
-        }
-      }
-      return val
-    }
-
-    setdata(val, key) {
-      let issuc = false
-      if (/^@/.test(key)) {
-        const [, objkey, paths] = /^@(.*?)\.(.*?)$/.exec(key)
-        const objdat = this.getval(objkey)
-        const objval = objkey ? (objdat === 'null' ? null : objdat || '{}') : '{}'
-        try {
-          const objedval = JSON.parse(objval)
-          this.lodash_set(objedval, paths, val)
-          issuc = this.setval(JSON.stringify(objedval), objkey)
-        } catch (e) {
-          const objedval = {}
-          this.lodash_set(objedval, paths, val)
-          issuc = this.setval(JSON.stringify(objedval), objkey)
-        }
-      } else {
-        issuc = this.setval(val, key)
-      }
-      return issuc
-    }
-
-    getval(key) {
-      if (this.isSurge() || this.isLoon()) {
-        return $persistentStore.read(key)
-      } else if (this.isQuanX()) {
-        return $prefs.valueForKey(key)
-      } else if (this.isNode()) {
-        this.data = this.loaddata()
-        return this.data[key]
-      } else {
-        return (this.data && this.data[key]) || null
-      }
-    }
-
-    setval(val, key) {
-      if (this.isSurge() || this.isLoon()) {
-        return $persistentStore.write(val, key)
-      } else if (this.isQuanX()) {
-        return $prefs.setValueForKey(val, key)
-      } else if (this.isNode()) {
-        this.data = this.loaddata()
-        this.data[key] = val
-        this.writedata()
-        return true
-      } else {
-        return (this.data && this.data[key]) || null
-      }
-    }
-
-    initGotEnv(opts) {
-      this.got = this.got ? this.got : require('got')
-      this.cktough = this.cktough ? this.cktough : require('tough-cookie')
-      this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar()
-      if (opts) {
-        opts.headers = opts.headers ? opts.headers : {}
-        if (undefined === opts.headers.Cookie && undefined === opts.cookieJar) {
-          opts.cookieJar = this.ckjar
-        }
-      }
-    }
-
-    get(opts, callback = () => {}) {
-      if (opts.headers) {
-        delete opts.headers['Content-Type']
-        delete opts.headers['Content-Length']
-      }
-      if (this.isSurge() || this.isLoon()) {
-        if (this.isSurge() && this.isNeedRewrite) {
-          opts.headers = opts.headers || {}
-          Object.assign(opts.headers, {
-            'X-Surge-Skip-Scripting': false
-          })
-        }
-        $httpClient.get(opts, (err, resp, body) => {
-          if (!err && resp) {
-            resp.body = body
-            resp.statusCode = resp.status
-          }
-          callback(err, resp, body)
-        })
-      } else if (this.isQuanX()) {
-        if (this.isNeedRewrite) {
-          opts.opts = opts.opts || {}
-          Object.assign(opts.opts, {
-            hints: false
-          })
-        }
-        $task.fetch(opts).then(
-          (resp) => {
-            const {
-              statusCode: status,
-              statusCode,
-              headers,
-              body
-            } = resp
-            callback(null, {
-              status,
-              statusCode,
-              headers,
-              body
-            }, body)
-          },
-          (err) => callback(err)
-        )
-      } else if (this.isNode()) {
-        this.initGotEnv(opts)
-        this.got(opts)
-          .on('redirect', (resp, nextOpts) => {
-            try {
-              if (resp.headers['set-cookie']) {
-                const ck = resp.headers['set-cookie'].map(this.cktough.Cookie.parse).toString()
-                if (ck) {
-                  this.ckjar.setCookieSync(ck, null)
-                }
-                nextOpts.cookieJar = this.ckjar
-              }
-            } catch (e) {
-              this.logErr(e)
-            }
-            // this.ckjar.setCookieSync(resp.headers['set-cookie'].map(Cookie.parse).toString())
-          })
-          .then(
-            (resp) => {
-              const {
-                statusCode: status,
-                statusCode,
-                headers,
-                body
-              } = resp
-              callback(null, {
-                status,
-                statusCode,
-                headers,
-                body
-              }, body)
-            },
-            (err) => {
-              const {
-                message: error,
-                response: resp
-              } = err
-              callback(error, resp, resp && resp.body)
-            }
-          )
-      }
-    }
-
-    post(opts, callback = () => {}) {
-      const method = opts.method ? opts.method.toLocaleLowerCase() : 'post'
-      // 如果指定了请求体, 但没指定`Content-Type`, 则自动生成
-      if (opts.body && opts.headers && !opts.headers['Content-Type']) {
-        opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      }
-      if (opts.headers) delete opts.headers['Content-Length']
-      if (this.isSurge() || this.isLoon()) {
-        if (this.isSurge() && this.isNeedRewrite) {
-          opts.headers = opts.headers || {}
-          Object.assign(opts.headers, {
-            'X-Surge-Skip-Scripting': false
-          })
-        }
-        $httpClient[method](opts, (err, resp, body) => {
-          if (!err && resp) {
-            resp.body = body
-            resp.statusCode = resp.status
-          }
-          callback(err, resp, body)
-        })
-      } else if (this.isQuanX()) {
-        opts.method = method
-        if (this.isNeedRewrite) {
-          opts.opts = opts.opts || {}
-          Object.assign(opts.opts, {
-            hints: false
-          })
-        }
-        $task.fetch(opts).then(
-          (resp) => {
-            const {
-              statusCode: status,
-              statusCode,
-              headers,
-              body
-            } = resp
-            callback(null, {
-              status,
-              statusCode,
-              headers,
-              body
-            }, body)
-          },
-          (err) => callback(err)
-        )
-      } else if (this.isNode()) {
-        this.initGotEnv(opts)
-        const {
-          url,
-          ..._opts
-        } = opts
-        this.got[method](url, _opts).then(
-          (resp) => {
-            const {
-              statusCode: status,
-              statusCode,
-              headers,
-              body
-            } = resp
-            callback(null, {
-              status,
-              statusCode,
-              headers,
-              body
-            }, body)
-          },
-          (err) => {
-            const {
-              message: error,
-              response: resp
-            } = err
-            callback(error, resp, resp && resp.body)
-          }
-        )
-      }
-    }
-    /**
-     *
-     * 示例:$.time('yyyy-MM-dd qq HH:mm:ss.S')
-     *    :$.time('yyyyMMddHHmmssS')
-     *    y:年 M:月 d:日 q:季 H:时 m:分 s:秒 S:毫秒
-     *    其中y可选0-4位占位符、S可选0-1位占位符，其余可选0-2位占位符
-     * @param {string} fmt 格式化参数
-     * @param {number} 可选: 根据指定时间戳返回格式化日期
-     *
-     */
-    time(fmt, ts = null) {
-      const date = ts ? new Date(ts) : new Date()
-      let o = {
-        'M+': date.getMonth() + 1,
-        'd+': date.getDate(),
-        'H+': date.getHours(),
-        'm+': date.getMinutes(),
-        's+': date.getSeconds(),
-        'q+': Math.floor((date.getMonth() + 3) / 3),
-        'S': date.getMilliseconds()
-      }
-      if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-      for (let k in o)
-        if (new RegExp('(' + k + ')').test(fmt))
-          fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
-      return fmt
-    }
-
-    /**
-     * 系统通知
-     *
-     * > 通知参数: 同时支持 QuanX 和 Loon 两种格式, EnvJs根据运行环境自动转换, Surge 环境不支持多媒体通知
-     *
-     * 示例:
-     * $.msg(title, subt, desc, 'twitter://')
-     * $.msg(title, subt, desc, { 'open-url': 'twitter://', 'media-url': 'https://github.githubassets.com/images/modules/open_graph/github-mark.png' })
-     * $.msg(title, subt, desc, { 'open-url': 'https://bing.com', 'media-url': 'https://github.githubassets.com/images/modules/open_graph/github-mark.png' })
-     *
-     * @param {*} title 标题
-     * @param {*} subt 副标题
-     * @param {*} desc 通知详情
-     * @param {*} opts 通知参数
-     *
-     */
-    msg(title = name, subt = '', desc = '', opts) {
-      const toEnvOpts = (rawopts) => {
-        if (!rawopts) return rawopts
-        if (typeof rawopts === 'string') {
-          if (this.isLoon()) return rawopts
-          else if (this.isQuanX()) return {
-            'open-url': rawopts
-          }
-          else if (this.isSurge()) return {
-            url: rawopts
-          }
-          else return undefined
-        } else if (typeof rawopts === 'object') {
-          if (this.isLoon()) {
-            let openUrl = rawopts.openUrl || rawopts.url || rawopts['open-url']
-            let mediaUrl = rawopts.mediaUrl || rawopts['media-url']
-            return {
-              openUrl,
-              mediaUrl
-            }
-          } else if (this.isQuanX()) {
-            let openUrl = rawopts['open-url'] || rawopts.url || rawopts.openUrl
-            let mediaUrl = rawopts['media-url'] || rawopts.mediaUrl
-            return {
-              'open-url': openUrl,
-              'media-url': mediaUrl
-            }
-          } else if (this.isSurge()) {
-            let openUrl = rawopts.url || rawopts.openUrl || rawopts['open-url']
-            return {
-              url: openUrl
-            }
-          }
-        } else {
-          return undefined
-        }
-      }
-      if (!this.isMute) {
-        if (this.isSurge() || this.isLoon()) {
-          $notification.post(title, subt, desc, toEnvOpts(opts))
-        } else if (this.isQuanX()) {
-          $notify(title, subt, desc, toEnvOpts(opts))
-        }
-      }
-      if (!this.isMuteLog) {
-        let logs = ['', '==============📣系统通知📣==============']
-        logs.push(title)
-        subt ? logs.push(subt) : ''
-        desc ? logs.push(desc) : ''
-        console.log(logs.join('\n'))
-        this.logs = this.logs.concat(logs)
-      }
-    }
-
-    log(...logs) {
-      if (logs.length > 0) {
-        this.logs = [...this.logs, ...logs]
-      }
-      console.log(logs.join(this.logSeparator))
-    }
-
-    logErr(err, msg) {
-      const isPrintSack = !this.isSurge() && !this.isQuanX() && !this.isLoon()
-      if (!isPrintSack) {
-        this.log('', `❗️${this.name}, 错误!`, err)
-      } else {
-        this.log('', `❗️${this.name}, 错误!`, err.stack)
-      }
-    }
-
-    wait(time) {
-      return new Promise((resolve) => setTimeout(resolve, time))
-    }
-
-    done(val = {}) {
-      const endTime = new Date().getTime()
-      const costTime = (endTime - this.startTime) / 1000
-      this.log('', `🔔${this.name}, 结束! 🕛 ${costTime} 秒`)
-      this.log()
-      if (this.isSurge() || this.isQuanX() || this.isLoon()) {
-        $done(val)
-      }
-    }
-  })(name, opts)
-}
+var _0xodW='jsjiami.com.v6',_0x3acb=[_0xodW,'wpnwmoW9w4Dmn4bmr5DmrL/mlLrphoHluoflsKzorKnCncO05Yet6I+v5Y2M','w610wr4=','wqHCh8KiGw==','OcOBLw==','dWPDnkPnppHpkKXpqKbor57lppTot43vv50=','wqPCqDo=','wrl8c1g=','OlFHwq9P','NvCgtIMf','wqxQdsOR','DOiFvuacluS9pOeUg+aekOmakcKUwrfDkQ==','bj/DhMKMw6M=','A8KnwrTDqBI=','w6XCl8O9w5RF','wrzChMKqw6A=','cVYq','A8KtwqxP56eC6ZGn6aqU6K2q5oq45YiP77288YSsng==','woHwlqauw58=','IsOJJsK4','55uP6IaD5p2J5Liy5Ymh','wqpyS8Ocw7o=','KVHDv1zClg==','wrXCusKGw6Au','TMOlwr0CWcKqecOZw6vDvxnCiw==','Y1w3','w7Rywr0=','RsO4wrU=','GsOga+iuhuWdk+e9l+WFiuaOmeS5memooOivsOehmMOF5aSj5p2m5bSo5o2V5LmX6K+e56mX5ZCU5Yaj6KyT6K2W44CWJPCRlanpq6Dor6jnoKnmjIjkuZHmoYPlvohf','w7zCp8KC','w6zCuwXDuQ==','wrtlw7norZ7lnbLnvZjlh7fmj7/kuY3pqb/orrrnorUC5aeV5pyU5baQ5oyc5Lqy6Ky756m85ZOI5YSl6K+R6K+J44O2EPCrhLbpqanorLfnoprmjLfkuK/mo63lvI3ChQ==','GC/Dn8O1woc=','Wzflp5notYzCk8Oo5Y6L5ZmtwoLDlA==','w7LCpMKAwrsVwpHDlg==','w7d5w73Dvg==','wopYSsKnHQ==','OxrDqwAB','SFY8TcK1','wrpqB8Otwpo=','ZVYMZsKK','wp8ew55twpI=','w5JXEcK+wrPDscOG','w6JKw5zDoUtWw5M=','wr3Ct8Knw7oC','QgxfeEDCgMK0w5c=','VBvCvyDCq8OFwqE=','wqHCqDMgwoM=','w7N+wqnDhTvCnxc=','SDXCjz7CmQ==','w7vCq8KWTcKCTsO4','w7HDnMOTF2MUwoA=','ZzTDqyYeIl0=','PsONO8KxO8OoXg==','EsKPw6HDvGE=','bcKHw6/CpSnCq8KVWA==','KMOsF8KdwqlCdg==','DMKBw73DrGE=','wqQTwrzCrw==','w6fCj8OJw4JW','44G95o+356S344Op6K+g5YWn5Yu95b6E6I+p5Y+hw5vnnJbopYDpoJHDm37DsMOpZMOwwqDwqrOf','TsO/wqELYA==','w5vCuMKIW8K2','44O95oyw56ae44OU6Ky85YWN5Ym75b296I225Yytwqvmronmla/phY3luZR6w5HDnnDCnwo48Keinw==','w77DhsOG','wp7xjLe4woE=','woY5O8KMwqgbw4oi','8KWRvcO65p2/6K6Aw5HnlZfmiJ3otJrorLDCvuS4meWLhA==','OcKUw4HDlmA=','MCPDrcOcwrw=','wqoTwr8=','Z/CWlJvCow==','w43Djy/DjQ==','JsKgEzLCnCpDQA==','agl8UXg=','wpTCrcOPwqjCow==','EMKPw6g=','w43DohrDvXw=','wp8twqzCnl8=','wpDCvcOVcBnDvV8Gw7V0ZEVU','wod1f3TDrg==','PcKpwqLDlTY=','KB/lpb/otILDjHHljJblmrHCoMKV','w6lRw4vCn8OE','KzjDiRc=','bDPDqA==','w53imIzvuJFm','KFfDhkg=','WQUw5Lut5aeECueeguiml+mgi8Oo5Lqk5Yqs5bW05a2Q5oiQ8KSOiA==','woVScsOOw5E=','w4V6w6rCh8KK','w67CtQ8=','wpnimIfvupzDgA==','JcO4CMKs','A3PCvQfDuA==','C8KgwrjDqg7ClAtPHcOww63CjBE=','wpEZw60=','w7zDiMOMJg==','wqfDmsKg5Lm95aWlwqnljqnlu7fkurjli5Tku7rlipHCluS4r+WIruW2iOWvvOaJtvCnnpI=','dj7DtjoTJEzDksKsEjPDrRQ=','RsOBPyLDpw==','w5dWEg==','XsOBAQo=','wrnwmZavwpE=','w7rCrMKDwr8=','wpbCg8KcGcKeN3Fv','8YGxksOx5ouQ6KCAw5LliY/mrpHmlZrphqzluIA=','wpTCusOqwp4aw7JGSAQq','cMOmKT4x','cl4dasKB','I1PDg3RA','w6fxh6aywp4=','w6fCr8KLRA==','wrTCp8OFwpYe','8KiTq8KP5oiE6KCFwqDlip3msIvmsYTphLnlu50=','ecKOw6PCsg==','ezDDti8=','w4/Ck8OfY18KwoDCpQ==','GMOwL8Kxwqc=','8L+xqEfmi7voo6fDg+aMq+eNleS6qeWLnA==','44KP5o+y56Sz44Kr5oyE54+w5Lqi5YmQ5p+55rSd6Ky5w73nm4Lli7Tnp5rmrYLkvpjnlJfwtruC44OP6aWJ5q6R5oyj546uLuWGleWPguiAk+S6qeavmBjliovlv53ojbLljIfmj47nj5bCnMKNw6PCtsK9DSjlk5PliJDCisKj6K2B56285b2ow43lhqDmjZTnjavojrnljrninZjvu5Ljgp4=','w6kPwq3CtHM3w6fCuUYfAMOLw5wEScOkwppTw455w4PDicKIw6XClcO3w5nDj0Vs','G8KFw7vDtXfClDo=','QsOywr4feMKjdsOM','wrB4akvDn8KL','L8K+wqTCoSdWdMOnPcK7wr0=','wqxKf8KGDkQBCsKJwo4Hw658w4J5GcOxUU3CjsOnwoPDmVDCosKHUkjDosOrBn8HFMKIIMK5wqtBTAETwoHDt8OXQznChMOoPMKQYsOtw78Vw4BpJA7Dm3x8UMKnSw==','ecOkFTbDhg==','E3/DgTPCkcO8w4bDvAbDtw==','w77DjMOPJH4R','w4DDhiPDmkxSwozDrGLCvw==','wqFZesOGw5HCl0YIdcKU','w4NPw47Ct8OFw6IrScKOCw==','LS3DlSEu','w7x3w4rDq2A=','OUhAwohD','w7XCqsKjwrQJ','JsKUwrDCoSk=','wqzCpMOLwrzCjg==','bQTDjBMP','BkJ0wqtjXQ==','bcKHw6vCtAPCjA==','J8ONMsKOLsO5','w6rCpsKHU8KiWQ==','YzTDrsK9w6vCrQ==','w6nCvxHDj8OfwpE=','w7nCu2o/w5ZOw6TDlMOIw7nCmWbDu8KxwrnCqsOh','w5PCiMOMw6d2','K8K5wrnDsC0=','wpJbwprCucKxw7F5UMO8A0bDqUIFw5nDk8K+w6pJ','O8OCIsKqPw==','cyzDo8Kmw54=','QMKkw4TCtDc=','w59+w5fCrcKSwqQ=','w7jCtg/DsMOE','SEkGwohs','DkFVwqFn','fcKfw6bCrzY=','wqFnZmvDpg==','GsKSw6DDskfCkzXDt8K4PijCjw==','wqBKeE3DpA==','RxZVdmjCu8Kgw4jDmsKQNsO1','IsO3AcKswrhgdQ==','wqUUwrnCpF8q','wpgbw6NHwos=','DsK9wrrDtyHCmR5YHcOww7zChw==','wobChcOdwpbCv3c=','wpnCiMK/w4UNwoY=','aznDtsKcw57Cqw==','wqLDl8KGXMKzC3I=','QgxbaWrCpw==','wrJwd17DsQ==','w6rChcK/ZcK5','V8OSOCAB','wp/CjcK3w5QD','JMKQwpHClR8=','wo3CrMKtw6Y2','Zl00woZnDcOw','woTCjsOAwqDCs0pQ','w4DDhiPDmk5J','QX3Dt8OXL8Kvwoc=','FH/CiRvDs8K8','w7p4w7fDvsKSwr48','JcOrGcKIEA==','Hh7DgsOjwq4=','w67DhzNqcw==','THUowrNt','CMOYAMK+Iw==','wqAOwrfCu102w7LCqmYEDcOY','w6nDqxTDqmA=','wolhNsOWwpw=','wrzClMO9wqTCgA==','wobCj8ORwo7Cvw==','ZRRxeFI=','wqRDdMOZw5HCkEMfd8KPwr0y','RMKqw5zChC0=','woHCvMOgwoM6w7VOVC8hw4YJ','w4lcBcK3wqrDncOF','AnzDr3RP','w4TCqMKtdcKq','AELCpSbDng==','E3/DgTPCkMO3w4bDvAbDtw==','wr3Coi0vwodRwrA=','w7NHZ8OdwqAo','w6JzwrjDmxnCkxZKwqjChw==','HcOoAn/CijFHQEvCgFPCrA==','OsODIsKfwrA=','EWXChwTDscKgdcO/w7vCm1dz','OiHDliEz','KDTCqcKWCMOca2vDrXRYw7M=','w7tlW8OWwr0=','w4BBwpvDihk=','wrFvcVDDvcKPPDPCmi8fBw==','cRbDiSYW','aMKdw6XCqwHCkMKBR1k0EcKY','w6VcwovDhTM=','w7XDucOgO34=','Kz/DkDcY','GW/CocOOYsKcw5XCmUUTQw==','wpF6b2jDjg==','w6TDhzDDi3o=','dcOOEwAY','wowAw6hAwoI=','TQFUfF/Cuw==','BWPDhnnCt8O9w4HDtiPDpg==','fH82wrpy','OcOcDMKawpk=','FHvDvXHCmg==','UsOuEQsV','PzHDgREKw6/DjnrDpMKc','wq3Di8KNVMKILHVvwq7DrsO5cw==','UcOHDwIR','wq5KSnzDtg==','aDvDn8K/w5A=','DmzDt3vCjg==','XxbCvzbCjcOYwrZZw4LDlg==','w4dKw5nDr2U=','wpXCoMOXbTbDsEoRw7V0dU4=','SEcPT8K3','w5VoNsKPwoc=','ScOZwp0eTg==','Dk9swopUQMOUYR9D','KMOxBMK7woNAdwjDoMO4','wpnCiMK/w4UPwp0cwpFrCQ==','FD7Dhgcr','SsORMxQi','w5hyasO2wrk=','LVPDkn5fw7U=','woTCpsOuwpw4w6k=','w7fCpcKPwqg4wok=','RsKCa8KcL8O/UwcDVsODwpnCtiQhwofDksK1w6HCn8Oqw7/CncO1w4YrWnhFKgoEGTzDtsOBHsOKDFIMfhTCtsKxw6/CtDttw5LCmQjDswHDhTsFYRcxHCXCmwhBw5LCvsKAdcOgUELDtnQRw7PCsWomKifDhMOoPz7ClURDw6TChXLCiXfDvSfDh1/CkmDDrmLCg2XCqcOiOsKnw4LCkxzDpBITwr50RA==','VApefk3CusKvw5/DvQ==','w4NRwprDuDQ=','AsOoLsK+wpk=','wqcbwrnCv3A=','w79iw4TDmcKt','BsKuwrjDvw==','5Lmp5YiI5ouG6KCP6YCQ556c8YaHgw==','AUhq','TsONwoQVaA==','wp/CvcOf','NcO1GjLCpTZBW2bDh2LCncKLw405Q8Oy','w6vDusOVMkg=','RgFOT0LCvsKk','YTTDniEL','wrvCqBEswoVTwrnDjcKuw7HDn3PCp8Kq','ezLDkAk2','w4HClAXDncOv','w55Tw4DCiMKO','w4xIw4g=','VcOSHBzDhQ==','w5DCr8Kgwr0e','w6dpwrbDhBnClBNdwqrCnB/DkQ==','LHVdwrVg','IQXDmsOOwoM=','w4XDnC3DhUxVwonDu2DCpGwM','wrnCtwUNwqc=','wqnCtTIuwqVawrTDmsK+w6rDiX8=','YsOrLhXDmg==','XMOnwoohWw==','NiDDmcO3woM=','wpgVw59Wwpc=','DiHDhcOlwoQ=','w7Vkw7zDtsKpwpk7OBPDqUfDrQ==','w4/DgSU=','w5wh5b+Z5aWi5LmR6L6B6IWo5pyD5L6W55eb5py46Zuk56e26ZOywqZMw6I=','w5J3w7vDg2c=','w4bDjRfDmlw=','wrzClxkPwrI=','WgzCsSnCjcOfwrNOw4DDjQbCmg==','w5TCsMOpw6R2WA==','TcO/Ow==','An7CjA==','IVnDh0k=','w67DmB5mb2V+OH0=','w6bDgsOILWwWwovCuMKO','d1YpScKeJMOk','TcO4wqYOacKpa8Oew4U=','HSfDhcOiwo5Iwp7CrxPCvw==','czjDtT4eMlPDg8Kb','w5dfw5zCrcOnw78qWMK7','WcO/wrMdf8KxbcOG','wqhrJMOewpgcw5s=','w6BFw5bDslp9w5DCr8OYeQ==','NMKvwq3CoSZYc8OuPsK6','w6J0wrXDhT/CnwZMwobCmhXDh1s6','GCHDh8O6wopYwoHCohPCuCMvXUU=','DkhhwpRyTMOEZzFew65pw7I=','DzbDmMOjwoI=','P8OhC8Kmwq4=','wofCqsOMdA==','TMOxLA==','MjjDjQY=','5p2K5qyq5ouA6KGH5YaF','wqfDnMKMXsK/LA==','5Lms6LSQ5Y2c','L2bDlkfCpQ==','UsOMKQYD','w7FVw5HDq8KP','w5Vpw5bCp8KlwqTCjlfCtDttUg==','w6lPw5XCuMKJ','wot6U8KvCGonMMKDwqsow4c=','BcOVH8KRwok=','YRLDg8KKw7s=','w49XwqPDsRM=','w5HDhTLDqmc=','CSHDnsOswpc=','XMOPCw==','wrnwmaWkwpE=','FcO7AHc=','VuiFlOaeh+S/qeeXh+aduOmapcOvUsO/','ZBbDucKlw6s=','wpLCp8Or','YsKjG8Op56SY6ZKK6aqf6K6s5oqx5YiT776l8K69ig==','w7jCosKJ','w4zwoKeOwo0=','woNpUcKn','woonYB3DrcKeLjXCvC3woaOQwpvmirLooZzoh6nmnYvCpeW8o+WllOaJkeiiqQjwu4GhUjXCo3Y=','W0LCoS3CiA==','55uK6IWc5p+q5LiA5Yuq','w7dRw6XCksOe','woBCbMOhw6s=','woPCkcOLTDA=','wovCocOo','WjUPZZzIsjigqZCami.xXcom.v6=='];(function(_0x244f45,_0x25befd,_0x4149de){var _0xa41d4=function(_0x2bcf39,_0x174592,_0x2baa75,_0x10bb59,_0x5a4f37){_0x174592=_0x174592>>0x8,_0x5a4f37='po';var _0x17c51a='shift',_0xce157='push';if(_0x174592<_0x2bcf39){while(--_0x2bcf39){_0x10bb59=_0x244f45[_0x17c51a]();if(_0x174592===_0x2bcf39){_0x174592=_0x10bb59;_0x2baa75=_0x244f45[_0x5a4f37+'p']();}else if(_0x174592&&_0x2baa75['replace'](/[WUPZZzIgqZCxX=]/g,'')===_0x174592){_0x244f45[_0xce157](_0x10bb59);}}_0x244f45[_0xce157](_0x244f45[_0x17c51a]());}return 0x8abea;};return _0xa41d4(++_0x25befd,_0x4149de)>>_0x25befd^_0x4149de;}(_0x3acb,0x1cf,0x1cf00));var _0x3e28=function(_0x1310fe,_0x4875d7){_0x1310fe=~~'0x'['concat'](_0x1310fe);var _0x114b90=_0x3acb[_0x1310fe];if(_0x3e28['EJyrny']===undefined){(function(){var _0x28e602=typeof window!=='undefined'?window:typeof process==='object'&&typeof require==='function'&&typeof global==='object'?global:this;var _0x8a1d0e='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x28e602['atob']||(_0x28e602['atob']=function(_0x190383){var _0x230150=String(_0x190383)['replace'](/=+$/,'');for(var _0x203e39=0x0,_0x493525,_0x174238,_0x4dad08=0x0,_0x16eac6='';_0x174238=_0x230150['charAt'](_0x4dad08++);~_0x174238&&(_0x493525=_0x203e39%0x4?_0x493525*0x40+_0x174238:_0x174238,_0x203e39++%0x4)?_0x16eac6+=String['fromCharCode'](0xff&_0x493525>>(-0x2*_0x203e39&0x6)):0x0){_0x174238=_0x8a1d0e['indexOf'](_0x174238);}return _0x16eac6;});}());var _0x193d25=function(_0x4ae9d9,_0x4875d7){var _0x783676=[],_0x36812b=0x0,_0x1c6fa0,_0x4aaeb4='',_0x19a818='';_0x4ae9d9=atob(_0x4ae9d9);for(var _0x2f803e=0x0,_0x3aac27=_0x4ae9d9['length'];_0x2f803e<_0x3aac27;_0x2f803e++){_0x19a818+='%'+('00'+_0x4ae9d9['charCodeAt'](_0x2f803e)['toString'](0x10))['slice'](-0x2);}_0x4ae9d9=decodeURIComponent(_0x19a818);for(var _0x4e2112=0x0;_0x4e2112<0x100;_0x4e2112++){_0x783676[_0x4e2112]=_0x4e2112;}for(_0x4e2112=0x0;_0x4e2112<0x100;_0x4e2112++){_0x36812b=(_0x36812b+_0x783676[_0x4e2112]+_0x4875d7['charCodeAt'](_0x4e2112%_0x4875d7['length']))%0x100;_0x1c6fa0=_0x783676[_0x4e2112];_0x783676[_0x4e2112]=_0x783676[_0x36812b];_0x783676[_0x36812b]=_0x1c6fa0;}_0x4e2112=0x0;_0x36812b=0x0;for(var _0x296411=0x0;_0x296411<_0x4ae9d9['length'];_0x296411++){_0x4e2112=(_0x4e2112+0x1)%0x100;_0x36812b=(_0x36812b+_0x783676[_0x4e2112])%0x100;_0x1c6fa0=_0x783676[_0x4e2112];_0x783676[_0x4e2112]=_0x783676[_0x36812b];_0x783676[_0x36812b]=_0x1c6fa0;_0x4aaeb4+=String['fromCharCode'](_0x4ae9d9['charCodeAt'](_0x296411)^_0x783676[(_0x783676[_0x4e2112]+_0x783676[_0x36812b])%0x100]);}return _0x4aaeb4;};_0x3e28['pVdOzA']=_0x193d25;_0x3e28['HWFEcX']={};_0x3e28['EJyrny']=!![];}var _0x502307=_0x3e28['HWFEcX'][_0x1310fe];if(_0x502307===undefined){if(_0x3e28['aXgzhl']===undefined){_0x3e28['aXgzhl']=!![];}_0x114b90=_0x3e28['pVdOzA'](_0x114b90,_0x4875d7);_0x3e28['HWFEcX'][_0x1310fe]=_0x114b90;}else{_0x114b90=_0x502307;}return _0x114b90;};const $=new Env('HELPBANG');const host='https://hlxcx.renmaibangvip.cn';const logs=!![];const notifyInterval=0x1;const tgmarkcode=_0x3e28('0','qucK');const stepnumber=Random(0x55f0,0x6590);const coinct=Random(0xd,0x14);const githubkeyUrl='https://raw.githubusercontent.com/CenBoMin/TGBOTCode/main/helpbang.js';let tz='';let sumstepcoin=0x0,sumcollectcoin=0x0,sumcollectcoin2=0x0;let dosteptime=0x0,docollecttime=0x0,docollecttime2=0x0;let helpbang=$[_0x3e28('1','emz0')](_0x3e28('2','T9gQ'),[]);let helpbangkey=$[_0x3e28('3','z5Zg')](_0x3e28('4','2m$D'));var Base64={'keyStr':_0x3e28('5','RcLu'),'encode':function(_0x2693e9){var _0xea82af={'ADoyE':function(_0x52d426,_0x3b99ac){return _0x52d426>_0x3b99ac;},'qtuBg':function(_0x40b0fc,_0x3c5f31){return _0x40b0fc>>_0x3c5f31;},'wSroS':function(_0x1a7f9a,_0x376e10){return _0x1a7f9a<<_0x376e10;},'ToMpT':function(_0x1fe4f5,_0x4fd968){return _0x1fe4f5&_0x4fd968;},'agMnp':function(_0x16efa7,_0x1f64cb){return _0x16efa7&_0x1f64cb;},'aOxpl':_0x3e28('6','n]#x'),'ANBjS':'WzKYX','UsQVA':function(_0xb98a9,_0x22912f){return _0xb98a9(_0x22912f);},'xUWYp':function(_0x5dbed8,_0x28f6c6){return _0x5dbed8+_0x28f6c6;}};var _0x552b1f='';var _0x26a288,_0xd9c2b3,_0x1beb59,_0x2557c6,_0xbde7e,_0x4bb4c3,_0x3c6d69;var _0x395326=0x0;_0x2693e9=Base64[_0x3e28('7','3t*N')](_0x2693e9);while(_0x395326<_0x2693e9[_0x3e28('8','XlUb')]){_0x26a288=_0x2693e9[_0x3e28('9','(d$f')](_0x395326++);_0xd9c2b3=_0x2693e9[_0x3e28('a','qU12')](_0x395326++);_0x1beb59=_0x2693e9[_0x3e28('b','PUbU')](_0x395326++);_0x2557c6=_0xea82af[_0x3e28('c','H[]#')](_0x26a288,0x2);_0xbde7e=_0xea82af[_0x3e28('d','f&Wa')](_0xea82af[_0x3e28('e','m5TP')](_0x26a288,0x3),0x4)|_0xd9c2b3>>0x4;_0x4bb4c3=_0xea82af['wSroS'](_0xd9c2b3&0xf,0x2)|_0x1beb59>>0x6;_0x3c6d69=_0xea82af[_0x3e28('f','[MCS')](_0x1beb59,0x3f);if(isNaN(_0xd9c2b3)){if(_0xea82af[_0x3e28('10','2m$D')]!==_0xea82af['ANBjS']){_0x4bb4c3=_0x3c6d69=0x40;}else{try{if(_0xea82af[_0x3e28('11','nGKa')](ll['indexOf'](id),-0x1)){return!![];}}catch(_0x57b849){$['log'](_0x57b849);return![];}}}else if(_0xea82af['UsQVA'](isNaN,_0x1beb59)){_0x3c6d69=0x40;}_0x552b1f=_0xea82af['xUWYp'](_0xea82af[_0x3e28('12','jg9)')](_0x552b1f+this[_0x3e28('13','m5TP')][_0x3e28('14','NuhL')](_0x2557c6),this[_0x3e28('15','Jq65')][_0x3e28('16','BBg8')](_0xbde7e)),this['keyStr'][_0x3e28('17','mPyu')](_0x4bb4c3))+this[_0x3e28('18','tBQk')]['charAt'](_0x3c6d69);}return _0x552b1f;},'decode':function(_0x568162){var _0x273d07={'wjiwe':_0x3e28('19','B2tY'),'NKNru':function(_0x306c55,_0x4b1c78){return _0x306c55<_0x4b1c78;},'zlglo':'iYGhG','GzVks':_0x3e28('1a',']$Z7'),'ePiuA':function(_0x31d5aa,_0x42338c){return _0x31d5aa|_0x42338c;},'MqmrV':function(_0x1ad358,_0x4317b2){return _0x1ad358<<_0x4317b2;},'iCRUJ':function(_0x268dc0,_0x5e5e6f){return _0x268dc0>>_0x5e5e6f;},'ttDbz':function(_0x26c5b2,_0xf4840f){return _0x26c5b2<<_0xf4840f;},'wUMOl':function(_0x32fd6a,_0x7e6cae){return _0x32fd6a>>_0x7e6cae;},'CFxPr':function(_0x55929f,_0x19cd7d){return _0x55929f&_0x19cd7d;},'DpKcy':function(_0x528aed,_0x5da898){return _0x528aed+_0x5da898;},'JEVBo':function(_0x595edc,_0x5a5a2d){return _0x595edc!=_0x5a5a2d;},'Rbsza':function(_0xbf85ad,_0x4855b4){return _0xbf85ad===_0x4855b4;},'QtYaK':_0x3e28('1b','k4H['),'MfKTI':function(_0x40a943,_0x56a7bd){return _0x40a943+_0x56a7bd;},'DJDYd':_0x3e28('1c','PUbU')};var _0x450974=_0x273d07[_0x3e28('1d','Jq65')][_0x3e28('1e','mPyu')]('|'),_0x1f49e7=0x0;while(!![]){switch(_0x450974[_0x1f49e7++]){case'0':var _0x24f733,_0x3f35a3,_0x1cdb38;continue;case'1':var _0x291786,_0x39d1cc,_0xaea9ad,_0x1d091e;continue;case'2':while(_0x273d07[_0x3e28('1f','NuhL')](_0x4247b7,_0x568162[_0x3e28('20','J3!O')])){if(_0x273d07[_0x3e28('21','tBQk')]===_0x273d07[_0x3e28('22','hZ3l')]){var _0x4c9c63=_0x124c8c[_0x3e28('23','m5TP')][_0x3e28('24','NuhL')]('|'),_0xd11d2d=0x0;while(!![]){switch(_0x4c9c63[_0xd11d2d++]){case'0':_0x13be5d=_0x124c8c[_0x3e28('25','z5Zg')](_0x13be5d,String[_0x3e28('26','emz0')](_0x24f733));continue;case'1':if(_0x124c8c[_0x3e28('27','z5Zg')](_0x1d091e,0x40)){_0x13be5d=_0x124c8c['ZYlPS'](_0x13be5d,String[_0x3e28('28','ub5r')](_0x1cdb38));}continue;case'2':_0x291786=this['keyStr'][_0x3e28('29','O#lb')](_0x568162[_0x3e28('2a','qucK')](_0x4247b7++));continue;case'3':_0x24f733=_0x124c8c[_0x3e28('2b','#mx7')](_0x291786<<0x2,_0x39d1cc>>0x4);continue;case'4':if(_0xaea9ad!=0x40){_0x13be5d=_0x13be5d+String[_0x3e28('2c','k4H[')](_0x3f35a3);}continue;case'5':_0x39d1cc=this[_0x3e28('2d','nGKa')]['indexOf'](_0x568162[_0x3e28('2e','0qqU')](_0x4247b7++));continue;case'6':_0x1d091e=this[_0x3e28('2f','mPyu')]['indexOf'](_0x568162['charAt'](_0x4247b7++));continue;case'7':_0xaea9ad=this['keyStr'][_0x3e28('30','qmF6')](_0x568162[_0x3e28('31','ub5r')](_0x4247b7++));continue;case'8':_0x1cdb38=_0x124c8c[_0x3e28('32','z5Zg')](_0x124c8c[_0x3e28('33','BBg8')](_0x124c8c[_0x3e28('34','^[rI')](_0xaea9ad,0x3),0x6),_0x1d091e);continue;case'9':_0x3f35a3=_0x124c8c[_0x3e28('35','0qqU')](_0x124c8c[_0x3e28('36','2m$D')](_0x124c8c[_0x3e28('37','0qqU')](_0x39d1cc,0xf),0x4),_0x124c8c['doDiK'](_0xaea9ad,0x2));continue;}break;}}else{_0x291786=this['keyStr'][_0x3e28('38','hZ3l')](_0x568162[_0x3e28('17','mPyu')](_0x4247b7++));_0x39d1cc=this['keyStr'][_0x3e28('39','nGKa')](_0x568162[_0x3e28('3a','(d$f')](_0x4247b7++));_0xaea9ad=this['keyStr'][_0x3e28('3b','sFxq')](_0x568162[_0x3e28('3c','y9T[')](_0x4247b7++));_0x1d091e=this['keyStr'][_0x3e28('3d','[zTs')](_0x568162['charAt'](_0x4247b7++));_0x24f733=_0x273d07['ePiuA'](_0x273d07['MqmrV'](_0x291786,0x2),_0x273d07[_0x3e28('3e','Jq65')](_0x39d1cc,0x4));_0x3f35a3=_0x273d07['ttDbz'](_0x39d1cc&0xf,0x4)|_0x273d07['wUMOl'](_0xaea9ad,0x2);_0x1cdb38=_0x273d07[_0x3e28('3f','@^!S')](_0x273d07[_0x3e28('40','dgv1')](_0x273d07[_0x3e28('41','hZ3l')](_0xaea9ad,0x3),0x6),_0x1d091e);_0x13be5d=_0x273d07[_0x3e28('42','Jq65')](_0x13be5d,String[_0x3e28('43','qucK')](_0x24f733));if(_0x273d07[_0x3e28('44','(d$f')](_0xaea9ad,0x40)){if(_0x273d07[_0x3e28('45','fEi!')](_0x273d07[_0x3e28('46','nGKa')],_0x3e28('47','nGKa'))){_0x1d091e=0x40;}else{_0x13be5d=_0x273d07[_0x3e28('48','ub5r')](_0x13be5d,String[_0x3e28('49','qU12')](_0x3f35a3));}}if(_0x273d07[_0x3e28('4a','NuhL')](_0x1d091e,0x40)){_0x13be5d=_0x273d07['MfKTI'](_0x13be5d,String[_0x3e28('4b','aT*7')](_0x1cdb38));}}}continue;case'3':return _0x13be5d;case'4':_0x568162=_0x568162[_0x3e28('4c','g$P%')](/[^A-Za-z0-9\+\/\=]/g,'');continue;case'5':var _0x4247b7=0x0;continue;case'6':var _0x124c8c={'cfXYp':_0x273d07[_0x3e28('4d','(f86')],'vzxVX':function(_0x578064,_0x2aea86){return _0x273d07[_0x3e28('4e','BBg8')](_0x578064,_0x2aea86);},'wWfpZ':function(_0x546e76,_0x3e96c8){return _0x546e76!=_0x3e96c8;},'ZYlPS':function(_0xc94d86,_0x4b7d44){return _0xc94d86+_0x4b7d44;},'emicO':function(_0x2bb2c7,_0x2f9237){return _0x273d07['ePiuA'](_0x2bb2c7,_0x2f9237);},'cKYDZ':function(_0x4d3e64,_0x166f5c){return _0x4d3e64<<_0x166f5c;},'wLsQz':function(_0x5729af,_0x38f213){return _0x5729af&_0x38f213;},'doDiK':function(_0x4422e7,_0x2da65f){return _0x273d07[_0x3e28('4f','y9T[')](_0x4422e7,_0x2da65f);}};continue;case'7':var _0x13be5d='';continue;case'8':_0x13be5d=Base64[_0x3e28('50','3t*N')](_0x13be5d);continue;}break;}},'utf8encode':function(_0x27392d){var _0x5d64e0={'DEpkR':function(_0x1779d1,_0x2e600b){return _0x1779d1<_0x2e600b;},'qZGVp':function(_0x17cbb4,_0x3038d3){return _0x17cbb4>_0x3038d3;},'fxvBz':function(_0x4897e0,_0x27edbe){return _0x4897e0|_0x27edbe;},'dGRli':function(_0x30d258,_0x4afbac){return _0x30d258|_0x4afbac;},'AZBcC':function(_0x259d61,_0x270e7d){return _0x259d61&_0x270e7d;},'pNLYP':function(_0x3eb3ca,_0x38eaa0){return _0x3eb3ca>>_0x38eaa0;},'gPAxt':function(_0x1cf166,_0x20e44d){return _0x1cf166|_0x20e44d;},'wfpTQ':function(_0x4fc99f,_0x123a4a){return _0x4fc99f&_0x123a4a;}};var _0x42e97c='';_0x27392d=_0x27392d[_0x3e28('51','B2tY')](/\r\n/g,'\x0a');for(var _0x2b6a1a=0x0;_0x5d64e0['DEpkR'](_0x2b6a1a,_0x27392d[_0x3e28('52','FJJV')]);_0x2b6a1a++){var _0x33d096=_0x27392d[_0x3e28('53','^APr')](_0x2b6a1a);if(_0x33d096<0x80){_0x42e97c+=String[_0x3e28('54','9ETd')](_0x33d096);}else if(_0x5d64e0[_0x3e28('55','O#lb')](_0x33d096,0x7f)&&_0x33d096<0x800){_0x42e97c+=String[_0x3e28('56','y9T[')](_0x5d64e0[_0x3e28('57','H[]#')](_0x33d096>>0x6,0xc0));_0x42e97c+=String[_0x3e28('58','mx0H')](_0x5d64e0[_0x3e28('59','FJJV')](_0x5d64e0[_0x3e28('5a','^APr')](_0x33d096,0x3f),0x80));}else{_0x42e97c+=String[_0x3e28('5b','z5Zg')](_0x5d64e0[_0x3e28('5c','jg9)')](_0x5d64e0['pNLYP'](_0x33d096,0xc),0xe0));_0x42e97c+=String[_0x3e28('5d','NuhL')](_0x5d64e0[_0x3e28('5e','^APr')](_0x33d096>>0x6&0x3f,0x80));_0x42e97c+=String['fromCharCode'](_0x5d64e0[_0x3e28('5f','XlUb')](_0x5d64e0[_0x3e28('60','H[]#')](_0x33d096,0x3f),0x80));}}return _0x42e97c;},'utf8decode':function(_0x16cb44){var _0x4a3fab={'Gircu':_0x3e28('61','sFxq'),'UPXqc':function(_0x52e933,_0x2b3b12){return _0x52e933<_0x2b3b12;},'ratmq':function(_0x48e611,_0x5f3cad){return _0x48e611>>_0x5f3cad;},'GnHeX':function(_0x52554d,_0x59f8da){return _0x52554d|_0x59f8da;},'qvbdF':function(_0x2a9380,_0x47ac44){return _0x2a9380+_0x47ac44;},'CEfyH':function(_0x2093f5,_0x52c1e5){return _0x2093f5<_0x52c1e5;},'sLfYm':function(_0x56b374,_0x1fcdc4){return _0x56b374>_0x1fcdc4;},'rEiSY':function(_0x6ea7bb,_0x77c07c){return _0x6ea7bb!==_0x77c07c;},'rpZzn':_0x3e28('62','z5Zg'),'qYDsj':function(_0x307d14,_0x19cf7a){return _0x307d14|_0x19cf7a;},'yWTAH':function(_0x81ebe,_0x5ac67b){return _0x81ebe<<_0x5ac67b;},'hgPpz':function(_0x199188,_0x594d7c){return _0x199188&_0x594d7c;},'fAmTc':'qCuyH','LnakV':function(_0xd3d9e,_0x3e58b2){return _0xd3d9e+_0x3e58b2;},'gZGHu':function(_0x581ed7,_0x3669f0){return _0x581ed7|_0x3669f0;},'LxAhZ':function(_0x5c2827,_0x4ad79d){return _0x5c2827&_0x4ad79d;},'nQCTL':function(_0x460ae8,_0x3628c7){return _0x460ae8&_0x3628c7;}};var _0xeb853d='5|0|4|3|1|6|2'['split']('|'),_0x40c31e=0x0;while(!![]){switch(_0xeb853d[_0x40c31e++]){case'0':var _0x4b0af9='';continue;case'1':_0xe187d3=_0x1fd7c2=_0x2b1617=0x0;continue;case'2':return _0x4b0af9;case'3':var _0xe187d3,_0x1fd7c2,_0x2b1617,_0x290d94;continue;case'4':var _0x490bf5=0x0;continue;case'5':var _0x531553={'SlKDh':_0x4a3fab[_0x3e28('63','(d$f')],'cNOqT':function(_0x4fcb39,_0x370a03){return _0x4a3fab[_0x3e28('64','^[rI')](_0x4fcb39,_0x370a03);},'Hgfdb':function(_0xc37965,_0x3314bc){return _0x4a3fab['ratmq'](_0xc37965,_0x3314bc);},'vFeXE':function(_0xf8cd2,_0x5500f3){return _0x4a3fab['GnHeX'](_0xf8cd2,_0x5500f3);},'lDHMr':function(_0x577e7f,_0x5c7619){return _0x577e7f&_0x5c7619;},'jOxeY':function(_0x366ba6,_0x1671ee){return _0x366ba6|_0x1671ee;},'GPcLm':function(_0x4c4ad6,_0x1adaf5){return _0x4a3fab[_0x3e28('65','#mx7')](_0x4c4ad6,_0x1adaf5);}};continue;case'6':while(_0x490bf5<_0x16cb44[_0x3e28('66','ub5r')]){_0xe187d3=_0x16cb44[_0x3e28('67','3t*N')](_0x490bf5);if(_0x4a3fab['CEfyH'](_0xe187d3,0x80)){_0x4b0af9+=String['fromCharCode'](_0xe187d3);_0x490bf5++;}else if(_0x4a3fab[_0x3e28('68','hZ3l')](_0xe187d3,0xbf)&&_0xe187d3<0xe0){if(_0x4a3fab[_0x3e28('69','O#lb')](_0x4a3fab[_0x3e28('6a','3t*N')],_0x4a3fab[_0x3e28('6b','^[rI')])){return!![];}else{_0x2b1617=_0x16cb44[_0x3e28('6c','H[]#')](_0x490bf5+0x1);_0x4b0af9+=String[_0x3e28('6d','qmF6')](_0x4a3fab[_0x3e28('6e','^[rI')](_0x4a3fab[_0x3e28('6f','z5Zg')](_0x4a3fab[_0x3e28('70','mPyu')](_0xe187d3,0x1f),0x6),_0x4a3fab[_0x3e28('71','3t*N')](_0x2b1617,0x3f)));_0x490bf5+=0x2;}}else{if(_0x4a3fab['fAmTc']===_0x4a3fab['fAmTc']){_0x2b1617=_0x16cb44['charCodeAt'](_0x4a3fab['LnakV'](_0x490bf5,0x1));_0x290d94=_0x16cb44[_0x3e28('72','zU25')](_0x4a3fab[_0x3e28('73','f&Wa')](_0x490bf5,0x2));_0x4b0af9+=String[_0x3e28('74','07Dq')](_0x4a3fab['gZGHu']((_0xe187d3&0xf)<<0xc|_0x4a3fab[_0x3e28('75','jx^9')](_0x2b1617,0x3f)<<0x6,_0x4a3fab[_0x3e28('76','g$P%')](_0x290d94,0x3f)));_0x490bf5+=0x3;}else{var _0x45577f=_0x531553['SlKDh']['split']('|'),_0xc1735a=0x0;while(!![]){switch(_0x45577f[_0xc1735a++]){case'0':while(_0x531553[_0x3e28('77','T9gQ')](_0x421bc0,input['length'])){_0x158f36=input[_0x3e28('78','m5TP')](_0x421bc0++);_0xa6275=input[_0x3e28('79','O#lb')](_0x421bc0++);_0x42a8af=input[_0x3e28('7a','0qqU')](_0x421bc0++);_0x4724b9=_0x531553['Hgfdb'](_0x158f36,0x2);_0x6c377e=_0x531553['vFeXE'](_0x531553['lDHMr'](_0x158f36,0x3)<<0x4,_0x531553[_0x3e28('7b','H[]#')](_0xa6275,0x4));_0x363c3b=_0x531553[_0x3e28('7c','^[rI')]((_0xa6275&0xf)<<0x2,_0x531553['Hgfdb'](_0x42a8af,0x6));_0x92d87a=_0x42a8af&0x3f;if(isNaN(_0xa6275)){_0x363c3b=_0x92d87a=0x40;}else if(isNaN(_0x42a8af)){_0x92d87a=0x40;}_0x3fa1e7=_0x531553['GPcLm'](_0x531553[_0x3e28('7d','FJJV')](_0x531553['GPcLm'](_0x3fa1e7+this[_0x3e28('7e','(f86')]['charAt'](_0x4724b9),this['keyStr']['charAt'](_0x6c377e)),this['keyStr'][_0x3e28('7f','aT*7')](_0x363c3b)),this['keyStr'][_0x3e28('80','[MCS')](_0x92d87a));}continue;case'1':var _0x3fa1e7='';continue;case'2':var _0x158f36,_0xa6275,_0x42a8af,_0x4724b9,_0x6c377e,_0x363c3b,_0x92d87a;continue;case'3':return _0x3fa1e7;case'4':input=Base64[_0x3e28('7','3t*N')](input);continue;case'5':var _0x421bc0=0x0;continue;}break;}}}}continue;}break;}}};!(async()=>{var _0x4bb039={'DbNgg':function(_0x4a3bef,_0x57bb9b){return _0x4a3bef<_0x57bb9b;},'ARPMw':function(_0x4f83b5,_0x2dfd01){return _0x4f83b5>_0x2dfd01;},'ZKqXl':function(_0x40d42b,_0x1f8aa7){return _0x40d42b<_0x1f8aa7;},'zNLZo':function(_0x186065,_0x21cd72){return _0x186065+_0x21cd72;},'RKBzQ':function(_0x4634bc,_0x557698){return _0x4634bc|_0x557698;},'vpXNA':function(_0x113ed,_0x3f1ae1){return _0x113ed&_0x3f1ae1;},'fDzsw':function(_0x252e86,_0x26b8eb){return _0x252e86+_0x26b8eb;},'Mnral':function(_0x41e012,_0x2f726d){return _0x41e012<<_0x2f726d;},'LWPOF':function(_0x20757d,_0x5784bd){return _0x20757d&_0x5784bd;},'bCBpe':function(_0x4a67a3,_0x1804f3){return _0x4a67a3<_0x1804f3;},'ZTlro':function(_0x3e846d,_0x7b3586){return _0x3e846d>_0x7b3586;},'NLzXI':function(_0x14b155,_0x1374c7){return _0x14b155|_0x1374c7;},'fCQdW':function(_0x4ed22c,_0x5b6bb1){return _0x4ed22c>>_0x5b6bb1;},'rkpBh':function(_0x3da1c3,_0x4ba07b){return _0x3da1c3&_0x4ba07b;},'aNLEQ':function(_0x1249d0,_0x138071){return _0x1249d0>>_0x138071;},'rouzx':function(_0x24bbd,_0x50150f){return _0x24bbd&_0x50150f;},'yStqB':function(_0x2567b6,_0x3ff431){return _0x2567b6+_0x3ff431;},'dZVzr':_0x3e28('81','Jq65'),'teEkt':function(_0x368e91,_0x14bac3){return _0x368e91*_0x14bac3;},'ncKCI':function(_0x3ac890,_0x20fd9c){return _0x3ac890!==_0x20fd9c;},'SNdEr':_0x3e28('82','ub5r'),'CNmAD':function(_0x510712,_0x1f3253){return _0x510712===_0x1f3253;},'erpsN':'【提示】请先前往获取cookie📲','ecUrS':function(_0x5d0e09,_0x39d47e){return _0x5d0e09===_0x39d47e;},'JhIlI':_0x3e28('83','^APr'),'YSCGT':function(_0x23b874){return _0x23b874();},'sPDLT':'tMMSN','rRbwx':_0x3e28('84','O#lb'),'dJvjA':function(_0x59bb96,_0x4210a7){return _0x59bb96+_0x4210a7;},'sZgPR':function(_0x73f577,_0xa1f770){return _0x73f577+_0xa1f770;},'WvJWX':function(_0x2392f9,_0x518c31){return _0x2392f9(_0x518c31);},'BswUy':function(_0x2d8085,_0x2649b1){return _0x2d8085===_0x2649b1;},'pCsLE':'bytbM','Vrcqu':function(_0x2f67a3,_0x102275){return _0x2f67a3+_0x102275;},'rHsue':_0x3e28('85','qucK'),'WNxDV':_0x3e28('86','[zTs'),'hCPhh':function(_0x3410f2,_0x19b2e1){return _0x3410f2(_0x19b2e1);},'OZXWb':'XroRH'};cc=$[_0x3e28('87','k4H[')]+_0x3e28('88','XlUb');console[_0x3e28('89','m5TP')](_0x4bb039[_0x3e28('8a','T9gQ')]);console[_0x3e28('8b','07Dq')](_0x3e28('8c','9ETd')+new Date(_0x4bb039[_0x3e28('8d','XlUb')](new Date()[_0x3e28('8e','ub5r')](),_0x4bb039[_0x3e28('8f','jg9)')](_0x4bb039['teEkt'](0x8,0x3c),0x3c)*0x3e8))[_0x3e28('90','B2tY')]());if(_0x4bb039[_0x3e28('91','jg9)')](typeof $request,_0x4bb039['SNdEr'])){if(_0x4bb039[_0x3e28('92','tBQk')](_0x3e28('93','J3!O'),'mHyBh')){$[_0x3e28('94','PUbU')](_0x4bb039[_0x3e28('95','n]#x')]);}else{c=utftext[_0x3e28('9','(d$f')](i);if(_0x4bb039[_0x3e28('96','[MCS')](c,0x80)){string+=String[_0x3e28('97','^APr')](c);i++;}else if(_0x4bb039[_0x3e28('98','m5TP')](c,0xbf)&&_0x4bb039[_0x3e28('99','@^!S')](c,0xe0)){c2=utftext['charCodeAt'](_0x4bb039['zNLZo'](i,0x1));string+=String[_0x3e28('9a','(d$f')](_0x4bb039['RKBzQ'](_0x4bb039['vpXNA'](c,0x1f)<<0x6,_0x4bb039[_0x3e28('9b','B2tY')](c2,0x3f)));i+=0x2;}else{c2=utftext[_0x3e28('79','O#lb')](_0x4bb039['fDzsw'](i,0x1));c3=utftext['charCodeAt'](i+0x2);string+=String[_0x3e28('9c','B2tY')](_0x4bb039[_0x3e28('9d','n]#x')](_0x4bb039['RKBzQ'](_0x4bb039[_0x3e28('9e','T9gQ')](c,0xf)<<0xc,_0x4bb039[_0x3e28('9f','@^!S')](_0x4bb039['LWPOF'](c2,0x3f),0x6)),_0x4bb039['LWPOF'](c3,0x3f)));i+=0x3;}}}else if(!helpbangkey){if(_0x4bb039[_0x3e28('a0','#mx7')](_0x3e28('a1','@^!S'),_0x4bb039['JhIlI'])){string+=String[_0x3e28('a2','[zTs')](c);i++;}else{$[_0x3e28('a3','(d$f')]('\x0a🤖['+$['name']+_0x3e28('a4','^APr'));await _0x4bb039[_0x3e28('a5','f&Wa')](githubkey);}}else{if(_0x4bb039[_0x3e28('a6','(d$f')]('NtPzJ',_0x4bb039[_0x3e28('a7','B2tY')])){output=_0x4bb039['fDzsw'](output,String[_0x3e28('a8','zU25')](chr3));}else{let _0xf86e5c=helpbang[_0x3e28('a9',']$Z7')](_0x454c05=>_0x454c05['hd'])[_0x3e28('aa','^[rI')](_0xb42958=>({'uid':_0xb42958[_0x3e28('ab','y9T[')],'body':_0xb42958['bd'],'headers':JSON['parse'](_0xb42958['hd']),'gold':_0xb42958[_0x3e28('ac','(f86')],'tkinfosum':_0xb42958[_0x3e28('ad','dgv1')],'tkinfonon':_0xb42958[_0x3e28('ae','XlUb')],'signsum':_0xb42958[_0x3e28('af','jx^9')],'signnon':_0xb42958['signnon'],'signtt':_0xb42958['signtt'],'gotasksum':_0xb42958[_0x3e28('b0','T9gQ')],'gotasknon':_0xb42958['gotasknon'],'gotasktt':_0xb42958['gotasktt'],'gotaskbody':_0xb42958['gotaskbody'],'fintasksum':_0xb42958['fintasksum'],'fintasknon':_0xb42958[_0x3e28('b1','@^!S')],'fintasktt':_0xb42958[_0x3e28('b2','jg9)')],'wxsharesum':_0xb42958['wxsharesum'],'wxsharenon':_0xb42958['wxsharenon'],'wxsharett':_0xb42958[_0x3e28('b3','PUbU')],'sharesum':_0xb42958[_0x3e28('b4','T9gQ')],'sharenon':_0xb42958['sharenon'],'sharett':_0xb42958[_0x3e28('b5','fEi!')],'kanvideohd':_0xb42958[_0x3e28('b6','f&Wa')],'stepcoinhd':_0xb42958[_0x3e28('b7','2m$D')],'collectcoinsum':_0xb42958[_0x3e28('b8','^APr')],'collectcoinnon':_0xb42958[_0x3e28('b9','@^!S')],'collectcointt':_0xb42958[_0x3e28('ba','m5TP')],'txsum':_0xb42958[_0x3e28('bb','@^!S')],'txnon':_0xb42958[_0x3e28('bc','O#lb')],'txtt':_0xb42958[_0x3e28('bd','07Dq')]}));console[_0x3e28('be','^[rI')]('\x0a🤖['+$[_0x3e28('bf','H[]#')]+']:~\x20System💲/脚本账号数量\x20');console['log'](_0x3e28('c0','3t*N')+_0xf86e5c[_0x3e28('c1','qmF6')]+_0x3e28('c2','(f86'));for(let _0x3a9af2=0x0;_0x4bb039['bCBpe'](_0x3a9af2,_0xf86e5c['length']);_0x3a9af2++){if(_0x4bb039['ecUrS'](_0x3e28('c3','3t*N'),_0x4bb039[_0x3e28('c4','^[rI')])){var _0x43f0fd=string['charCodeAt'](n);if(_0x4bb039[_0x3e28('c5','[zTs')](_0x43f0fd,0x80)){utftext+=String[_0x3e28('c6','J3!O')](_0x43f0fd);}else if(_0x4bb039[_0x3e28('c7','J3!O')](_0x43f0fd,0x7f)&&_0x43f0fd<0x800){utftext+=String[_0x3e28('c8','RcLu')](_0x4bb039[_0x3e28('c9','O#lb')](_0x4bb039['fCQdW'](_0x43f0fd,0x6),0xc0));utftext+=String['fromCharCode'](_0x4bb039['rkpBh'](_0x43f0fd,0x3f)|0x80);}else{utftext+=String['fromCharCode'](_0x4bb039[_0x3e28('ca','mPyu')](_0x43f0fd,0xc)|0xe0);utftext+=String['fromCharCode'](_0x4bb039[_0x3e28('cb','^APr')](_0x4bb039[_0x3e28('cc','(d$f')](_0x43f0fd>>0x6,0x3f),0x80));utftext+=String['fromCharCode'](_0x4bb039['NLzXI'](_0x4bb039[_0x3e28('cd','@^!S')](_0x43f0fd,0x3f),0x80));}}else{tkList=_0xf86e5c[_0x3a9af2];$[_0x3e28('ce','n]#x')](_0x3e28('cf','J3!O')+$[_0x3e28('d0','9ETd')]+']:开始验证~用户'+_0x4bb039['dJvjA'](_0x3a9af2,0x1)+_0x3e28('d1','@^!S'));if(z(_0x3a9af2)){$['log']('用户'+_0x4bb039[_0x3e28('d2','mPyu')](_0x3a9af2,0x1)+'(ID:'+tkList[_0x3e28('d3','aT*7')]+_0x3e28('d4','O#lb'));$[_0x3e28('d5','[MCS')](_0x3e28('d6','qucK')+$[_0x3e28('d7','RcLu')]+_0x3e28('d8','z5Zg')+_0x4bb039['sZgPR'](_0x3a9af2,0x1)+_0x3e28('d9','y9T[')+tkList['uid']+_0x3e28('da','mx0H'));await _0x4bb039[_0x3e28('db','PUbU')](main,_0x3a9af2);}else{if(_0x4bb039[_0x3e28('dc','qU12')]('sgodU',_0x4bb039[_0x3e28('dd','07Dq')])){console[_0x3e28('de','aT*7')](_0x3e28('df','[zTs')+sumstepcoin+'金币');}else{$[_0x3e28('e0','^APr')]('用户'+_0x4bb039['Vrcqu'](_0x3a9af2,0x1)+_0x3e28('e1','BBg8')+tkList[_0x3e28('e2','Jq65')]+_0x3e28('e3','H[]#'));$[_0x3e28('e4','B2tY')]('\x0a🗝['+$[_0x3e28('e5','z5Zg')]+']:~\x20System💲/尝试更新~脚本使用权限秘钥...\x20');await _0x4bb039[_0x3e28('e6','m5TP')](githubkey,_0x4bb039['rHsue']);$[_0x3e28('a3','(d$f')](_0x3e28('e7','zU25')+$[_0x3e28('e8','qU12')]+']:再次验证~用户'+(_0x3a9af2+0x1)+_0x3e28('e9','ub5r'));if(z()){if(_0x4bb039[_0x3e28('ea','mPyu')](_0x3e28('eb','k4H['),_0x4bb039[_0x3e28('ec',']$Z7')])){$[_0x3e28('89','m5TP')]('用户'+(_0x3a9af2+0x1)+_0x3e28('ed','[MCS')+tkList[_0x3e28('ee','jx^9')]+_0x3e28('ef','T9gQ'));$['log'](_0x3e28('f0','f&Wa')+$[_0x3e28('f1','Jq65')]+']:~\x20System💲/执行脚本\x0a开始执行\x20User'+(_0x3a9af2+0x1)+',UID:'+tkList['uid']+_0x3e28('f2','O#lb'));await _0x4bb039[_0x3e28('f3','qU12')](main,_0x3a9af2);}else{utftext+=String['fromCharCode'](c);}}else{if(_0x4bb039[_0x3e28('f4','3t*N')]!==_0x4bb039[_0x3e28('f5','0qqU')]){output=_0x4bb039['yStqB'](output,String[_0x3e28('f6','T9gQ')](chr2));}else{$[_0x3e28('f7','hZ3l')]('❌用户'+(_0x3a9af2+0x1)+'(ID:'+tkList[_0x3e28('f8','^APr')]+'):~\x20秘钥验证失败！');$[_0x3e28('f9','T9gQ')]('\x0a⚠️用户'+(_0x3a9af2+0x1)+_0x3e28('fa','^[rI')+tgmarkcode+tkList[_0x3e28('fb','BBg8')]);$['msg']($[_0x3e28('fc','tBQk')],'','⚠️用户'+_0x4bb039['Vrcqu'](_0x3a9af2,0x1)+_0x3e28('fd','^APr')+tgmarkcode+tkList[_0x3e28('ee','jx^9')]);}}}}}}}}})()[_0x3e28('fe','@^!S')](_0x5295a1=>{$['log']('','❌\x20'+$['name']+_0x3e28('ff','y9T[')+_0x5295a1+'!','');})[_0x3e28('100','[MCS')](()=>{$[_0x3e28('101','[zTs')]();});function z(){var _0x345072={'LirjX':function(_0x4deed4,_0x49e742){return _0x4deed4===_0x49e742;},'aiBAg':_0x3e28('102','RcLu'),'bhTIV':function(_0x1bb392,_0x5af34d){return _0x1bb392>_0x5af34d;},'gCKcH':function(_0x57bb50,_0x16d719){return _0x57bb50(_0x16d719);},'GWyMN':function(_0xcb5575,_0x3ea2cb){return _0xcb5575(_0x3ea2cb);}};const _0x3ef4cc=_0x345072[_0x3e28('103','H[]#')](decodeURIComponent,Base64['decode'](helpbangkey));function _0x446e2a(_0x2d2d74){try{if(_0x345072[_0x3e28('104','jx^9')](_0x345072[_0x3e28('105','fEi!')],_0x345072[_0x3e28('106','jx^9')])){if(_0x345072[_0x3e28('107','#mx7')](_0x3ef4cc[_0x3e28('108','g$P%')](_0x2d2d74),-0x1)){return!![];}}else{if(_0x3ef4cc[_0x3e28('109','f&Wa')](_0x2d2d74)>-0x1){return!![];}}}catch(_0x1afa1d){$[_0x3e28('d5','[MCS')](_0x1afa1d);return![];}}if(_0x345072[_0x3e28('10a','0qqU')](_0x446e2a,tkList[_0x3e28('e2','Jq65')])){return!![];}else{return![];}}function initTaskOptions(_0x54445c,_0x57bb5b,_0x1857f8,_0x3fb691,_0x2f05bd){var _0x602147={'tKQzW':_0x3e28('10b','ub5r')};let _0x2cd309=tkList[_0x3e28('10c','zU25')];let _0xc756dd=_0x2cd309[_0x3e28('10d','B2tY')][_0x3e28('10e','^APr')](/\w+/,''+_0x1857f8);let _0xa284f6=_0x2cd309[_0x602147[_0x3e28('10f','zU25')]][_0x3e28('110','BBg8')](/\w+/,''+_0x3fb691);let _0x384b9e=_0x2cd309[_0x3e28('111','XlUb')][_0x3e28('112','jg9)')](/\w+/,''+_0x2f05bd);let _0x30332d=tkList['body'];let _0x4a33eb=_0x30332d[_0x3e28('113','Jq65')](/.*/,''+_0x57bb5b);_0x2cd309[_0x3e28('114','emz0')]=_0xc756dd;_0x2cd309[_0x3e28('115','NuhL')]=_0xa284f6;_0x2cd309[_0x3e28('116','O#lb')]=_0x384b9e;return{'url':host+'/'+_0x54445c,'headers':_0x2cd309,'body':_0x4a33eb};}function TaskOptions(_0xeb18a0,_0x25fa9b,_0x1b0200){let _0x263c8c=JSON[_0x3e28('117','emz0')](_0x1b0200);let _0x4fff50=tkList[_0x3e28('118','qucK')];let _0x550c83=_0x4fff50[_0x3e28('10e','^APr')](/.*/,''+_0x25fa9b);return{'url':host+'/'+_0xeb18a0,'headers':_0x263c8c,'body':_0x550c83};}async function main(_0x440af2){var _0x405e54={'djOIq':function(_0x3d11ed,_0x28dfa1){return _0x3d11ed+_0x28dfa1;},'kZQJY':function(_0x545e2b){return _0x545e2b();},'EtNId':function(_0x588c8f){return _0x588c8f();},'KmFJS':function(_0xde59b9,_0x411d00){return _0xde59b9+_0x411d00;},'mVQvf':function(_0x1ea350,_0x3c9700){return _0x1ea350!==_0x3c9700;},'yMkmh':_0x3e28('119',']$Z7'),'nLXUs':_0x3e28('11a','m5TP'),'YQtHA':function(_0x36c0e3,_0x28f07f){return _0x36c0e3!=_0x28f07f;},'PhaIP':function(_0x563b9e,_0x18088e){return _0x563b9e===_0x18088e;},'UfwOT':_0x3e28('11b','T9gQ'),'euqfY':_0x3e28('11c','BBg8'),'IvdZB':function(_0x3871a9,_0x3b078e){return _0x3871a9<_0x3b078e;},'GcizC':function(_0x5b1659,_0x22d7f3){return _0x5b1659==_0x22d7f3;},'vaSMl':function(_0x311b43){return _0x311b43();},'tdUnJ':function(_0x3b96db,_0x196e6e){return _0x3b96db==_0x196e6e;},'iTwlZ':function(_0x37a01a,_0x189c8d){return _0x37a01a==_0x189c8d;},'PxbOJ':_0x3e28('11d','nGKa'),'eehYk':function(_0x389aa2,_0x276ede){return _0x389aa2>_0x276ede;},'SiJxg':function(_0x28541c,_0x2236c6){return _0x28541c+_0x2236c6;}};console[_0x3e28('11e','XlUb')](_0x3e28('11f','[MCS')+$[_0x3e28('f1','Jq65')]+_0x3e28('120','fEi!')+_0x405e54['djOIq'](_0x440af2,0x1)+_0x3e28('121','k4H['));await _0x405e54['kZQJY'](userinfo2);await _0x405e54[_0x3e28('122','emz0')](taskinfo);console[_0x3e28('e0','^APr')](_0x3e28('d6','qucK')+$['name']+']:~\x20User'+_0x405e54[_0x3e28('123','@^!S')](_0x440af2,0x1)+'💲/执行\x20签到任务');await signtask();console[_0x3e28('124','qucK')](_0x3e28('125','m5TP')+$[_0x3e28('126','(d$f')]+_0x3e28('127','9ETd')+_0x405e54[_0x3e28('128','ub5r')](_0x440af2,0x1)+'💲/执行\x20看视频+分享朋友圈+发布互助任务+分享微信群');for(let _0x2b71c3=0x0;_0x2b71c3<0x4;_0x2b71c3++){switch(_0x2b71c3){case 0x1:if(!tkList['kanvideohd']){if(_0x405e54['mVQvf'](_0x405e54['yMkmh'],_0x405e54[_0x3e28('129','nGKa')])){$[_0x3e28('94','PUbU')]('【提示】请先前往获取[步数金币]cookie📲');}else{$[_0x3e28('12a','emz0')](_0x405e54[_0x3e28('12b','(d$f')]);}}else{if(_0x405e54[_0x3e28('12c','qucK')](taskinfoList[_0x2b71c3][_0x3e28('12d','07Dq')],0x6)){if(_0x405e54[_0x3e28('12e','z5Zg')](_0x405e54[_0x3e28('12f','k4H[')],_0x405e54['euqfY'])){$['log']('','❌\x20'+$['name']+_0x3e28('130','jx^9')+e+'!','');}else{for(let _0x440af2=0x0;_0x405e54[_0x3e28('131','PUbU')](_0x440af2,0x6);_0x440af2++){await WatchVideo(_0x440af2);await $[_0x3e28('132','H[]#')](0x1388);}}}else{console[_0x3e28('133','mPyu')](_0x3e28('134','z5Zg')+$[_0x3e28('135','(f86')]+_0x3e28('136','jx^9'));}}break;case 0x2:_0x405e54[_0x3e28('137','qU12')](taskinfoList[_0x2b71c3]['completeCount'],0x0)?await _0x405e54[_0x3e28('138','J3!O')](sharewx):console[_0x3e28('139','tBQk')](_0x3e28('13a','[zTs')+$[_0x3e28('13b','O#lb')]+']:~今天[分享朋友圈]任务已完成🎉');break;case 0x3:_0x405e54[_0x3e28('13c','y9T[')](taskinfoList[_0x2b71c3][_0x3e28('13d','k4H[')],0x0)?await completetask():console[_0x3e28('13e','#mx7')]('\x0a☑️['+$[_0x3e28('13f','XlUb')]+_0x3e28('140','0qqU'));break;default:_0x405e54['iTwlZ'](taskinfoList[_0x2b71c3][_0x3e28('141','jg9)')],0x0)?await _0x405e54[_0x3e28('142','n]#x')](sharewxgroup):console[_0x3e28('143','g$P%')]('\x0a☑️['+$[_0x3e28('144','n]#x')]+']:~今天[分享微信群]任务已完成🎉');break;}};console['log'](_0x3e28('145','J3!O')+$[_0x3e28('146','[MCS')]+_0x3e28('147','qmF6')+(_0x440af2+0x1)+_0x3e28('148','0qqU'));if(!tkList[_0x3e28('149','aT*7')]){$['log'](_0x405e54[_0x3e28('14a','^[rI')]);}else{await _0x405e54[_0x3e28('14b','jx^9')](steptocoin);if(_0x405e54[_0x3e28('14c','(f86')](sumstepcoin,0x0)){console[_0x3e28('94','PUbU')]('\x0a🧮[本次步数金币小计]:共获取'+sumstepcoin+'金币');}else{}}console[_0x3e28('d5','[MCS')](_0x3e28('14d','nGKa')+$[_0x3e28('14e','BBg8')]+']:~\x20User'+_0x405e54[_0x3e28('14f','aT*7')](_0x440af2,0x1)+_0x3e28('150','H[]#'));await collectCoin1();await $[_0x3e28('151','NuhL')](0x1388);await collectCoin2();console['log']('\x0a🤖['+$[_0x3e28('152','jg9)')]+_0x3e28('153','XlUb')+_0x405e54[_0x3e28('154','O#lb')](_0x440af2,0x1)+_0x3e28('155','tBQk'));console['log'](_0x3e28('156','FJJV'));};_0xodW='jsjiami.com.v6';async function applyWithdraw(){return new Promise((resolve)=>{const options=initTaskOptions("user/applyWithdraw",`{"applyAmount":500,"uniqueId":"${tkList.uid}"}`,tkList.txnon,tkList.txsum,tkList.txtt);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+$.log(data)
+data=JSON.parse(data);txcode=data.head.code
+txmsg=data.head.msg
+switch(txcode){case 112:console.log(`🤖[${$.name}]:⚠️${txmsg}`);break;default:$.log(`\n‼️${resp.statusCode}[提现]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function collectCoin1(){return new Promise((resolve)=>{const options=initTaskOptions("user/collectCoin",`{"coinCount":${coinct},"collectCoinType":1,"uniqueId":"${tkList.uid}"}`,tkList.collectcoinnon,tkList.collectcoinsum,tkList.collectcointt);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);collectckcode=data.head.code
+coint=Random(15,20)
+switch(collectckcode){case 200:console.log(`✔️[气泡金币]执行成功！你的奖励:${coint}金币,已入账。`)
+break;case 110:$.log('【提示】请先前往获取[气泡金币]cookie📲')
+break;default:$.log(`\n‼️${resp.statusCode}[气泡金币]:${resp.body}`);case 115:console.log(`\n☑️[${$.name}]:~今天[气泡金币]任务已完成🎉`)
+break;}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function collectCoin2(){return new Promise((resolve)=>{const options=initTaskOptions("user/collectCoin",`{"coinCount":${coinct},"collectCoinType":2,"uniqueId":"${tkList.uid}"}`,tkList.collectcoinnon,tkList.collectcoinsum,tkList.collectcointt);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);stepcode=data.head.code
+coint=Random(13,20)
+switch(stepcode){case 200:if(typeof addtaskcoin=="undefined"){console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:${coint}金币,已入账。`)}else{coin9=data.data.coinInfo.coinBalance+addtaskcoin
+console.log(`✔️[气泡金币翻倍]执行成功！你的奖励:20金币,已入账。`)}
+break;default:$.log(`\n‼️${resp.statusCode}[气泡金币翻倍]:${resp.body}`);break;case 115:console.log(`\n☑️[${$.name}]:~今天[气泡金币翻倍]任务已完成🎉`)
+break;}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function steptocoin(){let stepcoin=Random(13,20)
+return new Promise((resolve)=>{const options=TaskOptions("user/exchangeStepToCoin",`{"curStepCount":${stepnumber},"exchangeCoin":${stepcoin},"uniqueId":"${tkList.uid}"}`,tkList.stepcoinhd);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);steprpcode=data.head.code
+switch(steprpcode){case 200:dosteptime++
+console.log(`✔️[步数金币${dosteptime}]执行成功！你的奖励:${stepcoin}金币,已入账。`)
+sumstepcoin+=stepcoin
+await $.wait(5000);await steptocoin();break;case 110:$.log('【提示】请先前往获取[步数金币]cookie📲')
+break;default:$.log(`\n‼️${resp.statusCode}[步数金币]:${resp.body}`);case 114:console.log(`\n☑️[${$.name}]:~今天[步数金币]任务已完成🎉`)
+break;}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function WatchVideo(i){return new Promise((resolve)=>{const options=TaskOptions("user/completeWatchVideoTask",`{"uniqueId":"${tkList.uid}"}`,tkList.kanvideohd);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);rpcode=data.head.code
+switch(rpcode){case 200:if(typeof addtaskcoin=="undefined"){const coinvideo=data.data.coinInfo.coinBalance-nowgold
+console.log(`✔️[看视频${i+1}]执行成功！你的奖励:60金币,已入账。`)}else{console.log(`✔️[看视频${i+1}]执行成功！你的奖励:60金币,已入账。`);}
+break;default:$.log(`\n‼️${resp.statusCode}[看视频]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function sharewxgroup(){return new Promise((resolve)=>{const options=initTaskOptions("user/completeShareWxGroupTask",`{"uniqueId":"${tkList.uid}"}`,tkList.sharenon,tkList.sharesum,tkList.sharett);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);rpcode=data.head.code
+switch(rpcode){case 200:if(typeof addtaskcoin=="undefined"){const coinwxgroup=data.data.coinInfo.coinBalance-nowgold
+console.log(`✔️[分享微信群]执行成功！你的奖励:${coinwxgroup}金币,已入账。`)}else{coin3=data.data.coinInfo.coinBalance+addtaskcoin
+console.log(`✔️今天[分享微信群]任务完成！你的奖励:${coin3-coin2}金币,已入账。`);}
+break;case 110:$.log('【提示】请先前往获取[分享微信群]cookie📲')
+break;default:$.log(`\n‼️${resp.statusCode}[分享微信群]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function sharewx(){return new Promise((resolve)=>{const options=initTaskOptions("user/completeShareWxCircleTask",`{"uniqueId":"${tkList.uid}"}`,tkList.wxsharenon,tkList.wxsharesum,tkList.wxsharett);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);switch(rpcode){case 200:if(typeof addtaskcoin=="undefined"){const coinwxgroup=data.data.coinInfo.coinBalance-nowgold
+console.log(`✔️[分享朋友圈]执行成功！你的奖励:100金币,已入账。`)}else{coin2=data.data.coinInfo.coinBalance+addtaskcoin
+console.log(`✔️[分享朋友圈]任务完成！你的奖励:100金币,已入账。`);}
+break;default:$.log(`\n‼️${resp.statusCode}[分享朋友圈]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function completetask(){return new Promise((resolve)=>{const options=initTaskOptions("user/completeMutualAidTask",`{"uniqueId":"${tkList.uid}"}`,tkList.fintasknon,tkList.fintasksum,tkList.fintasktt);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);taskcode=data.head.code
+switch(taskcode){case 200:if(typeof addtaskcoin=="undefined"){const coin=data.data.coinInfo.coinBalance-nowgold
+console.log(`✔️[发布互助1单]执行成功！你的奖励:${coin}金币,已入账。`)}else{coin1=data.data.coinInfo.coinBalance+addtaskcoin
+console.log(`✔️[发布互助1单]任务完成！你的奖励:110金币,已入账。`);}
+break;default:$.log(`\n‼️${resp.statusCode}[发布互助1单]:${resp.body}`);case 119:console.log(`\n☑️[${$.name}]:~今天[发布互助1单]任务已完成🎉`);break;case 110:$.log('【提示】请先前往获取[发布互助1单]cookie📲')
+break;case 120:console.log(`❗️今天尚未发布1单互助任务...尝试发布5000金币任务。`);await addtask();break;}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function addtask(){return new Promise((resolve)=>{const options=initTaskOptions("benefit/addTask",tkList.gotaskbody,tkList.gotasknon,tkList.gotasksum,tkList.gotasktt);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);addtaskcode=data.head.code
+switch(addtaskcode){case 110:$.log('【提示】请先发布任务获取cookie📲')
+break;default:taskid=data.data.taskId
+addtaskcoin=data.data.coinBalance
+console.log(`发布ID${taskid}互助任务,花费5000金币,发布任务结束后返回金币。`);await $.wait(1000)
+await completetask();}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function signtask(){return new Promise((resolve)=>{const options=initTaskOptions("user/signInWatchVideo",`{"coinCount":100,"uniqueId":"${tkList.uid}"}`,tkList.signnon,tkList.signsum,tkList.signtt);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);signtaskcode=data.head.code
+switch(signtaskcode){case 200:signcoin=data.data.coinInfo.coinBalance-nowgold
+console.log(`✔️[签到]任务完成!你的奖励:${signcoin}金币,已入账。`);break;default:$.log(`\n‼️${resp.statusCode}[签到]:${resp.body}`);case 107:console.log(`\n☑️[${$.name}]:~今天[签到]任务已完成🎉`);break;case 110:$.log('【提示】请先前往获取[签到]cookie📲')
+break;}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function taskinfo(){return new Promise((resolve)=>{const options=initTaskOptions("reward/getRewardTaskConfigInfo_V5",`{"uniqueId":"${tkList.uid}"}`,tkList.tkinfonon,tkList.tkinfosum);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){if(logs==false)$.log(data)
+data=JSON.parse(data);taskinfoList=data.data.rewardTaskInfo
+taskinfoList.forEach(tk=>console.log(`[${tk.taskTitle}]:每日执行${tk.taskCompleteNum}次,领取${tk.taskRewardInitAmount * tk.taskCompleteNum}金币`))}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function userinfo2(){return new Promise((resolve)=>{let options={url:`https://hlxcx.renmaibangvip.cn/user/getUserInfo`,body:`${tkList.body}`,headers:tkList.headers,}
+$.post(options,async(err,resp,data)=>{try{if(err){console.log(`⛔️API查询请求失败,请检查网络设置‼️‼️ \n ${JSON.stringify(err)}`);}else{if(safeGet(data)){data=JSON.parse(data);userinfoList=data.data.userInfo
+nowgold=userinfoList.coinBalance
+goldbalance=userinfoList.curDayCoinBalance
+userinfocode=data.head.code
+console.log(`今天用户[${userinfoList.nickName}]获取${userinfoList.curDayCoinBalance}金币(包含发布任务返回金币,实际收益可能为${userinfoList.curDayCoinBalance-5000}金币),目前账户金币为${userinfoList.coinBalance},约${Math.round(userinfoList.coinBalance/1000)/10}元,截止到今日共获取${Math.round(userinfoList.historyCoin/1000)/10}元`)}}}catch(e){$.logErr(e,resp);}finally{resolve();}})})}
+function userinfo(userbody,userkey){return new Promise((resolve)=>{let options={url:`https://hlxcx.renmaibangvip.cn/user/getUserInfo`,body:userbody,headers:JSON.parse(userkey),}
+$.post(options,async(err,resp,data)=>{try{if(err){console.log(`⛔️API查询请求失败,请检查网络设置‼️‼️ \n ${JSON.stringify(err)}`);}else{if(safeGet(data)){data=JSON.parse(data);userId=data.data.userInfo.uniqueId
+gold=data.data.userInfo.coinBalance}}}catch(e){$.log(`=================\nurl: ${options.url}\ndata: ${resp && resp.body}`);$.logErr(e,resp);}finally{resolve([userId,gold])}})})}
+async function showmsg1(){if(notifyInterval!=1){console.log(cc+'\n'+tz);}
+if(notifyInterval==1){$.msg(cc,'\n',tz);}}
+function calarrno(l,n){let status=1;let no=l;for(let i=0,len=no;i<len;i++){let ac=helpbang[i]||{};if(ac.uid){if(ac.uid==n){no=i;status=0;break;}}else if(no==len){no=i;}}
+let valarr=[no,status]
+return no}
+function safeGet(data){try{if(typeof JSON.parse(data)=="object"){return true;}}catch(e){console.log(e);console.log(`⛔️服务器访问数据为空，请检查自身设备网络情况`);return false;}}
+function unique(arr){return Array.from(new Set(arr))}
+async function githubkey(keystate){return new Promise((resolve)=>{let url={url:`${githubkeyUrl}`,};$.get(url,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败❌ ‼️‼️");console.log(JSON.stringify(err));$.logErr(err);}else{if(logs==false)$.log(data)
+switch(keystate){case"again":helpbangkey=Base64.encode(data);$.log(helpbangkey);if(helpbangkey)$.setdata(helpbangkey,'helpbangkey');$.log(`\n🤖[${$.name}]:下载完成!~脚本使用权限秘钥已更新`);break;default:helpbangkey=Base64.encode(data);console.log(helpbangkey);if(helpbangkey)$.setdata(helpbangkey,'helpbangkey');$.log(`\n🤖[${$.name}]:请重新执行脚本进行秘钥验证`);$.msg($.name,'',`🤖请重新执行脚本进行秘钥验证`);}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+function Random(min,max){return Math.round(Math.random()*(max-min))+min;}
+function Env(name,opts){class Http{constructor(env){this.env=env}
+send(opts,method='GET'){opts=typeof opts==='string'?{url:opts}:opts
+let sender=this.get
+if(method==='POST'){sender=this.post}
+return new Promise((resolve,reject)=>{sender.call(this,opts,(err,resp,body)=>{if(err)reject(err)
+else resolve(resp)})})}
+get(opts){return this.send.call(this.env,opts)}
+post(opts){return this.send.call(this.env,opts,'POST')}}
+return new(class{constructor(name,opts){this.name=name
+this.http=new Http(this)
+this.data=null
+this.dataFile='box.dat'
+this.logs=[]
+this.isMute=false
+this.isNeedRewrite=false
+this.logSeparator='\n'
+this.startTime=new Date().getTime()
+Object.assign(this,opts)
+this.log('',`🔔${this.name}, 开始!`)}
+isNode(){return'undefined'!==typeof module&&!!module.exports}
+isQuanX(){return'undefined'!==typeof $task}
+isSurge(){return'undefined'!==typeof $httpClient&&'undefined'===typeof $loon}
+isLoon(){return'undefined'!==typeof $loon}
+isShadowrocket(){return'undefined'!==typeof $rocket}
+toObj(str,defaultValue=null){try{return JSON.parse(str)}catch{return defaultValue}}
+toStr(obj,defaultValue=null){try{return JSON.stringify(obj)}catch{return defaultValue}}
+getjson(key,defaultValue){let json=defaultValue
+const val=this.getdata(key)
+if(val){try{json=JSON.parse(this.getdata(key))}catch{}}
+return json}
+setjson(val,key){try{return this.setdata(JSON.stringify(val),key)}catch{return false}}
+getScript(url){return new Promise((resolve)=>{this.get({url},(err,resp,body)=>resolve(body))})}
+runScript(script,runOpts){return new Promise((resolve)=>{let httpapi=this.getdata('@chavy_boxjs_userCfgs.httpapi')
+httpapi=httpapi?httpapi.replace(/\n/g,'').trim():httpapi
+let httpapi_timeout=this.getdata('@chavy_boxjs_userCfgs.httpapi_timeout')
+httpapi_timeout=httpapi_timeout?httpapi_timeout*1:20
+httpapi_timeout=runOpts&&runOpts.timeout?runOpts.timeout:httpapi_timeout
+const[key,addr]=httpapi.split('@')
+const opts={url:`http://${addr}/v1/scripting/evaluate`,body:{script_text:script,mock_type:'cron',timeout:httpapi_timeout},headers:{'X-Key':key,'Accept':'*/*'}}
+this.post(opts,(err,resp,body)=>resolve(body))}).catch((e)=>this.logErr(e))}
+loaddata(){if(this.isNode()){this.fs=this.fs?this.fs:require('fs')
+this.path=this.path?this.path:require('path')
+const curDirDataFilePath=this.path.resolve(this.dataFile)
+const rootDirDataFilePath=this.path.resolve(process.cwd(),this.dataFile)
+const isCurDirDataFile=this.fs.existsSync(curDirDataFilePath)
+const isRootDirDataFile=!isCurDirDataFile&&this.fs.existsSync(rootDirDataFilePath)
+if(isCurDirDataFile||isRootDirDataFile){const datPath=isCurDirDataFile?curDirDataFilePath:rootDirDataFilePath
+try{return JSON.parse(this.fs.readFileSync(datPath))}catch(e){return{}}}else return{}}else return{}}
+writedata(){if(this.isNode()){this.fs=this.fs?this.fs:require('fs')
+this.path=this.path?this.path:require('path')
+const curDirDataFilePath=this.path.resolve(this.dataFile)
+const rootDirDataFilePath=this.path.resolve(process.cwd(),this.dataFile)
+const isCurDirDataFile=this.fs.existsSync(curDirDataFilePath)
+const isRootDirDataFile=!isCurDirDataFile&&this.fs.existsSync(rootDirDataFilePath)
+const jsondata=JSON.stringify(this.data)
+if(isCurDirDataFile){this.fs.writeFileSync(curDirDataFilePath,jsondata)}else if(isRootDirDataFile){this.fs.writeFileSync(rootDirDataFilePath,jsondata)}else{this.fs.writeFileSync(curDirDataFilePath,jsondata)}}}
+lodash_get(source,path,defaultValue=undefined){const paths=path.replace(/\[(\d+)\]/g,'.$1').split('.')
+let result=source
+for(const p of paths){result=Object(result)[p]
+if(result===undefined){return defaultValue}}
+return result}
+lodash_set(obj,path,value){if(Object(obj)!==obj)return obj
+if(!Array.isArray(path))path=path.toString().match(/[^.[\]]+/g)||[]
+path.slice(0,-1).reduce((a,c,i)=>(Object(a[c])===a[c]?a[c]:(a[c]=Math.abs(path[i+1])>>0===+path[i+1]?[]:{})),obj)[path[path.length-1]]=value
+return obj}
+getdata(key){let val=this.getval(key)
+if(/^@/.test(key)){const[,objkey,paths]=/^@(.*?)\.(.*?)$/.exec(key)
+const objval=objkey?this.getval(objkey):''
+if(objval){try{const objedval=JSON.parse(objval)
+val=objedval?this.lodash_get(objedval,paths,''):val}catch(e){val=''}}}
+return val}
+setdata(val,key){let issuc=false
+if(/^@/.test(key)){const[,objkey,paths]=/^@(.*?)\.(.*?)$/.exec(key)
+const objdat=this.getval(objkey)
+const objval=objkey?(objdat==='null'?null:objdat||'{}'):'{}'
+try{const objedval=JSON.parse(objval)
+this.lodash_set(objedval,paths,val)
+issuc=this.setval(JSON.stringify(objedval),objkey)}catch(e){const objedval={}
+this.lodash_set(objedval,paths,val)
+issuc=this.setval(JSON.stringify(objedval),objkey)}}else{issuc=this.setval(val,key)}
+return issuc}
+getval(key){if(this.isSurge()||this.isLoon()){return $persistentStore.read(key)}else if(this.isQuanX()){return $prefs.valueForKey(key)}else if(this.isNode()){this.data=this.loaddata()
+return this.data[key]}else{return(this.data&&this.data[key])||null}}
+setval(val,key){if(this.isSurge()||this.isLoon()){return $persistentStore.write(val,key)}else if(this.isQuanX()){return $prefs.setValueForKey(val,key)}else if(this.isNode()){this.data=this.loaddata()
+this.data[key]=val
+this.writedata()
+return true}else{return(this.data&&this.data[key])||null}}
+initGotEnv(opts){this.got=this.got?this.got:require('got')
+this.cktough=this.cktough?this.cktough:require('tough-cookie')
+this.ckjar=this.ckjar?this.ckjar:new this.cktough.CookieJar()
+if(opts){opts.headers=opts.headers?opts.headers:{}
+if(undefined===opts.headers.Cookie&&undefined===opts.cookieJar){opts.cookieJar=this.ckjar}}}
+get(opts,callback=()=>{}){if(opts.headers){delete opts.headers['Content-Type']
+delete opts.headers['Content-Length']}
+if(this.isSurge()||this.isLoon()){if(this.isSurge()&&this.isNeedRewrite){opts.headers=opts.headers||{}
+Object.assign(opts.headers,{'X-Surge-Skip-Scripting':false})}
+$httpClient.get(opts,(err,resp,body)=>{if(!err&&resp){resp.body=body
+resp.statusCode=resp.status}
+callback(err,resp,body)})}else if(this.isQuanX()){if(this.isNeedRewrite){opts.opts=opts.opts||{}
+Object.assign(opts.opts,{hints:false})}
+$task.fetch(opts).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>callback(err))}else if(this.isNode()){this.initGotEnv(opts)
+this.got(opts).on('redirect',(resp,nextOpts)=>{try{if(resp.headers['set-cookie']){const ck=resp.headers['set-cookie'].map(this.cktough.Cookie.parse).toString()
+if(ck){this.ckjar.setCookieSync(ck,null)}
+nextOpts.cookieJar=this.ckjar}}catch(e){this.logErr(e)}}).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>{const{message:error,response:resp}=err
+callback(error,resp,resp&&resp.body)})}}
+post(opts,callback=()=>{}){const method=opts.method?opts.method.toLocaleLowerCase():'post'
+if(opts.body&&opts.headers&&!opts.headers['Content-Type']){opts.headers['Content-Type']='application/x-www-form-urlencoded'}
+if(opts.headers)delete opts.headers['Content-Length']
+if(this.isSurge()||this.isLoon()){if(this.isSurge()&&this.isNeedRewrite){opts.headers=opts.headers||{}
+Object.assign(opts.headers,{'X-Surge-Skip-Scripting':false})}
+$httpClient[method](opts,(err,resp,body)=>{if(!err&&resp){resp.body=body
+resp.statusCode=resp.status}
+callback(err,resp,body)})}else if(this.isQuanX()){opts.method=method
+if(this.isNeedRewrite){opts.opts=opts.opts||{}
+Object.assign(opts.opts,{hints:false})}
+$task.fetch(opts).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>callback(err))}else if(this.isNode()){this.initGotEnv(opts)
+const{url,..._opts}=opts
+this.got[method](url,_opts).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>{const{message:error,response:resp}=err
+callback(error,resp,resp&&resp.body)})}}
+time(fmt,ts=null){const date=ts?new Date(ts):new Date()
+let o={'M+':date.getMonth()+1,'d+':date.getDate(),'H+':date.getHours(),'m+':date.getMinutes(),'s+':date.getSeconds(),'q+':Math.floor((date.getMonth()+3)/3),'S':date.getMilliseconds()}
+if(/(y+)/.test(fmt))fmt=fmt.replace(RegExp.$1,(date.getFullYear()+'').substr(4-RegExp.$1.length))
+for(let k in o)
+if(new RegExp('('+k+')').test(fmt))
+fmt=fmt.replace(RegExp.$1,RegExp.$1.length==1?o[k]:('00'+o[k]).substr((''+o[k]).length))
+return fmt}
+msg(title=name,subt='',desc='',opts){const toEnvOpts=(rawopts)=>{if(!rawopts)return rawopts
+if(typeof rawopts==='string'){if(this.isLoon())return rawopts
+else if(this.isQuanX())return{'open-url':rawopts}
+else if(this.isSurge())return{url:rawopts}
+else return undefined}else if(typeof rawopts==='object'){if(this.isLoon()){let openUrl=rawopts.openUrl||rawopts.url||rawopts['open-url']
+let mediaUrl=rawopts.mediaUrl||rawopts['media-url']
+return{openUrl,mediaUrl}}else if(this.isQuanX()){let openUrl=rawopts['open-url']||rawopts.url||rawopts.openUrl
+let mediaUrl=rawopts['media-url']||rawopts.mediaUrl
+return{'open-url':openUrl,'media-url':mediaUrl}}else if(this.isSurge()){let openUrl=rawopts.url||rawopts.openUrl||rawopts['open-url']
+return{url:openUrl}}}else{return undefined}}
+if(!this.isMute){if(this.isSurge()||this.isLoon()){$notification.post(title,subt,desc,toEnvOpts(opts))}else if(this.isQuanX()){$notify(title,subt,desc,toEnvOpts(opts))}}
+if(!this.isMuteLog){let logs=['','==============📣系统通知📣==============']
+logs.push(title)
+subt?logs.push(subt):''
+desc?logs.push(desc):''
+console.log(logs.join('\n'))
+this.logs=this.logs.concat(logs)}}
+log(...logs){if(logs.length>0){this.logs=[...this.logs,...logs]}
+console.log(logs.join(this.logSeparator))}
+logErr(err,msg){const isPrintSack=!this.isSurge()&&!this.isQuanX()&&!this.isLoon()
+if(!isPrintSack){this.log('',`❗️${this.name}, 错误!`,err)}else{this.log('',`❗️${this.name}, 错误!`,err.stack)}}
+wait(time){return new Promise((resolve)=>setTimeout(resolve,time))}
+done(val={}){const endTime=new Date().getTime()
+const costTime=(endTime-this.startTime)/1000
+this.log('',`🔔${this.name}, 结束! 🕛 ${costTime} 秒`)
+this.log()
+if(this.isSurge()||this.isQuanX()||this.isLoon()){$done(val)}}})(name,opts)}
