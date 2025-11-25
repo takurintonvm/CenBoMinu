@@ -1,5 +1,5 @@
 const $ = new Env("UCPIG Cookie");
-let ucpigapp = $.getjson('ucpig', [])
+let ucpigapp = $.getjson('ucpigapp', [])
 
   //++++++++++++++++++++++++++++++++++++
   !(async () => {
@@ -17,7 +17,7 @@ let ucpigapp = $.getjson('ucpig', [])
 //++++++++++++++++++++++++++++++++++++
 async function GetCookie() {
   //基础数据
-  if ($request.url.indexOf("getAssetInfo") > -1) {
+  if ($request.url.match(/\/piggybank\/asset/) && $request.url.indexOf("getAssetInfo") >= 0) {
     // const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
     const userId = $request.url.split("sn=")[1].split("&")[0];
@@ -53,50 +53,86 @@ async function GetCookie() {
     }
 
   }
-}
+  //获取任务请求
 
-//获取任务请求
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task\/trigger/) && $request.url.indexOf("complete") >= 0) {
-  const uctaskVal = $request.url
-  let uctaskArr = [];
-  if (uctaskVal) {
-    let uctaskkey = $.getdata('uctaskkey');
-    if (uctaskkey) {
-      if (uctaskkey.indexOf(uctaskVal) != -1) {
-        $.msg('body重复跳过');
-        $.done();
-      }
-      uctaskArr = uctaskkey.split('#');
-      uctaskkey = uctaskVal + '#' + uctaskkey;
-    } else {
-      uctaskkey = uctaskVal;
-    }
-    $.setdata(uctaskkey, 'uctaskkey')
-    $.msg('', '', `添加任务请求: 成功🎉,当前共有${uctaskArr.length+1}个`)
-    $.done()
-  }
-}
+  if ($request.url.match(/\/task\/trigger/) && $request.url.indexOf("complete") >= 0) {
+    const userurl = $request.url;
+    let taskuid = $request.url.split("sn=")[1].split("&")[0];
+    let len = ucpigapp.length;
+    if (taskuid) {
+      let videoTid = $request.url.split("tid=")[1].split("&")[0];
+      console.log(`videoTid:${videoTid}`);
+      let videoTaskArr = ucpigapp[calarrno(len, taskuid)].videotask || [];
+       videoTaskArr[0] = userurl;
+      if (videoTid) {
+        let arrnum = videoTaskArr.length;
+        console.log(`arrnum:${arrnum}`);
+        for (let i = 0, len = arrnum; i < len; i++) {
+          let videoBoxTid = videoTaskArr[i].split("tid=")[1].split("&")[0]
+          if (videoBoxTid) {
+            if (videoBoxTid == videoTid) {
+              arrnum = i;
+              break;
+            }
+          } else if (arrnum == len) {
+            arrnum = i;
+          }
+        }
 
-//领取任务奖励
-if ($request && $request.method != `OPTIONS` && $request.url.match(/\/task\/trigger/) && $request.url.indexOf("award") >= 0) {
-  const ucawardVal = $request.url
-  let ucawardArr = [];
-  if (ucawardVal) {
-    let ucawardkey = $.getdata('ucawardkey');
-    if (ucawardkey) {
-      if (ucawardkey.indexOf(ucawardVal) != -1) {
-        $.msg('body重复跳过');
-        $.done();
+        let videoTaskArrCK = videoTaskArr[arrnum];
+        if (!videoTaskArrCK) {
+          videoTaskArr[arrnum] = userurl;
+        };
       }
-      ucawardArr = ucawardkey.split('#');
-      ucawardkey = ucawardVal + '#' + ucawardkey;
+      ucpigapp[calarrno(len, taskuid)].videotask = videotaskArr;
+      $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
+      $.log(`获取成功🎉: videoTaskUrl: ${userurl}`)
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,taskuid)+1}] 获取[视频]数据成功！🎉`);
     } else {
-      ucawardkey = ucawardVal;
+      $.msg($.name, "", 'UC小猪猪[视频]数据获取失败⚠️');
     }
-    $.setdata(ucawardkey, 'ucawardkey')
-    $.msg('', '', `添加任务奖励请求: 成功🎉,当前共有${ucawardArr.length+1}个`)
-    $.done()
   }
+  //领取任务奖励
+  if ($request.url.match(/\/task\/trigger/) && $request.url.indexOf("award") >= 0) {
+    const userkey = JSON.stringify($request.headers);
+    const userurl = $request.url;
+    let uid = $request.url.split("sn=")[1].split("&")[0];
+    let len = ucpigapp.length;
+    if (uid) {
+      const videoTid = $request.url.split("tid=")[1].split("&")[0];
+      let videoAwardArr = ucpigapp[calarrno(len, uid)].videoaward || [];
+
+      if (videoTid) {
+        let arrnum = videoAwardArr.length;
+        console.log(`arrnum:${arrnum}`);
+        for (let i = 0, len = arrnum; i < len; i++) {
+          let videoBoxTid = videoAwardArr[i].split("tid=")[1].split("&")[0]
+          if (videoBoxTid) {
+            if (videoBoxTid == videoTid) {
+              arrnum = i;
+              break;
+            }
+          } else if (arrnum == len) {
+            arrnum = i;
+          }
+        }
+
+        let videoAwardArrCK = videoAwardArr[arrnum];
+        if (!videoAwardArrCK) {
+          videoAwardArr[arrnum] = userurl;
+        };
+      }
+
+      ucpigapp[calarrno(len, uid)].videoaward = videoAwardArr;
+      $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
+      $.log(`获取成功🎉: videoAwardUrl: ${userurl}`)
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取[奖励]数据成功！🎉`);
+    } else {
+      $.msg($.name, "", 'UC小猪猪[奖励]数据获取失败⚠️');
+    }
+  }
+
+
 }
 
 //++++++++++++++++++++++++++++++++++++
@@ -110,6 +146,22 @@ function safeGet(data) {
     console.log(`⛔️服务器访问数据为空，请检查自身设备网络情况`);
     return false;
   }
+}
+
+function calarrno(l, n) {
+  let no = l;
+  for (let i = 0, len2 = no; i < len2; i++) {
+    let ac = ucpigapp[i] || {};
+    if (ac.uid) {
+      if (ac.uid == n) {
+        no = i;
+        break;
+      }
+    } else if (no == len2) {
+      no = i;
+    }
+  }
+  return no
 }
 
 function Env(name, opts) {
