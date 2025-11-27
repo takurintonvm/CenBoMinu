@@ -54,16 +54,15 @@ async function GetCookie() {
 
   }
   //获取任务请求
-
   if ($request.url.match(/\/task\/trigger/) && $request.url.indexOf("complete") >= 0) {
+    const userkey = JSON.stringify($request.headers);
     const userurl = $request.url;
-    let taskuid = $request.url.split("sn=")[1].split("&")[0];
+    let uid = $request.url.split("sn=")[1].split("&")[0];
     let len = ucpigapp.length;
-    if (taskuid) {
-      let videoTid = $request.url.split("tid=")[1].split("&")[0];
-      console.log(`videoTid:${videoTid}`);
-      let videoTaskArr = ucpigapp[calarrno(len, taskuid)].videotask || [];
-       videoTaskArr[0] = userurl;
+    if (uid) {
+      const videoTid = $request.url.split("tid=")[1].split("&")[0];
+      let videoTaskArr = ucpigapp[calarrno(len, uid)].videotask2 || [];
+
       if (videoTid) {
         let arrnum = videoTaskArr.length;
         console.log(`arrnum:${arrnum}`);
@@ -84,10 +83,11 @@ async function GetCookie() {
           videoTaskArr[arrnum] = userurl;
         };
       }
-      ucpigapp[calarrno(len, taskuid)].videotask = videotaskArr;
+
+      ucpigapp[calarrno(len, uid)].videotask2 = videoTaskArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoTaskUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,taskuid)+1}] 获取[视频]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取[视频${videoTid-2200}]数据成功！🎉`);
     } else {
       $.msg($.name, "", 'UC小猪猪[视频]数据获取失败⚠️');
     }
@@ -100,7 +100,7 @@ async function GetCookie() {
     let len = ucpigapp.length;
     if (uid) {
       const videoTid = $request.url.split("tid=")[1].split("&")[0];
-      let videoAwardArr = ucpigapp[calarrno(len, uid)].videoaward || [];
+      let videoAwardArr = ucpigapp[calarrno(len, uid)].videoaward2 || [];
 
       if (videoTid) {
         let arrnum = videoAwardArr.length;
@@ -123,15 +123,14 @@ async function GetCookie() {
         };
       }
 
-      ucpigapp[calarrno(len, uid)].videoaward = videoAwardArr;
+      ucpigapp[calarrno(len, uid)].videoaward2 = videoAwardArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoAwardUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取[奖励]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取[奖励${videoTid-2200}]数据成功！🎉`);
     } else {
       $.msg($.name, "", 'UC小猪猪[奖励]数据获取失败⚠️');
     }
   }
-
 
 }
 
