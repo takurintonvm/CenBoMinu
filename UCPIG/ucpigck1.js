@@ -87,9 +87,9 @@ async function GetCookie() {
       ucpigapp[calarrno(len, uid)].videotask1 = videoTaskArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoTaskUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取[视频${videoTid-2200}]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第一天[视频${videoTid-2200}]数据成功！🎉`);
     } else {
-      $.msg($.name, "", 'UC小猪猪[视频]数据获取失败⚠️');
+      $.msg($.name, "", 'UC小猪猪第一天[视频]数据获取失败⚠️');
     }
   }
   //领取任务奖励
@@ -126,9 +126,9 @@ async function GetCookie() {
       ucpigapp[calarrno(len, uid)].videoaward1 = videoAwardArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoAwardUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取[奖励${videoTid-2200}]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第一天[奖励${videoTid-2200}]数据成功！🎉`);
     } else {
-      $.msg($.name, "", 'UC小猪猪[奖励]数据获取失败⚠️');
+      $.msg($.name, "", 'UC小猪猪第一天[奖励]数据获取失败⚠️');
     }
   }
 
