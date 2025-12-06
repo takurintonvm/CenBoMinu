@@ -438,10 +438,10 @@ async function shuqiapp() {
   await $.wait(1000)
   await task32();
   await $.wait(1000)
-  // console.log(`\n4️⃣ 开始➰福利转转转🎡➰任务`)
-  // $.log(`\n⏳查询[福利转转转]状态...\n`);
-  // await task4();
-  // await $.wait(1000)
+  console.log(`\n4️⃣ 开始➰福利转转转🎡➰任务`)
+  $.log(`\n⏳查询[福利转转转]状态...\n`);
+  await task4();
+  await $.wait(1000)
   console.log(`\n5️⃣ 开始➰邀请书友👭➰任务`)
   $.log(`\n⏳查询[邀请书友]状态...\n`);
   await task51();
@@ -494,7 +494,10 @@ async function task21() {
     if (!readlotterybodyVal) {
       $.log(`❌目前账号readlotterybody未获取,请参照说明对照表获取cookie。\n`);
     } else {
-      await readlottery1();
+      for (var i = 0; i < 10; i++) {
+        await readlottery1();
+        await $.wait(2000)
+      }
     }
 
   } else {
@@ -504,8 +507,11 @@ async function task21() {
 }
 async function task22() {
   if (sptask1status === 0) {
-    $.log(`\n【极速版-30秒计时奖励】:未完成,开始执行任务...`);
-    await readlottery2();
+    $.log(`\n【极速版-30秒计时奖励】:未完成,开始执行任务...`);  
+    for (var i = 0; i < 10; i++) {
+      await readlottery2();
+      await $.wait(2000)
+    }
     tz += `【极速版-30秒计时奖励】:剩余${mycnt}次\n`
   } else {
     $.log(`【极速版-30秒计时奖励】:已完成🎉`);
@@ -519,8 +525,11 @@ async function task31() {
     tz += `【普通版-看视频】:已完成🎉\n`
   } else {
     $.log(`【普通版-看视频】:未完成,准备执行任务...`);
-    await prizelottery1();
-    tz += `【普通版-看视频】:获得250金币💰\n`
+    for (var i = 0; i < 10; i++) {
+      await prizelottery1();
+      await $.wait(2000)
+      tz += `【普通版-看视频${i}】:获得250金币💰\n`
+    }
   }
 
 }
@@ -533,13 +542,17 @@ async function task32() {
     if (!sp1videocoinbodyVal) {
       $.log(`❌目前账号sp1videocoinbody未获取,请参照说明对照表获取cookie。\n`);
     } else {
-        await prizelottery2();
+        for (var i = 0; i < 10; i++) {
+          await prizelottery2();
+          await $.wait(2000)
+        }
     }
     if (!sp2videocoinbodyVal) {
       $.log(`❌目前账号sp2videocoinbody未获取,请参照说明对照表获取cookie。\n`);
     } else {
       for (var i = 0; i < 20; i++) {
         await prizelottery3();
+        await $.wait(2000)
       }
     }
   }
@@ -1218,7 +1231,7 @@ async function prizelottery2() {
             data = JSON.parse(data);
             redmsg = data.data.awardMessage
             $.log(`👧一般视频页面:${redmsg}🎉`);
-            tz += `【极速版-一般视频】:获得100金币💰\n`
+            tz += `【极速版-一般视频${i}】:获得100金币💰\n`
 
           }
         }
