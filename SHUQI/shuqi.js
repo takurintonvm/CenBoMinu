@@ -507,7 +507,7 @@ async function task21() {
 }
 async function task22() {
   if (sptask1status === 0) {
-    $.log(`\n【极速版-30秒计时奖励】:未完成,开始执行任务...`);  
+    $.log(`\n【极速版-30秒计时奖励】:未完成,开始执行任务...`);
     for (var i = 0; i < 10; i++) {
       await readlottery2();
       await $.wait(2000)
