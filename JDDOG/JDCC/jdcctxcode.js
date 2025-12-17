@@ -18,11 +18,7 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 
 !(async () => {
-  if (!ccjdcoin) {
-    $.msg($.name, "【提示】请先获取cookie");
-    return;
-  }
-
+  console.log(`本次的提现code为：${jdtxcode}`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -41,10 +37,9 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         }
         continue
       }
-      //await requireConfig()
-      await getCash()
-
-
+      for (let k = 0; k < 100; k++) {
+        await getCash();
+      }
 
     }
   }
@@ -53,6 +48,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
   })
   .finally(() => {
+    $.msg($.name, '', `🗣请重新获取新的提现code`);
     $.done();
   })
 
@@ -67,9 +63,19 @@ function getCash() {
         } else {
           if (safeGet(data)) {
             console.log(`提现结果${data}`);
-            data = JSON.parse(data);
-            if (data['bizMsg'] == "活动太火爆呀~") {
-              console.log(data['data']['desc'])
+            const code = data.data.bizCode
+            switch (code) {
+              case -525:
+                console.log("提现失败！❌");
+                break;
+                case -524:
+                  console.log("提现失败！❌");
+                  break;
+              default:
+                console.log(`**** getCash *****\n`);
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+                $.msg($.name, '', `城城提现成功🎉：${code}`);
+
             }
           }
         }

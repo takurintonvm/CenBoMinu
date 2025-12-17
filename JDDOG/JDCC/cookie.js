@@ -19,6 +19,7 @@ async function GetCookie() {
     const jdcctxcode = $request.body.split('"code":"')[1].split('"')[0];;
     $.setdata(jdcctxcode, 'jdcctxcode')
     $.log(`获取成功🎉: jdcctxcode: ${jdcctxcode}`)
+    $.msg($.name, '', `更新code成功:${jdcctxcode}🎉`);
   }
 
 }
