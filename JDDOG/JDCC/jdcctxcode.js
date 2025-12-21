@@ -72,6 +72,11 @@ function getCash() {
             data = JSON.parse(data);
             const code = data.data.bizCode
             switch (code) {
+              case 0:
+                console.log("提现成功！🎉");
+                $.msg($.name, '', `城城提现成功🎉：${code}`);
+                $.done();
+                break;
               case -525:
                 console.log("提现失败！❌");
                 break;
@@ -82,6 +87,8 @@ function getCash() {
                 console.log(`**** getCash *****\n`);
                 $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
                 $.msg($.name, '', `城城提现成功🎉：${code}`);
+
+
 
             }
           }
