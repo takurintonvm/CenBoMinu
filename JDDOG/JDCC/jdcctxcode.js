@@ -41,8 +41,15 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         }
         continue
       }
-      for (let k = 0; k < 100; k++) {
-        await getCash();
+      await getCash();
+      for (let k = 0; k < 200; k++) {
+        if (code === -525) {
+          await getCash();
+        }else {
+          await getCash();
+          console.log(`🔥非火爆抢提现,跳出循环任务`)
+          break
+        }
       }
 
     }
@@ -70,18 +77,25 @@ function getCash() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            const code = data.data.bizCode
+            code = data.data.bizCode
             switch (code) {
               case 0:
-                console.log("提现成功！🎉");
-                $.msg($.name, '', `城城提现成功🎉：${code}`);
+                console.log(`京东账号${$.index} ${$.nickName || $.UserName}\n提现成功🎉：${code}`);
+                $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n提现成功🎉：${code}`);
                 $.done();
                 break;
               case -525:
-                console.log("提现失败！❌");
+                console.log(`京东账号${$.index} ${$.nickName || $.UserName}\n提现失败！🔥提现火爆ing...❌`);
                 break;
               case -524:
-                console.log("提现失败！❌");
+                console.log(`京东账号${$.index} ${$.nickName || $.UserName}\n提现失败！没到提现门槛❌`);
+                break;
+              case -523:
+                console.log(`京东账号${$.index} ${$.nickName || $.UserName}\n提现失败！❌`);
+                break;
+              case -522:
+                console.log(`京东账号${$.index} ${$.nickName || $.UserName}\n提现失败！已提现20元❌`);
+                $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n提现20元🎉`);
                 break;
               default:
                 console.log(`**** getCash *****\n`);
