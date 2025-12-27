@@ -45,8 +45,10 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
       for (let k = 0; k < 200; k++) {
         if (code === -525) {
           await getCash();
+        }else if (code === -522) {
+          $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n提现20元🎉`);
+          break
         }else {
-          await getCash();
           console.log(`🔥非火爆抢提现,跳出循环任务`)
           break
         }
@@ -95,7 +97,6 @@ function getCash() {
                 break;
               case -522:
                 console.log(`京东账号${$.index} ${$.nickName || $.UserName}\n提现失败！已提现20元❌`);
-                $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n提现20元🎉`);
                 break;
               default:
                 console.log(`**** getCash *****\n`);
@@ -115,8 +116,6 @@ function getCash() {
     })
   })
 }
-
-
 function taskPostUrl(functionId, body) {
   return {
     url: `${JD_API_HOST}`,
