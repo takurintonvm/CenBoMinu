@@ -1352,8 +1352,13 @@ async function prizered() {
             if (logs == 1) $.log(data)
             //$.log(data)
             data = JSON.parse(data);
-            lotteryred = data.data.prizeList[0].prizeName
-            $.log(`👧恭喜抽到${lotteryred}🎉\n`);
+            if (!luckyredurlVal) {
+              lotteryred = data.data.prizeList[0].prizeName
+              $.log(`👧恭喜抽到${lotteryred}🎉\n`);
+            } else {
+                console.log($.name, '【提示】请先前往获取luckyredurlVal cookie📲')
+            }
+
           }
         }
       } catch (e) {
