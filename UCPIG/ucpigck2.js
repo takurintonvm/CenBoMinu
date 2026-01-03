@@ -1,4 +1,4 @@
-const $ = new Env("UCPIG Cookie");
+const $ = new Env("UCPIG Cookie2");
 let ucpigapp = $.getjson('ucpigapp', [])
 
   //++++++++++++++++++++++++++++++++++++
@@ -53,6 +53,54 @@ async function GetCookie() {
     }
 
   }
+  //元宝兑换1元
+  if ($request.url.match(/\/piggybank\/withdraw/) && $request.url.indexOf("exchange") >= 0) {
+    const userbody = $request.body;
+    const userkey = JSON.stringify($request.headers);
+    const userId = $request.url.split("sn=")[1].split("&")[0];
+    if (userId) {
+      ucpigapp[calarrno(len, hduid)].exchange = userbody;
+      $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
+      $.log(`获取成功🎉: exchange: ${userbody}`)
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,hduid)+1}] 获取[元宝兑换]数据成功！🎉`);
+    } else {
+      $.msg($.name, '', 'UC小猪猪用户Cookie数据获取失败⚠️');
+    }
+
+  }
+  //提现支付宝1元
+  if ($request.url.match(/\/exchange\/submitExchange/)) {
+    const userbody = $request.body;
+    const userkey = JSON.stringify($request.headers);
+    const userId = $request.url.split("sn=")[1].split("&")[0];
+    if (userId) {
+      ucpigapp[calarrno(len, hduid)].txmoney = userbody;
+      $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
+      $.log(`获取成功🎉: txmoney: ${userbody}`)
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,hduid)+1}] 获取[提现支付宝]数据成功！🎉`);
+    } else {
+      $.msg($.name, '', 'UC小猪猪用户Cookie数据获取失败⚠️');
+    }
+
+  }
+  //收元宝
+  if ($request.url.match(/\/piggybank\/common/) && $request.url.indexOf("receiveAward") >= 0) {
+    const userurl = $request.url;
+    const userbody = $request.body;
+    const userkey = JSON.stringify($request.headers);
+    const userId = $request.url.split("sn=")[1].split("&")[0];
+    if (userId) {
+      ucpigapp[calarrno(len, hduid)].pigawardurl = userurl;
+      ucpigapp[calarrno(len, hduid)].pigawardbody = userbody;
+      $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
+      $.log(`获取成功🎉: pigawardurl: ${userurl}`)
+      $.log(`获取成功🎉: pigawardbody: ${userbody}`)
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,hduid)+1}] 获取[收元宝]数据成功！🎉`);
+    } else {
+      $.msg($.name, '', 'UC小猪猪用户Cookie数据获取失败⚠️');
+    }
+
+  }
   //获取任务请求
   if ($request.url.match(/\/task\/trigger/) && $request.url.indexOf("complete") >= 0) {
     const userkey = JSON.stringify($request.headers);
@@ -87,7 +135,7 @@ async function GetCookie() {
       ucpigapp[calarrno(len, uid)].videotask2 = videoTaskArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoTaskUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第二天[视频${videoTid-2200+1}]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第二天[视频${videoTid}]数据成功！🎉`);
     } else {
       $.msg($.name, "", 'UC小猪猪[视频]数据获取失败⚠️');
     }
@@ -126,7 +174,7 @@ async function GetCookie() {
       ucpigapp[calarrno(len, uid)].videoaward2 = videoAwardArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoAwardUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第二天[奖励${videoTid-2200+1}]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第二天[奖励${videoTid}]数据成功！🎉`);
     } else {
       $.msg($.name, "", 'UC小猪猪[奖励]数据获取失败⚠️');
     }
