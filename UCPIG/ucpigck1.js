@@ -19,6 +19,7 @@ async function GetCookie() {
   //基础数据
   if ($request.url.match(/\/piggybank\/asset/) && $request.url.indexOf("getAssetInfo") >= 0) {
     // const userbody = $request.body;
+    const userurl = $request.url;
     const userkey = JSON.stringify($request.headers);
     const userId = $request.url.split("sn=")[1].split("&")[0];
     if (userId) {
@@ -41,12 +42,14 @@ async function GetCookie() {
         ucpigapp[no] = {
           uid: userId,
           hd: userkey,
+          coinurl: userurl
         };
       }
 
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: userkey: ${userkey}`)
       $.log(`获取成功🎉: userid: ${userId}`)
+      $.log(`获取成功🎉: coinurl: ${userurl}`)
       $.msg($.name, '', `UC小猪猪[账号${no+1}] ${status?'新增':'更新'}Cookie数据成功！🎉`);
     } else {
       $.msg($.name, '', 'UC小猪猪用户Cookie数据获取失败⚠️');
