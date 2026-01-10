@@ -1,3 +1,7 @@
+💀💀💀💀💀💀  GAME OVER 💀💀💀💀💀💀
+
+
+
 //说明
 1.第一次务必绑定微信,下载图片
 https://raw.githubusercontent.com/CenBoMin/GithubSync/main/RUNSTEP/IMG_1246.jpg
