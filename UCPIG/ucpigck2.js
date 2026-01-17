@@ -152,7 +152,7 @@ async function GetCookie() {
     let len = ucpigapp.length;
     if (uid) {
       const videoTid = $request.url.split("tid=")[1].split("&")[0];
-      let videoAwardArr = ucpigapp[calarrno(len, uid)].videoaward2 || [];
+      let videoAwardArr = ucpigapp[calarrno(len, uid)].videoaward || [];
 
       if (videoTid) {
         let arrnum = videoAwardArr.length;
@@ -175,10 +175,10 @@ async function GetCookie() {
         };
       }
 
-      ucpigapp[calarrno(len, uid)].videoaward2 = videoAwardArr;
+      ucpigapp[calarrno(len, uid)].videoaward = videoAwardArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoAwardUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第二天[奖励${videoTid}]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取[奖励${videoTid}]数据成功！🎉`);
     } else {
       $.msg($.name, "", 'UC小猪猪[奖励]数据获取失败⚠️');
     }
