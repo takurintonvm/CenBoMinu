@@ -61,11 +61,12 @@ async function GetCookie() {
     const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
     const userId = $request.url.split("sn=")[1].split("&")[0];
+    let len = ucpigapp.length;
     if (userId) {
-      ucpigapp[calarrno(len, hduid)].exchange = userbody;
+      ucpigapp[calarrno(len, userId)].exchange = userbody;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: exchange: ${userbody}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,hduid)+1}] 获取[元宝兑换]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,userId)+1}] 获取[元宝兑换]数据成功！🎉`);
     } else {
       $.msg($.name, '', 'UC小猪猪用户Cookie数据获取失败⚠️');
     }
@@ -76,11 +77,12 @@ async function GetCookie() {
     const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
     const userId = $request.url.split("sn=")[1].split("&")[0];
+    let len = ucpigapp.length;
     if (userId) {
-      ucpigapp[calarrno(len, hduid)].txmoney = userbody;
+      ucpigapp[calarrno(len, userId)].txmoney = userbody;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: txmoney: ${userbody}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,hduid)+1}] 获取[提现支付宝]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,userId)+1}] 获取[提现支付宝]数据成功！🎉`);
     } else {
       $.msg($.name, '', 'UC小猪猪用户Cookie数据获取失败⚠️');
     }
@@ -92,13 +94,14 @@ async function GetCookie() {
     const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
     const userId = $request.url.split("sn=")[1].split("&")[0];
+    let len = ucpigapp.length;
     if (userId) {
-      ucpigapp[calarrno(len, hduid)].pigawardurl = userurl;
-      ucpigapp[calarrno(len, hduid)].pigawardbody = userbody;
+      ucpigapp[calarrno(len, userId)].pigawardurl = userurl;
+      ucpigapp[calarrno(len, userId)].pigawardbody = userbody;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: pigawardurl: ${userurl}`)
       $.log(`获取成功🎉: pigawardbody: ${userbody}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,hduid)+1}] 获取[收元宝]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,userId)+1}] 获取[收元宝]数据成功！🎉`);
     } else {
       $.msg($.name, '', 'UC小猪猪用户Cookie数据获取失败⚠️');
     }
