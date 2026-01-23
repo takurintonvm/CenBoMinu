@@ -31,6 +31,8 @@ async function GetCookie() {
           if (ac.uid == userId) {
             no = i;
             status = 0;
+            ucpigapp[no].hd = userkey;
+            ucpigapp[no].coinurl = userurl;
             break;
           }
         } else if (no == len) {
