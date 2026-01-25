@@ -144,7 +144,7 @@ async function GetCookie() {
       ucpigapp[calarrno(len, uid)].videotask1 = videoTaskArr;
       $.setdata(JSON.stringify(ucpigapp, null, 2), 'ucpigapp');
       $.log(`获取成功🎉: videoTaskUrl: ${userurl}`)
-      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第一天[视频${videoTid}]数据成功！🎉`);
+      $.msg($.name, "", `UC小猪猪[账号${calarrno(len,uid)+1}] 获取第一天[任务${videoTid}]数据成功！🎉`);
     } else {
       $.msg($.name, "", 'UC小猪猪第一天[视频]数据获取失败⚠️');
     }
