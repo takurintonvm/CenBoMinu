@@ -1,1166 +1,184 @@
-const $ = new Env("UCPIG");
-var Base64 = {
-
-  // private property
-  keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
-
-    // public method for encoding
-    ,
-  encode: function(input) {
-      var output = "";
-      var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-      var i = 0;
-
-      input = Base64.utf8encode(input);
-
-      while (i < input.length) {
-        chr1 = input.charCodeAt(i++);
-        chr2 = input.charCodeAt(i++);
-        chr3 = input.charCodeAt(i++);
-
-        enc1 = chr1 >> 2;
-        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-        enc4 = chr3 & 63;
-
-        if (isNaN(chr2)) {
-          enc3 = enc4 = 64;
-        } else if (isNaN(chr3)) {
-          enc4 = 64;
-        }
-
-        output = output +
-          this.keyStr.charAt(enc1) + this.keyStr.charAt(enc2) +
-          this.keyStr.charAt(enc3) + this.keyStr.charAt(enc4);
-      } // Whend
-
-      return output;
-    } // End Function encode
-
-
-    // public method for decoding
-    ,
-  decode: function(input) {
-      var output = "";
-      var chr1, chr2, chr3;
-      var enc1, enc2, enc3, enc4;
-      var i = 0;
-
-      input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-      while (i < input.length) {
-        enc1 = this.keyStr.indexOf(input.charAt(i++));
-        enc2 = this.keyStr.indexOf(input.charAt(i++));
-        enc3 = this.keyStr.indexOf(input.charAt(i++));
-        enc4 = this.keyStr.indexOf(input.charAt(i++));
-
-        chr1 = (enc1 << 2) | (enc2 >> 4);
-        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-        chr3 = ((enc3 & 3) << 6) | enc4;
-
-        output = output + String.fromCharCode(chr1);
-
-        if (enc3 != 64) {
-          output = output + String.fromCharCode(chr2);
-        }
-
-        if (enc4 != 64) {
-          output = output + String.fromCharCode(chr3);
-        }
-
-      } // Whend
-
-      output = Base64.utf8decode(output);
-
-      return output;
-    } // End Function decode
-
-
-    // private method for UTF-8 encoding
-    ,
-  utf8encode: function(string) {
-      var utftext = "";
-      string = string.replace(/\r\n/g, "\n");
-
-      for (var n = 0; n < string.length; n++) {
-        var c = string.charCodeAt(n);
-
-        if (c < 128) {
-          utftext += String.fromCharCode(c);
-        } else if ((c > 127) && (c < 2048)) {
-          utftext += String.fromCharCode((c >> 6) | 192);
-          utftext += String.fromCharCode((c & 63) | 128);
-        } else {
-          utftext += String.fromCharCode((c >> 12) | 224);
-          utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-          utftext += String.fromCharCode((c & 63) | 128);
-        }
-
-      } // Next n
-
-      return utftext;
-    } // End Function utf8encode
-
-    // private method for UTF-8 decoding
-    ,
-  utf8decode: function(utftext) {
-    var string = "";
-    var i = 0;
-    var c, c1, c2, c3;
-    c = c1 = c2 = 0;
-
-    while (i < utftext.length) {
-      c = utftext.charCodeAt(i);
-
-      if (c < 128) {
-        string += String.fromCharCode(c);
-        i++;
-      } else if ((c > 191) && (c < 224)) {
-        c2 = utftext.charCodeAt(i + 1);
-        string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-        i += 2;
-      } else {
-        c2 = utftext.charCodeAt(i + 1);
-        c3 = utftext.charCodeAt(i + 2);
-        string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-        i += 3;
-      }
-
-    } // Whend
-
-    return string;
-  } // End Function utf8decode
-
-};
-const hostcoral2 = "https://coral2.uc.cn/";
-const hostucwallet = "https://ucwallet.uc.cn/";
-const hostcoraltask = "https://coral-task.uc.cn/";
-const tgmarkcode = "/submitactivitycodes ucpigapp@"
-const githubkeyUrl = 'https://raw.githubusercontent.com/CenBoMin/TGBOTCode/main/ucpigapp.js'
-let ucpigapp = $.getjson('ucpigapp', [])
-let ucpigappkey = $.getval('ucpigappkey');
-//============================
-//+++++++++ 执行函数 ++++++++++
-//============================
-!(async () => {
-  cc = (`${$.name}任务执行通知🔔`);
-  console.log("\n* Author:CenBoMin\n* Github:github.com/CenBoMin/GithubSync\n* Telegram:https://t.me/CbScript\n* Updatetime:2021.06.01\n");
-  console.log(`Now login(UTC+8):${new Date(new Date().getTime()).toLocaleString()}`)
-  if (typeof $request !== "undefined") {
-    $.log('【提示】请先前往获取cookie📲')
-  } else if (!ucpigappkey) {
-    $.log(`\n🤖[${$.name}]:开始下载脚本使用权限秘钥...`)
-    await githubkey();
-  } else {
-    let ckList = ucpigapp.filter(ck => ck.hd).map((ck) => ({
-      uid: ck.uid,
-      headers: JSON.parse(ck.hd),
-      exchangebody: ck.exchange,
-      txmoneybody: ck.txmoney,
-      pigawardurl: ck.pigawardurl,
-      pigawardbody: ck.pigawardbody,
-      videotask1: ck.videotask1,
-      videotask2: ck.videotask2,
-      videoaward: ck.videoaward,
-      coinurl: ck.coinurl,
-
-      //===================================
-    }));
-    console.log(`\n🤖[${$.name}]:~ System💲脚本账号数量 `)
-    console.log(`→本次执行共${ckList.length}个账号`)
-    for (let i = 0; i < ckList.length; i++) {
-      tkList = ckList[i];
-      if (!tkList.uid) {
-        $.log('【提示】请先前往获取 用户基础数据Uid 📲')
-      } else {
-        // await main(i);
-        $.log(`\n🗝[${$.name}]:开始验证~用户${i+1}-脚本使用权限...`)
-        if (z(i)) {
-          $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
-          $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 👤User${i+1}的脚本任务`)
-          await main(i);
-        } else {
-          $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-          $.log(`\n🗝[${$.name}]:~ System💲/尝试更新~脚本使用权限秘钥... `)
-          await githubkey("again");
-          $.log(`\n🗝[${$.name}]:再次验证~用户${i+1}-脚本使用权限...`)
-          if (z()) {
-            $.log(`用户${i+1}(ID:${tkList.uid}):~ 秘钥验证成功！🎉`);
-            $.log(`\n🤖[${$.name}]:~ System💲/执行脚本\n开始执行 User${i+1}的脚本任务`)
-            await main(i);
-          } else {
-            $.log(`❌用户${i+1}(ID:${tkList.uid}):~ 秘钥验证失败！`);
-            $.log(`\n⚠️用户${i+1}:~ 请在群内提交互助码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
-            $.msg($.name, '', `⚠️用户${i+1}:~ 请在群内提交验证码,如果已提交请稍后再试试。\n🔺验证码提交格式:${tgmarkcode}${tkList.uid}`);
-          }
-        }
-      }
-    }
-  }
-})()
-.catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
-
-
-async function main(i) {
-  console.log(`\n🐷[${$.name}]:~ User${i+1}💲查询元宝数量`)
-  await getUserInfo();
-  console.log(`\n🐷[${$.name}]:~ User${i+1}💲测试执行视频任务`)
-  await videoTaskTest1();
-  await videoTaskTest2();
-  if (videotest1 === true && videotest2 === false) {
-    console.log(`→测试结果:使用【第一天】的视频任务组,开始执行任务\n`);
-    // console.log(tkList.videotask1.length);
-    for (let k = 0; k < tkList.videotask1.length; k++) {
-      await videoTaskDay1(k);
-      await $.wait(1000)
-    }
-  } else if (videotest1 === false && videotest2 === true) {
-    console.log(`→测试结果:可以执行任务🎉\n`);
-    for (var m = 0; m < tkList.videoaward.length; m++) {
-      await videoAward(m);
-      await $.wait(1000);
-    }
-  } else {
-    console.log(`→测试结果:视频任务已完成🎉`);
-  }
-
-  console.log(`\n🐷[${$.name}]:~ User${i+1}💲测试领取视频奖励`)
-  await videoAwardTest();
-  if (awardstate === 2) {
-    for (var m = 0; m < tkList.videoaward.length; m++) {
-      await videoAward(m)
-    }
-  } else {
-    console.log(`→测试结果:视频奖励已领取🎉`);
-  }
-  console.log(`\n🐷[${$.name}]:~ User${i+1}💲收小猪扑满的元宝`)
-  await pigAward();
-  console.log(`\n🐷[${$.name}]:~ User${i+1}💲元宝转换为现金`)
-  await exchangeMoney();
-  console.log(`\n🐷[${$.name}]:~ User${i+1}💲提现`)
-  await txMoney();
-
-}
-//++++++++++++++++++++++++++++++++++++
-function initTaskOptions(url, body) {
-  return {
-    url: `${url}`,
-    headers: {
-      'Accept': `*/*`,
-      'Origin': `https://broccoli.uc.cn`,
-      'Connection': `keep-alive`,
-      'Accept-Encoding': `gzip, deflate`,
-      'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X; zh-CN) AppleWebKit/537.51.1 (KHTML, like Gecko) Mobile/12H143 UCBrowser/13.3.3.1458 Mobile UCWebARUA`,
-      'Accept-Language': `zh-cn`
-    },
-    body: body
-  };
-}
-
-function z() {
-  const ll = decodeURIComponent(Base64.decode(ucpigappkey))
-
-  function f(id) {
-    try {
-      if (ll.indexOf(id) > -1) {
-        return true;
-      }
-    } catch (e) {
-      $.log(e);
-      return false;
-    }
-  }
-  if (f(tkList.uid)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-//============================
-//+++++++++ 任务函数 ++++++++++
-//============================
-
-async function txMoney() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions(`${hostucwallet}exchange/submitExchange`,tkList.txmoneybody);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            const code = data.code
-            switch (code) {
-              case "EXCHANGE:INVALID_USER":
-                $.log('【提示】请先前往获取 提现支付宝cookie📲')
-                break;
-              default:
-                console.log(`**** sample *****\n`);
-                $.log(`\n‼️${resp.statusCode}[txMoney 调试log]:${resp.body}`);
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//转换现金
-async function exchangeMoney() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions(`${hostcoral2}piggybank/withdraw/exchange`,tkList.exchangebody);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            const code = data.code
-            switch (code) {
-              case "SCENE_APP_ERROR":
-                $.log('【提示】请先前往获取 元宝兑换cookie📲')
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[exchangeMoney 调试log]:${resp.body}`);
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//收元宝
-async function pigAward() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions(tkList.pigawardurl, tkList.pigawardbody);
-    $.post(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            const state = data.success
-            switch (state) {
-              case false:
-                console.log(`→小猪扑满元宝已收完🎉`);
-                break;
-              case true:
-                console.log(`✔️小猪扑满收取${data.data.prizes[0].rewardItem.amount}元宝`);
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[ pigAward 调试log]:${resp.body}`);
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//视频奖励
-async function videoAward(m) {
-  return new Promise((resolve) => {
-    const options = initTaskOptions(tkList.videoaward[m]);
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            const code = data.code
-            switch (code) {
-              case "REPEAT_REQUEST_ID":
-                console.log(`→执行结果:失败❌`);
-                break;
-              case "OK":
-                console.log(`✔️执行ID${data.data.curTask.id}结果:领取奖励${data.data.prizes[0].rewardItem.amount}元宝成功🎉`);
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[videoAward 调试log]:${resp.body}`);
-
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//视频奖励测试
-async function videoAwardTest() {
-  let testArrNum = Random(0, tkList.videoaward.length)
-  console.log(`→随机测试奖励数据:第${testArrNum+1}个数据`);
-  return new Promise((resolve) => {
-    const options = initTaskOptions(tkList.videoaward[testArrNum]);
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            awardtest = data.success
-            awardstate = data.data.state
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//视频任务2
-async function videoTaskDay2(h) {
-  return new Promise((resolve) => {
-    const options = initTaskOptions(tkList.videotask2[h]);
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            const code = data.code
-            switch (code) {
-              case "REPEAT_REQUEST_ID":
-                console.log(`→执行结果:失败❌`);
-                break;
-              case "OK":
-                console.log(`✔️执行ID${data.data.curTask.id}结果:观看视频任务${data.data.curTask.target}成功🎉`);
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[videoTaskDay2调试log]:${resp.body}`);
-
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//视频任务1
-async function videoTaskDay1(k) {
-  return new Promise((resolve) => {
-    const options = initTaskOptions(tkList.videotask1[k]);
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            const code = data.code
-            switch (code) {
-              case "REPEAT_REQUEST_ID":
-                console.log(`→执行结果:失败❌`);
-                break;
-              case "OK":
-                console.log(`✔️执行ID${data.data.curTask.id}结果:观看视频任务${data.data.curTask.target}成功🎉`);
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[videoTaskDay1调试log]:${resp.body}`);
-
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//视频任务测试
-async function videoTaskTest1() {
-  return new Promise((resolve) => {
-    let testArrNum = Random(0, tkList.videotask1.length)
-    console.log(`→随机测试视频第一组:第${testArrNum+1}个数据`);
-    const options = initTaskOptions(tkList.videotask1[testArrNum]);
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            videotest1 = data.success
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-async function videoTaskTest2() {
-  return new Promise((resolve) => {
-    let testArrNum = Random(0, tkList.videotask2.length)
-    console.log(`→随机测试视频第二组:第${testArrNum+1}个数据`);
-    const options = initTaskOptions(tkList.videotask2[testArrNum]);
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            videotest2 = data.success
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-//查元宝
-async function getUserInfo() {
-  return new Promise((resolve) => {
-    const options = initTaskOptions(`${tkList.coinurl}`);
-    $.get(options, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            // $.log(data)
-            data = JSON.parse(data);
-            const code = data.code
-            mycoin = data.data.longterm.amount
-            switch (code) {
-              case "OK":
-                console.log(`→目前小猪元宝${mycoin}个,大约可换现金${mycoin/10000}元`);
-                break;
-              default:
-                $.log(`\n‼️${resp.statusCode}[getUserInfo 调试log]:${resp.body}`);
-
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-
-//============================
-//++++++++ 自定义函数 ++++++++
-//============================
-function formatDateTime(inputTime) {
-  var date = new Date(inputTime);
-  var y = date.getFullYear();
-  var m = date.getMonth() + 1;
-  m = m < 10 ? ('0' + m) : m;
-  var d = date.getDate();
-  d = d < 10 ? ('0' + d) : d;
-  var h = date.getHours();
-  h = h < 10 ? ('0' + h) : h;
-  var minute = date.getMinutes();
-  var second = date.getSeconds();
-  minute = minute < 10 ? ('0' + minute) : minute;
-  second = second < 10 ? ('0' + second) : second;
-  return y + m;
-};
-
-function safeGet(data) {
-  try {
-    if (typeof JSON.parse(data) == "object") {
-      return true;
-    }
-  } catch (e) {
-    console.log(e);
-    console.log(`⛔️服务器访问数据为空，请检查自身设备网络情况`);
-    return false;
-  }
-}
-async function githubkey(keystate) {
-  return new Promise((resolve) => {
-    let url = {
-      url: `${githubkeyUrl}`,
-    };
-    $.get(url, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败❌ ‼️‼️");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          switch (keystate) {
-            case "again":
-              ucpigappkey = Base64.encode(data);
-              if (ucpigappkey) $.setdata(ucpigappkey, 'ucpigappkey');
-              break;
-            default:
-              ucpigappkey = Base64.encode(data);
-              $.log(ucpigappkey);
-              if (ucpigappkey) $.setdata(ucpigappkey, 'ucpigappkey');
-              $.log(`\n🤖[${$.name}]:请重新执行脚本进行秘钥验证`);
-              $.msg($.name, '', `🤖请重新执行脚本进行秘钥验证`);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
-
-function Random(min, max) {
-  return Math.round(Math.random() * (max - min)) + min;
-}
-//============================
-//+++++++++ 环境函数 ++++++++++
-//============================
-function Env(name, opts) {
-  class Http {
-    constructor(env) {
-      this.env = env
-    }
-    send(opts, method = 'GET') {
-      opts = typeof opts === 'string' ? {
-        url: opts
-      } : opts
-      let sender = this.get
-      if (method === 'POST') {
-        sender = this.post
-      }
-      return new Promise((resolve, reject) => {
-        sender.call(this, opts, (err, resp, body) => {
-          if (err) reject(err)
-          else resolve(resp)
-        })
-      })
-    }
-    get(opts) {
-      return this.send.call(this.env, opts)
-    }
-    post(opts) {
-      return this.send.call(this.env, opts, 'POST')
-    }
-  }
-  return new(class {
-    constructor(name, opts) {
-      this.name = name
-      this.http = new Http(this)
-      this.data = null
-      this.dataFile = 'box.dat'
-      this.logs = []
-      this.isMute = false
-      this.isNeedRewrite = false
-      this.logSeparator = '\n'
-      this.startTime = new Date().getTime()
-      Object.assign(this, opts)
-      this.log('', `🔔${this.name}, 开始!`)
-    }
-    isNode() {
-      return 'undefined' !== typeof module && !!module.exports
-    }
-    isQuanX() {
-      return 'undefined' !== typeof $task
-    }
-    isSurge() {
-      return 'undefined' !== typeof $httpClient && 'undefined' === typeof $loon
-    }
-    isLoon() {
-      return 'undefined' !== typeof $loon
-    }
-    isShadowrocket() {
-      return 'undefined' !== typeof $rocket
-    }
-    toObj(str, defaultValue = null) {
-      try {
-        return JSON.parse(str)
-      } catch {
-        return defaultValue
-      }
-    }
-    toStr(obj, defaultValue = null) {
-      try {
-        return JSON.stringify(obj)
-      } catch {
-        return defaultValue
-      }
-    }
-    getjson(key, defaultValue) {
-      let json = defaultValue
-      const val = this.getdata(key)
-      if (val) {
-        try {
-          json = JSON.parse(this.getdata(key))
-        } catch {}
-      }
-      return json
-    }
-    setjson(val, key) {
-      try {
-        return this.setdata(JSON.stringify(val), key)
-      } catch {
-        return false
-      }
-    }
-    getScript(url) {
-      return new Promise((resolve) => {
-        this.get({
-          url
-        }, (err, resp, body) => resolve(body))
-      })
-    }
-    runScript(script, runOpts) {
-      return new Promise((resolve) => {
-        let httpapi = this.getdata('@chavy_boxjs_userCfgs.httpapi')
-        httpapi = httpapi ? httpapi.replace(/\n/g, '').trim() : httpapi
-        let httpapi_timeout = this.getdata('@chavy_boxjs_userCfgs.httpapi_timeout')
-        httpapi_timeout = httpapi_timeout ? httpapi_timeout * 1 : 20
-        httpapi_timeout = runOpts && runOpts.timeout ? runOpts.timeout : httpapi_timeout
-        const [key, addr] = httpapi.split('@')
-        const opts = {
-          url: `http://${addr}/v1/scripting/evaluate`,
-          body: {
-            script_text: script,
-            mock_type: 'cron',
-            timeout: httpapi_timeout
-          },
-          headers: {
-            'X-Key': key,
-            'Accept': '*/*'
-          }
-        }
-        this.post(opts, (err, resp, body) => resolve(body))
-      }).catch((e) => this.logErr(e))
-    }
-    loaddata() {
-      if (this.isNode()) {
-        this.fs = this.fs ? this.fs : require('fs')
-        this.path = this.path ? this.path : require('path')
-        const curDirDataFilePath = this.path.resolve(this.dataFile)
-        const rootDirDataFilePath = this.path.resolve(process.cwd(), this.dataFile)
-        const isCurDirDataFile = this.fs.existsSync(curDirDataFilePath)
-        const isRootDirDataFile = !isCurDirDataFile && this.fs.existsSync(rootDirDataFilePath)
-        if (isCurDirDataFile || isRootDirDataFile) {
-          const datPath = isCurDirDataFile ? curDirDataFilePath : rootDirDataFilePath
-          try {
-            return JSON.parse(this.fs.readFileSync(datPath))
-          } catch (e) {
-            return {}
-          }
-        } else return {}
-      } else return {}
-    }
-    writedata() {
-      if (this.isNode()) {
-        this.fs = this.fs ? this.fs : require('fs')
-        this.path = this.path ? this.path : require('path')
-        const curDirDataFilePath = this.path.resolve(this.dataFile)
-        const rootDirDataFilePath = this.path.resolve(process.cwd(), this.dataFile)
-        const isCurDirDataFile = this.fs.existsSync(curDirDataFilePath)
-        const isRootDirDataFile = !isCurDirDataFile && this.fs.existsSync(rootDirDataFilePath)
-        const jsondata = JSON.stringify(this.data)
-        if (isCurDirDataFile) {
-          this.fs.writeFileSync(curDirDataFilePath, jsondata)
-        } else if (isRootDirDataFile) {
-          this.fs.writeFileSync(rootDirDataFilePath, jsondata)
-        } else {
-          this.fs.writeFileSync(curDirDataFilePath, jsondata)
-        }
-      }
-    }
-    lodash_get(source, path, defaultValue = undefined) {
-      const paths = path.replace(/\[(\d+)\]/g, '.$1').split('.')
-      let result = source
-      for (const p of paths) {
-        result = Object(result)[p]
-        if (result === undefined) {
-          return defaultValue
-        }
-      }
-      return result
-    }
-    lodash_set(obj, path, value) {
-      if (Object(obj) !== obj) return obj
-      if (!Array.isArray(path)) path = path.toString().match(/[^.[\]]+/g) || []
-      path.slice(0, -1).reduce((a, c, i) => (Object(a[c]) === a[c] ? a[c] : (a[c] = Math.abs(path[i + 1]) >> 0 === +path[i + 1] ? [] : {})), obj)[path[path.length - 1]] = value
-      return obj
-    }
-    getdata(key) {
-      let val = this.getval(key)
-      if (/^@/.test(key)) {
-        const [, objkey, paths] = /^@(.*?)\.(.*?)$/.exec(key)
-        const objval = objkey ? this.getval(objkey) : ''
-        if (objval) {
-          try {
-            const objedval = JSON.parse(objval)
-            val = objedval ? this.lodash_get(objedval, paths, '') : val
-          } catch (e) {
-            val = ''
-          }
-        }
-      }
-      return val
-    }
-    setdata(val, key) {
-      let issuc = false
-      if (/^@/.test(key)) {
-        const [, objkey, paths] = /^@(.*?)\.(.*?)$/.exec(key)
-        const objdat = this.getval(objkey)
-        const objval = objkey ? (objdat === 'null' ? null : objdat || '{}') : '{}'
-        try {
-          const objedval = JSON.parse(objval)
-          this.lodash_set(objedval, paths, val)
-          issuc = this.setval(JSON.stringify(objedval), objkey)
-        } catch (e) {
-          const objedval = {}
-          this.lodash_set(objedval, paths, val)
-          issuc = this.setval(JSON.stringify(objedval), objkey)
-        }
-      } else {
-        issuc = this.setval(val, key)
-      }
-      return issuc
-    }
-    getval(key) {
-      if (this.isSurge() || this.isLoon()) {
-        return $persistentStore.read(key)
-      } else if (this.isQuanX()) {
-        return $prefs.valueForKey(key)
-      } else if (this.isNode()) {
-        this.data = this.loaddata()
-        return this.data[key]
-      } else {
-        return (this.data && this.data[key]) || null
-      }
-    }
-    setval(val, key) {
-      if (this.isSurge() || this.isLoon()) {
-        return $persistentStore.write(val, key)
-      } else if (this.isQuanX()) {
-        return $prefs.setValueForKey(val, key)
-      } else if (this.isNode()) {
-        this.data = this.loaddata()
-        this.data[key] = val
-        this.writedata()
-        return true
-      } else {
-        return (this.data && this.data[key]) || null
-      }
-    }
-    initGotEnv(opts) {
-      this.got = this.got ? this.got : require('got')
-      this.cktough = this.cktough ? this.cktough : require('tough-cookie')
-      this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar()
-      if (opts) {
-        opts.headers = opts.headers ? opts.headers : {}
-        if (undefined === opts.headers.Cookie && undefined === opts.cookieJar) {
-          opts.cookieJar = this.ckjar
-        }
-      }
-    }
-    get(opts, callback = () => {}) {
-      if (opts.headers) {
-        delete opts.headers['Content-Type']
-        delete opts.headers['Content-Length']
-      }
-      if (this.isSurge() || this.isLoon()) {
-        if (this.isSurge() && this.isNeedRewrite) {
-          opts.headers = opts.headers || {}
-          Object.assign(opts.headers, {
-            'X-Surge-Skip-Scripting': false
-          })
-        }
-        $httpClient.get(opts, (err, resp, body) => {
-          if (!err && resp) {
-            resp.body = body
-            resp.statusCode = resp.status
-          }
-          callback(err, resp, body)
-        })
-      } else if (this.isQuanX()) {
-        if (this.isNeedRewrite) {
-          opts.opts = opts.opts || {}
-          Object.assign(opts.opts, {
-            hints: false
-          })
-        }
-        $task.fetch(opts).then((resp) => {
-          const {
-            statusCode: status,
-            statusCode,
-            headers,
-            body
-          } = resp
-          callback(null, {
-            status,
-            statusCode,
-            headers,
-            body
-          }, body)
-        }, (err) => callback(err))
-      } else if (this.isNode()) {
-        this.initGotEnv(opts)
-        this.got(opts).on('redirect', (resp, nextOpts) => {
-          try {
-            if (resp.headers['set-cookie']) {
-              const ck = resp.headers['set-cookie'].map(this.cktough.Cookie.parse).toString()
-              if (ck) {
-                this.ckjar.setCookieSync(ck, null)
-              }
-              nextOpts.cookieJar = this.ckjar
-            }
-          } catch (e) {
-            this.logErr(e)
-          }
-        }).then((resp) => {
-          const {
-            statusCode: status,
-            statusCode,
-            headers,
-            body
-          } = resp
-          callback(null, {
-            status,
-            statusCode,
-            headers,
-            body
-          }, body)
-        }, (err) => {
-          const {
-            message: error,
-            response: resp
-          } = err
-          callback(error, resp, resp && resp.body)
-        })
-      }
-    }
-    post(opts, callback = () => {}) {
-      const method = opts.method ? opts.method.toLocaleLowerCase() : 'post'
-      if (opts.body && opts.headers && !opts.headers['Content-Type']) {
-        opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      }
-      if (opts.headers) delete opts.headers['Content-Length']
-      if (this.isSurge() || this.isLoon()) {
-        if (this.isSurge() && this.isNeedRewrite) {
-          opts.headers = opts.headers || {}
-          Object.assign(opts.headers, {
-            'X-Surge-Skip-Scripting': false
-          })
-        }
-        $httpClient[method](opts, (err, resp, body) => {
-          if (!err && resp) {
-            resp.body = body
-            resp.statusCode = resp.status
-          }
-          callback(err, resp, body)
-        })
-      } else if (this.isQuanX()) {
-        opts.method = method
-        if (this.isNeedRewrite) {
-          opts.opts = opts.opts || {}
-          Object.assign(opts.opts, {
-            hints: false
-          })
-        }
-        $task.fetch(opts).then((resp) => {
-          const {
-            statusCode: status,
-            statusCode,
-            headers,
-            body
-          } = resp
-          callback(null, {
-            status,
-            statusCode,
-            headers,
-            body
-          }, body)
-        }, (err) => callback(err))
-      } else if (this.isNode()) {
-        this.initGotEnv(opts)
-        const {
-          url,
-          ..._opts
-        } = opts
-        this.got[method](url, _opts).then((resp) => {
-          const {
-            statusCode: status,
-            statusCode,
-            headers,
-            body
-          } = resp
-          callback(null, {
-            status,
-            statusCode,
-            headers,
-            body
-          }, body)
-        }, (err) => {
-          const {
-            message: error,
-            response: resp
-          } = err
-          callback(error, resp, resp && resp.body)
-        })
-      }
-    }
-    time(fmt, ts = null) {
-      const date = ts ? new Date(ts) : new Date()
-      let o = {
-        'M+': date.getMonth() + 1,
-        'd+': date.getDate(),
-        'H+': date.getHours(),
-        'm+': date.getMinutes(),
-        's+': date.getSeconds(),
-        'q+': Math.floor((date.getMonth() + 3) / 3),
-        'S': date.getMilliseconds()
-      }
-      if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-      for (let k in o)
-        if (new RegExp('(' + k + ')').test(fmt))
-          fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
-      return fmt
-    }
-    msg(title = name, subt = '', desc = '', opts) {
-      const toEnvOpts = (rawopts) => {
-        if (!rawopts) return rawopts
-        if (typeof rawopts === 'string') {
-          if (this.isLoon()) return rawopts
-          else if (this.isQuanX()) return {
-            'open-url': rawopts
-          }
-          else if (this.isSurge()) return {
-            url: rawopts
-          }
-          else return undefined
-        } else if (typeof rawopts === 'object') {
-          if (this.isLoon()) {
-            let openUrl = rawopts.openUrl || rawopts.url || rawopts['open-url']
-            let mediaUrl = rawopts.mediaUrl || rawopts['media-url']
-            return {
-              openUrl,
-              mediaUrl
-            }
-          } else if (this.isQuanX()) {
-            let openUrl = rawopts['open-url'] || rawopts.url || rawopts.openUrl
-            let mediaUrl = rawopts['media-url'] || rawopts.mediaUrl
-            return {
-              'open-url': openUrl,
-              'media-url': mediaUrl
-            }
-          } else if (this.isSurge()) {
-            let openUrl = rawopts.url || rawopts.openUrl || rawopts['open-url']
-            return {
-              url: openUrl
-            }
-          }
-        } else {
-          return undefined
-        }
-      }
-      if (!this.isMute) {
-        if (this.isSurge() || this.isLoon()) {
-          $notification.post(title, subt, desc, toEnvOpts(opts))
-        } else if (this.isQuanX()) {
-          $notify(title, subt, desc, toEnvOpts(opts))
-        }
-      }
-      if (!this.isMuteLog) {
-        let logs = ['', '==============📣系统通知📣==============']
-        logs.push(title)
-        subt ? logs.push(subt) : ''
-        desc ? logs.push(desc) : ''
-        console.log(logs.join('\n'))
-        this.logs = this.logs.concat(logs)
-      }
-    }
-    log(...logs) {
-      if (logs.length > 0) {
-        this.logs = [...this.logs, ...logs]
-      }
-      console.log(logs.join(this.logSeparator))
-    }
-    logErr(err, msg) {
-      const isPrintSack = !this.isSurge() && !this.isQuanX() && !this.isLoon()
-      if (!isPrintSack) {
-        this.log('', `❗️${this.name}, 错误!`, err)
-      } else {
-        this.log('', `❗️${this.name}, 错误!`, err.stack)
-      }
-    }
-    wait(time) {
-      return new Promise((resolve) => setTimeout(resolve, time))
-    }
-    done(val = {}) {
-      const endTime = new Date().getTime()
-      const costTime = (endTime - this.startTime) / 1000
-      this.log('', `🔔${this.name}, 结束! 🕛 ${costTime} 秒`)
-      this.log()
-      if (this.isSurge() || this.isQuanX() || this.isLoon()) {
-        $done(val)
-      }
-    }
-  })(name, opts)
-}
+var _0xod1='jsjiami.com.v6',_0x5242=[_0xod1,'w7DCu2TCgWE7w6fDlCnDs/CagKnDteaIu+igkeiHhOacpFTlvp7lpK/mi4nooprCuilLJ8OY','55m46IeT5p235Lix5YuI','wo3Dq8KTw5vDsErCjA==','Dj9gYcOv','wolMw4NJwqI=','w4HDrn0=','M03DpTA=','wpHDnnAT56SY6ZKz6aio6K2S5aW56LeT776p','KiE7','J+KYr++5kueVgeaJpA==','QUs+6K2E5Z6x57+X5YWQ5o++5LiE5Lul5Yqk56Gbw7zlp4zmnbTltYfmjLXku4zor6TnqqzlkaflhKHorKror7Djg7zDmPCrlY/pqZ3or6TnoLXmjJ7kuaDmoYrlvZTDqQ==','ZhTCiQ==','4pqJ77mQ55Sz5oua','wqvCrsKt6KyW5Z6M576M5YaG5oyk5LuS6auN6K+x56KnSeWlv+aejuW1meaOruS7oeisqOepnuWQo+WHqOitqeivnuOAmHPxg7aT6aiK6Kyx56CL5o+r5Li85qOh5b6Zw6I=','fg7Cig==','HcOaH8Kww54i','XMKmFW1mwp5X','BMKOwr/ChidK','SMOzw78aDEg=','EBFcF8OBBMKT','ZMOWCsKrwpvCgA==','GsK1fSR3ew==','HjhvVcOaZho=','w68cwpZxw6Q=','w7RJw6Nrw5c=','wrhBCMKYwqY=','w6tdwqtFwpI=','X8O2I3/CtA==','wqjCuMOsfw==','XEDlp4DotKkuwqrljYDlmrZlUg==','w6wOT3E=','w4FMw4Zbw6g=','wr/CicO3I8K5','MEvCicKewoI=','wonDrMOb','woPwtJChNg==','fW8Cwpg=','w4rDmWQ=','w4zDqsOzw4HDsVtmwoY=','wpHDocKuw6fDng==','wrlVK8Kowqk=','w6bCv8KNVAY=','wpTCvsKaw4sO','w5vCjG9BwoN5w4DDtgnCgg==','Sjd6wp/CvsOIwqQVw6jCpg==','ZMOWCsKrwpnCmyQYfcKG','TMO/LcKKwrk=','w6UWVlrCjw==','w4MLw4dbHw==','EMKHwofCmDc=','PcOLL8Kbw6Y=','AcOeP8KPw7s=','w4fClcO+woXDsA==','MUxuw4rDqA==','wrbCsCvCsxg=','AMOZw6YNwrsf','cGYOwo8Jw7k=','DMKDwqfCpxJM','w4XDnmLDgwVg','w5vCjG9BwoFi','esOcD0TCnsKA','w7VbwpU=','HMOdw7Yq','w5kCw41SNA==','XRbCrV5M','HBfDvXxDw6E=','w4pVWF8uABPCmsOjHg==','CMOUw74swowCfDluBg==','HMK2w6/Cuik=','DcKjw6PCoQo=','KWRdw4HDlA==','wr7CkMOLTXk=','ADLClX9I','wrtfw4J8wpvCjA==','JSY9T8O1w5o=','wqFcFS7Dojo=','w47DqXvDk3M2','GhdZAMO4Pw==','4oSb5ren6K+D57q+5p6swqrljankuojmio7ooavkuL/liKrwp6yfPg==','w6XDiXgKRMO4','Z0Upwp8u','VMO3w689','J2p9','4oWZ5rWo6K6M57iD5p28FOiloOmjquS6nuWKm+W2ieWuvOaKnvChvIk=','X/GMspXCmA==','JWR3QA==','OsOcwqDDlDNNZFU=','w4fDo2jDuAg=','8LawhOa1iOitpOmjguWPguiniOmgj+WnoOWJlw==','PmFDfMOZ','wpFlCcK4wpg=','fQ7Cikx2wqnCpMKVw4gs','wrEjXcOGFw==','w6LCoXZlwoI=','woR7w75Fwr0=','wrHDgsO5HsKJ','ESRkXcOhQR3Dg8KKK8KuWw==','w6fCrcKPbho=','YGYCwqQS','SsKow5QLw4g=','BmHClg==','wpBAAyjDvw==','wqPwkICOdg==','JcOjEnFb','esOCJSUw','dsKYw7oc','NcOcAcKsw6M=','LjJAPsOa','HgVRAsKVa8KRLMOZDHdWwpI=','w6PCusK4fj4lM8OIw5bCukLCq8OEc3jDr8OSJgsEwoIZwq7DmsOMwogWMmTCiMOGCsOwwoHDocOKw5/Cm8KQTWhtHcOswpvDvsKIcsOfwqnCusKjw4NDwpbDhMKmecKSwqgcw4ccacKtw4bDgMKGwrHDlFd+wqcpw7TCicKRWcOMw7jDhV8GGGpkL0kowpI5w7rDhSHDrnrChSIXwrnCmWp/GTxQw4zDrWLDmsOtSsKcw7djwo9ww6BUw7p2wpIHw7TCh8O7wropwp0YwoPCo3h6eyjClcOWBzJUwpLDk03DqytbwrAFw4HDgh/DjUgY','O8OQV1tY','w6LCiFR2wo4=','woVMAxbDhw==','PDXCv1xA','w4bDilLDjFU=','w551w5Nhw4zDhgFiwoNuQcODwppQwobClcOWw5FjB1Ja','EsK4eSYbbnfCgVVu','J2HCi8KhwqxlwrvDucODw6bDlljDsB9KHcKlwpp+woYNBcKrE8KbDTHCscOTQMOEw5bDr0AZwqPCrVHDtH7DsCPDpcOgTsOtwqAew55aw7fCjinCpsO/w6DCsiFYwrQOeGbDqcK0wopSCjnCtjMSw7vDvBt7RDHCksK0w53Dv8ODwr3DvsKdw5HDvz9MIFvCqVHDjxozwqsnw7kNw7gMGsORwrrDomfDnWhCBMOzNMOzC8KYSX/DjsK/dVggUsK5ABVhHUzDuAAGw6LDm8O1wrDCsMOyKMK/w6sdw6nCs2A2GVMpw54FAcKD','emALwpgww4LCtA==','AMO6OXxzwrvDjXzCmjPDoU7DhsK5NALDgMK3CQEQw5DCpsKTwplvwrrCnsOJwofDmsKEworCtsK5FDkhdDXClcKgJ8KRb8OKcyURw73DocKMwrdSUV59wosXwoHDtEdQKcOy','GH9Yw4fDmA==','bnDDhzICUyPCnlEq','PTpFWsOx','w5pkw4l2w4vClA==','w5Vpw4Zjw7zCk0oowqBo','Ig0lZ8OS','w5HDqVsaRg==','w4HChcKYeQg=','wqTCq8O0IsKl','wojCgxTCiDM=','CWbCkMK6woNmwr7Cs8K3wrw=','w7zDrVnDgl4=','w5kNYnfCqw==','wqhLOMKiwqNBw4IeJE4=','SMOsLsKtwpU=','wobDq8OdBsKYVxh7w5kG','BHTCgMKKwrU=','w4DDhGzDnAd8b8Osw7XCiSvDgw==','w7h7SUMb','BMKIw5LCrRc=','w53DtGEcQw==','UzZZwqLCqg==','w7oJRlzCjg==','w5zCvcKlXxs=','w5bCnn9xwrU=','dX7DkEgS','bMObEsKKwq7Chg==','QMO+w6c7OU4=','L8OTAGtjw6k=','w59hwoR8wqg=','w79nw5Rzw5A=','PDnDvn1n','w5tYSUEMDBI=','IsK/Wjkr','T8Ozw6guDFI=','AWvCiMKbwrR7','wpXCpz/CrxFNw6c=','wo7CmcOzFcKoNg==','LcOYHV1vw5TDgw==','Sjd6wp/CvMOT','csORF2XCq8KG','w7BawpZBwrjDrsKv','fB7CjW9x','EMK8UA0P','w78gwrFNw5Y=','GSvDi1p+','FhLCnmFMw6LCviQcHcOSw4g=','eQxqwqnCpA==','wp5hOTjDmg==','wrnCqcOHIsKl','DHzCnsKlwoNhwrvCpMK1wqfCgh0=','woLDt8KYw5PDi23CixnDhmzDocOo','PMKnUSx+','w6JNfHkp','awdcwrfCuw==','UE7Dt20z','w5MOwrYZw70=','w7gWw7pONsKZw7Y=','J2B0QsO7wow=','w7LCuMOswpPDp0dnwpE3NQ==','wqzCjcOCXnE=','w4jCp8KtehEhM8KVwqDDuxbDrg==','w6HCq2xnwrA=','w77Ck2JEwoY=','wqvChsO+EMKv','F1p5','wp0Nwrxg','wonCoD8=','bcKMBxjnp4/pkL7pqKnoraPlp6/otaTvvbM=','RTB8','w4DimpnvuaPnlZXmiqE=','woAkw5zor4DlnrbnvK/lhovmjbvkuYnkuYTli7rnoKcP5aW+5p+25bWe5o235LmG6K6f56u+5ZKW5YeN6K226K+P44CZYPCUhLXpqJforqXnooHmjILku5Tmo5zlvYsr','wqvCqsOm','wrPDkjborprlnJjnvLTlhIPmjr3kuY3pqqvorIXnoopO5aSU5p6o5beS5o+x5Lun6K2z56qW5ZCp5YeC6K2d6KyY44CTw7rwuZeh6aii6K6T56KM5o6x5LiE5qCO5byJWA==','w70IRQ==','Ty10woDCvsOPwqECw6rCvcKreg==','G8KeaSVc','fXbDjmckVSHCg3YgMcKP','wp1SPDHDoQ==','fsKLw7gUw4Yiw6YgW1otw7U=','D0JZdMOt','w7hXwrxBwrY=','J8OKFVV1wpXDq0bCkBbDjmc=','AcKscy4h','ARFjV8OF','EMONCcKOw6k4ShY5w53CpMKp','OsKmw6HCkys=','bcO6O8KhwpU=','wr7CuMOKM8K/','TsO6GHjCmg==','NQBCYcOx','X8ODB3fChw==','w77Ck2dywpg=','NsKmw4PCsSJySmTCnMOH','b8KNIHlr','w4ICbnPClA==','GWNWbsOX','wqlRDQ/DlSdpw61dw48=','wrJIEcKlwpU=','wprCuzTCpypqw6DDuWLCvw/Djw==','f8OTGcKrwpg=','w64Cw6NUOw==','JSY9T8O3w4FwHABl','R8KRAU9p','wofDrcKWw4zDi2rCjg7DhHc=','w5TDr3PDtjM=','S8O9MgQQwp/DtsOUaT3Chnc=','YsO7w5wcHA==','w7zDmGDDpFA=','IcKnWh99','G1ZISMOt','w4NKw71Qw4Y=','w5HCnMKTwqV9UnrDq24hw4N5','w7jCv8OIwrHDqw==','w5fCqFtYwrY=','M8K8w43CriJ1T3PCnsOcw6fCmg==','w6nCqXxYwpg=','AcKUwrHCmSVWYFXCqmQYLA==','w55qdmgO','w79Gwp1JwoPDicKowrjDp0zCisOw','b8K8MEp1','I3FuVcO8w57CjnY8McO/bQ/ChX3Cq8OQeMODCSo=','w6AVVWTCtBkmTMKcIcODwqzDicOudcO0w7MWwqjCo8KZGk3CrnY=','XcK8BXhtw6sebcOrNsKBwrDDg8OFJcKFw7xsM0gCYFDCiEvDpg7DtcKFwr/DmzEOwqEOw6DDvsKoRTnCsQAyQXrCuMOAwonDr2PCm8O+w4zCimTDocOUdXs9wrocw63Dk8O8w7A3w7zDkQ==','A8OcFsKKw40xWxQ=','LGBuU8Ouwog=','AjV7WcOFSAzDgcKiIcKz','d8OESUQDwoHCvkjDoQXCnX7CusKLSw==','44G65o+e56eL44OZ6Ky35YWB5YqX5b2W6I2B5Yyew4bnlZDmi6/lnoznoZrmlIXmjqTCoXLDmQ3wrrCJ','woBZwqpjIsKOw7vCt1pnwohoAzvCtMOHwqkMw510PcKCL8O+P2h9UMKxw6HDhMKzwr7DmhMhEE8oSk5IwpzClMK9OS7DrsO0KcKVMDo+w5dyHSZXCAzCrG5KY8OJBSzDtBTCpwPCm0rDiMKaS8KxIcKdFcKYw6/DhFvDn8OJWBtDL8KswpYUwrfCmcKQw5peW0/DjcO1w5rCpXh1HcKqFUXDjETDkMKbCw==','44O25oyW56eN44KW6K675YS25YmI5b2g6I6A5Y2Nwot1ZcOFwo938LSyrw==','wpvCrDzCqxo=','OsOJB8Kqw7M=','w5rClsK9wodJ','w6sUw6tLOQ==','w5t3Tmkk','PcOfEmla','Q8OuMAw=','5LmO5Yul5oqf6KCW6YK955yP8K6WuA==','C8KJwrk=','w69odHg5','QcOgOg==','SsOqKT06wprDsg==','MyA4WMOSw4d6HCU=','w6Ycw60=','BMKaw6DCsS8=','w45bw55Bw5Y=','w40ewoEKw44=','w6/wv5aqLw==','GMOeC8KG','JEXlvLjlprnkurLovLboh6/mnaXkv4DnlYjmnZXpmbLnpK/pkq/ChBrCtA==','HAXCvlhm','f2EI','FVRzw5Y=','w49UVVkIHQ==','HQHCgQ==','HsOVw7s=','BsOeFMKQw48=','w4J5w4p+w5HCmVc=','RcKhFmlpwrBDJsOsJcKa','w4wzwphSw7HDv2/DmMKGw6Q=','w4Mtwpw/w4jCizPDjXnCvg==','wofDqsKew5DDvXfChg==','RcODw6lZw5Yzw7QmfVjwrYCi6Iaj5p2W6LeL5Y+u5pWP6YanXg==','4oWU5p+15q6g5om96KGY5YWR','FMKDVhsXeA==','5LiH6Lap5Y6q','wrDDq8O7B8Kc','GzNlV8OWQQ==','KB84RcOe','w4VSXg==','4oSk5rWK6K2y57uC5pyjw4bop6jpo5zlprfliq3lt5zpoKbljK/wkL2j','BSjDl19k','DAElWcOZ','S8OICsKQwoM=','wojCp8Kaw6I=','wrDDi+W+kuWmrOmppeiugwXnlbjmi6k=','w69/dGQG','wovohqzmnK/kv47nlazmnZfpmZ7CsMKYw4g=','Y8OFFjgh','bsONCcKKwow=','wo1POg/Dog==','Hi1QI8Oh','w53CpcKufiY=','w5/DpGrDjVMhw7E=','w7TClXZQwq0=','w6QET3PCs0s=','w5zDv8KPCMOvRERiwq4OIU1aw5nCn8KnP14L','NsOfIFlF','w5TDn1rDkBY=','LXd1SMOMwozDgCscMcOpaQ==','WwDCgXtJ','LyA4WMOMw6Fy','GRzDt35Pw4YB','w6rDhHcfccOk','FjpNWMOj','w4fCrcKLwotJ','w5fCoV5cwrI=','NMO1Dntg','H8Kvczt1Z3rCmmBkLcKq','EFBnw6DDrQE=','w5M0wphSw6bDhGg=','QDF/wojChcOowqY=','NsKmw4PCsSBp','LcOXHQ==','PsOww6knwoE=','wqHDpVJX','wpx+woZ656W/6ZGP6auI6K2t5oib5YmF77+I8Jmdjg==','w5vCgcKb','KC8xWA==','w4QOwowEwpPDmMK6wr7DgU7xhLCnw6PmipDooKvohrXmnp0G5b6M5aSF5omn6KGdw5Dwp5KiGcKCwqI9','wp5ww7B+wp0=','P8KXchYJ','wox8NR/DgA==','wqvCrsODc3g=','Pmx+','Ug9gwpPnpYHpk5bpqZnor6/lppHotZLvvIw=','cvGGt6Un','Vl3CkAlKwrHCoMKAw58l8LSSmsOp5bKe6K6q5piq5pevNOiEs+adqOS/t+eXl+aev+mbneenjemQvsOedWMB','ZxVQwrzCjw==','E8Kfw5rCiRQ=','wqdMPg==','QfCeh4d+','O8Kvw4/Cpg==','JEXlhrXmrZPpqLXororCi+eVoeaKiA==','McKKwofCrDQ=','wpDDmcO4MMKI','wqPCv8Kvw68b','wqjCiMOKD8K+','dMKWw7A=','UTZ8SA==','wo09Xg==','Rz52wog=','qTjsjiUabhmeEfi.choEm.Evgh6AH=='];(function(_0x5b51f2,_0x8464b7,_0x4e571){var _0x25be41=function(_0x4152fb,_0x24b171,_0x8137ce,_0x24fb2a,_0x190df6){_0x24b171=_0x24b171>>0x8,_0x190df6='po';var _0x177b6a='shift',_0x3a5173='push';if(_0x24b171<_0x4152fb){while(--_0x4152fb){_0x24fb2a=_0x5b51f2[_0x177b6a]();if(_0x24b171===_0x4152fb){_0x24b171=_0x24fb2a;_0x8137ce=_0x5b51f2[_0x190df6+'p']();}else if(_0x24b171&&_0x8137ce['replace'](/[qTUbheEfhEEghAH=]/g,'')===_0x24b171){_0x5b51f2[_0x3a5173](_0x24fb2a);}}_0x5b51f2[_0x3a5173](_0x5b51f2[_0x177b6a]());}return 0x8b9a0;};return _0x25be41(++_0x8464b7,_0x4e571)>>_0x8464b7^_0x4e571;}(_0x5242,0x77,0x7700));var _0x59e4=function(_0x2fd7ab,_0x36ca8e){_0x2fd7ab=~~'0x'['concat'](_0x2fd7ab);var _0x552d35=_0x5242[_0x2fd7ab];if(_0x59e4['eWiamB']===undefined){(function(){var _0x4e98fb=typeof window!=='undefined'?window:typeof process==='object'&&typeof require==='function'&&typeof global==='object'?global:this;var _0x2492ea='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x4e98fb['atob']||(_0x4e98fb['atob']=function(_0x248005){var _0x3b8f13=String(_0x248005)['replace'](/=+$/,'');for(var _0x58188e=0x0,_0x5c97c2,_0xcb7760,_0x2aa6eb=0x0,_0xe0aa9='';_0xcb7760=_0x3b8f13['charAt'](_0x2aa6eb++);~_0xcb7760&&(_0x5c97c2=_0x58188e%0x4?_0x5c97c2*0x40+_0xcb7760:_0xcb7760,_0x58188e++%0x4)?_0xe0aa9+=String['fromCharCode'](0xff&_0x5c97c2>>(-0x2*_0x58188e&0x6)):0x0){_0xcb7760=_0x2492ea['indexOf'](_0xcb7760);}return _0xe0aa9;});}());var _0x3fc374=function(_0x485088,_0x36ca8e){var _0x2e80fa=[],_0x43f15e=0x0,_0x3a5143,_0x4faa47='',_0x188552='';_0x485088=atob(_0x485088);for(var _0x272096=0x0,_0x1bb329=_0x485088['length'];_0x272096<_0x1bb329;_0x272096++){_0x188552+='%'+('00'+_0x485088['charCodeAt'](_0x272096)['toString'](0x10))['slice'](-0x2);}_0x485088=decodeURIComponent(_0x188552);for(var _0x280b0b=0x0;_0x280b0b<0x100;_0x280b0b++){_0x2e80fa[_0x280b0b]=_0x280b0b;}for(_0x280b0b=0x0;_0x280b0b<0x100;_0x280b0b++){_0x43f15e=(_0x43f15e+_0x2e80fa[_0x280b0b]+_0x36ca8e['charCodeAt'](_0x280b0b%_0x36ca8e['length']))%0x100;_0x3a5143=_0x2e80fa[_0x280b0b];_0x2e80fa[_0x280b0b]=_0x2e80fa[_0x43f15e];_0x2e80fa[_0x43f15e]=_0x3a5143;}_0x280b0b=0x0;_0x43f15e=0x0;for(var _0x19a0ff=0x0;_0x19a0ff<_0x485088['length'];_0x19a0ff++){_0x280b0b=(_0x280b0b+0x1)%0x100;_0x43f15e=(_0x43f15e+_0x2e80fa[_0x280b0b])%0x100;_0x3a5143=_0x2e80fa[_0x280b0b];_0x2e80fa[_0x280b0b]=_0x2e80fa[_0x43f15e];_0x2e80fa[_0x43f15e]=_0x3a5143;_0x4faa47+=String['fromCharCode'](_0x485088['charCodeAt'](_0x19a0ff)^_0x2e80fa[(_0x2e80fa[_0x280b0b]+_0x2e80fa[_0x43f15e])%0x100]);}return _0x4faa47;};_0x59e4['Hmmrgq']=_0x3fc374;_0x59e4['gMgcVA']={};_0x59e4['eWiamB']=!![];}var _0x53a9ee=_0x59e4['gMgcVA'][_0x2fd7ab];if(_0x53a9ee===undefined){if(_0x59e4['dgVmEo']===undefined){_0x59e4['dgVmEo']=!![];}_0x552d35=_0x59e4['Hmmrgq'](_0x552d35,_0x36ca8e);_0x59e4['gMgcVA'][_0x2fd7ab]=_0x552d35;}else{_0x552d35=_0x53a9ee;}return _0x552d35;};const $=new Env('UCPIG');var Base64={'keyStr':_0x59e4('0','LTZR'),'encode':function(_0xb4fb19){var _0x5d857d={'QlCcl':function(_0x21451b,_0x3cd59f){return _0x21451b<_0x3cd59f;},'CjdsI':function(_0x2a6f6f,_0x5b5b4c){return _0x2a6f6f>_0x5b5b4c;},'OREtO':function(_0x1d87a0,_0x53577f){return _0x1d87a0+_0x53577f;},'tWXbp':function(_0x2015eb,_0x33d83d){return _0x2015eb|_0x33d83d;},'AjQsA':function(_0x529b06,_0xaf9b0f){return _0x529b06<<_0xaf9b0f;},'JUHWb':function(_0x592160,_0x5115c8){return _0x592160&_0x5115c8;},'HjRbp':function(_0x58f723,_0x4abd89){return _0x58f723+_0x4abd89;},'nzqBu':function(_0x4b8427,_0x2d52e0){return _0x4b8427+_0x2d52e0;},'QFpnv':function(_0x381451,_0xc7d21a){return _0x381451|_0xc7d21a;},'TXwqs':function(_0x3d7e81,_0x257724){return _0x3d7e81<<_0x257724;},'ziBOW':function(_0x2ee4c2,_0x5ea498){return _0x2ee4c2&_0x5ea498;},'rhgHI':function(_0x32dab0,_0x523a9e){return _0x32dab0&_0x523a9e;},'JlNjS':function(_0x1a218c,_0x469a72){return _0x1a218c<_0x469a72;},'dCyZf':function(_0x4e47d1,_0x513ef2){return _0x4e47d1<<_0x513ef2;},'XEMwv':function(_0x3834b3,_0x410575){return _0x3834b3&_0x410575;},'oPZnZ':function(_0x21ea2a,_0x1c3832){return _0x21ea2a&_0x1c3832;},'wqSkC':function(_0x5c3dd6,_0x2b4713){return _0x5c3dd6(_0x2b4713);},'JAeDG':function(_0x58e1e8,_0x1b0e30){return _0x58e1e8!==_0x1b0e30;},'IZfEL':_0x59e4('1','X%49'),'tJOBZ':'gEjFv'};var _0x46354b='';var _0x2c2d68,_0x266cea,_0x1d27bb,_0x1699e1,_0x9cd6b3,_0x1cb7f7,_0x2b3f47;var _0x21d284=0x0;_0xb4fb19=Base64[_0x59e4('2','DBL4')](_0xb4fb19);while(_0x5d857d[_0x59e4('3',']Y9M')](_0x21d284,_0xb4fb19[_0x59e4('4','U%[9')])){_0x2c2d68=_0xb4fb19[_0x59e4('5','U%[9')](_0x21d284++);_0x266cea=_0xb4fb19['charCodeAt'](_0x21d284++);_0x1d27bb=_0xb4fb19['charCodeAt'](_0x21d284++);_0x1699e1=_0x2c2d68>>0x2;_0x9cd6b3=_0x5d857d['QFpnv'](_0x5d857d[_0x59e4('6','rEPH')](_0x5d857d[_0x59e4('7','XnU#')](_0x2c2d68,0x3),0x4),_0x266cea>>0x4);_0x1cb7f7=_0x5d857d['QFpnv']((_0x266cea&0xf)<<0x2,_0x1d27bb>>0x6);_0x2b3f47=_0x5d857d[_0x59e4('8','uUdF')](_0x1d27bb,0x3f);if(_0x5d857d['wqSkC'](isNaN,_0x266cea)){_0x1cb7f7=_0x2b3f47=0x40;}else if(isNaN(_0x1d27bb)){if(_0x5d857d['JAeDG'](_0x5d857d[_0x59e4('9','$gal')],_0x5d857d[_0x59e4('a','#Ar[')])){_0x2b3f47=0x40;}else{c=utftext[_0x59e4('b','0YHk')](_0x21d284);if(_0x5d857d[_0x59e4('c','N96K')](c,0x80)){string+=String['fromCharCode'](c);_0x21d284++;}else if(_0x5d857d['CjdsI'](c,0xbf)&&_0x5d857d[_0x59e4('d','DZ[r')](c,0xe0)){c2=utftext[_0x59e4('e','O@C(')](_0x5d857d[_0x59e4('f','9t66')](_0x21d284,0x1));string+=String['fromCharCode'](_0x5d857d['tWXbp'](_0x5d857d['AjQsA'](c&0x1f,0x6),_0x5d857d['JUHWb'](c2,0x3f)));_0x21d284+=0x2;}else{c2=utftext[_0x59e4('10','0]ta')](_0x5d857d['HjRbp'](_0x21d284,0x1));c3=utftext['charCodeAt'](_0x5d857d[_0x59e4('11','0YHk')](_0x21d284,0x2));string+=String[_0x59e4('12','!7XX')](_0x5d857d[_0x59e4('13','6]mG')](_0x5d857d[_0x59e4('14','yk[C')](_0x5d857d[_0x59e4('15','XnU#')](_0x5d857d[_0x59e4('16','NDSj')](c,0xf),0xc),_0x5d857d['TXwqs'](_0x5d857d[_0x59e4('17','DZ[r')](c2,0x3f),0x6)),_0x5d857d[_0x59e4('18','uUdF')](c3,0x3f)));_0x21d284+=0x3;}}}_0x46354b=_0x5d857d['nzqBu'](_0x5d857d[_0x59e4('19','K*Xa')](_0x5d857d[_0x59e4('1a','DBL4')](_0x46354b+this['keyStr']['charAt'](_0x1699e1),this[_0x59e4('1b','9t66')][_0x59e4('1c','Hu4p')](_0x9cd6b3)),this[_0x59e4('1d',')zbW')]['charAt'](_0x1cb7f7)),this['keyStr']['charAt'](_0x2b3f47));}return _0x46354b;},'decode':function(_0x607321){var _0x389524={'CLaFs':function(_0x817a7d,_0xb80d96){return _0x817a7d|_0xb80d96;},'hZhql':function(_0x1ff31b,_0x1d2b75){return _0x1ff31b>>_0x1d2b75;},'EzMzH':function(_0x59a846,_0x904fe2){return _0x59a846&_0x904fe2;},'ZYbEH':function(_0x5d9c28,_0x2b4ba2){return _0x5d9c28<_0x2b4ba2;},'wycFh':function(_0x15c931,_0x28999f){return _0x15c931<<_0x28999f;},'jALuL':function(_0x1f2a62,_0x413dfc){return _0x1f2a62|_0x413dfc;},'dCgZU':function(_0x5a33ee,_0x25c73a){return _0x5a33ee<<_0x25c73a;},'iYXAI':function(_0x21f929,_0x347837){return _0x21f929>>_0x347837;},'posIw':function(_0x4511f1,_0x128cf4){return _0x4511f1<<_0x128cf4;},'uWwxz':function(_0x217318,_0x24ebf7){return _0x217318!=_0x24ebf7;},'PSqDY':function(_0x520ab8,_0x496ff2){return _0x520ab8===_0x496ff2;},'TXUEL':_0x59e4('1e','ATI['),'gaCNF':function(_0x54b506,_0x3d49a){return _0x54b506+_0x3d49a;},'KpETD':function(_0x525525,_0x208743){return _0x525525!==_0x208743;},'BXGZF':_0x59e4('1f','U%[9'),'KJVgT':_0x59e4('20','SXh#')};var _0x195c8b='';var _0x1d851b,_0x579b3a,_0x4fccb2;var _0x4e79b4,_0xbb8272,_0x3cdfd8,_0x57efb7;var _0x35140a=0x0;_0x607321=_0x607321[_0x59e4('21','6]mG')](/[^A-Za-z0-9\+\/\=]/g,'');while(_0x389524[_0x59e4('22','HpjH')](_0x35140a,_0x607321[_0x59e4('23','Hu4p')])){_0x4e79b4=this[_0x59e4('24','0YHk')][_0x59e4('25','#Ar[')](_0x607321[_0x59e4('26','$gal')](_0x35140a++));_0xbb8272=this['keyStr'][_0x59e4('27',')zbW')](_0x607321['charAt'](_0x35140a++));_0x3cdfd8=this['keyStr']['indexOf'](_0x607321[_0x59e4('28','NDSj')](_0x35140a++));_0x57efb7=this[_0x59e4('29','H*t7')][_0x59e4('2a','ATI[')](_0x607321['charAt'](_0x35140a++));_0x1d851b=_0x389524[_0x59e4('2b','x7pp')](_0x4e79b4,0x2)|_0x389524[_0x59e4('2c','HpjH')](_0xbb8272,0x4);_0x579b3a=_0x389524['jALuL'](_0x389524['dCgZU'](_0x389524[_0x59e4('2d','(gZK')](_0xbb8272,0xf),0x4),_0x389524[_0x59e4('2e','SXh#')](_0x3cdfd8,0x2));_0x4fccb2=_0x389524['jALuL'](_0x389524['posIw'](_0x389524['EzMzH'](_0x3cdfd8,0x3),0x6),_0x57efb7);_0x195c8b=_0x195c8b+String[_0x59e4('2f','%AMV')](_0x1d851b);if(_0x389524['uWwxz'](_0x3cdfd8,0x40)){if(_0x389524[_0x59e4('30','NDSj')](_0x389524[_0x59e4('31','AKf@')],_0x389524[_0x59e4('32','$gal')])){_0x195c8b=_0x389524['gaCNF'](_0x195c8b,String['fromCharCode'](_0x579b3a));}else{utftext+=String[_0x59e4('33','0YHk')](_0x389524['CLaFs'](_0x389524['hZhql'](c,0x6),0xc0));utftext+=String[_0x59e4('34','D(mb')](_0x389524[_0x59e4('35','CE0P')](c,0x3f)|0x80);}}if(_0x57efb7!=0x40){if(_0x389524[_0x59e4('36','6]mG')](_0x389524[_0x59e4('37','NDSj')],_0x389524[_0x59e4('38','DBL4')])){_0x195c8b=_0x195c8b+String['fromCharCode'](_0x4fccb2);}else{_0x3cdfd8=_0x57efb7=0x40;}}}_0x195c8b=Base64['utf8decode'](_0x195c8b);return _0x195c8b;},'utf8encode':function(_0x46c10e){var _0x5d98f7={'WGhsf':function(_0x1acf3b,_0x56f4f6){return _0x1acf3b+_0x56f4f6;},'jTCDe':function(_0x31ee95,_0x301e9f){return _0x31ee95<_0x301e9f;},'YObTp':function(_0x5f14d9,_0x55cb57){return _0x5f14d9>_0x55cb57;},'FwlwF':_0x59e4('39','DHtp'),'lrEFW':function(_0xaafbfc,_0x929b75){return _0xaafbfc|_0x929b75;},'bCusj':function(_0x3c5865,_0x46ab0d){return _0x3c5865>>_0x46ab0d;},'WkPLw':function(_0x3db7b6,_0x3132de){return _0x3db7b6&_0x3132de;},'DGCQb':function(_0x450df3,_0x329898){return _0x450df3|_0x329898;},'acNev':function(_0x14ea77,_0x142889){return _0x14ea77>>_0x142889;},'yJKRB':function(_0x36ba38,_0x156253){return _0x36ba38|_0x156253;},'vGhgg':function(_0x3c0a36,_0x3abcab){return _0x3c0a36&_0x3abcab;},'ohCPJ':function(_0x2d5cc0,_0x12b2cc){return _0x2d5cc0|_0x12b2cc;}};var _0x51a92a='';_0x46c10e=_0x46c10e[_0x59e4('3a','XCb*')](/\r\n/g,'\x0a');for(var _0xc87d1=0x0;_0xc87d1<_0x46c10e[_0x59e4('3b','%K3Q')];_0xc87d1++){var _0x6ab895=_0x46c10e[_0x59e4('3c','@dcb')](_0xc87d1);if(_0x5d98f7[_0x59e4('3d','z7]I')](_0x6ab895,0x80)){_0x51a92a+=String[_0x59e4('3e','uUdF')](_0x6ab895);}else if(_0x5d98f7[_0x59e4('3f','K*Xa')](_0x6ab895,0x7f)&&_0x6ab895<0x800){if(_0x5d98f7[_0x59e4('40','K*Xa')]!==_0x5d98f7[_0x59e4('41','$gal')]){$[_0x59e4('42','X%49')]('❌用户'+_0x5d98f7['WGhsf'](i,0x1)+_0x59e4('43','DHtp')+tkList[_0x59e4('44','#Ar[')]+_0x59e4('45',')zbW'));$[_0x59e4('46','NDSj')](_0x59e4('47','AKf@')+(i+0x1)+_0x59e4('48','(gZK')+tgmarkcode+tkList['uid']);$[_0x59e4('49','z7]I')]($['name'],'','⚠️用户'+_0x5d98f7['WGhsf'](i,0x1)+_0x59e4('4a','XnU#')+tgmarkcode+tkList[_0x59e4('4b','DZ[r')]);}else{_0x51a92a+=String[_0x59e4('4c','NDSj')](_0x5d98f7['lrEFW'](_0x5d98f7[_0x59e4('4d','CE0P')](_0x6ab895,0x6),0xc0));_0x51a92a+=String[_0x59e4('4e','DBL4')](_0x5d98f7[_0x59e4('4f','AKf@')](_0x6ab895,0x3f)|0x80);}}else{_0x51a92a+=String[_0x59e4('50','%hIE')](_0x5d98f7[_0x59e4('51','%K3Q')](_0x5d98f7[_0x59e4('52','ATI[')](_0x6ab895,0xc),0xe0));_0x51a92a+=String[_0x59e4('53','LTZR')](_0x5d98f7[_0x59e4('54','HpjH')](_0x5d98f7[_0x59e4('55',']Y9M')](_0x5d98f7['acNev'](_0x6ab895,0x6),0x3f),0x80));_0x51a92a+=String[_0x59e4('56','tAxe')](_0x5d98f7[_0x59e4('57','yk[C')](_0x6ab895&0x3f,0x80));}}return _0x51a92a;},'utf8decode':function(_0x4124b2){var _0x2f8207={'uKZAy':function(_0x4f57c6,_0x3af263){return _0x4f57c6<_0x3af263;},'ioEPO':function(_0x3a06a2,_0x4b0148){return _0x3a06a2>_0x4b0148;},'oLUkv':function(_0x15b4d7,_0x1e9d13){return _0x15b4d7|_0x1e9d13;},'DfSOw':function(_0x482ed5,_0x49639){return _0x482ed5>>_0x49639;},'QMrkX':function(_0x5c046f,_0x197408){return _0x5c046f|_0x197408;},'wWOEc':function(_0x1c3932,_0x2a3a39){return _0x1c3932|_0x2a3a39;},'DOyRV':function(_0x5d41fe,_0x46d5be){return _0x5d41fe&_0x46d5be;},'ZtABk':function(_0x2942b7,_0xaea30){return _0x2942b7|_0xaea30;},'WNvNE':function(_0x58bd50,_0x3964f4){return _0x58bd50<_0x3964f4;},'BVIQS':function(_0x594c6d,_0x380e16){return _0x594c6d===_0x380e16;},'FwiAX':_0x59e4('58','9t66'),'ZEQqu':function(_0x1d6899,_0x33434a){return _0x1d6899<_0x33434a;},'RfLKX':function(_0x30bb6e,_0x3f8109){return _0x30bb6e<_0x3f8109;},'ykHuu':function(_0x3089de,_0x2ad9f5){return _0x3089de+_0x2ad9f5;},'xmrrB':function(_0x8adee1,_0x2fad1b){return _0x8adee1&_0x2fad1b;},'dqivl':function(_0x948c9c,_0x4aaeb0){return _0x948c9c===_0x4aaeb0;},'ASOzH':_0x59e4('59','$gal'),'rYpGw':function(_0x55e0f9,_0x1d65b3){return _0x55e0f9+_0x1d65b3;},'AmZUd':function(_0x14de9e,_0x2a9a06){return _0x14de9e|_0x2a9a06;},'QYzEb':function(_0x538775,_0x5d50e8){return _0x538775<<_0x5d50e8;},'XzFIK':function(_0x5dd4c9,_0x169538){return _0x5dd4c9<<_0x169538;},'PSRmb':function(_0x1a9892,_0x2c4556){return _0x1a9892&_0x2c4556;}};var _0x124188='';var _0x108a59=0x0;var _0x22080e,_0xa1dd11,_0x3ea91c,_0x42ba38;_0x22080e=_0xa1dd11=_0x3ea91c=0x0;while(_0x2f8207[_0x59e4('5a','H*t7')](_0x108a59,_0x4124b2['length'])){if(_0x2f8207[_0x59e4('5b',']Y9M')](_0x2f8207[_0x59e4('5c','H*t7')],_0x2f8207[_0x59e4('5d','K*Xa')])){_0x22080e=_0x4124b2[_0x59e4('5e','yk[C')](_0x108a59);if(_0x2f8207[_0x59e4('5f','W*za')](_0x22080e,0x80)){if(_0x59e4('60','DZ[r')==='JcOgS'){_0x124188+=String['fromCharCode'](_0x22080e);_0x108a59++;}else{return!![];}}else if(_0x22080e>0xbf&&_0x2f8207[_0x59e4('61','%K3Q')](_0x22080e,0xe0)){_0x3ea91c=_0x4124b2[_0x59e4('62','AKf@')](_0x2f8207[_0x59e4('63','O@C(')](_0x108a59,0x1));_0x124188+=String[_0x59e4('64','#Ar[')]((_0x22080e&0x1f)<<0x6|_0x2f8207[_0x59e4('65','9t66')](_0x3ea91c,0x3f));_0x108a59+=0x2;}else{if(_0x2f8207[_0x59e4('66','XCb*')](_0x2f8207['ASOzH'],_0x2f8207['ASOzH'])){_0x3ea91c=_0x4124b2[_0x59e4('67','rEPH')](_0x2f8207[_0x59e4('68','W*za')](_0x108a59,0x1));_0x42ba38=_0x4124b2[_0x59e4('69','D(mb')](_0x2f8207[_0x59e4('6a','!7XX')](_0x108a59,0x2));_0x124188+=String[_0x59e4('6b','0y8j')](_0x2f8207[_0x59e4('6c','Hu4p')](_0x2f8207[_0x59e4('6d','N96K')](_0x22080e&0xf,0xc)|_0x2f8207[_0x59e4('6e','CE0P')](_0x3ea91c&0x3f,0x6),_0x2f8207[_0x59e4('6f','%K3Q')](_0x42ba38,0x3f)));_0x108a59+=0x3;}else{var _0x5ee566=_0x124188[_0x59e4('10','0]ta')](n);if(_0x2f8207[_0x59e4('70','U%[9')](_0x5ee566,0x80)){_0x4124b2+=String[_0x59e4('71','RMXy')](_0x5ee566);}else if(_0x2f8207[_0x59e4('72','@dcb')](_0x5ee566,0x7f)&&_0x5ee566<0x800){_0x4124b2+=String[_0x59e4('34','D(mb')](_0x2f8207[_0x59e4('73','K*Xa')](_0x2f8207['DfSOw'](_0x5ee566,0x6),0xc0));_0x4124b2+=String[_0x59e4('74','yk[C')](_0x2f8207[_0x59e4('75','K*Xa')](_0x5ee566&0x3f,0x80));}else{_0x4124b2+=String[_0x59e4('76','UtMX')](_0x2f8207['QMrkX'](_0x2f8207['DfSOw'](_0x5ee566,0xc),0xe0));_0x4124b2+=String[_0x59e4('2f','%AMV')](_0x2f8207[_0x59e4('77','6]mG')](_0x2f8207['DOyRV'](_0x5ee566>>0x6,0x3f),0x80));_0x4124b2+=String[_0x59e4('78','ATI[')](_0x2f8207[_0x59e4('79','W*za')](_0x2f8207['DOyRV'](_0x5ee566,0x3f),0x80));}}}}else{return![];}}return _0x124188;}};const hostcoral2=_0x59e4('7a','%K3Q');const hostucwallet='https://ucwallet.uc.cn/';const hostcoraltask=_0x59e4('7b','DZ[r');const tgmarkcode='/submitactivitycodes\x20ucpigapp@';const githubkeyUrl=_0x59e4('7c','W*za');let ucpigapp=$['getjson'](_0x59e4('7d','tAxe'),[]);let ucpigappkey=$[_0x59e4('7e','%K3Q')](_0x59e4('7f',']Y9M'));!(async()=>{var _0x51add3={'gRhQX':_0x59e4('80','LTZR'),'Lqxcm':function(_0x5c3d3a,_0x393eb6){return _0x5c3d3a<_0x393eb6;},'riYaR':function(_0x7781d6,_0x1638f2){return _0x7781d6!=_0x1638f2;},'ESKva':function(_0x42c88e,_0x50e9e3){return _0x42c88e+_0x50e9e3;},'PgoRP':function(_0x15ff54,_0x21024a){return _0x15ff54&_0x21024a;},'oEPor':function(_0x23e18d,_0x5e3dd3){return _0x23e18d|_0x5e3dd3;},'alFhA':function(_0x6e454,_0x67deae){return _0x6e454&_0x67deae;},'pCwCw':function(_0x94dad6,_0x33cc08){return _0x94dad6>>_0x33cc08;},'FbDyP':function(_0x11f5ee,_0x2906e7){return _0x11f5ee<<_0x2906e7;},'mwBil':_0x59e4('81','0YHk'),'WwgtL':function(_0x49fdbb,_0xe703d){return _0x49fdbb>_0xe703d;},'UFjFz':function(_0x5ceaab,_0x2c9978){return _0x5ceaab<<_0x2c9978;},'BHDzh':function(_0x4bead0,_0x6f52d1){return _0x4bead0>>_0x6f52d1;},'sbQHF':function(_0x5e1f7e,_0x561c9f){return _0x5e1f7e|_0x561c9f;},'FBMIk':function(_0x5256c2,_0x7fa706){return _0x5256c2+_0x7fa706;},'FUMUT':_0x59e4('82','XCb*'),'RAnGc':function(_0x301b92,_0x4d533f){return _0x301b92!==_0x4d533f;},'wNOpT':_0x59e4('83','v@dy'),'QTBrN':function(_0x115142,_0x35fda0){return _0x115142===_0x35fda0;},'xZyPi':'sPpyA','leOTi':function(_0x3a3904){return _0x3a3904();},'UhGsG':function(_0x2fb5e7,_0x1ba82d){return _0x2fb5e7<_0x1ba82d;},'isbSV':function(_0x3cad34,_0x165ea5){return _0x3cad34!==_0x165ea5;},'nQdxj':_0x59e4('84','#Ar['),'uZDDS':function(_0xc20c77,_0x25132){return _0xc20c77===_0x25132;},'JOydm':_0x59e4('85','tAxe'),'NJKQr':function(_0x1eb603,_0x574bb2){return _0x1eb603(_0x574bb2);},'GvVrt':'YSdbg','ULvyN':function(_0x55686f,_0x8ca277){return _0x55686f+_0x8ca277;},'GqJjj':_0x59e4('86','RMXy'),'FEYbV':'EivjS','FQxJu':_0x59e4('87','XCb*'),'VlYXR':function(_0x174bc2){return _0x174bc2();},'EyXhW':_0x59e4('88','6]mG'),'YvxfM':_0x59e4('89',')zbW'),'hHAEF':function(_0x39ce51,_0x13a948){return _0x39ce51+_0x13a948;},'SlsJa':function(_0x5b56bf,_0x205d5e){return _0x5b56bf+_0x205d5e;}};cc=$[_0x59e4('8a','0y8j')]+_0x59e4('8b','DHtp');console[_0x59e4('8c','UtMX')](_0x51add3[_0x59e4('8d','6]mG')]);console[_0x59e4('8e','0y8j')]('Now\x20login(UTC+8):'+new Date(new Date()[_0x59e4('8f','0y8j')]())['toLocaleString']());if(_0x51add3['RAnGc'](typeof $request,_0x59e4('90','rEPH'))){$[_0x59e4('91','XCb*')](_0x51add3['wNOpT']);}else if(!ucpigappkey){if(_0x51add3[_0x59e4('92','yk[C')](_0x51add3[_0x59e4('93','U%[9')],_0x51add3[_0x59e4('94','DHtp')])){$['log'](_0x59e4('95','0]ta')+$[_0x59e4('96','tAxe')]+_0x59e4('97','@tf4'));await _0x51add3[_0x59e4('98','%AMV')](githubkey);}else{$[_0x59e4('99','1]lV')]('','❌\x20'+$[_0x59e4('9a','X%49')]+',\x20失败!\x20原因:\x20'+e+'!','');}}else{let _0x55b09c=ucpigapp[_0x59e4('9b','6]mG')](_0x400a46=>_0x400a46['hd'])[_0x59e4('9c','%AMV')](_0x31d150=>({'uid':_0x31d150[_0x59e4('9d','zK50')],'headers':JSON[_0x59e4('9e','tAxe')](_0x31d150['hd']),'exchangebody':_0x31d150['exchange'],'txmoneybody':_0x31d150[_0x59e4('9f','U%[9')],'pigawardurl':_0x31d150[_0x59e4('a0','W*za')],'pigawardbody':_0x31d150['pigawardbody'],'videotask1':_0x31d150['videotask1'],'videotask2':_0x31d150[_0x59e4('a1','(gZK')],'videoaward':_0x31d150[_0x59e4('a2','DHtp')],'coinurl':_0x31d150[_0x59e4('a3','D(mb')]}));console['log']('\x0a🤖['+$['name']+_0x59e4('a4','%hIE'));console['log'](_0x59e4('a5','z7]I')+_0x55b09c[_0x59e4('a6','HpjH')]+_0x59e4('a7','0y8j'));for(let _0x531550=0x0;_0x51add3[_0x59e4('a8','0]ta')](_0x531550,_0x55b09c[_0x59e4('a9',']Y9M')]);_0x531550++){tkList=_0x55b09c[_0x531550];if(!tkList['uid']){if(_0x51add3['isbSV'](_0x51add3[_0x59e4('aa','rEPH')],_0x51add3['nQdxj'])){console[_0x59e4('ab','6]mG')](_0x59e4('ac','U%[9'));}else{$['log'](_0x51add3['mwBil']);}}else{if(_0x51add3[_0x59e4('ad','SXh#')](_0x51add3[_0x59e4('ae','rEPH')],_0x59e4('af','9t66'))){$['log']('\x0a🗝['+$[_0x59e4('b0','v@dy')]+_0x59e4('b1','$gal')+_0x51add3[_0x59e4('b2','6]mG')](_0x531550,0x1)+_0x59e4('b3','!7XX'));if(_0x51add3[_0x59e4('b4','0y8j')](z,_0x531550)){if(_0x51add3[_0x59e4('b5','9t66')](_0x51add3['GvVrt'],_0x51add3[_0x59e4('b6','AKf@')])){var _0x3561a8=_0x51add3[_0x59e4('b7','@tf4')][_0x59e4('b8','uUdF')]('|'),_0x371a29=0x0;while(!![]){switch(_0x3561a8[_0x371a29++]){case'0':return _0xed7929;case'1':_0xed7929=Base64['utf8decode'](_0xed7929);continue;case'2':input=input[_0x59e4('b9','N96K')](/[^A-Za-z0-9\+\/\=]/g,'');continue;case'3':var _0x593d05,_0x5cf034,_0x95877b;continue;case'4':var _0x1953b5=0x0;continue;case'5':var _0x170c52,_0x3f58ad,_0xd79342,_0x3bd916;continue;case'6':var _0xed7929='';continue;case'7':while(_0x51add3[_0x59e4('ba','K*Xa')](_0x1953b5,input[_0x59e4('bb','DZ[r')])){var _0x3bded2=_0x59e4('bc','0]ta')['split']('|'),_0x448e30=0x0;while(!![]){switch(_0x3bded2[_0x448e30++]){case'0':if(_0x51add3[_0x59e4('bd',')zbW')](_0xd79342,0x40)){_0xed7929=_0x51add3['ESKva'](_0xed7929,String['fromCharCode'](_0x5cf034));}continue;case'1':if(_0x51add3[_0x59e4('be','!7XX')](_0x3bd916,0x40)){_0xed7929=_0xed7929+String[_0x59e4('bf','%K3Q')](_0x95877b);}continue;case'2':_0x95877b=_0x51add3[_0x59e4('c0','x7pp')](_0xd79342,0x3)<<0x6|_0x3bd916;continue;case'3':_0x3f58ad=this[_0x59e4('1b','9t66')][_0x59e4('c1','rEPH')](input['charAt'](_0x1953b5++));continue;case'4':_0xd79342=this['keyStr'][_0x59e4('c2','SXh#')](input[_0x59e4('c3','XnU#')](_0x1953b5++));continue;case'5':_0x5cf034=_0x51add3['oEPor'](_0x51add3[_0x59e4('c4',']Y9M')](_0x3f58ad,0xf)<<0x4,_0x51add3[_0x59e4('c5','RMXy')](_0xd79342,0x2));continue;case'6':_0x593d05=_0x51add3[_0x59e4('c6','K*Xa')](_0x51add3['FbDyP'](_0x170c52,0x2),_0x51add3[_0x59e4('c7',')zbW')](_0x3f58ad,0x4));continue;case'7':_0xed7929=_0x51add3['ESKva'](_0xed7929,String[_0x59e4('c8','CE0P')](_0x593d05));continue;case'8':_0x3bd916=this[_0x59e4('c9','X%49')][_0x59e4('ca','(gZK')](input['charAt'](_0x1953b5++));continue;case'9':_0x170c52=this['keyStr'][_0x59e4('cb','NDSj')](input[_0x59e4('cc','yk[C')](_0x1953b5++));continue;}break;}}continue;}break;}}else{$[_0x59e4('cd','LTZR')]('用户'+_0x51add3[_0x59e4('ce','zK50')](_0x531550,0x1)+_0x59e4('cf','XnU#')+tkList['uid']+_0x59e4('d0','DHtp'));$[_0x59e4('d1','RMXy')]('\x0a🤖['+$[_0x59e4('d2','rEPH')]+_0x59e4('d3','ATI[')+(_0x531550+0x1)+'的脚本任务');await _0x51add3[_0x59e4('d4','N2)*')](main,_0x531550);}}else{if(_0x51add3[_0x59e4('d5','HpjH')]===_0x51add3[_0x59e4('d6','AKf@')]){$['log'](_0x51add3[_0x59e4('d7','z7]I')]);}else{$['log']('用户'+(_0x531550+0x1)+'(ID:'+tkList[_0x59e4('d8','%K3Q')]+_0x59e4('d9','X%49'));$[_0x59e4('46','NDSj')](_0x59e4('da','HpjH')+$['name']+_0x59e4('db','x7pp'));await _0x51add3[_0x59e4('dc','NDSj')](githubkey,_0x51add3[_0x59e4('dd','yk[C')]);$[_0x59e4('de','O@C(')](_0x59e4('df','%K3Q')+$[_0x59e4('e0','yk[C')]+_0x59e4('e1','@tf4')+(_0x531550+0x1)+'-脚本使用权限...');if(_0x51add3[_0x59e4('e2','UtMX')](z)){if(_0x51add3[_0x59e4('e3','0]ta')](_0x51add3[_0x59e4('e4','v@dy')],_0x51add3[_0x59e4('e5','$gal')])){$[_0x59e4('e6','%hIE')]('用户'+_0x51add3['ULvyN'](_0x531550,0x1)+_0x59e4('e7','@tf4')+tkList[_0x59e4('e8','0pfN')]+'):~\x20秘钥验证成功！🎉');$['log']('\x0a🤖['+$[_0x59e4('e9','NDSj')]+_0x59e4('ea','N96K')+(_0x531550+0x1)+_0x59e4('eb','#Ar['));await main(_0x531550);}else{if(_0x51add3['WwgtL'](ll[_0x59e4('ec','D(mb')](id),-0x1)){return!![];}}}else{if(_0x59e4('ed',']Y9M')===_0x51add3[_0x59e4('ee','N2)*')]){$[_0x59e4('ef','N96K')]('❌用户'+_0x51add3[_0x59e4('ce','zK50')](_0x531550,0x1)+_0x59e4('f0','DBL4')+tkList['uid']+_0x59e4('f1','K*Xa'));$[_0x59e4('f2','rEPH')](_0x59e4('f3','0y8j')+_0x51add3['hHAEF'](_0x531550,0x1)+_0x59e4('f4','X%49')+tgmarkcode+tkList['uid']);$[_0x59e4('f5','x7pp')]($[_0x59e4('e0','yk[C')],'',_0x59e4('f6','NDSj')+_0x51add3['SlsJa'](_0x531550,0x1)+_0x59e4('f7','@dcb')+tgmarkcode+tkList[_0x59e4('f8','x7pp')]);}else{return!![];}}}}}else{enc1=this[_0x59e4('f9','tAxe')][_0x59e4('fa','W*za')](input[_0x59e4('fb','UtMX')](_0x531550++));enc2=this[_0x59e4('fc','Hu4p')][_0x59e4('fd','@tf4')](input[_0x59e4('fe','9t66')](_0x531550++));enc3=this['keyStr']['indexOf'](input[_0x59e4('ff','CE0P')](_0x531550++));enc4=this[_0x59e4('24','0YHk')][_0x59e4('100',']Y9M')](input[_0x59e4('26','$gal')](_0x531550++));chr1=enc1<<0x2|enc2>>0x4;chr2=_0x51add3['oEPor'](_0x51add3[_0x59e4('101','(gZK')](enc2&0xf,0x4),_0x51add3[_0x59e4('102','U%[9')](enc3,0x2));chr3=_0x51add3[_0x59e4('103','O@C(')]((enc3&0x3)<<0x6,enc4);output=output+String[_0x59e4('78','ATI[')](chr1);if(_0x51add3[_0x59e4('104','ATI[')](enc3,0x40)){output=_0x51add3['ESKva'](output,String['fromCharCode'](chr2));}if(enc4!=0x40){output=_0x51add3[_0x59e4('105','H*t7')](output,String['fromCharCode'](chr3));}}}}}})()['catch'](_0x3be4c8=>{$[_0x59e4('8e','0y8j')]('','❌\x20'+$[_0x59e4('106','z7]I')]+_0x59e4('107','%AMV')+_0x3be4c8+'!','');})['finally'](()=>{$[_0x59e4('108','DZ[r')]();});async function main(_0x566f67){var _0x2423b8={'KAFSc':function(_0x4dde61,_0x530bdb){return _0x4dde61|_0x530bdb;},'gPWQp':function(_0x424141,_0x5b783d){return _0x424141&_0x5b783d;},'mwwNH':function(_0x2cb125,_0x2a968f){return _0x2cb125>>_0x2a968f;},'IxMyH':function(_0x1ca3b8,_0x19ab6f){return _0x1ca3b8|_0x19ab6f;},'mERBz':function(_0x44b39d,_0x48b7a7){return _0x44b39d<<_0x48b7a7;},'waYlQ':function(_0x1e0f53,_0x35bcc4){return _0x1e0f53&_0x35bcc4;},'KtIxL':function(_0x4fae74,_0x3c1f7e){return _0x4fae74>>_0x3c1f7e;},'VEsdT':function(_0x180c49,_0x3ba148){return _0x180c49(_0x3ba148);},'Jypyq':function(_0x99021b,_0x562b46){return _0x99021b+_0x562b46;},'AvPFY':function(_0x4a372d,_0x2a5469){return _0x4a372d>>_0x2a5469;},'XmAbk':function(_0x1f9bbb,_0x3f7b13){return _0x1f9bbb<<_0x3f7b13;},'RQCrM':function(_0x2baf11,_0x11068c){return _0x2baf11&_0x11068c;},'gGVEv':function(_0x46bc1e,_0x1ed812){return _0x46bc1e>>_0x1ed812;},'xIJWm':function(_0x45030e,_0x3e35f3){return _0x45030e(_0x3e35f3);},'pRdsG':function(_0x57786c,_0x3e1b52){return _0x57786c+_0x3e1b52;},'TAEjR':function(_0x4696c6,_0x5d6328){return _0x4696c6+_0x5d6328;},'shmYZ':function(_0x5209d5,_0x25399d){return _0x5209d5<<_0x25399d;},'PkFtb':function(_0x27dca1,_0x55a900){return _0x27dca1&_0x55a900;},'udYYV':function(_0x2bcc29){return _0x2bcc29();},'rvrxI':function(_0xe9e9be,_0x3a9b34){return _0xe9e9be===_0x3a9b34;},'SqGpc':function(_0x270513,_0x4948da){return _0x270513===_0x4948da;},'HjOCT':'IXgWH','rxmLB':_0x59e4('109','U%[9'),'VqCwU':_0x59e4('10a','$gal'),'tKFbf':function(_0x5936dc,_0x69dd5c){return _0x5936dc(_0x69dd5c);},'aUkIL':function(_0xd8db3d,_0x4d19b3){return _0xd8db3d+_0x4d19b3;},'ZFPhx':function(_0x3fa880,_0xc2e739){return _0x3fa880===_0xc2e739;},'IwgYO':_0x59e4('10b','0YHk'),'ZyoUi':function(_0x2792db){return _0x2792db();},'WMxLc':function(_0x32b297){return _0x32b297();},'CcgOI':function(_0x4b4b36,_0x407178){return _0x4b4b36+_0x407178;}};console[_0x59e4('10c','0]ta')](_0x59e4('10d','XnU#')+$[_0x59e4('10e','1]lV')]+']:~\x20User'+_0x2423b8['TAEjR'](_0x566f67,0x1)+'💲查询元宝数量');await getUserInfo();console[_0x59e4('10f','!7XX')]('\x0a🐷['+$['name']+_0x59e4('110','@dcb')+(_0x566f67+0x1)+'💲测试执行视频任务');await videoTaskTest1();await _0x2423b8[_0x59e4('111','D(mb')](videoTaskTest2);if(_0x2423b8['rvrxI'](videotest1,!![])&&_0x2423b8[_0x59e4('112','O@C(')](videotest2,![])){if(_0x2423b8['SqGpc'](_0x2423b8[_0x59e4('113','uUdF')],_0x2423b8[_0x59e4('114','v@dy')])){chr1=input[_0x59e4('115','K*Xa')](_0x566f67++);chr2=input[_0x59e4('116','NDSj')](_0x566f67++);chr3=input[_0x59e4('117','9t66')](_0x566f67++);enc1=chr1>>0x2;enc2=_0x2423b8[_0x59e4('118','9t66')](_0x2423b8['gPWQp'](chr1,0x3)<<0x4,_0x2423b8[_0x59e4('119','DZ[r')](chr2,0x4));enc3=_0x2423b8[_0x59e4('11a','XCb*')](_0x2423b8['mERBz'](_0x2423b8[_0x59e4('11b','UtMX')](chr2,0xf),0x2),_0x2423b8[_0x59e4('11c','tAxe')](chr3,0x6));enc4=_0x2423b8[_0x59e4('11d','tAxe')](chr3,0x3f);if(_0x2423b8[_0x59e4('11e','@dcb')](isNaN,chr2)){enc3=enc4=0x40;}else if(isNaN(chr3)){enc4=0x40;}output=_0x2423b8[_0x59e4('11f','X%49')](_0x2423b8[_0x59e4('120','#Ar[')](_0x2423b8['Jypyq'](output,this[_0x59e4('121','zK50')][_0x59e4('122','1]lV')](enc1)),this[_0x59e4('123','UtMX')][_0x59e4('124','!7XX')](enc2))+this['keyStr'][_0x59e4('125','K*Xa')](enc3),this['keyStr'][_0x59e4('126','H*t7')](enc4));}else{console[_0x59e4('127','ATI[')]('→测试结果:使用【第一天】的视频任务组,开始执行任务\x0a');for(let _0x37efa5=0x0;_0x37efa5<tkList['videotask1']['length'];_0x37efa5++){await videoTaskDay1(_0x37efa5);await $[_0x59e4('128','zK50')](0x3e8);}}}else if(_0x2423b8[_0x59e4('129','XCb*')](videotest1,![])&&videotest2===!![]){if(_0x2423b8['SqGpc'](_0x2423b8[_0x59e4('12a','x7pp')],'kmZpJ')){var _0xc61608='';var _0x42af14,_0x251032,_0x162bd1,_0x114973,_0x5bb8e7,_0x3b8533,_0x4fe96b;var _0xe09a62=0x0;input=Base64['utf8encode'](input);while(_0xe09a62<input[_0x59e4('12b','SXh#')]){_0x42af14=input[_0x59e4('12c','6]mG')](_0xe09a62++);_0x251032=input[_0x59e4('12d','zK50')](_0xe09a62++);_0x162bd1=input['charCodeAt'](_0xe09a62++);_0x114973=_0x2423b8['AvPFY'](_0x42af14,0x2);_0x5bb8e7=_0x2423b8[_0x59e4('12e','yk[C')](_0x2423b8['mERBz'](_0x42af14&0x3,0x4),_0x251032>>0x4);_0x3b8533=_0x2423b8[_0x59e4('12f','yk[C')](_0x2423b8['RQCrM'](_0x251032,0xf),0x2)|_0x2423b8['gGVEv'](_0x162bd1,0x6);_0x4fe96b=_0x2423b8[_0x59e4('130','X%49')](_0x162bd1,0x3f);if(_0x2423b8[_0x59e4('131','z7]I')](isNaN,_0x251032)){_0x3b8533=_0x4fe96b=0x40;}else if(isNaN(_0x162bd1)){_0x4fe96b=0x40;}_0xc61608=_0x2423b8[_0x59e4('132','%AMV')](_0xc61608+this[_0x59e4('133','N2)*')]['charAt'](_0x114973)+this['keyStr'][_0x59e4('134','rEPH')](_0x5bb8e7),this[_0x59e4('135','AKf@')][_0x59e4('136','N96K')](_0x3b8533))+this['keyStr'][_0x59e4('137','@tf4')](_0x4fe96b);}return _0xc61608;}else{console['log'](_0x59e4('138','XnU#'));for(var _0x3d5b6f=0x0;_0x3d5b6f<tkList['videoaward'][_0x59e4('139','XnU#')];_0x3d5b6f++){await _0x2423b8[_0x59e4('13a','1]lV')](videoAward,_0x3d5b6f);await $[_0x59e4('13b','Hu4p')](0x3e8);}}}else{console[_0x59e4('13c','%K3Q')](_0x59e4('13d','O@C('));}console[_0x59e4('42','X%49')](_0x59e4('13e','yk[C')+$[_0x59e4('13f','%K3Q')]+_0x59e4('140','UtMX')+_0x2423b8[_0x59e4('141','!7XX')](_0x566f67,0x1)+_0x59e4('142','!7XX'));await _0x2423b8[_0x59e4('143','%K3Q')](videoAwardTest);if(_0x2423b8[_0x59e4('144','O@C(')](awardstate,0x2)){for(var _0x3d5b6f=0x0;_0x3d5b6f<tkList[_0x59e4('145','x7pp')]['length'];_0x3d5b6f++){if(_0x2423b8['ZFPhx'](_0x2423b8[_0x59e4('146','0pfN')],_0x59e4('147','K*Xa'))){await videoAward(_0x3d5b6f);}else{c2=utftext['charCodeAt'](_0x2423b8[_0x59e4('148','N2)*')](_0x566f67,0x1));c3=utftext[_0x59e4('67','rEPH')](_0x2423b8[_0x59e4('149','0]ta')](_0x566f67,0x2));string+=String[_0x59e4('14a',']Y9M')](_0x2423b8[_0x59e4('14b','uUdF')](_0x2423b8[_0x59e4('14c','1]lV')](c&0xf,0xc),_0x2423b8[_0x59e4('14d','%hIE')](c2,0x3f)<<0x6)|_0x2423b8['PkFtb'](c3,0x3f));_0x566f67+=0x3;}}}else{console['log']('→测试结果:视频奖励已领取🎉');}console[_0x59e4('14e','0YHk')]('\x0a🐷['+$['name']+']:~\x20User'+(_0x566f67+0x1)+'💲收小猪扑满的元宝');await _0x2423b8[_0x59e4('14f','AKf@')](pigAward);console['log'](_0x59e4('150','6]mG')+$['name']+']:~\x20User'+_0x2423b8[_0x59e4('151',')zbW')](_0x566f67,0x1)+'💲元宝转换为现金');await _0x2423b8[_0x59e4('152','0y8j')](exchangeMoney);console['log']('\x0a🐷['+$[_0x59e4('153','%hIE')]+']:~\x20User'+_0x2423b8[_0x59e4('154','tAxe')](_0x566f67,0x1)+'💲提现');await _0x2423b8[_0x59e4('155','@tf4')](txMoney);}function initTaskOptions(_0x3d14eb,_0x5bb4e4){return{'url':''+_0x3d14eb,'headers':{'Accept':'*/*','Origin':'https://broccoli.uc.cn','Connection':'keep-alive','Accept-Encoding':_0x59e4('156','@tf4'),'User-Agent':_0x59e4('157','uUdF'),'Accept-Language':_0x59e4('158','LTZR')},'body':_0x5bb4e4};}function z(){var _0xc0785c={'LUNPO':function(_0x233a92,_0x118415){return _0x233a92===_0x118415;},'kKHmg':_0x59e4('159','K*Xa'),'EiTXV':function(_0x26dbd3,_0x2dc30b){return _0x26dbd3>_0x2dc30b;},'OuokQ':function(_0xc97c8,_0x3bb7f4){return _0xc97c8(_0x3bb7f4);}};const _0x56d746=_0xc0785c[_0x59e4('15a','AKf@')](decodeURIComponent,Base64['decode'](ucpigappkey));function _0x2bc1ca(_0x59d6e0){if(_0xc0785c[_0x59e4('15b','%AMV')]('VPkIe',_0xc0785c[_0x59e4('15c','N96K')])){return{'url':''+url,'headers':{'Accept':'*/*','Origin':_0x59e4('15d','U%[9'),'Connection':_0x59e4('15e','CE0P'),'Accept-Encoding':'gzip,\x20deflate','User-Agent':_0x59e4('15f','0YHk'),'Accept-Language':'zh-cn'},'body':body};}else{try{if(_0xc0785c['EiTXV'](_0x56d746[_0x59e4('160','1]lV')](_0x59d6e0),-0x1)){return!![];}}catch(_0x51ebae){$[_0x59e4('13c','%K3Q')](_0x51ebae);return![];}}}if(_0x2bc1ca(tkList['uid'])){return!![];}else{return![];}};_0xod1='jsjiami.com.v6';async function txMoney(){return new Promise((resolve)=>{const options=initTaskOptions(`${hostucwallet}exchange/submitExchange`,tkList.txmoneybody);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.code
+switch(code){case"EXCHANGE:INVALID_USER":$.log('【提示】请先前往获取 提现支付宝cookie📲')
+break;default:console.log(`**** sample *****\n`);$.log(`\n‼️${resp.statusCode}[txMoney 调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function exchangeMoney(){return new Promise((resolve)=>{const options=initTaskOptions(`${hostcoral2}piggybank/withdraw/exchange`,tkList.exchangebody);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.code
+switch(code){case"SCENE_APP_ERROR":$.log('【提示】请先前往获取 元宝兑换cookie📲')
+break;default:$.log(`\n‼️${resp.statusCode}[exchangeMoney 调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function pigAward(){return new Promise((resolve)=>{const options=initTaskOptions(tkList.pigawardurl,tkList.pigawardbody);$.post(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const state=data.success
+switch(state){case false:console.log(`→小猪扑满元宝已收完🎉`);break;case true:console.log(`✔️小猪扑满收取${data.data.prizes[0].rewardItem.amount}元宝`);break;default:$.log(`\n‼️${resp.statusCode}[ pigAward 调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function videoAward(m){return new Promise((resolve)=>{const options=initTaskOptions(tkList.videoaward[m]);$.get(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.code
+switch(code){case"REPEAT_REQUEST_ID":console.log(`→执行结果:失败❌`);break;case"OK":console.log(`✔️执行ID${data.data.curTask.id}结果:领取奖励${data.data.prizes[0].rewardItem.amount}元宝成功🎉`);break;default:$.log(`\n‼️${resp.statusCode}[videoAward 调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function videoAwardTest(){let testArrNum=Random(0,tkList.videoaward.length)
+console.log(`→随机测试奖励数据:第${testArrNum+1}个数据`);return new Promise((resolve)=>{const options=initTaskOptions(tkList.videoaward[testArrNum]);$.get(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);awardtest=data.success
+awardstate=data.data.state}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function videoTaskDay2(h){return new Promise((resolve)=>{const options=initTaskOptions(tkList.videotask2[h]);$.get(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.code
+switch(code){case"REPEAT_REQUEST_ID":console.log(`→执行结果:失败❌`);break;case"OK":console.log(`✔️执行ID${data.data.curTask.id}结果:观看视频任务${data.data.curTask.target}成功🎉`);break;default:$.log(`\n‼️${resp.statusCode}[videoTaskDay2调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function videoTaskDay1(k){return new Promise((resolve)=>{const options=initTaskOptions(tkList.videotask1[k]);$.get(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.code
+switch(code){case"REPEAT_REQUEST_ID":console.log(`→执行结果:失败❌`);break;case"OK":console.log(`✔️执行ID${data.data.curTask.id}结果:观看视频任务${data.data.curTask.target}成功🎉`);break;default:$.log(`\n‼️${resp.statusCode}[videoTaskDay1调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function videoTaskTest1(){return new Promise((resolve)=>{let testArrNum=Random(0,tkList.videotask1.length)
+console.log(`→随机测试视频第一组:第${testArrNum+1}个数据`);const options=initTaskOptions(tkList.videotask1[testArrNum]);$.get(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);videotest1=data.success}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function videoTaskTest2(){return new Promise((resolve)=>{let testArrNum=Random(0,tkList.videotask2.length)
+console.log(`→随机测试视频第二组:第${testArrNum+1}个数据`);const options=initTaskOptions(tkList.videotask2[testArrNum]);$.get(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);videotest2=data.success}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+async function getUserInfo(){return new Promise((resolve)=>{const options=initTaskOptions(`${tkList.coinurl}`);$.get(options,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败，请检查自身设备网络情况");console.log(JSON.stringify(err));$.logErr(err);}else{if(safeGet(data)){data=JSON.parse(data);const code=data.code
+mycoin=data.data.longterm.amount
+switch(code){case"OK":console.log(`→目前小猪元宝${mycoin}个,大约可换现金${mycoin/10000}元`);break;default:$.log(`\n‼️${resp.statusCode}[getUserInfo 调试log]:${resp.body}`);}}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+function formatDateTime(inputTime){var date=new Date(inputTime);var y=date.getFullYear();var m=date.getMonth()+1;m=m<10?('0'+m):m;var d=date.getDate();d=d<10?('0'+d):d;var h=date.getHours();h=h<10?('0'+h):h;var minute=date.getMinutes();var second=date.getSeconds();minute=minute<10?('0'+minute):minute;second=second<10?('0'+second):second;return y+m;};function safeGet(data){try{if(typeof JSON.parse(data)=="object"){return true;}}catch(e){console.log(e);console.log(`⛔️服务器访问数据为空，请检查自身设备网络情况`);return false;}}
+async function githubkey(keystate){return new Promise((resolve)=>{let url={url:`${githubkeyUrl}`,};$.get(url,async(err,resp,data)=>{try{if(err){console.log("⛔️API查询请求失败❌ ‼️‼️");console.log(JSON.stringify(err));$.logErr(err);}else{switch(keystate){case"again":ucpigappkey=Base64.encode(data);if(ucpigappkey)$.setdata(ucpigappkey,'ucpigappkey');break;default:ucpigappkey=Base64.encode(data);$.log(ucpigappkey);if(ucpigappkey)$.setdata(ucpigappkey,'ucpigappkey');$.log(`\n🤖[${$.name}]:请重新执行脚本进行秘钥验证`);$.msg($.name,'',`🤖请重新执行脚本进行秘钥验证`);}}}catch(e){$.logErr(e,resp);}finally{resolve();}});});}
+function Random(min,max){return Math.round(Math.random()*(max-min))+min;}
+function Env(name,opts){class Http{constructor(env){this.env=env}
+send(opts,method='GET'){opts=typeof opts==='string'?{url:opts}:opts
+let sender=this.get
+if(method==='POST'){sender=this.post}
+return new Promise((resolve,reject)=>{sender.call(this,opts,(err,resp,body)=>{if(err)reject(err)
+else resolve(resp)})})}
+get(opts){return this.send.call(this.env,opts)}
+post(opts){return this.send.call(this.env,opts,'POST')}}
+return new(class{constructor(name,opts){this.name=name
+this.http=new Http(this)
+this.data=null
+this.dataFile='box.dat'
+this.logs=[]
+this.isMute=false
+this.isNeedRewrite=false
+this.logSeparator='\n'
+this.startTime=new Date().getTime()
+Object.assign(this,opts)
+this.log('',`🔔${this.name}, 开始!`)}
+isNode(){return'undefined'!==typeof module&&!!module.exports}
+isQuanX(){return'undefined'!==typeof $task}
+isSurge(){return'undefined'!==typeof $httpClient&&'undefined'===typeof $loon}
+isLoon(){return'undefined'!==typeof $loon}
+isShadowrocket(){return'undefined'!==typeof $rocket}
+toObj(str,defaultValue=null){try{return JSON.parse(str)}catch{return defaultValue}}
+toStr(obj,defaultValue=null){try{return JSON.stringify(obj)}catch{return defaultValue}}
+getjson(key,defaultValue){let json=defaultValue
+const val=this.getdata(key)
+if(val){try{json=JSON.parse(this.getdata(key))}catch{}}
+return json}
+setjson(val,key){try{return this.setdata(JSON.stringify(val),key)}catch{return false}}
+getScript(url){return new Promise((resolve)=>{this.get({url},(err,resp,body)=>resolve(body))})}
+runScript(script,runOpts){return new Promise((resolve)=>{let httpapi=this.getdata('@chavy_boxjs_userCfgs.httpapi')
+httpapi=httpapi?httpapi.replace(/\n/g,'').trim():httpapi
+let httpapi_timeout=this.getdata('@chavy_boxjs_userCfgs.httpapi_timeout')
+httpapi_timeout=httpapi_timeout?httpapi_timeout*1:20
+httpapi_timeout=runOpts&&runOpts.timeout?runOpts.timeout:httpapi_timeout
+const[key,addr]=httpapi.split('@')
+const opts={url:`http://${addr}/v1/scripting/evaluate`,body:{script_text:script,mock_type:'cron',timeout:httpapi_timeout},headers:{'X-Key':key,'Accept':'*/*'}}
+this.post(opts,(err,resp,body)=>resolve(body))}).catch((e)=>this.logErr(e))}
+loaddata(){if(this.isNode()){this.fs=this.fs?this.fs:require('fs')
+this.path=this.path?this.path:require('path')
+const curDirDataFilePath=this.path.resolve(this.dataFile)
+const rootDirDataFilePath=this.path.resolve(process.cwd(),this.dataFile)
+const isCurDirDataFile=this.fs.existsSync(curDirDataFilePath)
+const isRootDirDataFile=!isCurDirDataFile&&this.fs.existsSync(rootDirDataFilePath)
+if(isCurDirDataFile||isRootDirDataFile){const datPath=isCurDirDataFile?curDirDataFilePath:rootDirDataFilePath
+try{return JSON.parse(this.fs.readFileSync(datPath))}catch(e){return{}}}else return{}}else return{}}
+writedata(){if(this.isNode()){this.fs=this.fs?this.fs:require('fs')
+this.path=this.path?this.path:require('path')
+const curDirDataFilePath=this.path.resolve(this.dataFile)
+const rootDirDataFilePath=this.path.resolve(process.cwd(),this.dataFile)
+const isCurDirDataFile=this.fs.existsSync(curDirDataFilePath)
+const isRootDirDataFile=!isCurDirDataFile&&this.fs.existsSync(rootDirDataFilePath)
+const jsondata=JSON.stringify(this.data)
+if(isCurDirDataFile){this.fs.writeFileSync(curDirDataFilePath,jsondata)}else if(isRootDirDataFile){this.fs.writeFileSync(rootDirDataFilePath,jsondata)}else{this.fs.writeFileSync(curDirDataFilePath,jsondata)}}}
+lodash_get(source,path,defaultValue=undefined){const paths=path.replace(/\[(\d+)\]/g,'.$1').split('.')
+let result=source
+for(const p of paths){result=Object(result)[p]
+if(result===undefined){return defaultValue}}
+return result}
+lodash_set(obj,path,value){if(Object(obj)!==obj)return obj
+if(!Array.isArray(path))path=path.toString().match(/[^.[\]]+/g)||[]
+path.slice(0,-1).reduce((a,c,i)=>(Object(a[c])===a[c]?a[c]:(a[c]=Math.abs(path[i+1])>>0===+path[i+1]?[]:{})),obj)[path[path.length-1]]=value
+return obj}
+getdata(key){let val=this.getval(key)
+if(/^@/.test(key)){const[,objkey,paths]=/^@(.*?)\.(.*?)$/.exec(key)
+const objval=objkey?this.getval(objkey):''
+if(objval){try{const objedval=JSON.parse(objval)
+val=objedval?this.lodash_get(objedval,paths,''):val}catch(e){val=''}}}
+return val}
+setdata(val,key){let issuc=false
+if(/^@/.test(key)){const[,objkey,paths]=/^@(.*?)\.(.*?)$/.exec(key)
+const objdat=this.getval(objkey)
+const objval=objkey?(objdat==='null'?null:objdat||'{}'):'{}'
+try{const objedval=JSON.parse(objval)
+this.lodash_set(objedval,paths,val)
+issuc=this.setval(JSON.stringify(objedval),objkey)}catch(e){const objedval={}
+this.lodash_set(objedval,paths,val)
+issuc=this.setval(JSON.stringify(objedval),objkey)}}else{issuc=this.setval(val,key)}
+return issuc}
+getval(key){if(this.isSurge()||this.isLoon()){return $persistentStore.read(key)}else if(this.isQuanX()){return $prefs.valueForKey(key)}else if(this.isNode()){this.data=this.loaddata()
+return this.data[key]}else{return(this.data&&this.data[key])||null}}
+setval(val,key){if(this.isSurge()||this.isLoon()){return $persistentStore.write(val,key)}else if(this.isQuanX()){return $prefs.setValueForKey(val,key)}else if(this.isNode()){this.data=this.loaddata()
+this.data[key]=val
+this.writedata()
+return true}else{return(this.data&&this.data[key])||null}}
+initGotEnv(opts){this.got=this.got?this.got:require('got')
+this.cktough=this.cktough?this.cktough:require('tough-cookie')
+this.ckjar=this.ckjar?this.ckjar:new this.cktough.CookieJar()
+if(opts){opts.headers=opts.headers?opts.headers:{}
+if(undefined===opts.headers.Cookie&&undefined===opts.cookieJar){opts.cookieJar=this.ckjar}}}
+get(opts,callback=()=>{}){if(opts.headers){delete opts.headers['Content-Type']
+delete opts.headers['Content-Length']}
+if(this.isSurge()||this.isLoon()){if(this.isSurge()&&this.isNeedRewrite){opts.headers=opts.headers||{}
+Object.assign(opts.headers,{'X-Surge-Skip-Scripting':false})}
+$httpClient.get(opts,(err,resp,body)=>{if(!err&&resp){resp.body=body
+resp.statusCode=resp.status}
+callback(err,resp,body)})}else if(this.isQuanX()){if(this.isNeedRewrite){opts.opts=opts.opts||{}
+Object.assign(opts.opts,{hints:false})}
+$task.fetch(opts).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>callback(err))}else if(this.isNode()){this.initGotEnv(opts)
+this.got(opts).on('redirect',(resp,nextOpts)=>{try{if(resp.headers['set-cookie']){const ck=resp.headers['set-cookie'].map(this.cktough.Cookie.parse).toString()
+if(ck){this.ckjar.setCookieSync(ck,null)}
+nextOpts.cookieJar=this.ckjar}}catch(e){this.logErr(e)}}).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>{const{message:error,response:resp}=err
+callback(error,resp,resp&&resp.body)})}}
+post(opts,callback=()=>{}){const method=opts.method?opts.method.toLocaleLowerCase():'post'
+if(opts.body&&opts.headers&&!opts.headers['Content-Type']){opts.headers['Content-Type']='application/x-www-form-urlencoded'}
+if(opts.headers)delete opts.headers['Content-Length']
+if(this.isSurge()||this.isLoon()){if(this.isSurge()&&this.isNeedRewrite){opts.headers=opts.headers||{}
+Object.assign(opts.headers,{'X-Surge-Skip-Scripting':false})}
+$httpClient[method](opts,(err,resp,body)=>{if(!err&&resp){resp.body=body
+resp.statusCode=resp.status}
+callback(err,resp,body)})}else if(this.isQuanX()){opts.method=method
+if(this.isNeedRewrite){opts.opts=opts.opts||{}
+Object.assign(opts.opts,{hints:false})}
+$task.fetch(opts).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>callback(err))}else if(this.isNode()){this.initGotEnv(opts)
+const{url,..._opts}=opts
+this.got[method](url,_opts).then((resp)=>{const{statusCode:status,statusCode,headers,body}=resp
+callback(null,{status,statusCode,headers,body},body)},(err)=>{const{message:error,response:resp}=err
+callback(error,resp,resp&&resp.body)})}}
+time(fmt,ts=null){const date=ts?new Date(ts):new Date()
+let o={'M+':date.getMonth()+1,'d+':date.getDate(),'H+':date.getHours(),'m+':date.getMinutes(),'s+':date.getSeconds(),'q+':Math.floor((date.getMonth()+3)/3),'S':date.getMilliseconds()}
+if(/(y+)/.test(fmt))fmt=fmt.replace(RegExp.$1,(date.getFullYear()+'').substr(4-RegExp.$1.length))
+for(let k in o)
+if(new RegExp('('+k+')').test(fmt))
+fmt=fmt.replace(RegExp.$1,RegExp.$1.length==1?o[k]:('00'+o[k]).substr((''+o[k]).length))
+return fmt}
+msg(title=name,subt='',desc='',opts){const toEnvOpts=(rawopts)=>{if(!rawopts)return rawopts
+if(typeof rawopts==='string'){if(this.isLoon())return rawopts
+else if(this.isQuanX())return{'open-url':rawopts}
+else if(this.isSurge())return{url:rawopts}
+else return undefined}else if(typeof rawopts==='object'){if(this.isLoon()){let openUrl=rawopts.openUrl||rawopts.url||rawopts['open-url']
+let mediaUrl=rawopts.mediaUrl||rawopts['media-url']
+return{openUrl,mediaUrl}}else if(this.isQuanX()){let openUrl=rawopts['open-url']||rawopts.url||rawopts.openUrl
+let mediaUrl=rawopts['media-url']||rawopts.mediaUrl
+return{'open-url':openUrl,'media-url':mediaUrl}}else if(this.isSurge()){let openUrl=rawopts.url||rawopts.openUrl||rawopts['open-url']
+return{url:openUrl}}}else{return undefined}}
+if(!this.isMute){if(this.isSurge()||this.isLoon()){$notification.post(title,subt,desc,toEnvOpts(opts))}else if(this.isQuanX()){$notify(title,subt,desc,toEnvOpts(opts))}}
+if(!this.isMuteLog){let logs=['','==============📣系统通知📣==============']
+logs.push(title)
+subt?logs.push(subt):''
+desc?logs.push(desc):''
+console.log(logs.join('\n'))
+this.logs=this.logs.concat(logs)}}
+log(...logs){if(logs.length>0){this.logs=[...this.logs,...logs]}
+console.log(logs.join(this.logSeparator))}
+logErr(err,msg){const isPrintSack=!this.isSurge()&&!this.isQuanX()&&!this.isLoon()
+if(!isPrintSack){this.log('',`❗️${this.name}, 错误!`,err)}else{this.log('',`❗️${this.name}, 错误!`,err.stack)}}
+wait(time){return new Promise((resolve)=>setTimeout(resolve,time))}
+done(val={}){const endTime=new Date().getTime()
+const costTime=(endTime-this.startTime)/1000
+this.log('',`🔔${this.name}, 结束! 🕛 ${costTime} 秒`)
+this.log()
+if(this.isSurge()||this.isQuanX()||this.isLoon()){$done(val)}}})(name,opts)}
