@@ -83,7 +83,7 @@ function getCash() {
             switch (code) {
               case 0:
                 console.log(`京东账号${$.index} ${$.nickName || $.UserName}提现成功🎉\n🗣请重新获取新的提现code`);
-                $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n提现成功🎉：${code}`);
+                $.msg($.name, '', `京东账号${$.index} ${$.nickName || $.UserName}\n提现成功🎉\n🗣请重新获取新的提现code`);
                 $.done();
                 break;
               case -525:
