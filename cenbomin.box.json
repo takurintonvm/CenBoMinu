@@ -11,14 +11,14 @@
     "settings": [{
         "id": "V2pTaskUpdate",
         "name": "V2P上传任务",
-        "val": false,
+        "val": true,
         "type": "boolean",
         "desc": "打开才会上传定时任务,用来刚开始使用的时候"
       },
       {
         "id": "JD_TaskUpdate",
         "name": "京东上传任务",
-        "val": false,
+        "val": true,
         "type": "boolean",
         "desc": "用来打开上传定时任务包含京东系列"
       },
@@ -55,7 +55,7 @@
     "settings": [{
         "id": "V2pCookieUpdate",
         "name": "V2P上传任务",
-        "val": false,
+        "val": true,
         "type": "boolean",
         "desc": "打开才会上传cookie,用来刚开始使用的时候。"
       }, {
