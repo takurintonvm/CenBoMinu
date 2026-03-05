@@ -7,16 +7,16 @@
   "apps": [{
     "id": "PushBoxjsTask",
     "name": "elecV2p推送Task",
-    "keys": ["v2purl", "v2token", "v2pblacklist"],
+    "keys": ["v2purl", "v2token", "v2pblacklist","v2ptaskupdate","jdtaskupdate"],
     "settings": [{
-        "id": "V2pTaskUpdate",
+        "id": "v2ptaskupdate",
         "name": "V2P上传任务",
         "val": false,
         "type": "boolean",
         "desc": "打开才会上传定时任务,用来刚开始使用的时候"
       },
       {
-        "id": "JDTaskUpdate",
+        "id": "jdtaskupdate",
         "name": "京东上传任务",
         "val": false,
         "type": "boolean",
@@ -51,9 +51,9 @@
   }, {
     "id": "PushBoxjsCookie",
     "name": "elecV2p推送Cookie",
-    "keys": ["v2purl", "v2token"],
+    "keys": ["v2purl", "v2token","v2pcookieupdate"],
     "settings": [{
-        "id": "V2pCookieUpdate",
+        "id": "v2pcookieupdate",
         "name": "V2P上传任务",
         "val": false,
         "type": "boolean",
