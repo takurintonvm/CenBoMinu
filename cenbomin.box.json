@@ -7,7 +7,7 @@
   "apps": [{
     "id": "PushBoxjsTask",
     "name": "elecV2p推送Task",
-    "keys": ["v2purl", "v2token", "v2pblacklist","v2ptaskupdate","jdtaskupdate"],
+    "keys": ["v2purl", "v2token", "v2pblacklist"],
     "settings": [{
         "id": "v2ptaskupdate",
         "name": "V2P上传任务",
@@ -51,7 +51,7 @@
   }, {
     "id": "PushBoxjsCookie",
     "name": "elecV2p推送Cookie",
-    "keys": ["v2purl", "v2token","v2pcookieupdate"],
+    "keys": ["v2purl", "v2token"],
     "settings": [{
         "id": "v2pcookieupdate",
         "name": "V2P上传任务",
