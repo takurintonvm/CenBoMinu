@@ -1,6 +1,9 @@
 const $ = new Env('elecV2P')
 const v2purl = $.getval('v2purl');
 const v2ptoken = $.getval('v2token');
+$.jdupdateButton = $.getdata("jdtaskupdate") ? $.getdata("jdtaskupdate") === "true" : false;
+$.v2ptaskupdate = $.getdata("v2ptaskupdate") ? $.getdata("v2ptaskupdate") === "true" : false;
+let blackList = $.getjson('v2pblacklist', "");
 //++++++++++++++++++++++++++++++++++++++++
 $.KEY_usercfgs = 'chavy_boxjs_userCfgs'
 $.KEY_sessions = 'chavy_boxjs_sessions'
@@ -48,9 +51,10 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
       globalbaks
     }
     var taskListData = box.appSubCaches
+
+    //预处理数据结构
     const taskListArr = new Array();
     let taskList = Object.keys(taskListData).map(key => taskListData[key].apps);
-
     for (let i = 0; i < taskList.length; i++) {
       let taskobj = taskList[i]
       for (let i = 0; i < taskobj.length; i++) {
@@ -68,7 +72,9 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
       }
     }
     console.log(`→格式化成功👏`)
-    console.log(`\n🤖[${$.name}]:💲核对V2p与BOXJS的Cookie值,计算任务个数`)
+    //++++++++++++++++++++++++++++++++++++++++ taskListArr
+    console.log(`\n🤖[${$.name}]:💲初始化定时任务清单`)
+    //核对v2p和boxjs的cookie，获取可能的定时url清单:key是数组,所以有很多重复的url
     const v2ptaskUrlArr = new Array();
     for (let i = 0; i < getKeyListdata.length; i++) {
       let checkKey = getKeyListdata[i]
@@ -78,20 +84,69 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
       }
     }
     //数组去重
-    const v2pformatUrlArr = unique(v2ptaskUrlArr)
-    //需要上传的暂定url数组:v2pformatUrlArr
-    console.log(`→可能需要上传的定时任务个数为:${v2pformatUrlArr.length}个`);
-    console.log(`\n🤖[${$.name}]:💲获取V2P定时任务列表,删除已有任务`)
-    await getV2PTask();
+    let v2pformatUrlArr = unique(v2ptaskUrlArr)
+    console.log(`→定时任务个数为:${v2pformatUrlArr.length}个`);
 
-    //双数组比对去重
+    //++++++++++++++++++++++++++++++++++++++++整合少年AllinOne京东订阅
+    console.log(allinoneList[8].split(",")[0].replace(/https:\/\/ghproxy.com\//g, "").split("https:")[1].replace(/\/\//g, "http://"));
+    if ($.jdupdateButton == true) {
+      console.log(`\n🤖[${$.name}]:💲检测到BOXJS开启京东上传任务`)
+      for (let i = 0; i < allinoneList.length; i++) {
+        let checkobj = allinoneList[i];
+        if (checkobj.indexOf(`京东`) > -1) {
+          let pushJDUrl = checkobj.replace(/https:\/\/ghproxy.com\//g, "").split(",")[0].replace(/https/, "@https").split("@")[1];
+          v2pformatUrlArr.push(pushJDUrl);
+        }
+      };
+      console.log(`→整合京东后定时任务个数为:${v2pformatUrlArr.length}个`);
+    } else {
+      console.log(`\n🤖[${$.name}]:💲检测到BOXJS关闭京东上传任务\n→跳过👇`)
+    }
+
+    //++++++++++++++++++++++++++++++++++++++++ v2pformatUrlArr
+    console.log(`\n🤖[${$.name}]:💲获取V2P定时任务列表,删除已有任务`)
+    //双数组比对删除V2P已有的定时任务
+    await getV2PTask();
     let updateTaskUrlList = v2pformatUrlArr.filter(items => {
       if (!v2ptaskDataArr2.includes(items)) return items;
     })
-    console.log(`→去重后定时任务个数为:${updateTaskUrlList.length}个`);
+    console.log(`→删除后定时任务个数为:${updateTaskUrlList.length}个`);
+    await ArrindexOfDel(updateTaskUrlList, "github.com")
 
+    //++++++++++++++++++++++++++++++++++++++++ updateTaskUrlList
+    console.log(`\n🤖[${$.name}]:💲核对定时任务与AllinOne订阅`)
+    //
+    const v2pUpdateObjArr = new Array();
+    for (let i = 0; i < updateTaskUrlList.length; i++) {
+      let checkUrl = updateTaskUrlList[i].match(/\w+\.js$/)[0]
+      for (let i = 0; i < allinoneList.length; i++) {
+        let checkobj = allinoneList[i];
+        if (checkobj.indexOf(`${checkUrl}`) > -1) {
+          v2pUpdateObjArr.push(checkobj);
+        }
+      }
+    }
+    console.log(`→预备上传定时任务个数为:${v2pUpdateObjArr.length}个`);
+    //++++++++++++++++++++++++++++++++++++++++
+    if (blackList == "") {
+      $.setdata(JSON.stringify(v2pUpdateObjArr, null, 2), 'v2pblacklist');
+      console.log(`⚠️初始化黑名单已经存储到BOXJS,请检查并且删除黑名单内需要上传的任务!`);
+      $.msg($.name, '', `⚠️初始化黑名单已经存储到BOXJS,请检查并且删除黑名单内需要上传的任务!`);
+      $.done();
+    }
+    //++++++++++++++++++++++++++++++++++++++++ v2pUpdateObjArr
+    console.log(`\n🤖[${$.name}]:💲排除黑名单上传定时任务删除`)
+    let nowUpdateTaskArr = v2pUpdateObjArr.filter(items => {
+      if (!blackList.includes(items)) return items;
+    })
+    console.log(`→预备上传定时任务个数为:${nowUpdateTaskArr.length}个`);
 
-
+    //++++++++++++++++++++++++++++++++++++++++
+    if (nowUpdateTaskArr.length > 0 && $.v2ptaskupdate == true) {
+      console.log(`\n🤖[${$.name}]:💲开始上传定时任务 🙆‍♀️`)
+    } else {
+      console.log(`→没有定时任务需要上传🙅‍♀️\n⚠️如果错误❌,请到BOXJS检查-上传任务开关&黑名单`)
+    }
 
   })().catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -232,10 +287,8 @@ async function getV2PTask() {
             }
             for (var i = 0; i < v2ptaskDataArr.length; i++) {
               let v2ptaskData2 = v2ptaskDataArr[i].replace(/https:\/\/ghproxy.com\//g, "")
-                v2ptaskDataArr2.push(v2ptaskData2)
+              v2ptaskDataArr2.push(v2ptaskData2)
             }
-            console.log(v2ptaskDataArr2);
-
           }
         }
       } catch (e) {
@@ -253,6 +306,15 @@ function initTaskOptions(type) {
     url: `${v2purl}/webhook?token=${v2ptoken}&type=${type}`,
   };
 }
+//数组indexof删除元素
+async function ArrindexOfDel(arr, val) {
+  for (let i = 0; i < arr.length; i++) {
+    let index = arr[i].indexOf(val)
+    if (index > -1) {
+      return arr.splice(i, 1)
+    }
+  }
+};
 //双数组去重
 function distinct(a, b) {
   let arr = a.concat(b)
