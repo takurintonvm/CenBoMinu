@@ -6,7 +6,7 @@
   "repo": "https://github.com/CenBoMin/GithubSync",
   "apps": [{
     "id": "PushBoxjsTask",
-    "name": "elecV2p推送Task",
+    "name": "V2pTask",
     "keys": ["v2purl", "v2token", "v2pblacklist"],
     "settings": [{
         "id": "v2ptaskupdate",
@@ -50,7 +50,7 @@
     "icons": ["https://raw.githubusercontent.com/Ariszy/Private-Script/master/img/elecv2p-mini.png", "https://raw.githubusercontent.com/Ariszy/Private-Script/master/img/elecv2p.png"]
   }, {
     "id": "PushBoxjsCookie",
-    "name": "elecV2p推送Cookie",
+    "name": "V2pCookie",
     "keys": ["v2purl", "v2token"],
     "settings": [{
         "id": "v2pcookieupdate",
