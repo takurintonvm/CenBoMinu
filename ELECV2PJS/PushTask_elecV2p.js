@@ -25,8 +25,8 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
       $.setjson({}, $.KEY_app_subCaches)
       $.setjson({}, $.KEY_web_cache)
       console.log(`→BoxJS缓存清除完毕👌`);
-      console.log(`⚠️清除缓存会造成应用订阅错误,请到BOXJS更新全部订阅即可`);
-      $.msg($.name, '', `⚠️清除缓存会造成应用订阅错误,请到BOXJS更新全部订阅即可`);
+      console.log(`⚠️每次清除缓存会造成应用订阅错误,请到BOXJS更新全部订阅即可修复`);
+      $.msg($.name, '', `⚠️每次清除缓存会造成应用订阅错误,请到BOXJS更新全部订阅即可修复`);
       //--------------------------------------
       console.log(`\n🔎[检查主页地址和WebhookToken]`);
       await $.wait(1000)
@@ -44,6 +44,7 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
         console.log(`→BOXJS主页地址格式错误✖️\n‼️主页地址最后没有"/"\n🌰错误例子:http://198.1.1.4:1234/`);
       }
 
+      console.log(`🗣请确认检查结果都为正确的时候,在到BOXJS订阅打开V2P上传任务开关！`);
       //++++++++++++++++++++++++++++++++++++++++
     } else {
       console.log(`\n🤖[${$.name}]:💲获取脚本执行需要的数据`)
