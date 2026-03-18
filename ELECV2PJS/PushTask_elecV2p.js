@@ -4,6 +4,7 @@ const v2ptoken = $.getval('v2token');
 $.jdupdateButton = $.getdata("jdtaskupdate") ? $.getdata("jdtaskupdate") === "true" : false;
 $.v2ptaskupdate = $.getdata("v2ptaskupdate") ? $.getdata("v2ptaskupdate") === "true" : false;
 let v2pblackList = $.getjson('v2pblacklist', "");
+let tz = "";
 //++++++++++++++++++++++++++++++++++++++++
 $.KEY_usercfgs = 'chavy_boxjs_userCfgs'
 $.KEY_sessions = 'chavy_boxjs_sessions'
@@ -19,14 +20,13 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
     //++++++++++++++++++++++++++++++++++++++++
     if ($.v2ptaskupdate == false) {
       console.log(`\n🤖[${$.name}]:💲第一次执行初始化和检查错误❌`)
-
       console.log(`\n🧹[开始清除BoxJS缓存]`);
       await $.wait(1000)
       $.setjson({}, $.KEY_app_subCaches)
       $.setjson({}, $.KEY_web_cache)
       console.log(`→BoxJS缓存清除完毕👌`);
       console.log(`⚠️每次清除缓存会造成应用订阅错误,请到BOXJS更新全部订阅即可修复`);
-      $.msg($.name, '', `⚠️每次清除缓存会造成应用订阅错误,请到BOXJS更新全部订阅即可修复`);
+      tz += ($.name, '', `⚠️每次清除缓存会造成应用订阅错误,请到BOXJS更新全部订阅即可修复`);
       //--------------------------------------
       console.log(`\n🔎[检查主页地址和WebhookToken]`);
       await $.wait(1000)
@@ -160,8 +160,8 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
       //++++++++++++++++++++++++++++++++++++++++
       if (v2pblackList == "") {
         $.setdata(JSON.stringify(v2pUpdateObjArr2, null, 2), 'v2pblacklist');
-        console.log(`⚠️初始化黑名单已经存储到BOXJS\n→请检查并且删除黑名单内需要上传的任务,或者在v2p服务器手动添加!`);
-        $.msg($.name, '', `⚠️初始化黑名单已经存储到BOXJS\n请检查并且删除黑名单内需要上传的任务,或者在v2p服务器手动添加!`);
+        console.log(`⚠️初始化黑名单已经存储到BOXJS\n需要上传的任务在v2p服务器手动添加!!`);
+        tz += ($.name, '', `⚠️初始化黑名单已经存储到BOXJS\n需要上传的任务在v2p服务器手动添加!`);
         $.done();
       } else {
         //++++++++++++++++++++++++++++++++++++++++ v2pUpdateObjArr2
@@ -185,9 +185,12 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
             $.setdata(JSON.stringify(v2pUpdateObjArr2, null, 2), 'v2pblacklist');
           }
         } else {
-          console.log(`→没有定时任务需要上传🙅‍♀️\n⚠️如果错误❌,请到BOXJS检查-上传任务开关&黑名单`)
+          console.log(`→没有定时任务需要上传🙅‍♀️`)
         }
       }
+    }
+    if (tz) {
+      await showmsg1();
     }
   })().catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -195,6 +198,9 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
     $.done();
   })
 //++++++++++++++++++++++++++++++++++++++++
+async function showmsg1() {
+    $.msg(`${$.name}任务执行通知🔔`, tz);
+}
 async function pushtask() {
   return new Promise((resolve) => {
     let url = {
@@ -231,10 +237,11 @@ async function pushtask() {
           switch (code) {
             case 0:
               console.log(`\n💡成功上传定时任务:${data.taskinfo.name}\n${data.taskinfo.time} ${data.taskinfo.job.target}`);
+              tz += `定时任务:${data.taskinfo.name}`
               break;
             default:
               $.log(`\n‼️${resp.statusCode}[pushtask调试log]:${resp.body}`);
-              // $.msg($.name, '', `msg`);
+
           }
         }
       } catch (e) {
@@ -264,7 +271,7 @@ async function getVersion() {
             console.log(`→V2P服务器版本号:${v2pversion}`);
             if (versionSum < 9) {
               console.log(`⚠️V2P服务器版本号低于3.3.3,请先更新你的V2P版本`);
-              $.msg($.name, '', `⚠️V2P服务器版本号低于3.3.3,请先更新你的V2P版本`);
+              tz += ($.name, '', `⚠️V2P服务器版本号低于3.3.3,请先更新你的V2P版本`);
               $.done();
             }
           }
