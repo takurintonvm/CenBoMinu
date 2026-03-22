@@ -182,7 +182,7 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
             V2PtaskUrl = nowUpdateTaskArr[i].split(",")[0].replace(/https/, "&https").split("&")[1];
             await pushtask();
             await $.wait(1000)
-            $.setdata(JSON.stringify(v2pUpdateObjArr2, null, 2), 'v2pblacklist');
+            await $.setdata(JSON.stringify(v2pUpdateObjArr2, null, 2), 'v2pblacklist');
           }
         } else {
           console.log(`→没有定时任务需要上传🙅‍♀️`)
