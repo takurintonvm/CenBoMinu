@@ -26,14 +26,21 @@
 	},{
 	  "id": "elongcash",
 	  "name": "同程小猪",
-	  "keys": ["elongcash","elongcashkey","elongcashTaskGid"],
+	  "keys": ["elongcash","elongcashkey","elongcashTaskGid","elongcashBuyNum"],
 	  "settings": [
 			{
 				"id": "elongcashTaskGid",
 				"name": "夺宝任务ID",
-				"val": "",
+				"val": "4",
 				"type": "number",
 				"desc": "可先不输入执行脚本查看任务清单"
+			},
+			{
+				"id": "elongcashBuyNum",
+				"name": "夺宝码购买数量",
+				"val": "1",
+				"type": "number",
+				"desc": ""
 			},
 	    {
 				"id": "elongcash",
