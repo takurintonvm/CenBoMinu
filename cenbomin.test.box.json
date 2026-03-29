@@ -58,7 +58,7 @@
 	},{
 	  "id": "ucpigapp",
 	  "name": "UC小猪",
-	  "keys": ["ucpigapp","ucpigappkey"],
+	  "keys": ["ucpigapp","ucpigappkey","ucpigtaskday"],
 	  "settings": [
 	    {
 				"id": "ucpigapp",
