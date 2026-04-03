@@ -237,7 +237,7 @@ async function pushtask() {
           switch (code) {
             case 0:
               console.log(`\n💡成功上传定时任务:${data.taskinfo.name}\n${data.taskinfo.time} ${data.taskinfo.job.target}`);
-              tz += `定时任务:${data.taskinfo.name}`
+              tz += `定时任务:${data.taskinfo.name}\n`
               break;
             default:
               $.log(`\n‼️${resp.statusCode}[pushtask调试log]:${resp.body}`);
