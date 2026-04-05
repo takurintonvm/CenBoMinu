@@ -72,6 +72,7 @@ $.KEY_cursessions='chavy_boxjs_cur_sessions'
         console.log(`\n💡开始上传cookie:[${ckkey}]`);
         await pushcookie(ckkey, ckvalue);
     }
+    $.msg($.name,`成功上传V2P服务器共${cklist.length}个cookie🎉`)
 }
 })().catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
