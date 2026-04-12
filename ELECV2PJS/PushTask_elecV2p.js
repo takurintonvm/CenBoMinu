@@ -182,6 +182,8 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
             V2PtaskUrl = nowUpdateTaskArr[i].split(",")[0].replace(/https/, "&https").split("&")[1];
             await pushtask();
             await $.wait(1000)
+            await downloadJS();
+            await $.wait(1000)
             await $.setdata(JSON.stringify(v2pUpdateObjArr2, null, 2), 'v2pblacklist');
           }
         } else {
@@ -200,6 +202,40 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
 //++++++++++++++++++++++++++++++++++++++++
 async function showmsg1() {
     $.msg(`${$.name}任务执行通知🔔`, tz);
+}
+async function downloadJS() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `${v2purl}/webhook`,
+      body: JSON.stringify({
+        token: `${v2ptoken}`,
+        type: 'download',
+        op: 'put',
+        url: V2PtaskUrl,
+        dest: "./script/JSFile"
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'put'
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          downloadinfo = resp.body
+          $.log(`\n📥${resp.body}`);
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
 }
 async function pushtask() {
   return new Promise((resolve) => {
@@ -237,7 +273,7 @@ async function pushtask() {
           switch (code) {
             case 0:
               console.log(`\n💡成功上传定时任务:${data.taskinfo.name}\n${data.taskinfo.time} ${data.taskinfo.job.target}`);
-              tz += `定时任务:${data.taskinfo.name}\n`
+              tz += `💡上传定时任务:${data.taskinfo.name}\n`
               break;
             default:
               $.log(`\n‼️${resp.statusCode}[pushtask调试log]:${resp.body}`);
@@ -371,6 +407,7 @@ async function getV2PTask() {
     });
   });
 }
+
 
 //++++++++++++++++++++++++++++++++++++++++
 function initTaskOptions(type) {
