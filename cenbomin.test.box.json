@@ -26,8 +26,15 @@
 	},{
 		"id": "dkdapp2",
 		"name": "多看点2.0",
-		"keys": ["dkdapp2","dkdapp2key"],
+		"keys": ["dkdapp2","dkdapp2key","dkduserck"],
 		"settings": [
+			{
+				"id": "dkduserck",
+        "name": "当前抓取ck账号",
+        "val": "1",
+        "type": "number",
+        "desc": "当前抓取ck记录的账号序号，如：1、2、3、"
+			},
 			{
 				"id": "dkdapp2",
 				"name": "Cookie数据",
