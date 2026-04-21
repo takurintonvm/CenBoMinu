@@ -543,7 +543,7 @@ async function task32() {
       $.log(`❌目前账号sp1videocoinbody未获取,请参照说明对照表获取cookie。\n`);
     } else {
         for (var i = 0; i < 10; i++) {
-          await prizelottery2();
+          await prizelottery2(i);
           await $.wait(2000)
         }
     }
@@ -1203,7 +1203,7 @@ async function prizelottery1() {
   });
 }
 //极速看视频1
-async function prizelottery2() {
+async function prizelottery2(i) {
   return new Promise((resolve) => {
     let url = {
       url: `https://ocean.shuqireader.com/api/ad/v1/api/prize/lottery`,
