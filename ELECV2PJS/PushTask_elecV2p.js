@@ -183,7 +183,7 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
             await pushtask();
             await $.wait(1000)
             await downloadJS();
-            await $.wait(1000)
+            await v2pUpdateObjArr2.push(nowUpdateTaskArr[i])
             await $.setdata(JSON.stringify(v2pUpdateObjArr2, null, 2), 'v2pblacklist');
           }
         } else {
@@ -191,9 +191,9 @@ $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
         }
       }
     }
-    if (tz) {
-      await showmsg1();
-    }
+    // if (tz) {
+    //   await showmsg1();
+    // }
   })().catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
   }).finally(() => {
@@ -273,7 +273,7 @@ async function pushtask() {
           switch (code) {
             case 0:
               console.log(`\n💡成功上传定时任务:${data.taskinfo.name}\n${data.taskinfo.time} ${data.taskinfo.job.target}`);
-              tz += `💡上传定时任务:${data.taskinfo.name}\n`
+              $.msg($.name, `💡上传定时任务:${data.taskinfo.name}`);
               break;
             default:
               $.log(`\n‼️${resp.statusCode}[pushtask调试log]:${resp.body}`);
