@@ -1,9 +1,3 @@
-/*
-基于肥皂的多看点视频基础上修改成自己的版本...谢谢肥皂大佬！
-使用填肥皂的邀请码：13152063 或者 我的13192689
-说明请见：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDVIDEO/readme.js
-
-*/
 const jsname = '🧿多看点'
 const $ = Env(jsname)
 //0为关闭日志，1为开启,默认为0
@@ -146,35 +140,35 @@ if ($.isNode()) {
   console.log(`\n💗💕 开始执行脚本任务 💕💗\n`)
   console.log(`\n✅ 签到状态\n`)
   await signinit()
-  console.log(`\n✅ 任务状态\n`)
-  await dayindex()
-  await boxinit()
-  await extratime()
+  // console.log(`\n✅ 任务状态\n`)
+  // await dayindex()
+  // await boxinit()
+  // await extratime()
 
-  console.log(`\n✅ 日常任务\n`)
-
-  console.log(`\n+执行【今日签到🤙】任务+\n`)
-  await todaysign() //签到
-
+  // console.log(`\n✅ 日常任务\n`)
+  //
+  // console.log(`\n+执行【今日签到🤙】任务+\n`)
+  // await todaysign() //签到
+  //
   console.log(`\n+执行【转盘任务🎡】任务+\n`)
   await dkdsxzp() //转盘
   await dkdcj() //转盘奖励
-
+  //
   console.log(`\n+执行【时段奖励类🕰】任务+\n`)
   await dkdbx() //视频宝箱
   await dkdsdjl() //小说时段奖励
-
-  console.log(`\n+领取【日常任务🎊】奖励+\n`)
-  await dkdnomal() //完成日常任务奖励领取
-
-  console.log(`\n+领取【阶段性红包🧧】奖励+\n`)
-  await dkdpro() //日常任务完成阶段性奖励
-
+  //
+  // console.log(`\n+领取【日常任务🎊】奖励+\n`)
+  // await dkdnomal() //完成日常任务奖励领取
+  //
+  // console.log(`\n+领取【阶段性红包🧧】奖励+\n`)
+  // await dkdpro() //日常任务完成阶段性奖励
+  //
   console.log(`\n✅ 刷视频任务\n`)
   await dkdvideoapp() //刷视频
-  console.log(`\n✅ 提现任务\n`)
-  await dkdcash() //提现
-
+  // console.log(`\n✅ 提现任务\n`)
+  // await dkdcash() //提现
+  //
   await dkdxx() //用户信息
   await showmsg2();
 
@@ -313,6 +307,40 @@ async function todaysign() {
 }
 
 //////////////////////////////////////////////////////////////////
+//redcountdown
+async function redcountdown() {
+  return new Promise((resolve) => {
+    let url = {
+      url: `https://dkd-api.dysdk.com/video/red_countdown`,
+      body: dkdtokenbodyVal,
+      headers: JSON.parse(dkdtokenkeyVal),
+    };
+    $.post(url, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败❌ ‼️‼️");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            if (logs == 1) $.log(data)
+            data = JSON.parse(data);
+            videostatus = data.data.status
+            if (videostatus == 2 || videostatus == 4) {
+              console.log("【目前状态】:视频📽");
+            } else if (videostatus == 3) {
+              console.log("【目前状态】:红包🧧");
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 //任务状态确认
 async function dayindex() {
   return new Promise((resolve) => {
@@ -329,23 +357,23 @@ async function dayindex() {
           $.logErr(err);
         } else {
           if (safeGet(data)) {
-            if (logs == 1) $.log(data)
-            data = JSON.parse(data);
-            tasklist0 = data.data.list[0].status
-            tasklist1 = data.data.list[1].status
-            tasklist2 = data.data.list[2].status
-            tasklist3 = data.data.list[3].status
-            tasklist4 = data.data.list[4].status
-            prolist0 = data.data.Task_comp.data[0].status
-            prolist1 = data.data.Task_comp.data[1].status
-            prolist2 = data.data.Task_comp.data[2].status
-            prolist3 = data.data.Task_comp.data[3].status
-            $.log(`🔸阶段性红包完成度:${data.data.Task_comp.pro}%`);
-            $.log(`🔸视频领金币:${data.data.list[0].task_go}`);
-            $.log(`🔸广告领金币:${data.data.list[1].task_go}`);
-            $.log(`🔸小说赚金币:${data.data.list[2].task_go}`);
-            $.log(`🔸分享赚金币:${data.data.list[3].task_go}`);
-            $.log(`🔸高额游戏赚:${data.data.list[4].task_go}`);
+            $.log(data)
+            // data = JSON.parse(data);
+            // tasklist0 = data.data.list[0].status
+            // tasklist1 = data.data.list[1].status
+            // tasklist2 = data.data.list[2].status
+            // tasklist3 = data.data.list[3].status
+            // tasklist4 = data.data.list[4].status
+            // prolist0 = data.data.Task_comp.data[0].status
+            // prolist1 = data.data.Task_comp.data[1].status
+            // prolist2 = data.data.Task_comp.data[2].status
+            // prolist3 = data.data.Task_comp.data[3].status
+            // $.log(`🔸阶段性红包完成度:${data.data.Task_comp.pro}%`);
+            // $.log(`🔸视频领金币:${data.data.list[0].task_go}`);
+            // $.log(`🔸广告领金币:${data.data.list[1].task_go}`);
+            // $.log(`🔸小说赚金币:${data.data.list[2].task_go}`);
+            // $.log(`🔸分享赚金币:${data.data.list[3].task_go}`);
+            // $.log(`🔸高额游戏赚:${data.data.list[4].task_go}`);
           }
         }
       } catch (e) {
@@ -809,40 +837,7 @@ function AutoRead() {
     })
   })
 }
-//redcountdown
-async function redcountdown() {
-  return new Promise((resolve) => {
-    let url = {
-      url: `https://dkd-api.dysdk.com/video/red_countdown`,
-      body: dkdtokenbodyVal,
-      headers: JSON.parse(dkdtokenkeyVal),
-    };
-    $.post(url, async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log("⛔️API查询请求失败❌ ‼️‼️");
-          console.log(JSON.stringify(err));
-          $.logErr(err);
-        } else {
-          if (safeGet(data)) {
-            if (logs == 1) $.log(data)
-            data = JSON.parse(data);
-            videostatus = data.data.status
-            if (videostatus == 2 || videostatus == 4) {
-              console.log("【目前状态】:视频📽");
-            } else if (videostatus == 3) {
-              console.log("【目前状态】:红包🧧");
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    });
-  });
-}
+
 //red_getaward
 async function redgetaward() {
   return new Promise((resolve) => {
