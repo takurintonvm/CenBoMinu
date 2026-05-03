@@ -166,8 +166,8 @@ if ($.isNode()) {
   //
   console.log(`\n✅ 刷视频任务\n`)
   await dkdvideoapp() //刷视频
-  // console.log(`\n✅ 提现任务\n`)
-  // await dkdcash() //提现
+  console.log(`\n✅ 提现任务\n`)
+  await dkdcash() //提现
   //
   await dkdxx() //用户信息
   await showmsg2();
