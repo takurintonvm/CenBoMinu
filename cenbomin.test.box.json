@@ -36,13 +36,6 @@
         "desc": "当前抓取ck记录的账号序号，如：1、2、3、"
 			},
 			{
-				"id": "dkdapp2index",
-				"name": "当前视频位置",
-				"val": "-1",
-				"type": "number",
-				"desc": "当前位置"
-			},
-			{
 				"id": "dkdapp2",
 				"name": "Cookie数据",
 				"val": "",
