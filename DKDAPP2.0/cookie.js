@@ -18,8 +18,8 @@ let dkduserck = $.getval('dkduserck') || 1;
 //++++++++++++++++++++++++++++++++++++
 async function GetCookie() {
   //基础数据
-  if ($request.url.match(/\/info\/list/)){
-    const userbody = $request.body;
+  if ($request.url.match(/\/user\/index/)){
+    const userbody = $request.url.split("?")[1];
     const userkey = JSON.stringify($request.headers);
     const userId = await userinfo(userbody, userkey);
     if (userId) {
@@ -183,17 +183,16 @@ async function GetCookie() {
 function userinfo(userbody, userkey) {
   return new Promise((resolve) => {
     let options = {
-      url: `https://dkd-api.dysdk.com/info/list`,
-      body: userbody,
+      url: `https://dkd-api.dysdk.com/user/index?${userbody}`,
       headers: JSON.parse(userkey),
     }
-    $.post(options, async (err, resp, data) => {
+    $.get(options, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`⛔️API查询请求失败,请检查网络设置‼️‼️ \n ${JSON.stringify(err)}`);
         } else {
             data = JSON.parse(data);
-            userId = data.data[0].data.author.id
+            userId = data.data.uid
 
         }
       } catch (e) {
