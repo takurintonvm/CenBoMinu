@@ -154,7 +154,7 @@ async function GetCookie() {
   }
 
   //看视频50个ck
-  if ($request.url.match(/\/android_video\/getaward/)) {
+  if ($request.url.match(/\/video\/iswatch/)) {
     const userbody = $request.body;
     let no = dkduserck - 1;
     let videoAwardArr = dkdapp2[no].videogetaward || [];
