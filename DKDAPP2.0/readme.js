@@ -1,15 +1,16 @@
 #多看点测试脚本
 
 👉👉👉 脚本说明 👈👈👈
-❗️❗️本脚本为测试学习版本(TF),如果你还未取得测试资格,请先关注https://t.me/CbScript,不定时会放出测试资格邀请链接。
-定时请半小时执行一次,不然有些任务会没做到,建议使用v2p服务器测试脚本。
+1.本脚本为测试学习版本(TF),如果你还未取得测试资格,请先关注https://t.me/CbScript,不定时会放出测试资格邀请链接。
+2.定时请半小时执行一次,不然有些任务会没做到,建议使用v2p服务器测试脚本
+3.多账号请到BOXJS设定抓取cookie的账号参数
 
 
 👉👉👉 信息 👈👈👈
 【BOXJS】: https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.test.box.json
 【脚本定时cron】: */30 */1 * * * (每30min执行一次)
 【脚本JS】:https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDAPP2.0/dkd2.js
-【重写引用第一天】: https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDAPP2.0/cookie.conf
+【重写引用】: https://raw.githubusercontent.com/CenBoMin/GithubSync/main/DKDAPP2.0/cookie.conf
 
 
 👉👉👉 配置文件 👈👈👈
