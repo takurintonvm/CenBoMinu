@@ -155,15 +155,40 @@ async function GetCookie() {
 
   //看视频50个ck
   if ($request.url.match(/\/video\/iswatch/)) {
-    const userbody = $request.body;
-    let no = dkduserck - 1;
-    let videoAwardArr = dkdapp2[no].videogetaward || [];
-    let arrnum = videoAwardArr.length;
-    videoAwardArr.push(userbody);
-    dkdapp2[no].videogetaward = videoAwardArr
-    $.setdata(JSON.stringify(dkdapp2, null, 2), 'dkdapp2');
-    $.log(`获取成功🎉: videogetaward: ${userbody}`)
-    $.msg($.name, `[账号${no+1}] 获取[看视频]第${arrnum+1}个数据成功！🎉`, `🤳抓50个cookie左右`);
+      let obj = await postApi($request)
+      if(obj.data?.iswatch){
+        // 今日未刷到的视频，记录视频数据
+        const userbody = $request.body;
+        let no = dkduserck - 1;
+        let videoAwardArr = dkdapp2[no].videogetaward || [];
+        let arrnum = videoAwardArr.length;
+        videoAwardArr.push(userbody);
+        dkdapp2[no].videogetaward = videoAwardArr
+        $.setdata(JSON.stringify(dkdapp2, null, 2), 'dkdapp2');
+        $.log(`获取成功🎉: videogetaward: ${userbody}`)
+        $.msg($.name, [账号${no+1}] 获取[看视频]第${arrnum+1}个数据成功！🎉, `🤳抓50个cookie左右`);
+      }
+    }
+
+
+  function postApi(options) {
+    return new Promise((resolve) => {
+      $.post(options, async (err, resp, data) => {
+        let obj = {}
+        try {
+          if (err) {
+            console.log(`⛔️API查询请求失败,请检查网络设置‼️‼️ \n ${JSON.stringify(err)}`);
+          } else {
+            obj = $.toObj(data, obj)
+          }
+        } catch (e) {
+          $.log(`=================\nurl: ${options.url}\ndata: ${resp && resp.body}`);
+          $.logErr(e, resp);
+        } finally {
+          resolve(obj)
+        }
+      })
+    })
   }
 
   //提现
