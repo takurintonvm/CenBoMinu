@@ -137,9 +137,9 @@ async function getVersion() {
             data = JSON.parse(data);
             v2pversion = data.elecV2P.version
             const versionArr = v2pversion.split(".");
-            const versionSum = (versionArr[0]*1) + (versionArr[1]*1) + (versionArr[2]*1)
+            const versionSum = (versionArr[0]*1) + (versionArr[1]*1)
             console.log(`→V2P服务器版本号:${v2pversion}`);
-            if (versionSum < 9) {
+            if (versionSum < 6) {
               console.log(`⚠️V2P服务器版本号低于3.3.3,请先更新你的V2P版本`);
               $.msg($.name, '', `⚠️V2P服务器版本号低于3.3.3,请先更新你的V2P版本`);
               $.done();
