@@ -28,15 +28,11 @@ async function GetCookie() {
         dkdapp2[no].uid = userId;
         dkdapp2[no].bd = userbody;
         dkdapp2[no].hd = userkey;
-        dkdapp2[no].txhd = userkey;
-        dkdapp2[no].lottokey = userkey;
       } else {
         dkdapp2[no] = {
             uid: userId,
             bd: userbody,
             hd: userkey,
-            txhd: userkey,
-            lottokey: userkey,
           };
       }
       $.setdata(JSON.stringify(dkdapp2, null, 2), 'dkdapp2');
