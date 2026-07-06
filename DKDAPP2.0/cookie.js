@@ -33,6 +33,8 @@ async function GetCookie() {
             uid: userId,
             bd: userbody,
             hd: userkey,
+            txhd: userkey,
+            lottokey: userkey,
           };
       }
       $.setdata(JSON.stringify(dkdapp2, null, 2), 'dkdapp2');
@@ -161,6 +163,7 @@ async function GetCookie() {
     $.log(`获取成功🎉: videogetaward: ${userbody}`)
     $.msg($.name, `[账号${no+1}] 获取[看视频]第${arrnum+1}个数据成功！🎉`, `🤳抓50个cookie左右`);
   }
+
 
   //提现
   if ($request.url.match(/\/money\/withdraw_do/)) {
