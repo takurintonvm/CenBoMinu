@@ -403,9 +403,9 @@ async function showmsg2() {
 }
 ////////////////////////// 【CenBoMin-Task order】///////////////////////////////////////
 async function shuqiapp() {
-  console.log("✔️检查loadresourcebody/loadresourcekey");
-  await $.wait(1000)
-  await loadresource1();
+  // console.log("✔️检查loadresourcebody/loadresourcekey");
+  // await $.wait(1000)
+  // await loadresource1();
   console.log("\n✔️检查lotteryinfourl");
   await $.wait(1000)
   await lotteryinfo();
@@ -462,7 +462,7 @@ async function shuqiapp() {
 ///////////////////////////【CenBoMin-Network request order】//////////////////////////////////
 //1.签到
 async function task1() {
-  if (task2status === 0) {
+  if (sptask2status === 0) {
     $.log(`【普通版-每日签到】:未完成,准备执行任务...`);
     if (!signinactionbodyVal) {
       $.log(`❌signinactionbody未获取,请参照说明对照表获取cookie。\n`);
@@ -489,7 +489,7 @@ async function task1() {
 }
 //2.30秒计时阅读
 async function task21() {
-  if (task1status === 0) {
+  if (sptask1status === 0) {
     $.log(`\n【普通版-30秒计时奖励】:未完成,开始执行任务...`);
     if (!readlotterybodyVal) {
       $.log(`❌目前账号readlotterybody未获取,请参照说明对照表获取cookie。\n`);
@@ -577,7 +577,7 @@ async function task4() {
 }
 //5.邀请书友
 async function task51() {
-  if (task3status === 0) {
+  if (sptask3status === 0) {
     $.log(`【普通版-邀请书友】:未完成,开始执行任务...`);
     if (!sharebodyVal) {
       $.log(`❌目前账号sharebody未获取,请参照说明对照表获取cookie。\n`);

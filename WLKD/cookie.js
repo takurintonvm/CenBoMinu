@@ -51,6 +51,40 @@ async function GetCookie() {
     }
 
   }
+  //清单
+  if ($request.url.match(/\/article\/list/)) {
+    const userbody = $request.body;
+    const userkey = JSON.stringify($request.headers);
+    const userId = $request.headers['Cookie']
+    let len = wlkdapp.length
+    if (userId) {
+      const listType = JSON.parse($request.body).classify;
+      if (listType == 0) {
+        wlkdapp[calarrno(len, userId)].readArtlisthd = userkey;
+        wlkdapp[calarrno(len, userId)].readArtlistbd = userbody;
+        $.msg($.name, "", `文旅看点[账号${calarrno(len,userId)+1}] 获取[阅读清单]数据成功！🎉`);
+      }else if (listType == 1) {
+        wlkdapp[calarrno(len, userId)].videoArtlisthd = userkey;
+        wlkdapp[calarrno(len, userId)].videoArtlistbd = userbody;
+        $.msg($.name, "", `文旅看点[账号${calarrno(len,userId)+1}] 获取[视频清单]数据成功！🎉`);
+      }else {
+        $.msg($.name, "", '文旅看点[清单type]判别失败⚠️');
+      }
+
+      $.setdata(JSON.stringify(wlkdapp, null, 2), 'wlkdapp');
+      $.log(`获取成功🎉: artlisthd: ${userkey}`)
+      $.log(`获取成功🎉: artlistbd: ${userbody}`)
+    } else {
+      $.msg($.name, "", '文旅看点[清单]数据获取失败⚠️');
+    }
+  }
+  //定时分享
+  if ($request.url.match(/\/outart\/artinfo/)) {
+    const userbody = $request.body;
+    const userkey = JSON.stringify($request.headers);
+    $.log(`获取成功🎉: 分享code: ${userbody}`)
+    $.msg($.name, `文旅看点获取[分享code]数据成功！🎉`, `${userbody}`);
+  }
 
 }
 

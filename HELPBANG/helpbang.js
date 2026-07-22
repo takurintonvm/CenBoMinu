@@ -16,7 +16,7 @@ let sumstepcoin = 0,
 let dosteptime = 0,
   docollecttime = 0,
   docollecttime2 = 0;
-let helpbang = $.getjson('helpbang', [])
+let helpbang = $.isNode() ? require('./USER_CookiesList.js').helpbang : $.getjson('helpbang', [])
 let helpbangkey = $.getval('helpbangkey')
 var Base64 = {
 
