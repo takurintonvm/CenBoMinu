@@ -36,11 +36,14 @@ async function GetCookie() {
           no = i;
         }
       }
-      wlkdapp[no] = {
-        uid : userId,
-        hd : userkey,
-        bd : userbody
-      };
+      let wlkdappck = wlkdapp[no]
+      if (!wlkdappck) {
+        wlkdapp[no] = {
+          uid : userId,
+          hd : userkey,
+          bd : userbody
+        };
+      }
       $.setdata(JSON.stringify(wlkdapp, null, 2), 'wlkdapp');
       $.log(`获取成功🎉: userkey: ${userkey}`)
       $.log(`获取成功🎉: userid: ${userId}`)
@@ -79,11 +82,22 @@ async function GetCookie() {
     }
   }
   //定时分享
-  if ($request.url.match(/\/outart\/artinfo/)) {
+  if ($request.url.match(/\/share\/info/)) {
     const userbody = $request.body;
     const userkey = JSON.stringify($request.headers);
-    $.log(`获取成功🎉: 分享code: ${userbody}`)
-    $.msg($.name, `文旅看点获取[分享code]数据成功！🎉`, `${userbody}`);
+    const userId = $request.headers['Cookie']
+    let len = wlkdapp.length
+    if (userId) {
+      wlkdapp[calarrno(len, userId)].sharehd = userkey;
+      wlkdapp[calarrno(len, userId)].sharebd = userbody;
+      $.log(`获取成功🎉: sharehd: ${userkey}`)
+      $.log(`获取成功🎉: sharebd: ${userbody}`)
+      $.setdata(JSON.stringify(wlkdapp, null, 2), 'wlkdapp');
+      $.msg($.name, "", `文旅看点[账号${calarrno(len,userId)+1}] 获取[分享请求]数据成功！🎉`);
+
+    }else {
+      $.msg($.name, "", '文旅看点[分享请求]判别失败⚠️');
+    }
   }
 
 }
