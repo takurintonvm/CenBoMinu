@@ -589,7 +589,6 @@ async function task51() {
     tz += `【普通版-邀请书友】:已完成🎉\n`
   }
 }
-
 async function task52() {
   if (sptask4status === 0) {
     $.log(`【极速版-邀请书友】:未完成,开始执行任务...`);
@@ -1143,7 +1142,7 @@ async function readlottery2() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            //$.log(data)
+            // $.log(data)
             data = JSON.parse(data);
             maxcnt = data.data.chanceMaxCnt
             nowcnt = data.data.chanceCurrentCnt
