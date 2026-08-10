@@ -744,7 +744,7 @@ async function spvideoinfo() {
 async function loadresource1() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://render.shuqireader.com/load/resource`,
+      url: `https://ocean.shuqireader.com/api/render/load/resource`,
       body: loadresourcebodyVal,
       headers: JSON.parse(loadresourcekeyVal),
     };
@@ -779,7 +779,7 @@ async function loadresource1() {
 async function loadresource2() {
   return new Promise((resolve) => {
     let url = {
-      url: `https://render.shuqireader.com/load/resource`,
+      url: `https://ocean.shuqireader.com/api/render/load/resource`,
       body: sploadresourcebodyVal,
       headers: JSON.parse(sploadresourcekeyVal),
     };
