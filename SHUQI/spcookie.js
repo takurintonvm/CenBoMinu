@@ -10,7 +10,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/api\/getAd
   if (spvideoinfourl) $.setdata(spvideoinfourl, 'spvideoinfourl'+ $.idx)
   $.log(`获取spvideoinfourl请求🎉: 成功,spvideoinfourl: ${spvideoinfourl}`)
   $.log(`添加【极速-视频判定Key】请求: 成功🎉`)
-  //$.msg($.name + $.idx, "添加【极速-视频判定Key】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【极速-视频判定Key】请求: 成功🎉")
   $.done()
 }
 
