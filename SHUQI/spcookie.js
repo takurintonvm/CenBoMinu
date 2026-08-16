@@ -10,7 +10,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/api\/getAd
   if (spvideoinfourl) $.setdata(spvideoinfourl, 'spvideoinfourl'+ $.idx)
   $.log(`获取spvideoinfourl请求🎉: 成功,spvideoinfourl: ${spvideoinfourl}`)
   $.log(`添加【极速-视频判定Key】请求: 成功🎉`)
-  $.msg($.name + $.idx, "添加【极速-视频判定Key】请求: 成功🎉")
+  $.msg($.name + $.idx, "添加【🌟 极速-视频判定Key】请求: 成功🎉")
   $.done()
 }
 
@@ -22,6 +22,7 @@ if ($request && $request.method != `OPTIONS` && $request.url.match(/\/load\/reso
   $.log(`获取sploadresourcebody请求🎉: 成功,sploadresourcebody: ${sploadresourcebody}`)
   const sploadresourcekey = JSON.stringify($request.headers)
   if (sploadresourcekey) $.setdata(sploadresourcekey, 'sploadresourcekey'+ $.idx)
+  $.msg($.name + $.idx, "添加【🌟 福利页面-极速-任务判定Key】请求: 成功🎉")
   $.log(`获取sploadresourcekey请求🎉: 成功,sploadresourcekey: ${sploadresourcekey}`)
   $.log(`添加【极速-任务判定Key】请求: 成功🎉`)
   $.done()
