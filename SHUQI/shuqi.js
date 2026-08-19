@@ -792,7 +792,6 @@ async function loadresource2() {
         } else {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
-            //$.log(data)
             data = JSON.parse(data);
             //30秒计时奖励
             sptask1status = data.data.ShuqiBsDailyTask.list[0].status
