@@ -347,7 +347,7 @@ async function getKeyList() {
 async function getCronList() {
   return new Promise((resolve) => {
     const options = {
-      url: `https://raw.githubusercontent.com/sngxpro/QuanX/master/task/AllinOne.json`
+      url: `https://raw.githubusercontent.com/Youthsongs/QuanX/master/task/AllinOne.json`
     };
     $.get(options, async (err, resp, data) => {
       try {
