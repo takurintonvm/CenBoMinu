@@ -62,7 +62,7 @@ async function main(i) {
   $.setdata(wlkdapp, 'wlkdapp');
 
   //通知
-  await showmsg1(i);
+  await showmsg2(i);
 
 }
 
