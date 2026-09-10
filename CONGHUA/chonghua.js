@@ -237,7 +237,7 @@ if ($.isNode()) {
     console.log(`\n【30元提现】：成功🎉`)
     tz += `【30元提现】：成功🎉\n`;
   } else {
-    console.log(`\n【5元提现】：金币未满或分享天数不足💸`)
+    console.log(`\n【30元提现】：金币未满或分享天数不足💸`)
     tz += `【30元提现】：提现失败\n`;
   }
   //shareTcode = callbackurlVal.split("https://task.youth.cn/count2/callback?si=")[1]

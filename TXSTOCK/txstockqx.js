@@ -1,62 +1,8 @@
-/*
-╭┉┉╮╭╮╭╮╭┉┉╮╭┉┉╮╭┉┉╮╭┉┉╮╭╮╭╮
-╰╮╭╯┋╰╯┋┋╭┉╯╰╮╭╯┋╭╮┋┋╭┉╯┋╰╯┋
- ┋┋ ╰╮╭╯┋╰┉╮ ┋┋ ┋┋┋┋┋┋  ┋ ╭╯
- ┋┋ ╭╯╰╮╰┉╮┋ ┋┋ ┋┋┋┋┋┋  ┋ ╰╮
- ┋┋ ┋╭╮┋╭┉╯┋ ┋┋ ┋╰╯┋┋╰┉╮┋╭╮┋
- ╰╯ ╰╯╰╯╰┉┉╯ ╰╯ ╰┉┉╯╰┉┉╯╰╯╰╯
-
-//!!!:
-【BOXJS】：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/cenbomin.box.json
-
-#运行脚本前请先下载app,登录。。。手动完成成长任务,有钱
-#8.8打卡任务也手动做,建议只打卡4个成功即可,第5个基本拿不到
-#微信小程序-腾讯自选股和app的日常任务是分开的,毛比较少,手动做吧！
-#复制以下链接,贴到到微信点击,帮我助力
-https://zqact01.tenpay.com/activity/page/200814appInvite/#/new?stat_data=Ovy34p00pn019&invite_code=i02Fvx18dc&nick_name=%E9%99%88%E6%9F%8F%E9%8A%98&head_url=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FQ0j4TwGTfTLWqFtqq3JGenAvqEnZhiazoeCicjicAZhEiaCib1LqSCHtC8sPLbG52YiajLZh8VRkY8bWu0uu24AKjgfA%2F132
-
-
-特别感谢烧烤哥,loon用户可以用这个专门的conf：
-https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txsloon_cookie.conf
-
-**** 定时任务 ****
-0 16 * * * https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txstockqx.js
-**** 食用方法 ****
-到[重写]-[引用],加入重写引用,根据以下提示获取cookie
-**** 重写引用 ****
-IOS APP：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_cookie.conf
-微信小程序：https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf
-**** IOS APP ****
-taskheader：打开app-立即获取
-taskkey：点击左上头像-我的福利-点击获取
-
-userheader：点击左上头像-进入即获取
-userkey：点击左上头像-进入即获取
-
-提现cookie(cashheader):禁用获取cookie重写,重新打开app,点击左上头像-进入,等待我的福利下面活动加载成功,启用获取cookie重写,然后再点击第一个猜涨跌活动的页面就能够获取到了。。。
-
-签到cookie(signheader)：禁用获取cookie重写,重新打开app,点击左上头像-进入,等待右上角的金币数加载成功（进入提现页面）,启用获取cookie重写,点击进入提现的页面,会卡住加载几秒...过一会就能够获取到了
-
-signkey：禁用获取cookie重写,重新打开app,点击左上头像-进入,等待我的福利下面活动加载成功,启用获取cookie重写,然后再点击第一个猜涨跌活动的页面就能够获取到了。。。
-**** 微信小程序 ****
-！！！！！微信和app重写有冲突,不能两个同时开
-！！！！！必须先关闭app重写,在加入微信小程序重写https://raw.githubusercontent.com/CenBoMin/GithubSync/main/TXSTOCK/txs_wxcookie.conf,启用之后就可以去微信小程序做任务获取cookie
-
-微信任务cookie(wxtaskkey):进入微信小程序,点击资讯页面或者股票页面获取
-
-！！！！！获取完cookie,务必关闭重写引用
-#脚本一天尽量运行1-3次,本脚本虽然加了防呆机制,但是还是尽量避免运行多次哦...
-#且用且珍惜,更新无限期。
-
-// 手动做部分:
-# 模拟炒股周赛奖励：星期天登录模拟炒股(微信/app)
-# 周一抢牛活动：周一登录抢牛活动页面（app）
-
-*/
 const jsname = '📈腾讯自选股'
 const $ = Env(jsname)
 const logs = 0; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
+const taskIDList = new Array();
 
 let rndtime = Math.round(new Date().getTime()) //毫秒
 let signday = formatDateTime(new Date());
@@ -168,7 +114,6 @@ if ($.isNode()) {
 ///////////////////////////////////////////////////////////////////
 
 !(async () => {
-  await Jsname()
   O = (`${jsname}执行通知🔔`);
   userheaderVal = userheaderArr[0];
   userkeyVal = userkeyArr[0];
@@ -180,6 +125,11 @@ if ($.isNode()) {
   wxtaskkeyVal = wxtaskkeyArr[0];
   if((hour == 15 && minute >= 15) || (hour == 16) || (hour == 17) || (hour == 18) || (hour == 19) || (hour == 20) || (hour == 21) || (hour == 22) || (hour == 23)){
     await txstock();
+    await newtxstock();
+    tz += `🌀APP分享个股:${tasksharecode}\n`
+    tz += `🌀APP分享资讯:${tasksharecode}\n`
+    tz += `🌀WX分享个股:${tasksharecode}\n`
+    tz += `🌀WX分享资讯:${tasksharecode}\n`
   }else{
     $.log(`💖请将定时时间设置到"下午3点15分"之后,\n脚本才会执行`);
     tz += `💖请将定时时间设置到"下午3点15分"之后,\n脚本才会执行\n`
@@ -236,9 +186,434 @@ async function txstock(){
   await cashorder(cash, money);
 }
 
+///////////////////////测试区////////////////////
+async function newtxstock(){
+  console.log(`\n🏠 新版本任务执行开始...\n`)
+  await taskIDCheck();
+  await wxtaskIDCheck();
 
-///////////////////////测试区//////////////////////////////////////
+}
 
+function TaskOptions(url) {
+  return {
+    url: `${url}`,
+    headers: {
+      'Cookie': `${taskkeyVal}`,
+      'Accept': `application/json, text/plain, */*`,
+      'Connection': `keep-alive`,
+      'Referer': `https://wzq.tenpay.com/activity/page/welwareCenter/`,
+      'Accept-Encoding': `gzip, deflate, br`,
+      'Host': `wzq.tenpay.com`,
+      'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qqstock/8.7.1`,
+      'Accept-Language': `zh-cn`
+    }
+  };
+}
+function wxTaskOptions(url, body) {
+  return {
+    url: `${url}`,
+    headers: {
+    'Accept' : `application/json, text/plain, */*`,
+    'Origin' : `https://wzq.tenpay.com`,
+    'Accept-Encoding' : `gzip, deflate, br`,
+    'Cookie' : `${wxtaskkeyVal}`,
+    'Content-Type' : `application/x-www-form-urlencoded`,
+    'Host' : `wzq.tenpay.com`,
+    'Connection' : `keep-alive`,
+    'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.7(0x18000733) NetType/WIFI Language/zh_CN`,
+    'Referer' : `https://wzq.tenpay.com/mp/v2/index.html`,
+    'Accept-Language' : `zh-cn`
+    },
+    body: body
+  };
+}
+//任务LIST
+async function taskIDCheck() {
+  return new Promise((resolve) => {
+    const options = TaskOptions(`https://wzq.tenpay.com/cgi-bin/activity_task_daily.fcgi?action=home&type=routine&actid=1111&_=${rndtime}&openid=${signheaderVal}`);
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            const txTaskList = data.task_pkg[0].tasks
+            switch (code) {
+              case "0":
+                const taskSetIDList = txTaskList.map(item => item.id);
+                const taskSetTIDList = txTaskList.map(item => item.tid);
+                const taskSetDescList = txTaskList.map(item => item.reward_desc);
+                const taskSetStatusList = txTaskList.map(item => item.status);
+                for (let j = 0; j < taskSetIDList.length; j++) {
+                  let id = taskSetIDList[j]
+                  let tid = taskSetTIDList[j]
+                  let desc = taskSetDescList[j]
+                  let status = taskSetStatusList[j]
+
+                  console.log(`检查-APP任务id${id}状态`)
+                  if (status == "0") {
+                    console.log(`→去做APP任务id${id}:${desc}`)
+                    await apptaskticket()
+                    await runAppTask(id,tid,ticket)
+                    console.log(`⏳ 等待10sec...\n`);
+                    await $.wait(10000); //等待10秒
+                  } else {
+                    console.log(`去做APP任务id${id}已完成 🎉\n`)
+                  }
+                }
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function wxtaskIDCheck() {
+  return new Promise((resolve) => {
+    const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity_task_daily.fcgi?t=${rndtime}`,`action=home&type=routine&actid=1110`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            const txTaskList = data.task_pkg[0].tasks
+            switch (code) {
+              case "0":
+                const taskSetIDList = txTaskList.map(item => item.id);
+                const taskSetTIDList = txTaskList.map(item => item.tid);
+                const taskSetDescList = txTaskList.map(item => item.reward_desc);
+                const taskSetStatusList = txTaskList.map(item => item.status);
+                for (let j = 0; j < taskSetIDList.length; j++) {
+                  let id = taskSetIDList[j]
+                  let tid = taskSetTIDList[j]
+                  let desc = taskSetDescList[j]
+                  let status = taskSetStatusList[j]
+
+                  console.log(`检查-WX任务id${id}状态`)
+                  if (status == "0") {
+                    console.log(`→去做WX任务id${id}:${desc}`)
+                    await WXtaskticket();
+                    await $.wait(2000);
+                    await runWXTask(id,tid,ticket)
+                    console.log(`⏳ 等待10sec...\n`);
+                    await $.wait(10000); //等待10秒
+                  } else {
+                    console.log(`去做WX任务id${id}已完成 🎉\n`)
+                  }
+                }
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//做任务
+async function runAppTask(id,tid,ticket) {
+  return new Promise((resolve) => {
+    const options = TaskOptions(`https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskdone&channel=1&actid=1111&tid=${tid}&id=${id}&task_ticket=${ticket}&_appName=ios${taskheaderVal}`);
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
+                $.log(`🆕 APP任务ID${id}:获得 ${data.reward_desc}\n`);
+                tz += `🆕 APP任务ID${id}:获得 ${data.reward_desc}\n`
+                break;
+              default:
+                // $.log(data.retmsg);
+                console.log("🚌 本任务需要邀请助力,请复制你的邀请码提交上车");
+                await getShareCode1();
+                await getShareCode2();
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function runWXTask(id,tid,ticket) {
+  return new Promise((resolve) => {
+    const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?t=${rndtime}`,`_h5ver=2.0.1&actid=1110&tid=${tid}&id=${id}&task_ticket=${ticket}&action=taskdone`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
+                $.log(`🆕 WX任务ID${id}:获得 ${data.reward_desc}\n`);
+                tz += `🆕 WX任务ID${id}:获得 ${data.reward_desc}\n`
+                break;
+              default:
+                // $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+                console.log("🚌 本任务需要邀请助力,请复制你的邀请码提交上车");
+                await getWXShareCode1();
+                await getWXShareCode2();
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//票据验证
+async function apptaskticket() {
+  return new Promise((resolve) => {
+    const options = TaskOptions(`https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?action=taskticket&channel=1&actid=1111&_rndtime=${rndtime}&_appName=ios${taskheaderVal}`);
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            $.log(`🕐 ` + time(rndtime));
+            $.log(`🎫 ${data.task_ticket}`);
+            ticket = data.task_ticket
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function WXtaskticket() {
+  return new Promise((resolve) => {
+    const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity_task.fcgi?`,`_h5ver=2.0.1&actid=1110&action=taskticket`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            $.log(`🕐 ` + time(rndtime));
+            $.log(`🎫 ${data.task_ticket}`);
+            ticket = data.task_ticket
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//分享code获取
+async function getShareCode1() {
+  return new Promise((resolve) => {
+    const options = TaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?channel=1&action=query_share_code&share_type=task_51_1111&_=${rndtime}&openid=${signheaderVal}`);
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
+                tasksharecode = data.share_code
+                console.log(`🌀APP分享个股sharecode:${tasksharecode}`);
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function getShareCode2() {
+  return new Promise((resolve) => {
+    const options = TaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?channel=1&action=query_share_code&share_type=news_share&_=${rndtime}&openid=${signheaderVal}`);
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
+                tasksharecode = data.share_code
+                console.log(`🌀APP分享资讯sharecode:${tasksharecode}`);
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function getWXShareCode1() {
+  return new Promise((resolve) => {
+    const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?`,`_h5ver=2.0.1&action=query_share_code&share_type=task_51_1110`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
+                tasksharecode = data.share_code
+                console.log(`🌀WX分享个股sharecode:${tasksharecode}`);
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function getWXShareCode2() {
+  return new Promise((resolve) => {
+    const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?`,`_h5ver=2.0.1&action=query_share_code&share_type=news_share`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
+                tasksharecode = data.share_code
+                console.log(`🌀WX分享资讯sharecode:${tasksharecode}`);
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function sample() {
+  return new Promise((resolve) => {
+    const options = TaskOptions(`https://wzq.tenpay.com/cgi-bin/activity_task_daily.fcgi?action=home&type=routine&actid=1111&_=${rndtime}&openid=${signheaderVal}`);
+    $.get(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
 
 //////////////////////////////////////////////////////////////////
 
@@ -1735,7 +2110,6 @@ function taskid3(ticket) {
   })
 }
 
-
 function statuid3() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -2247,7 +2621,6 @@ function wxstatuid10() {
   })
 }
 //票据申请
-
 function taskticket() {
   return new Promise((resolve, reject) => {
     let testurl = {
@@ -2267,8 +2640,8 @@ function taskticket() {
     $.get(testurl, async (error, resp, data) => {
       if (logs == 1) $.log(data)
       let test2 = JSON.parse(data)
-      $.log(`本次验证时间🕐：` + time(rndtime));
-      $.log(`本次验证票据🎫：${test2.task_ticket}`);
+      $.log(`🕐 ` + time(rndtime));
+      $.log(`🎫 ${test2.task_ticket}`);
       ticket = test2.task_ticket
       //tz += `【现金余额】：¥ ${task.data.activity_money.money}元\n`
 
@@ -2304,8 +2677,8 @@ function wxtaskticket() {
           if (safeGet(data)) {
             if (logs == 1) $.log(data)
             data = JSON.parse(data);
-            $.log(`本次验证时间🕐：` + time(rndtime));
-            $.log(`本次验证票据🎫：${data.task_ticket}`);
+            $.log(`🕐 ` + time(rndtime));
+            $.log(`🎫 ${data.task_ticket}`);
             wxticket = data.task_ticket
           }
         }
@@ -2319,15 +2692,6 @@ function wxtaskticket() {
 }
 
 ////////////////////////////////////////////////////////////////////
-function Jsname() {
-  $.log(`╭┉┉╮╭╮╭╮╭┉┉╮╭┉┉╮╭┉┉╮╭┉┉╮╭╮╭╮`)
-  $.log(`╰╮╭╯┋╰╯┋┋╭┉╯╰╮╭╯┋╭╮┋┋╭┉╯┋╰╯┋`)
-  $.log(` ┋┋ ╰╮╭╯┋╰┉╮ ┋┋ ┋┋┋┋┋┋  ┋ ╭╯`)
-  $.log(` ┋┋ ╭╯╰╮╰┉╮┋ ┋┋ ┋┋┋┋┋┋  ┋ ╰╮`)
-  $.log(` ┋┋ ┋╭╮┋╭┉╯┋ ┋┋ ┋╰╯┋┋╰┉╮┋╭╮┋`)
-  $.log(` ╰╯ ╰╯╰╯╰┉┉╯ ╰╯ ╰┉┉╯╰┉┉╯╰╯╰╯`)
-}
-
 function time(time) {
   var date = new Date(time + 8 * 3600 * 1000);
   return date.toJSON().substr(0, 19).replace('T', ' ').replace(/-/g, '.');
