@@ -126,10 +126,8 @@ if ($.isNode()) {
   if((hour == 15 && minute >= 15) || (hour == 16) || (hour == 17) || (hour == 18) || (hour == 19) || (hour == 20) || (hour == 21) || (hour == 22) || (hour == 23)){
     await txstock();
     await newtxstock();
-    tz += `🌀APP分享个股:${tasksharecode}\n`
-    tz += `🌀APP分享资讯:${tasksharecode}\n`
-    tz += `🌀WX分享个股:${tasksharecode}\n`
-    tz += `🌀WX分享资讯:${tasksharecode}\n`
+    tz += `🌀分享个股:${tasksharecode1}\n`
+    tz += `🌀分享资讯:${tasksharecode2}\n`
   }else{
     $.log(`💖请将定时时间设置到"下午3点15分"之后,\n脚本才会执行`);
     tz += `💖请将定时时间设置到"下午3点15分"之后,\n脚本才会执行\n`
@@ -356,8 +354,8 @@ async function runAppTask(id,tid,ticket) {
               default:
                 // $.log(data.retmsg);
                 console.log("🚌 本任务需要邀请助力,请复制你的邀请码提交上车");
-                await getShareCode1();
-                await getShareCode2();
+                // await getWXShareCode1();
+                // await getWXShareCode2();
             }
           }
         }
@@ -391,8 +389,8 @@ async function runWXTask(id,tid,ticket) {
               default:
                 // $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
                 console.log("🚌 本任务需要邀请助力,请复制你的邀请码提交上车");
-                await getWXShareCode1();
-                await getWXShareCode2();
+                // await getWXShareCode1();
+                // await getWXShareCode2();
             }
           }
         }
@@ -457,7 +455,7 @@ async function WXtaskticket() {
     });
   });
 }
-//分享code获取
+// APP分享code获取
 async function getShareCode1() {
   return new Promise((resolve) => {
     const options = TaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?channel=1&action=query_share_code&share_type=task_51_1111&_=${rndtime}&openid=${signheaderVal}`);
@@ -522,6 +520,7 @@ async function getShareCode2() {
     });
   });
 }
+// WX分享code获取
 async function getWXShareCode1() {
   return new Promise((resolve) => {
     const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?`,`_h5ver=2.0.1&action=query_share_code&share_type=task_51_1110`);
@@ -538,8 +537,8 @@ async function getWXShareCode1() {
             const code = data.retcode
             switch (code) {
               case "0":
-                tasksharecode = data.share_code
-                console.log(`🌀WX分享个股sharecode:${tasksharecode}`);
+                tasksharecode1 = data.share_code
+                console.log(`🌀分享个股sharecode:${tasksharecode1}`);
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
@@ -570,8 +569,73 @@ async function getWXShareCode2() {
             const code = data.retcode
             switch (code) {
               case "0":
+                tasksharecode2 = data.share_code
+                console.log(`🌀分享资讯sharecode:${tasksharecode2}`);
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+//分享助力
+async function runWXShareCode1(tasksharecode) {
+  return new Promise((resolve) => {
+    const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?`,`_h5ver=2.0.1&action=share_code_info&share_type=task_51_1111&share_code=${tasksharecode}`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
                 tasksharecode = data.share_code
-                console.log(`🌀WX分享资讯sharecode:${tasksharecode}`);
+                console.log(`🌀WX分享个股sharecode:${tasksharecode}`);
+                break;
+              default:
+                $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve();
+      }
+    });
+  });
+}
+async function runWXShareCode2(tasksharecode) {
+  return new Promise((resolve) => {
+    const options = wxTaskOptions(`https://wzq.tenpay.com/cgi-bin/activity/activity_share.fcgi?`,`_h5ver=2.0.1&action=share_code_info&share_type=task_50_1111&share_code=${tasksharecode}`);
+    $.post(options, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("⛔️API查询请求失败，请检查自身设备网络情况");
+          console.log(JSON.stringify(err));
+          $.logErr(err);
+        } else {
+          if (safeGet(data)) {
+            // $.log(data)
+            data = JSON.parse(data);
+            const code = data.retcode
+            switch (code) {
+              case "0":
+                tasksharecode = data.share_code
+                console.log(`🌀WX分享个股sharecode:${tasksharecode}`);
                 break;
               default:
                 $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
