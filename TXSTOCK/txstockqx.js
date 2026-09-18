@@ -363,8 +363,8 @@ async function runAppTask(id,tid,ticket) {
               default:
                 // $.log(data.retmsg);
                 console.log("🚌 本任务需要邀请助力,请复制你的邀请码提交上车");
-                // await getWXShareCode1();
-                // await getWXShareCode2();
+                await getWXShareCode1();
+                await getWXShareCode2();
             }
           }
         }
@@ -398,8 +398,8 @@ async function runWXTask(id,tid,ticket) {
               default:
                 // $.log(`\n‼️${resp.statusCode}[调试log]:${resp.body}`);
                 console.log("🚌 本任务需要邀请助力,请复制你的邀请码提交上车");
-                // await getWXShareCode1();
-                // await getWXShareCode2();
+                await getWXShareCode1();
+                await getWXShareCode2();
             }
           }
         }
