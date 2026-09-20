@@ -129,9 +129,6 @@ if ($.isNode()) {
     await txstock();
     await newtxstock();
     await runShareTask()
-    tz += `🌀分享个股:${tasksharecode1}\n`
-    tz += `🌀分享资讯:${tasksharecode2}\n`
-
   }else{
     $.log(`时间未到,请将CRON设置到"PM3:15"之后`);
     tz += `时间未到,请将CRON设置到"PM3:15"之后\n`
