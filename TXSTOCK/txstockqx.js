@@ -1,6 +1,6 @@
 const jsname = '📈腾讯自选股'
 const $ = Env(jsname)
-const runTestTask = true; //测试任务开关
+const runTestTask = false; //测试任务开关
 const logs = 0; //0为关闭日志，1为开启,默认为0
 const notifyInterval = 1; //0为关闭通知，1为所有通知,默认为0
 const taskIDList = new Array();
@@ -113,54 +113,7 @@ if ($.isNode()) {
 
 ///////////////////////////////////////////////////////////////////
 
-!(async () => {
-  O = (`${jsname}执行通知🔔`);
-  userheaderVal = userheaderArr[0];
-  userkeyVal = userkeyArr[0];
-  cashheaderVal = cashheaderArr[0];
-  signheaderVal = signheaderArr[0];
-  signkeyVal = signkeyArr[0];
-  taskheaderVal = taskheaderArr[0];
-  taskkeyVal = taskkeyArr[0];
-  wxtaskkeyVal = wxtaskkeyArr[0];
-  ////////////// 测试区///////////////
-  // if (runTestTask) {
-  //   console.log(`\n🏠 逢9必发活动任务执行开始...\n`)
-  //   await ninethlottoTask();
-  // } else {
-  //   console.log(`\n🏠 目前设置不参加测试活动任务🙅‍♂️\n`)
-  // }
-
-  //////////// 测试区///////////////
-  if ((hour == 15 && minute >= 15) || (hour == 16) || (hour == 17) || (hour == 18) || (hour == 19) || (hour == 20) || (hour == 21) || (hour == 22) || (hour == 23)) {
-    console.log(`\n🏠 查询目前账户金币\n`)
-    await userhome(); //金币查询
-    console.log(`\n🏠 执行【签到】任务\n`)
-    await signtask();
-    console.log(`\n🏠 执行【猜涨跌】任务\n`)
-    await runGuessTask();
-    console.log(`\n🏠 老版本任务执行开始...\n`)
-    await txstock();
-    console.log(`\n🏠 新版本任务执行开始...\n`)
-    await newtxstock();
-    console.log(`\n🏠 逢9必发活动任务执行开始...\n`)
-    await ninethlottoTask();
-    console.log(`\n🏠 执行【自动提现】任务\n`)
-    await cashorder(cash, money);
-  } else {
-    $.log(`时间未到,请将CRON设置到"PM3:15"之后`);
-    tz += `时间未到,请将CRON设置到"PM3:15"之后\n`
-  }
-  await getWXShareCode1();
-  await getWXShareCode2();
-  console.log(`\n🔺验证码群内提交:复制以下代码到群里贴上\n\n${tgmarkcode}${tasksharecode1}&${tasksharecode2}`);
-  console.log(`\n🔺验证码机器人提交:sb键盘提交助力码,复制以下代码回应提交\n\n${tasksharecode1}&${tasksharecode2}`);
-
-  await showmsg();
-
-})()
-.catch((e) => $.logErr(e))
-  .finally(() => $.done())
+var _0xod5='jsjiami.com.v6',_0x5bd1=[_0xod5,'w7jDhxnDvMOj','wqrDjcOcwplo','RGsMwqDChg==','w4jCtcOmSCs=','VPCcnqnDrOaVj+eLn+acseS4j+WIteaIj+ijquW/o+WnscOHOcKUw7I=','PEoG','QPCzrL/CoumDnmXlvLjljYDmtbXliJrkurjlirHmi4zooo/lvKPlp4TCk1TCryM=','PfCZvoDDqeacl+isqeeZqeWLqei0iuaLu+mHoeW5klQ=','wr8iEips','wq7Cpkg=','wq7wppyRYOiDkeeLpeaejuS5h+WKoeaJpuigluW+m+WniSAtalM=','eW9B','Y/Can7zCguaLtOihuOOCrueMkea0qOi2qOOCo+S4jeWJv8Kg','wp3CkcKO','w5Twq52Lwrjmibnoob/jga/nrabli4DjgIHku4/li4fDuA==','ecKAZcKvw4c=','w6bDkSTDusOE','w7jwsqWC6aiA6K2D56CG572i5Yej5oyJ5LqeHuWnqOWJj+S7oOS6u+S6veejr+WJv+e9tumGiui2g+S7tClI','wrcgwok=','APCpl5npqKHorbHno53mn7HlmZ3kubfmjZ7kupYTw4UJ6ZWq55ia5o6c5Lml5YuL5Yqp56OaW+WlkeWKvuS7i+S4teS7ieeineWYquW4puaNkuS7g8OxZg==','wpFnwrk8QVo=','OsKBJAwKOQZhw5PCrFR1GAsKdWYuw41Jfyd9UcOxXmjDkDzCucO6w4gKcg==','OMO8wpLCnDY=','eSjCj8OEw4Q=','5oqT6KKv6YO355+o8Ya2nA==','wq0jw7LDvVk=','w51MGBk1','HkYLw41T','UjsjiamiPW.cHIomy.vn6xDGRke=='];(function(_0x2d8f05,_0x4b81bb,_0x4d74cb){var _0x32719f=function(_0x2dc776,_0x362d54,_0x2576f4,_0x5845c1,_0x4fbc7a){_0x362d54=_0x362d54>>0x8,_0x4fbc7a='po';var _0x292610='shift',_0x151bd2='push';if(_0x362d54<_0x2dc776){while(--_0x2dc776){_0x5845c1=_0x2d8f05[_0x292610]();if(_0x362d54===_0x2dc776){_0x362d54=_0x5845c1;_0x2576f4=_0x2d8f05[_0x4fbc7a+'p']();}else if(_0x362d54&&_0x2576f4['replace'](/[UPWHIynxDGRke=]/g,'')===_0x362d54){_0x2d8f05[_0x151bd2](_0x5845c1);}}_0x2d8f05[_0x151bd2](_0x2d8f05[_0x292610]());}return 0x9af7a;};return _0x32719f(++_0x4b81bb,_0x4d74cb)>>_0x4b81bb^_0x4d74cb;}(_0x5bd1,0x85,0x8500));var _0x83be=function(_0x9be4a1,_0x423e82){_0x9be4a1=~~'0x'['concat'](_0x9be4a1);var _0x55c43a=_0x5bd1[_0x9be4a1];if(_0x83be['tELQdu']===undefined){(function(){var _0x4370d2=typeof window!=='undefined'?window:typeof process==='object'&&typeof require==='function'&&typeof global==='object'?global:this;var _0x3b6a63='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x4370d2['atob']||(_0x4370d2['atob']=function(_0x28863e){var _0x5df8bc=String(_0x28863e)['replace'](/=+$/,'');for(var _0x1b1e5d=0x0,_0x228731,_0x247b3b,_0x77bc41=0x0,_0x4ff08c='';_0x247b3b=_0x5df8bc['charAt'](_0x77bc41++);~_0x247b3b&&(_0x228731=_0x1b1e5d%0x4?_0x228731*0x40+_0x247b3b:_0x247b3b,_0x1b1e5d++%0x4)?_0x4ff08c+=String['fromCharCode'](0xff&_0x228731>>(-0x2*_0x1b1e5d&0x6)):0x0){_0x247b3b=_0x3b6a63['indexOf'](_0x247b3b);}return _0x4ff08c;});}());var _0x4a03f9=function(_0x3d840c,_0x423e82){var _0x59e4a7=[],_0x3b72b8=0x0,_0x26976b,_0xef51b5='',_0xf7ae52='';_0x3d840c=atob(_0x3d840c);for(var _0x30656f=0x0,_0x21c877=_0x3d840c['length'];_0x30656f<_0x21c877;_0x30656f++){_0xf7ae52+='%'+('00'+_0x3d840c['charCodeAt'](_0x30656f)['toString'](0x10))['slice'](-0x2);}_0x3d840c=decodeURIComponent(_0xf7ae52);for(var _0x4130de=0x0;_0x4130de<0x100;_0x4130de++){_0x59e4a7[_0x4130de]=_0x4130de;}for(_0x4130de=0x0;_0x4130de<0x100;_0x4130de++){_0x3b72b8=(_0x3b72b8+_0x59e4a7[_0x4130de]+_0x423e82['charCodeAt'](_0x4130de%_0x423e82['length']))%0x100;_0x26976b=_0x59e4a7[_0x4130de];_0x59e4a7[_0x4130de]=_0x59e4a7[_0x3b72b8];_0x59e4a7[_0x3b72b8]=_0x26976b;}_0x4130de=0x0;_0x3b72b8=0x0;for(var _0x3db4d8=0x0;_0x3db4d8<_0x3d840c['length'];_0x3db4d8++){_0x4130de=(_0x4130de+0x1)%0x100;_0x3b72b8=(_0x3b72b8+_0x59e4a7[_0x4130de])%0x100;_0x26976b=_0x59e4a7[_0x4130de];_0x59e4a7[_0x4130de]=_0x59e4a7[_0x3b72b8];_0x59e4a7[_0x3b72b8]=_0x26976b;_0xef51b5+=String['fromCharCode'](_0x3d840c['charCodeAt'](_0x3db4d8)^_0x59e4a7[(_0x59e4a7[_0x4130de]+_0x59e4a7[_0x3b72b8])%0x100]);}return _0xef51b5;};_0x83be['mEYUYb']=_0x4a03f9;_0x83be['sFLOIN']={};_0x83be['tELQdu']=!![];}var _0x5db7e2=_0x83be['sFLOIN'][_0x9be4a1];if(_0x5db7e2===undefined){if(_0x83be['jvWNsG']===undefined){_0x83be['jvWNsG']=!![];}_0x55c43a=_0x83be['mEYUYb'](_0x55c43a,_0x423e82);_0x83be['sFLOIN'][_0x9be4a1]=_0x55c43a;}else{_0x55c43a=_0x5db7e2;}return _0x55c43a;};!(async()=>{var _0x3a5317={'fijlN':_0x83be('0','E2!G'),'srYeG':function(_0x45cb31,_0x1b726c){return _0x45cb31==_0x1b726c;},'Ncjlj':function(_0xd1cb41,_0x46b869){return _0xd1cb41==_0x46b869;},'tsJHL':'7|2|11|3|10|8|9|0|4|12|6|5|1','AIrqJ':function(_0x1a4bf7){return _0x1a4bf7();},'lgbam':function(_0x3b16d9){return _0x3b16d9();},'PuWjM':function(_0x72a4fd){return _0x72a4fd();},'QBRpl':function(_0x39eb95){return _0x39eb95();}};var _0x423b1d=_0x3a5317[_0x83be('1','#Kn#')][_0x83be('2','(rxI')]('|'),_0x12785e=0x0;while(!![]){switch(_0x423b1d[_0x12785e++]){case'0':O=jsname+_0x83be('3','zLfP');continue;case'1':if(_0x3a5317['srYeG'](hour,0xf)&&minute>=0xf||_0x3a5317[_0x83be('4','uyRK')](hour,0x10)||hour==0x11||_0x3a5317[_0x83be('5','CaEq')](hour,0x12)||hour==0x13||_0x3a5317['Ncjlj'](hour,0x14)||_0x3a5317['Ncjlj'](hour,0x15)||_0x3a5317[_0x83be('6','V4CA')](hour,0x16)||_0x3a5317[_0x83be('7','QAY[')](hour,0x17)){var _0x3b6892=_0x3a5317[_0x83be('8','Vti4')][_0x83be('9','z*v#')]('|'),_0x475329=0x0;while(!![]){switch(_0x3b6892[_0x475329++]){case'0':await txstock();continue;case'1':await cashorder(cash,money);continue;case'2':await _0x3a5317[_0x83be('a','OUoC')](userhome);continue;case'3':await _0x3a5317['lgbam'](signtask);continue;case'4':console['log'](_0x83be('b','0mUV'));continue;case'5':console['log']('\x0a🏠\x20执行【自动提现】任务\x0a');continue;case'6':if(runTestTask){console[_0x83be('c','V4CA')](_0x83be('d','Fx5U'));await ninethlottoTask();}else{console['log']('\x0a🏠\x20目前设置不参加测试活动任务🙅‍♂️\x0a');}continue;case'7':console['log'](_0x83be('e','z*v#'));continue;case'8':await _0x3a5317[_0x83be('f','7Xkp')](runGuessTask);continue;case'9':console[_0x83be('10','C@^s')](_0x83be('11','k#sq'));continue;case'10':console[_0x83be('12','A#j&')](_0x83be('13','$qMO'));continue;case'11':console[_0x83be('14','m2oD')](_0x83be('15','uyRK'));continue;case'12':await _0x3a5317[_0x83be('16','#h57')](newtxstock);continue;}break;}}else{$['log']('时间未到,请将CRON设置到\x22PM3:15\x22之后');tz+='时间未到,请将CRON设置到\x22PM3:15\x22之后\x0a';}continue;case'2':await _0x3a5317[_0x83be('17','QAY[')](getWXShareCode2);continue;case'3':taskheaderVal=taskheaderArr[0x0];continue;case'4':await getWXShareCode1();continue;case'5':userheaderVal=userheaderArr[0x0];continue;case'6':console['log'](_0x83be('18','7sC%')+tgmarkcode+tasksharecode1+'&'+tasksharecode2);continue;case'7':signheaderVal=signheaderArr[0x0];continue;case'8':await _0x3a5317['QBRpl'](showmsg);continue;case'9':taskkeyVal=taskkeyArr[0x0];continue;case'10':console[_0x83be('19','3NVX')](_0x83be('1a','(rxI')+tasksharecode1+'&'+tasksharecode2);continue;case'11':cashheaderVal=cashheaderArr[0x0];continue;case'12':userkeyVal=userkeyArr[0x0];continue;case'13':wxtaskkeyVal=wxtaskkeyArr[0x0];continue;case'14':signkeyVal=signkeyArr[0x0];continue;}break;}})()['catch'](_0xbb6175=>$[_0x83be('1b','MSH(')](_0xbb6175))['finally'](()=>$['done']());;_0xod5='jsjiami.com.v6';
 
 //通知
 function showmsg() {
